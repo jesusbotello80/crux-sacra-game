@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+    <meta name="theme-color" content="#101927" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Crux Sacra" />
+    <title>CRUX SACRA</title>
+    <link rel="icon" href="./icon.svg" />
+    <link rel="apple-touch-icon" href="./icon-512.png" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="stylesheet" href="./style.css?v=23" />
+  </head>
+  <body>
+    <main id="gameShell" aria-label="CRUX SACRA game">
+      <canvas id="game" width="1280" height="720"></canvas>
+      <section id="titleScreen" class="overlay">
+        <div class="title-mark">✚</div>
+        <h1>CRUX SACRA</h1>
+        <p>A Family Adventure of Faith</p>
+        <p>Una aventura familiar de fe</p>
+        <p class="title-credits">Created by Jesús B. · Ideas by Elías B. · Coding/Art by Codex</p>
+        <div id="worldSelect" class="select-panel" aria-label="Choose world">
+          <h2>World / Mundo</h2>
+          <div class="difficulty-grid">
+            <button class="world-choice selected" type="button" data-world="colorado">
+              <img src="../video-demo/backgrounds/colorado-v2/bg-colorado-garden-home-park-v2.png" alt="" />
+              <span>1 Colorado Springs</span>
+            </button>
+            <button class="world-choice" type="button" data-world="juarez">
+              <img src="../video-demo/backgrounds/juarez/review/bg-juarez-colonia-morelos-street-review-toon.png" alt="" />
+              <span>2 Juárez, MX</span>
+            </button>
+            <button class="world-choice" type="button" data-world="useast">
+              <img src="../video-demo/backgrounds/us-east/bg-us-east-mobile-government-blvd.png" alt="" />
+              <span>3 US East</span>
+            </button>
+            <button class="world-choice" type="button" data-world="elpaso">
+              <img src="../video-demo/backgrounds/el-paso/playable/bg-el-paso-level-1.png" alt="" />
+              <span>4 El Paso, TX</span>
+            </button>
+            <button class="world-choice" type="button" data-world="guadalajara">
+              <img src="../video-demo/backgrounds/guadalajara/playable/bg-guadalajara-level-1.png" alt="" />
+              <span>5 Guadalajara, MX</span>
+            </button>
+            <button class="world-choice" type="button" data-world="mexicocity">
+              <img src="../video-demo/backgrounds/mexico-city/playable/bg-mexico-city-level-1.png" alt="" />
+              <span>6 Mexico City, MX</span>
+            </button>
+            <button class="world-choice final-world locked" type="button" data-world="holymountain" disabled>
+              <img src="../video-demo/backgrounds/holy-mountain/playable/bg-holy-mountain-level-1-holy-road.png" alt="" />
+              <span>7 Holy Land (Tierra Santa)</span>
+            </button>
+            <button class="world-choice bonus-world locked" type="button" data-world="saints" disabled>
+              <img src="../character-sprites/saints/saints-bonus-world-contact-sheet.png" alt="" />
+              <span>Bonus: Saints / Santos</span>
+            </button>
+          </div>
+        </div>
+        <div id="difficultySelect" class="select-panel" aria-label="Choose difficulty">
+          <h2>Difficulty / Dificultad</h2>
+          <div class="difficulty-grid">
+            <button class="difficulty-choice selected" type="button" data-difficulty="easy">
+              <span class="difficulty-icon" aria-hidden="true">👶</span>
+              <span>Baby / Easy</span>
+            </button>
+            <button class="difficulty-choice" type="button" data-difficulty="regular">
+              <span class="difficulty-icon" aria-hidden="true">🧒</span>
+              <span>Young / Regular</span>
+            </button>
+            <button class="difficulty-choice" type="button" data-difficulty="hard">
+              <span class="difficulty-icon" aria-hidden="true">🏆</span>
+              <span>Expert / Hard</span>
+            </button>
+          </div>
+        </div>
+        <div id="characterSelect" aria-label="Choose hero and companion">
+          <div class="select-panel">
+            <h2>Hero / Héroe</h2>
+            <div class="choice-grid">
+              <button class="character-choice selected" type="button" data-role="hero" data-character="elayitas">Elayitas</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="angie">Nangie</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="ttitin">Titín</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="tata">Tata</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="abba">Abba</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="nana">Ñaña</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="mrsFavi">Mrs Favi</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="mrChuy">Mr Chuy</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="timmy">Timmy</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="guardian">Guardian Angel</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="michael">St Michael</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="tan">Tan</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="mrHernandez">Mr Hernandez</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="mrDomingo">Mr. Domingo</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="donMaro">Don Maro</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="ladySeferina">Lady Seferina</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="donaCarmelina">Doña Carmelina</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="mrZuil">Mr Zuil</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="mrTio">Mr Tío</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="fatherV">Father V</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="fatherM">Father M</button>
+              <button class="character-choice" type="button" data-role="hero" data-character="padrino">Padrino</button>
+            </div>
+          </div>
+          <div class="select-panel">
+            <h2>Companion / Compañía</h2>
+            <div class="choice-grid">
+              <button class="character-choice selected" type="button" data-role="companion" data-character="angie">Nangie</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="elayitas">Elayitas</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="ttitin">Titín</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="tata">Tata</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="abba">Abba</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="nana">Ñaña</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="timmy">Timmy</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="guardian">Guardian Angel</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="michael">St Michael</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="mrsFavi">Mrs Favi</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="mrChuy">Mr Chuy</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="tan">Tan</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="mrHernandez">Mr Hernandez</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="mrDomingo">Mr. Domingo</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="donMaro">Don Maro</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="ladySeferina">Lady Seferina</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="donaCarmelina">Doña Carmelina</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="mrZuil">Mr Zuil</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="mrTio">Mr Tío</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="fatherV">Father V</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="fatherM">Father M</button>
+              <button class="character-choice" type="button" data-role="companion" data-character="padrino">Padrino</button>
+            </div>
+          </div>
+        </div>
+        <div class="title-actions">
+          <button id="startButton" type="button">Start / Iniciar</button>
+          <button id="resetProgressButton" class="secondary-action" type="button">Reset Progress / Reiniciar Progreso</button>
+        </div>
+        <p id="progressStatus" class="progress-status" aria-live="polite"></p>
+      </section>
+      <section id="introScreen" class="video-overlay hidden" aria-label="CRUX SACRA introduction">
+        <div class="video-frame">
+          <video id="introVideo" playsinline controls preload="metadata" src="../video-intro/crux-sacra-game-intro-sora-audio-2-clean-fill.mp4"></video>
+          <div id="introCast" class="intro-cast" aria-label="Intro characters"></div>
+        </div>
+        <button id="skipIntroButton" type="button">Close / Cerrar</button>
+      </section>
+      <section id="finalScreen" class="video-overlay hidden" aria-label="CRUX SACRA final redemption">
+        <div class="video-frame">
+          <video id="finalVideo" playsinline controls preload="metadata" src="../video-intro/crux-sacra-final-redemption.mp4?v=3"></video>
+          <div id="finalCast" class="intro-cast final-cast" aria-label="Ending characters"></div>
+        </div>
+        <p id="finalCaption" class="video-caption"></p>
+        <button id="skipFinalButton" type="button">Continue / Continuar</button>
+      </section>
+      <section id="creditsScreen" class="overlay hidden" aria-label="CRUX SACRA credits">
+        <div class="title-mark">✚</div>
+        <h2>Credits / Créditos</h2>
+        <div class="credits-card">
+          <p><strong>Created by / Creado por</strong><span>Jesús B.</span></p>
+          <p><strong>Ideas / Ideas</strong><span>Elías B.</span></p>
+          <p><strong>Coding & Art / Código y Arte</strong><span>Codex, based on the original ideas of Jesús B. and Elías B.</span></p>
+          <p><strong>Family Playtesting / Pruebas en familia</strong><span>Jesús B. and Elías B.</span></p>
+          <p><strong>Edition / Edición</strong><span>Prototype Family Edition · 2026</span></p>
+          <p><strong>Worlds / Mundos</strong><span>Colorado Springs · Juárez · US East · El Paso · Guadalajara · Mexico City · Holy Land · Saints Bonus Preview</span></p>
+          <p><strong>With gratitude / Con gratitud</strong><span>To God, the Guardian Angel, Saint Michael the Archangel, and the family who inspired the adventure.</span></p>
+        </div>
+        <button id="creditsContinueButton" type="button">Finish / Finalizar</button>
+      </section>
+      <section id="endScreen" class="overlay hidden">
+        <div class="title-mark">✚</div>
+        <h2 id="endTitle">Level Complete</h2>
+        <p id="endCopy">La luz protegió a los niños.</p>
+        <button id="againButton" type="button">Select Characters / Elegir Personajes</button>
+      </section>
+      <div id="hud">
+        <div>
+          <strong>CRUX SACRA</strong>
+          <span id="levelName">Summer Park / Parque</span>
+        </div>
+        <div class="meter">
+          <span>Lux</span>
+          <i id="lightFill"></i>
+        </div>
+        <div id="scoreText" class="status-chip">Crux 0 / 6</div>
+        <div id="livesText" class="status-chip">Lives 3</div>
+        <div id="sprayText" class="status-chip">Holy Water 4</div>
+        <div id="rosaryText" class="status-chip">Rosary 0</div>
+      </div>
+      <div id="mobileControls" aria-hidden="true">
+        <div id="stick"><i></i></div>
+        <div class="action-buttons">
+          <button id="pauseButton" type="button" aria-label="Pause">Ⅱ</button>
+          <button id="sprayButton" type="button" aria-label="Holy Water power">★</button>
+          <button id="rosaryButton" type="button" aria-label="Rosary power">○</button>
+          <button id="prayButton" type="button" aria-label="Crux Sacra prayer">✚</button>
+        </div>
+      </div>
+    </main>
+    <script src="./game.js?v=77"></script>
+  </body>
+</html>

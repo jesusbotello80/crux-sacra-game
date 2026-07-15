@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#14243a"/>
+          <stop offset="0.55" stop-color="#28384a"/>
+          <stop offset="1" stop-color="#101927"/>
+        </linearGradient>
+        <radialGradient id="light" cx="50%" cy="33%" r="55%">
+          <stop offset="0" stop-color="#fff8d3" stop-opacity="0.666"/>
+          <stop offset="0.5" stop-color="#f8dc71" stop-opacity="0.233"/>
+          <stop offset="1" stop-color="#f8dc71" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="1280" height="720" fill="url(#sky)"/>
+      <rect x="0" y="510" width="1280" height="210" fill="#243328"/>
+      <path d="M0,515 C230,468 360,560 575,510 C760,470 915,528 1280,485 L1280,720 L0,720 Z" fill="#18271f" opacity="0.86"/>
+      <g opacity="0.38">
+        <rect x="130" y="170" width="1020" height="350" rx="18" fill="#263547" stroke="#fff8d3" stroke-width="2" opacity="0.35"/>
+        <path d="M210,520 L210,285 L330,210 L450,285 L450,520" fill="none" stroke="#fff8d3" stroke-width="6" opacity="0.28"/>
+        <path d="M830,520 L830,285 L950,210 L1070,285 L1070,520" fill="none" stroke="#fff8d3" stroke-width="6" opacity="0.28"/>
+      </g>
+      <circle cx="640" cy="250" r="500" fill="url(#light)"/>
+      <line x1="640" y1="250" x2="859.8" y2="642.7" stroke="#fff4a8" stroke-width="8" opacity="0.110"/><line x1="640" y1="250" x2="540.5" y2="664.6" stroke="#fff4a8" stroke-width="8" opacity="0.110"/><line x1="640" y1="250" x2="247.9" y2="575.3" stroke="#fff4a8" stroke-width="8" opacity="0.110"/><line x1="640" y1="250" x2="60.3" y2="398.9" stroke="#fff4a8" stroke-width="8" opacity="0.110"/><line x1="640" y1="250" x2="28.0" y2="182.6" stroke="#fff4a8" stroke-width="8" opacity="0.110"/><line x1="640" y1="250" x2="159.8" y2="-15.6" stroke="#fff4a8" stroke-width="8" opacity="0.110"/><line x1="640" y1="250" x2="420.2" y2="-142.7" stroke="#fff4a8" stroke-width="8" opacity="0.110"/><line x1="640" y1="250" x2="739.5" y2="-164.6" stroke="#fff4a8" stroke-width="8" opacity="0.110"/><line x1="640" y1="250" x2="1032.1" y2="-75.3" stroke="#fff4a8" stroke-width="8" opacity="0.110"/><line x1="640" y1="250" x2="1219.7" y2="101.1" stroke="#fff4a8" stroke-width="8" opacity="0.110"/><line x1="640" y1="250" x2="1252.0" y2="317.4" stroke="#fff4a8" stroke-width="8" opacity="0.110"/><line x1="640" y1="250" x2="1120.2" y2="515.6" stroke="#fff4a8" stroke-width="8" opacity="0.110"/>
+      <g transform="translate(640 242)" opacity="0.883">
+        <rect x="-18" y="-145" width="36" height="300" rx="8" fill="#fff4a8"/>
+        <rect x="-100" y="-55" width="200" height="34" rx="8" fill="#fff4a8"/>
+      </g>
+      <g transform="translate(415 420)" opacity="0.90">
+        <circle cx="0" cy="-142" r="56" fill="#fff4a8" opacity="0.44"/>
+        <circle cx="0" cy="-126" r="42" fill="#f1c38e"/>
+        <path d="M-36,-95 C-96,-10 -84,92 -52,150 L52,150 C86,80 94,-10 36,-95 Z" fill="#fff8d3" stroke="#f8dc71" stroke-width="5"/>
+        <path d="M-46,-18 C-118,30 -142,104 -105,144" fill="none" stroke="#fff8d3" stroke-width="20" stroke-linecap="round"/>
+        <path d="M46,-18 C118,30 142,104 105,144" fill="none" stroke="#fff8d3" stroke-width="20" stroke-linecap="round"/>
+      </g>
+      
+    <g opacity="1.000" transform="translate(850 425)">
+      <ellipse cx="0" cy="150" rx="90" ry="22" fill="#000" opacity="0.35"/>
+      <path d="M-55,-120 C-88,-205 -23,-150 -15,-105 C-5,-160 65,-210 48,-115" fill="#651010" stroke="#ff4334" stroke-width="5"/>
+      <ellipse cx="0" cy="-15" rx="74" ry="125" fill="#1b0b0b" stroke="#ff4334" stroke-width="7"/>
+      <circle cx="0" cy="-135" r="52" fill="#240d0d" stroke="#ff4334" stroke-width="6"/>
+      <circle cx="-18" cy="-145" r="6" fill="#ffd36a"/><circle cx="18" cy="-145" r="6" fill="#ffd36a"/>
+      <path d="M-62,22 C-145,64 -165,130 -132,170" fill="none" stroke="#240d0d" stroke-width="18" stroke-linecap="round"/>
+      <path d="M62,22 C145,64 165,130 132,170" fill="none" stroke="#240d0d" stroke-width="18" stroke-linecap="round"/>
+    </g>
+      
+    <g opacity="0.000" transform="translate(850 430)">
+      <ellipse cx="0" cy="145" rx="76" ry="18" fill="#000" opacity="0.24"/>
+      <ellipse cx="0" cy="-5" rx="58" ry="112" fill="#6cb7d8" stroke="#fff8d3" stroke-width="5"/>
+      <circle cx="0" cy="-128" r="48" fill="#f2ba89" stroke="#fff8d3" stroke-width="5"/>
+      <path d="M-22,-124 Q0,-106 22,-124" stroke="#5d2b1d" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M-55,20 C-120,70 -128,118 -105,158" fill="none" stroke="#6cb7d8" stroke-width="18" stroke-linecap="round"/>
+      <path d="M55,20 C120,70 128,118 105,158" fill="none" stroke="#6cb7d8" stroke-width="18" stroke-linecap="round"/>
+    </g>
+      <rect x="0" y="0" width="1280" height="720" fill="#fff8d3" opacity="0.059"/>
+      <text x="640" y="68" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="58" fill="#fff8d3" stroke="#000" stroke-opacity="0.35" stroke-width="5" paint-order="stroke">CRUX SACRA</text>
+      <text x="640" y="610" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="40" fill="#fff8d3" stroke="#000" stroke-opacity="0.5" stroke-width="5" paint-order="stroke">Jesus heals El Tacalache</text>
+      <text x="640" y="658" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#fff8d3" stroke="#000" stroke-opacity="0.5" stroke-width="4" paint-order="stroke">Jesus sana al Tacalache</text>
+    </svg>

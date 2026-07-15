@@ -1,0 +1,21 @@
+/*
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+/game/*
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+/video-demo/*
+  Cache-Control: no-cache, must-revalidate
+
+/video-intro/*
+  Cache-Control: no-cache, must-revalidate
+
+/character-sprites/*
+  Cache-Control: no-cache, must-revalidate
+
+/audio/*
+  Cache-Control: no-cache, must-revalidate
