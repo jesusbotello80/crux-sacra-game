@@ -88,7 +88,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "81";
+  const ASSET_VERSION = "82";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -456,6 +456,41 @@
     easy: { label: "Easy / Facil", lives: 5, spray: 5, speed: 0.82, hazards: 1.35, lightning: 1.25, lightningWarning: 1.8, fireBonus: -1, danger: 0.72, crossBonus: -1 },
     regular: { label: "Regular", lives: 3, spray: 4, speed: 1, hazards: 1, lightning: 0.86, lightningWarning: 1.55, fireBonus: 0, danger: 1, crossBonus: 0 },
     hard: { label: "Hard / Dificil", lives: 2, spray: 3, speed: 1.24, hazards: 0.72, lightning: 0.58, lightningWarning: 1.18, fireBonus: 1, danger: 1.32, crossBonus: 1 },
+  };
+
+  const worldHazards = {
+    colorado: {
+      projectiles: ["rat", "roach"],
+      lightning: { warning: "#b9d7ff", hot: "#ffdf70", bolt: "#f8fbff", core: "#7db7ff", glow: "#dce9ff", impact: "#fff8d3", ring: "#ffffff", delay: 1, warningTime: 1, radius: 1, message: "Mountain thunder / Trueno de montaña" },
+    },
+    juarez: {
+      projectiles: ["cactusThorn", "sandSkull"],
+      lightning: { warning: "#ffd47a", hot: "#ff9c35", bolt: "#fff2b4", core: "#ffb347", glow: "#ffcc6b", impact: "#d7a65b", ring: "#ffe1a3", delay: 1.05, warningTime: 1.08, radius: 0.95, message: "Desert lightning / Rayo del desierto" },
+    },
+    useast: {
+      projectiles: ["mosquito", "swampBubble"],
+      lightning: { warning: "#9ee8ff", hot: "#7cffbd", bolt: "#eefcff", core: "#77dfff", glow: "#80fff2", impact: "#99f4d7", ring: "#b9fff0", delay: 0.96, warningTime: 1.02, radius: 1.04, message: "Gulf storm / Tormenta del Golfo" },
+    },
+    elpaso: {
+      projectiles: ["clawSlash", "shriekWave"],
+      lightning: { warning: "#c9a2ff", hot: "#ffcf5a", bolt: "#fbf0ff", core: "#b678ff", glow: "#c07cff", impact: "#e4ccff", ring: "#e8d5ff", delay: 0.92, warningTime: 0.98, radius: 1.05, message: "Monsoon lightning / Rayo monzonico" },
+    },
+    guadalajara: {
+      projectiles: ["horseshoe", "lassoRing"],
+      lightning: { warning: "#ffd46d", hot: "#ff5b47", bolt: "#fff5c9", core: "#ffbc3d", glow: "#ff9636", impact: "#ffe28a", ring: "#ffd66e", delay: 0.92, warningTime: 0.95, radius: 1.04, message: "Rainy-season lightning / Rayo de temporal" },
+    },
+    mexicocity: {
+      projectiles: ["tearDrop", "ghostHand"],
+      lightning: { warning: "#c5f3ff", hot: "#edf8ff", bolt: "#ffffff", core: "#aeefff", glow: "#b5f2ff", impact: "#dffaff", ring: "#d7f6ff", delay: 1.02, warningTime: 1.1, radius: 1, message: "Mist lightning / Rayo entre neblina" },
+    },
+    holymountain: {
+      projectiles: ["darkChain", "temptationFlame"],
+      lightning: { warning: "#fff4a8", hot: "#ffffff", bolt: "#fffdf0", core: "#ffd35a", glow: "#fff4a8", impact: "#fff8d3", ring: "#fff4a8", delay: 1.16, warningTime: 1.22, radius: 1.12, message: "Trial thunder / Trueno de prueba" },
+    },
+    saints: {
+      projectiles: ["ghostMarble", "strawDart"],
+      lightning: { warning: "#d5ecff", hot: "#fff4a8", bolt: "#ffffff", core: "#9ed8ff", glow: "#f6e891", impact: "#fffbd8", ring: "#d5ecff", delay: 1.12, warningTime: 1.28, radius: 0.92, message: "Prairie thunder / Trueno de pradera" },
+    },
   };
 
   const worldStages = {
@@ -1809,9 +1844,75 @@
     fire: "You stepped into the fire. Use Holy Water to extinguish it.",
     rat: "A rat hit the hero. Use Holy Water before it reaches you.",
     roach: "A cockroach hit the hero. Use Holy Water before it reaches you.",
+    cactusThorn: "A cactus thorn hit the hero. Use Holy Water before it reaches you.",
+    sandSkull: "A sand skull hit the hero. Use Holy Water before it reaches you.",
+    mosquito: "A mosquito swarm hit the hero. Use Holy Water before it reaches you.",
+    swampBubble: "A swamp bubble hit the hero. Use Holy Water before it reaches you.",
+    clawSlash: "A claw slash hit the hero. Use Holy Water before it reaches you.",
+    shriekWave: "A shriek wave hit the hero. Use Holy Water before it reaches you.",
+    horseshoe: "A cursed horseshoe hit the hero. Use Holy Water before it reaches you.",
+    lassoRing: "A black lasso ring hit the hero. Use Holy Water before it reaches you.",
+    tearDrop: "A ghostly tear hit the hero. Use Holy Water before it reaches you.",
+    ghostHand: "A ghost hand touched the hero. Use Holy Water before it reaches you.",
+    darkChain: "A dark chain hit the hero. Use Holy Water before it reaches you.",
+    temptationFlame: "A temptation flame hit the hero. Use Holy Water before it reaches you.",
+    ghostMarble: "A ghost marble hit the hero. Use Holy Water before it reaches you.",
+    strawDart: "A straw dart hit the hero. Use Holy Water before it reaches you.",
     lightning: "Lightning struck the hero. Holy Water and Rosary cannot stop thunder.",
     cross: "A red cross exploded. Reach glowing crosses before the danger meter fills.",
   };
+
+  const projectileNames = {
+    rat: "A rat hit the hero!",
+    roach: "A cockroach hit the hero!",
+    cactusThorn: "Cactus thorns from El Cucuy!",
+    sandSkull: "A desert sand skull hit the hero!",
+    mosquito: "A mosquito swarm from the swamp!",
+    swampBubble: "A swamp bubble burst on the hero!",
+    clawSlash: "El Chupacabras sent a claw slash!",
+    shriekWave: "A purple shriek wave hit the hero!",
+    horseshoe: "A cursed horseshoe from El Charro Negro!",
+    lassoRing: "A black lasso ring caught the hero!",
+    tearDrop: "La Llorona sent a ghostly tear!",
+    ghostHand: "A ghost hand reached the hero!",
+    darkChain: "A dark chain struck the hero!",
+    temptationFlame: "A temptation flame hit the hero!",
+    ghostMarble: "The Prairie Boy threw a ghost marble!",
+    strawDart: "A scarecrow straw dart hit the hero!",
+  };
+
+  function hazardForWorld(world = game.world) {
+    return worldHazards[world] || worldHazards.colorado;
+  }
+
+  function projectileRadius(kind) {
+    if (kind === "sandSkull" || kind === "swampBubble" || kind === "lassoRing" || kind === "shriekWave") return 17;
+    if (kind === "horseshoe" || kind === "temptationFlame" || kind === "ghostHand") return 16;
+    if (kind === "clawSlash" || kind === "darkChain") return 15;
+    if (kind === "cactusThorn" || kind === "strawDart") return 12;
+    return 13;
+  }
+
+  function projectileSpeed(kind, stage) {
+    const base = stage.boss ? 192 : 145;
+    const multipliers = {
+      cactusThorn: 1.14,
+      sandSkull: 0.9,
+      mosquito: 1.22,
+      swampBubble: 0.86,
+      clawSlash: 1.2,
+      shriekWave: 0.98,
+      horseshoe: 1.02,
+      lassoRing: 0.88,
+      tearDrop: 1.08,
+      ghostHand: 0.92,
+      darkChain: 0.96,
+      temptationFlame: 1.12,
+      ghostMarble: 1.04,
+      strawDart: 1.16,
+    };
+    return base * (multipliers[kind] || 1);
+  }
 
   function loseLife(reason = "tacalache") {
     game.lives -= 1;
@@ -2279,9 +2380,9 @@
       hazard.spin += dt * hazard.spinSpeed;
       hazard.life -= dt;
       if (Math.hypot(hazard.x - p.x, hazard.y - (p.y - 55)) < hazard.r + 30) {
-        game.message = hazard.kind === "fireball" ? "Tacalache threw fire!" : hazard.kind === "rat" ? "A rat hit the hero!" : "A cockroach hit the hero!";
+        game.message = projectileNames[hazard.kind] || "A projectile hit the hero!";
         playDanger();
-        finishAfter(false, 0.55, hazard.kind === "fireball" ? "fire" : hazard.kind);
+        finishAfter(false, 0.55, hazard.kind);
         return false;
       }
       return hazard.life > 0 && hazard.x > -80 && hazard.x < W + 80 && hazard.y > 250 && hazard.y < H + 80;
@@ -2307,7 +2408,7 @@
         bolt.struck = true;
         bolt.flash = 0.24;
         game.shake = Math.max(game.shake, 0.38);
-        burst(bolt.x, bolt.y, 34, "#dce9ff");
+        burst(bolt.x, bolt.y, 34, bolt.profile?.glow || "#dce9ff");
         playThunder();
       }
       if (bolt.flash > 0) bolt.flash -= dt;
@@ -2326,14 +2427,16 @@
   }
 
   function nextLightningDelay(stage, difficulty, ramp, opening = false) {
+    const profile = hazardForWorld().lightning;
     const base = stage.boss ? 2.25 : 3.25;
     const spread = stage.boss ? 1.25 : 1.9;
     const grace = opening ? 1.2 : 0;
-    return grace + (base + Math.random() * spread) * difficulty.lightning / ramp;
+    return grace + (base + Math.random() * spread) * difficulty.lightning * profile.delay / ramp;
   }
 
   function spawnLightning(stage, difficulty) {
-    const warning = difficulty.lightningWarning;
+    const profile = hazardForWorld().lightning;
+    const warning = difficulty.lightningWarning * profile.warningTime;
     const targetHero = Math.random() < (stage.boss ? 0.58 : 0.42);
     const x = targetHero
       ? clamp(game.player.x + (Math.random() - 0.5) * 210, 135, 1165)
@@ -2342,18 +2445,19 @@
     game.lightnings.push({
       x,
       y,
-      r: stage.boss ? 58 : 50,
+      r: (stage.boss ? 58 : 50) * profile.radius,
       warning,
       maxWarning: warning,
       life: warning + 0.42,
       segments: makeLightningSegments(y),
+      profile,
       struck: false,
       hit: false,
       flash: 0,
       phase: Math.random() * Math.PI * 2,
     });
     if (game.lightnings.length > (stage.boss ? 3 : 2)) game.lightnings.shift();
-    game.message = "Thunder warning / Aviso de trueno";
+    game.message = profile.message || "Thunder warning / Aviso de trueno";
     playWarning();
   }
 
@@ -2377,18 +2481,19 @@
     const dx = targetX - e.x;
     const dy = targetY - (e.y - 120);
     const len = Math.hypot(dx, dy) || 1;
-    const fireball = stage.boss && Math.random() < 0.42;
-    const speed = fireball ? 235 : stage.boss ? 195 : 145;
+    const kinds = hazardForWorld().projectiles;
+    const kind = kinds[Math.floor(Math.random() * kinds.length)] || "rat";
+    const speed = projectileSpeed(kind, stage);
     game.projectiles.push({
-      kind: fireball ? "fireball" : Math.random() < 0.5 ? "rat" : "roach",
+      kind,
       x: e.x,
       y: e.y - 120,
       vx: (dx / len) * speed,
       vy: (dy / len) * speed,
-      r: fireball ? 18 : 13,
+      r: projectileRadius(kind),
       spin: 0,
       spinSpeed: (Math.random() < 0.5 ? -1 : 1) * (5 + Math.random() * 4),
-      life: fireball ? 4.2 : 5,
+      life: 5,
     });
     playSpit();
   }
@@ -2963,7 +3068,7 @@
     ctx.save();
     ctx.translate(hazard.x, hazard.y);
     ctx.rotate(hazard.spin);
-    if (hazard.kind === "fireball") {
+    if (hazard.kind === "fireball" || hazard.kind === "temptationFlame") {
       const r = hazard.r + Math.sin(game.time * 20) * 3;
       ctx.shadowColor = "#ff4334";
       ctx.shadowBlur = 22;
@@ -2980,6 +3085,184 @@
       ctx.beginPath();
       ctx.moveTo(-r, 0);
       ctx.quadraticCurveTo(-r * 2.2, -18, -r * 3.2, 5);
+      ctx.stroke();
+    } else if (hazard.kind === "cactusThorn" || hazard.kind === "strawDart") {
+      ctx.shadowColor = hazard.kind === "cactusThorn" ? "#a6d46b" : "#f3d488";
+      ctx.shadowBlur = 10;
+      ctx.fillStyle = hazard.kind === "cactusThorn" ? "#5f8d45" : "#d6aa55";
+      ctx.strokeStyle = hazard.kind === "cactusThorn" ? "#233d22" : "#5d3c18";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(22, 0);
+      ctx.lineTo(-18, -8);
+      ctx.lineTo(-10, 0);
+      ctx.lineTo(-18, 8);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      if (hazard.kind === "cactusThorn") {
+        ctx.strokeStyle = "#d9efb0";
+        ctx.beginPath();
+        ctx.moveTo(-4, 0);
+        ctx.lineTo(8, -9);
+        ctx.moveTo(2, 1);
+        ctx.lineTo(13, 8);
+        ctx.stroke();
+      }
+    } else if (hazard.kind === "sandSkull") {
+      ctx.shadowColor = "#f1c77b";
+      ctx.shadowBlur = 14;
+      ctx.fillStyle = "#c99a52";
+      ctx.beginPath();
+      ctx.arc(0, -1, 15, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#7b4d22";
+      ctx.beginPath();
+      ctx.arc(-6, -4, 3.5, 0, Math.PI * 2);
+      ctx.arc(6, -4, 3.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillRect(-5, 7, 10, 4);
+      ctx.strokeStyle = "rgba(244, 204, 130, 0.75)";
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(-16, 8);
+      ctx.quadraticCurveTo(-34, 0, -48, 9);
+      ctx.stroke();
+    } else if (hazard.kind === "mosquito") {
+      ctx.shadowColor = "#98ffdf";
+      ctx.shadowBlur = 9;
+      ctx.fillStyle = "#1f2c27";
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 13, 5, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#94fff1";
+      ctx.globalAlpha = 0.62;
+      ctx.beginPath();
+      ctx.ellipse(-2, -8, 10, 5, -0.55, 0, Math.PI * 2);
+      ctx.ellipse(-2, 8, 10, 5, 0.55, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = "#1f2c27";
+      ctx.lineWidth = 2;
+      for (let i = -1; i <= 1; i += 1) {
+        ctx.beginPath();
+        ctx.moveTo(-2 + i * 5, 3);
+        ctx.lineTo(-10 + i * 5, 13);
+        ctx.moveTo(-2 + i * 5, -3);
+        ctx.lineTo(-10 + i * 5, -13);
+        ctx.stroke();
+      }
+      ctx.beginPath();
+      ctx.moveTo(12, 0);
+      ctx.lineTo(28, -3);
+      ctx.stroke();
+    } else if (hazard.kind === "swampBubble") {
+      ctx.shadowColor = "#70ff9a";
+      ctx.shadowBlur = 16;
+      const grad = ctx.createRadialGradient(-5, -5, 2, 0, 0, 18);
+      grad.addColorStop(0, "rgba(225,255,202,0.95)");
+      grad.addColorStop(0.45, "rgba(76,185,79,0.72)");
+      grad.addColorStop(1, "rgba(31,79,39,0.42)");
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(0, 0, 17, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = "#c6ffd1";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    } else if (hazard.kind === "clawSlash") {
+      ctx.shadowColor = "#b973ff";
+      ctx.shadowBlur = 18;
+      ctx.strokeStyle = "#e4c1ff";
+      ctx.lineWidth = 6;
+      ctx.lineCap = "round";
+      for (let i = -1; i <= 1; i += 1) {
+        ctx.beginPath();
+        ctx.moveTo(-18, -12 + i * 12);
+        ctx.quadraticCurveTo(0, -2 + i * 8, 20, 10 + i * 6);
+        ctx.stroke();
+      }
+    } else if (hazard.kind === "shriekWave") {
+      ctx.shadowColor = "#c063ff";
+      ctx.shadowBlur = 16;
+      ctx.strokeStyle = "#d9a6ff";
+      ctx.lineWidth = 4;
+      for (let i = 0; i < 3; i += 1) {
+        ctx.beginPath();
+        ctx.arc(0, 0, 8 + i * 7, -0.85, 0.85);
+        ctx.stroke();
+      }
+    } else if (hazard.kind === "horseshoe") {
+      ctx.shadowColor = "#ffcf54";
+      ctx.shadowBlur = 12;
+      ctx.strokeStyle = "#d99b29";
+      ctx.lineWidth = 8;
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.arc(0, 0, 15, Math.PI * 0.2, Math.PI * 1.8);
+      ctx.stroke();
+      ctx.fillStyle = "#5b3412";
+      ctx.fillRect(-16, 8, 7, 8);
+      ctx.fillRect(9, 8, 7, 8);
+    } else if (hazard.kind === "lassoRing") {
+      ctx.shadowColor = "#c88a30";
+      ctx.shadowBlur = 10;
+      ctx.strokeStyle = "#d5a44e";
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 18, 12, 0.3, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(-16, 6);
+      ctx.quadraticCurveTo(-35, 18, -50, 3);
+      ctx.stroke();
+    } else if (hazard.kind === "tearDrop") {
+      ctx.shadowColor = "#bdf5ff";
+      ctx.shadowBlur = 15;
+      ctx.fillStyle = "#85dfff";
+      ctx.beginPath();
+      ctx.moveTo(0, -19);
+      ctx.bezierCurveTo(14, -2, 13, 16, 0, 18);
+      ctx.bezierCurveTo(-13, 16, -14, -2, 0, -19);
+      ctx.fill();
+      ctx.fillStyle = "rgba(255,255,255,0.7)";
+      ctx.beginPath();
+      ctx.ellipse(-4, -5, 4, 7, 0.4, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (hazard.kind === "ghostHand") {
+      ctx.shadowColor = "#dffaff";
+      ctx.shadowBlur = 14;
+      ctx.fillStyle = "rgba(220, 250, 255, 0.88)";
+      roundRect(-8, -2, 18, 18, 6);
+      ctx.fill();
+      for (let i = 0; i < 4; i += 1) {
+        roundRect(-14 + i * 8, -18, 7, 22, 4);
+        ctx.fill();
+      }
+      ctx.strokeStyle = "#88bdd1";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    } else if (hazard.kind === "darkChain") {
+      ctx.shadowColor = "#6b1b1b";
+      ctx.shadowBlur = 13;
+      ctx.strokeStyle = "#321515";
+      ctx.lineWidth = 5;
+      for (let i = -1; i <= 1; i += 1) {
+        ctx.beginPath();
+        ctx.ellipse(i * 15, 0, 10, 6, i % 2 ? 0.85 : -0.85, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+    } else if (hazard.kind === "ghostMarble") {
+      ctx.shadowColor = "#b6e8ff";
+      ctx.shadowBlur = 18;
+      ctx.fillStyle = "#dff7ff";
+      ctx.beginPath();
+      ctx.arc(0, 0, 12, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = "#86caff";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(0, 0, 19, 0.1, Math.PI * 1.55);
       ctx.stroke();
     } else if (hazard.kind === "rat") {
       const run = Math.sin(game.time * 18 + hazard.spin);
@@ -3068,19 +3351,20 @@
 
   function drawLightning(bolt) {
     const warningProgress = clamp(1 - bolt.warning / bolt.maxWarning, 0, 1);
+    const profile = bolt.profile || hazardForWorld().lightning;
     ctx.save();
     ctx.translate(bolt.x, bolt.y);
     if (!bolt.struck) {
       const pulse = 0.65 + Math.sin(game.time * 18 + bolt.phase) * 0.18;
       ctx.globalAlpha = 0.35 + warningProgress * 0.55;
-      ctx.strokeStyle = warningProgress > 0.72 ? "#ffdf70" : "#b9d7ff";
+      ctx.strokeStyle = warningProgress > 0.72 ? profile.hot : profile.warning;
       ctx.lineWidth = 5 + warningProgress * 5;
       for (let i = 0; i < 3; i += 1) {
         ctx.beginPath();
         ctx.arc(0, 0, bolt.r * (0.55 + i * 0.34 + warningProgress * 0.25) * pulse, 0, Math.PI * 2);
         ctx.stroke();
       }
-      ctx.fillStyle = "rgba(255, 230, 118, 0.16)";
+      ctx.fillStyle = colorWithAlpha(profile.hot, 0.16);
       ctx.beginPath();
       ctx.arc(0, 0, bolt.r * (0.85 + warningProgress * 0.35), 0, Math.PI * 2);
       ctx.fill();
@@ -3090,9 +3374,9 @@
 
     const alpha = clamp(bolt.flash / 0.24, 0, 1);
     ctx.globalAlpha = alpha;
-    ctx.shadowColor = "#dce9ff";
+    ctx.shadowColor = profile.glow;
     ctx.shadowBlur = 34;
-    ctx.strokeStyle = "#f8fbff";
+    ctx.strokeStyle = profile.bolt;
     ctx.lineWidth = 9;
     ctx.beginPath();
     for (const [index, point] of bolt.segments.entries()) {
@@ -3100,13 +3384,74 @@
       else ctx.lineTo(point.x, point.y);
     }
     ctx.stroke();
-    ctx.strokeStyle = "#7db7ff";
+    ctx.strokeStyle = profile.core;
     ctx.lineWidth = 4;
     ctx.stroke();
-    ctx.fillStyle = "rgba(255, 248, 211, 0.62)";
+    ctx.fillStyle = colorWithAlpha(profile.impact, 0.62);
     ctx.beginPath();
     ctx.arc(0, 0, bolt.r * 0.95, 0, Math.PI * 2);
     ctx.fill();
+    drawWorldLightningImpact(profile, bolt.r);
+    ctx.restore();
+  }
+
+  function colorWithAlpha(hex, alpha) {
+    const clean = hex.replace("#", "");
+    const value = parseInt(clean.length === 3 ? clean.split("").map((ch) => ch + ch).join("") : clean, 16);
+    const r = (value >> 16) & 255;
+    const g = (value >> 8) & 255;
+    const b = value & 255;
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+
+  function drawWorldLightningImpact(profile, radius) {
+    ctx.save();
+    ctx.strokeStyle = colorWithAlpha(profile.ring, 0.78);
+    ctx.lineWidth = 3;
+    for (let i = 0; i < 2; i += 1) {
+      ctx.beginPath();
+      ctx.ellipse(0, 8, radius * (0.75 + i * 0.28), radius * (0.18 + i * 0.08), 0, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    if (game.world === "juarez" || game.world === "elpaso") {
+      ctx.fillStyle = colorWithAlpha("#d7a65b", 0.55);
+      for (let i = 0; i < 9; i += 1) {
+        const a = i * 0.7 + game.time;
+        ctx.beginPath();
+        ctx.arc(Math.cos(a) * radius * 0.65, 12 + Math.sin(a) * radius * 0.18, 2.2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    } else if (game.world === "useast") {
+      ctx.strokeStyle = colorWithAlpha("#99f4d7", 0.72);
+      ctx.lineWidth = 2;
+      for (let i = -2; i <= 2; i += 1) {
+        ctx.beginPath();
+        ctx.moveTo(i * 18, 6);
+        ctx.quadraticCurveTo(i * 18 + 8, 18, i * 18 + 24, 10);
+        ctx.stroke();
+      }
+    } else if (game.world === "mexicocity") {
+      ctx.fillStyle = colorWithAlpha("#dffaff", 0.22);
+      ctx.beginPath();
+      ctx.ellipse(0, 6, radius * 1.15, radius * 0.42, 0, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (game.world === "guadalajara") {
+      ctx.fillStyle = colorWithAlpha("#ffd66e", 0.5);
+      for (let i = 0; i < 6; i += 1) {
+        ctx.beginPath();
+        ctx.rect(-radius * 0.6 + i * radius * 0.24, 10 + (i % 2) * 5, 7, 3);
+        ctx.fill();
+      }
+    } else if (game.world === "holymountain") {
+      ctx.strokeStyle = colorWithAlpha("#fff4a8", 0.72);
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(0, -radius * 0.35);
+      ctx.lineTo(0, radius * 0.4);
+      ctx.moveTo(-radius * 0.28, -radius * 0.02);
+      ctx.lineTo(radius * 0.28, -radius * 0.02);
+      ctx.stroke();
+    }
     ctx.restore();
   }
 
