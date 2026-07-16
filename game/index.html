@@ -10,7 +10,7 @@
     <link rel="icon" href="./icon.svg" />
     <link rel="apple-touch-icon" href="./icon-512.png" />
     <link rel="manifest" href="./manifest.webmanifest" />
-    <link rel="stylesheet" href="./style.css?v=23" />
+    <link rel="stylesheet" href="./style.css?v=24" />
   </head>
   <body>
     <main id="gameShell" aria-label="CRUX SACRA game">
@@ -135,9 +135,69 @@
         </div>
         <div class="title-actions">
           <button id="startButton" type="button">Start / Iniciar</button>
+          <button id="helpButton" class="secondary-action" type="button">Help / Ayuda</button>
           <button id="resetProgressButton" class="secondary-action" type="button">Reset Progress / Reiniciar Progreso</button>
         </div>
         <p id="progressStatus" class="progress-status" aria-live="polite"></p>
+      </section>
+      <section id="helpScreen" class="overlay hidden" aria-label="CRUX SACRA help">
+        <div class="title-mark">✚</div>
+        <h2>Help / Ayuda</h2>
+        <div class="help-card">
+          <figure class="help-poster">
+            <img src="./assets/help/crux-sacra-help-poster-v1.png" alt="Crux Sacra help guide poster with heroes, companions, holy helpers, and villains" />
+          </figure>
+          <section>
+            <h3>Goal / Objetivo</h3>
+            <p>Collect every Crux Sacra before the villain corrupts one. Rescue the level, protect the children, and unlock new worlds and redeemed characters.</p>
+            <p>Junta todas las Crux Sacras antes de que el villano destruya una. Rescata el nivel, protege a los niños y desbloquea nuevos mundos y personajes redimidos.</p>
+          </section>
+          <section>
+            <h3>Computer Controls / Computadora</h3>
+            <dl class="control-list">
+              <div><dt>Arrow Keys / WASD</dt><dd>Move the hero / Mover al héroe</dd></div>
+              <div><dt>Space</dt><dd>Crux Sacra prayer light / Luz de oración Crux Sacra</dd></div>
+              <div><dt>F</dt><dd>Holy Water spray / Agua bendita</dd></div>
+              <div><dt>R</dt><dd>Rosary power, clears enemies / Rosario, limpia enemigos</dd></div>
+              <div><dt>P</dt><dd>Pause or resume / Pausar o continuar</dd></div>
+              <div><dt>Q</dt><dd>Quit to character selection / Salir a elegir personajes</dd></div>
+              <div><dt>Enter</dt><dd>Activate focused menu button / Activar botón seleccionado</dd></div>
+            </dl>
+          </section>
+          <section>
+            <h3>Phone & Tablet / Celular y Tableta</h3>
+            <dl class="control-list">
+              <div><dt>Left stick</dt><dd>Move the hero / Mover al héroe</dd></div>
+              <div><dt>Tap level</dt><dd>Move toward touched place / Caminar hacia donde tocas</dd></div>
+              <div><dt>Ⅱ</dt><dd>Pause / Pausa</dd></div>
+              <div><dt>★</dt><dd>Holy Water spray / Agua bendita</dd></div>
+              <div><dt>○</dt><dd>Rosary power / Rosario</dd></div>
+              <div><dt>✚</dt><dd>Crux Sacra prayer / Oración Crux Sacra</dd></div>
+            </dl>
+          </section>
+          <section>
+            <h3>Powers / Poderes</h3>
+            <p><strong>Crux Sacra:</strong> pushes the villain back and protects glowing crosses. <strong>Holy Water:</strong> stops projectiles and fire, but has limited uses. <strong>Rosary:</strong> rare power that clears enemies from the level. <strong>Stars:</strong> add one Holy Water use.</p>
+          </section>
+          <section>
+            <h3>Worlds & Villains / Mundos y Villanos</h3>
+            <ul class="world-help-list">
+              <li><strong>Colorado Springs:</strong> El Tacalache throws rats and cockroaches.</li>
+              <li><strong>Juárez:</strong> El Cucuy del Desierto throws cactus thorns and sand skulls.</li>
+              <li><strong>US East:</strong> The Swamp Shadow sends mosquito swarms and swamp bubbles.</li>
+              <li><strong>El Paso:</strong> El Chupacabras attacks with claw slashes and shriek waves.</li>
+              <li><strong>Guadalajara:</strong> El Charro Negro throws cursed horseshoes and black lasso rings.</li>
+              <li><strong>Mexico City:</strong> La Llorona sends ghostly tears and ghost hands.</li>
+              <li><strong>Holy Land:</strong> The Devil throws dark chains and temptation flames. This world unlocks after the first six worlds.</li>
+              <li><strong>Saints Bonus:</strong> a preview world after the final world.</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Hazards / Peligros</h3>
+            <p>The villain can make a Crux Sacra glow red. Save it before it explodes. Fire can be removed with Holy Water. Thunder changes by world and cannot be stopped by Holy Water or Rosary, so move away when the warning rings appear.</p>
+          </section>
+        </div>
+        <button id="helpCloseButton" type="button">Back / Regresar</button>
       </section>
       <section id="introScreen" class="video-overlay hidden" aria-label="CRUX SACRA introduction">
         <div class="video-frame">
@@ -198,6 +258,6 @@
         </div>
       </div>
     </main>
-    <script src="./game.js?v=82"></script>
+    <script src="./game.js?v=83"></script>
   </body>
 </html>

@@ -157,7 +157,7 @@ canvas {
 .title-actions {
   width: min(760px, calc(100% - 24px));
   display: grid;
-  grid-template-columns: 1.35fr 1fr;
+  grid-template-columns: 1.35fr 0.8fr 1fr;
   gap: 10px;
   margin: 16px auto 0;
 }
@@ -182,6 +182,8 @@ canvas {
 #introScreen:not(.hidden) ~ #mobileControls,
 #finalScreen:not(.hidden) ~ #hud,
 #finalScreen:not(.hidden) ~ #mobileControls,
+#helpScreen:not(.hidden) ~ #hud,
+#helpScreen:not(.hidden) ~ #mobileControls,
 #creditsScreen:not(.hidden) ~ #hud,
 #creditsScreen:not(.hidden) ~ #mobileControls,
 #endScreen:not(.hidden) ~ #hud,
@@ -234,6 +236,109 @@ canvas {
 
 .credits-card span {
   color: #fff9dc;
+}
+
+.help-card {
+  width: min(94vw, 1040px);
+  max-height: min(70dvh, 650px);
+  overflow: auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 8px auto 6px;
+  padding: clamp(14px, 2.5vw, 22px);
+  border: 1px solid rgba(246, 220, 117, 0.45);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 236, 160, 0.12), rgba(74, 128, 176, 0.08)),
+    rgba(7, 13, 23, 0.86);
+  box-shadow: 0 0 34px rgba(0, 0, 0, 0.32);
+  text-align: left;
+}
+
+.help-card section {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid rgba(255, 249, 220, 0.18);
+  border-radius: 8px;
+  background: rgba(4, 9, 18, 0.42);
+}
+
+.help-poster {
+  grid-column: 1 / -1;
+  margin: 0;
+  border: 1px solid rgba(255, 249, 220, 0.28);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #050a12;
+  box-shadow: 0 0 28px rgba(246, 220, 117, 0.14);
+}
+
+.help-poster img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.help-card h3 {
+  margin: 0 0 8px;
+  color: #ffe476;
+  font-size: clamp(15px, 2vw, 19px);
+}
+
+.help-card p {
+  margin: 0 0 8px;
+  color: #fff9dc;
+  font-size: clamp(12px, 1.65vw, 15px);
+  line-height: 1.34;
+}
+
+.help-card p:last-child {
+  margin-bottom: 0;
+}
+
+.control-list {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+}
+
+.control-list div {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.46fr) 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 7px 8px;
+  border-radius: 7px;
+  background: rgba(255, 248, 211, 0.07);
+}
+
+.control-list dt {
+  margin: 0;
+  color: #9ee7ff;
+  font-weight: 900;
+}
+
+.control-list dd {
+  margin: 0;
+  color: #fff9dc;
+  line-height: 1.2;
+}
+
+.world-help-list {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 18px;
+  color: #fff9dc;
+  font-size: clamp(12px, 1.65vw, 15px);
+  line-height: 1.25;
+}
+
+.world-help-list strong,
+.help-card strong {
+  color: #ffe476;
 }
 
 .video-frame {
@@ -932,14 +1037,33 @@ button:focus-visible {
 
   #introButton,
   #startButton,
+  #helpButton,
   #resetProgressButton,
   #againButton,
   #skipIntroButton,
   #skipFinalButton,
-  #creditsContinueButton {
+  #creditsContinueButton,
+  #helpCloseButton {
     min-height: 34px;
     padding-inline: 14px;
     font-size: 12px;
+  }
+
+  .help-card {
+    grid-template-columns: 1fr;
+    max-height: 74dvh;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .help-card section {
+    padding: 9px;
+  }
+
+  .control-list div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+    padding: 6px 7px;
   }
 
   .credits-card {

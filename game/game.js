@@ -11,6 +11,9 @@
   const finalCast = document.getElementById("finalCast");
   const creditsScreen = document.getElementById("creditsScreen");
   const creditsContinueButton = document.getElementById("creditsContinueButton");
+  const helpScreen = document.getElementById("helpScreen");
+  const helpButton = document.getElementById("helpButton");
+  const helpCloseButton = document.getElementById("helpCloseButton");
   const introButton = document.getElementById("introButton");
   const skipIntroButton = document.getElementById("skipIntroButton");
   const skipFinalButton = document.getElementById("skipFinalButton");
@@ -88,7 +91,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "82";
+  const ASSET_VERSION = "83";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -1784,6 +1787,7 @@
     titleScreen.classList.add("hidden");
     endScreen.classList.add("hidden");
     finalScreen.classList.add("hidden");
+    helpScreen.classList.add("hidden");
     creditsScreen.classList.add("hidden");
   }
 
@@ -1991,6 +1995,7 @@
     titleScreen.classList.remove("hidden");
     introScreen.classList.add("hidden");
     finalScreen.classList.add("hidden");
+    helpScreen.classList.add("hidden");
     creditsScreen.classList.add("hidden");
     endScreen.classList.add("hidden");
     game.message = "Choose hero and companion. Elige heroe y compania.";
@@ -3946,6 +3951,7 @@
     if (!introScreen.classList.contains("hidden")) return skipIntroButton;
     if (!finalScreen.classList.contains("hidden")) return skipFinalButton;
     if (!creditsScreen.classList.contains("hidden")) return creditsContinueButton;
+    if (!helpScreen.classList.contains("hidden")) return helpCloseButton;
     if (!endScreen.classList.contains("hidden")) return againButton;
     if (!titleScreen.classList.contains("hidden")) return startButton;
     return null;
@@ -3984,6 +3990,14 @@
     if (event.code === "KeyQ") {
       event.preventDefault();
       quitToSelection();
+    }
+    if (event.code === "KeyH") {
+      event.preventDefault();
+      showHelp();
+    }
+    if (event.code === "Escape" && !helpScreen.classList.contains("hidden")) {
+      event.preventDefault();
+      closeHelp();
     }
   });
 
@@ -4124,6 +4138,19 @@
     playIntroSequence(true);
   });
   if (resetProgressButton) resetProgressButton.addEventListener("click", resetSavedProgress);
+  function showHelp() {
+    helpScreen.classList.remove("hidden");
+    helpCloseButton.focus();
+  }
+
+  function closeHelp() {
+    helpScreen.classList.add("hidden");
+    if (!titleScreen.classList.contains("hidden")) helpButton.focus();
+    else canvas.focus();
+  }
+
+  if (helpButton) helpButton.addEventListener("click", showHelp);
+  if (helpCloseButton) helpCloseButton.addEventListener("click", closeHelp);
   againButton.addEventListener("click", showCharacterSelect);
   if (introButton) introButton.addEventListener("click", () => {
     playIntroSequence(false);
@@ -4205,28 +4232,28 @@
       michael: "../video-intro/world3/crux-sacra-us-east-redemption-father-m.mp4?v=4",
     };
     const elPasoFinalVideoByHero = {
-      angie: "../video-intro/world4/crux-sacra-el-paso-redemption-dona-carmelina.mp4?v=1",
-      nana: "../video-intro/world4/crux-sacra-el-paso-redemption-tan.mp4?v=1",
-      ttitin: "../video-intro/world4/crux-sacra-el-paso-redemption-mr-zuil.mp4?v=1",
-      tata: "../video-intro/world4/crux-sacra-el-paso-redemption-mr-hernandez.mp4?v=1",
-      mrsFavi: "../video-intro/world4/crux-sacra-el-paso-redemption-mr-domingo.mp4?v=1",
-      mrChuy: "../video-intro/world4/crux-sacra-el-paso-redemption-don-maro.mp4?v=1",
-      abba: "../video-intro/world4/crux-sacra-el-paso-redemption-lady-seferina.mp4?v=1",
-      timmy: "../video-intro/world4/crux-sacra-el-paso-redemption-mr-tio.mp4?v=1",
-      guardian: "../video-intro/world4/crux-sacra-el-paso-redemption-father-v.mp4?v=1",
-      michael: "../video-intro/world4/crux-sacra-el-paso-redemption-father-m.mp4?v=1",
+      angie: "../video-intro/world4/crux-sacra-el-paso-redemption-dona-carmelina.mp4?v=2",
+      nana: "../video-intro/world4/crux-sacra-el-paso-redemption-tan.mp4?v=2",
+      ttitin: "../video-intro/world4/crux-sacra-el-paso-redemption-mr-zuil.mp4?v=2",
+      tata: "../video-intro/world4/crux-sacra-el-paso-redemption-mr-hernandez.mp4?v=2",
+      mrsFavi: "../video-intro/world4/crux-sacra-el-paso-redemption-mr-domingo.mp4?v=2",
+      mrChuy: "../video-intro/world4/crux-sacra-el-paso-redemption-don-maro.mp4?v=2",
+      abba: "../video-intro/world4/crux-sacra-el-paso-redemption-lady-seferina.mp4?v=2",
+      timmy: "../video-intro/world4/crux-sacra-el-paso-redemption-mr-tio.mp4?v=2",
+      guardian: "../video-intro/world4/crux-sacra-el-paso-redemption-father-v.mp4?v=2",
+      michael: "../video-intro/world4/crux-sacra-el-paso-redemption-father-m.mp4?v=2",
     };
     const guadalajaraFinalVideoByHero = {
-      angie: "../video-intro/world5/crux-sacra-guadalajara-redemption-dona-carmelina.mp4?v=1",
-      nana: "../video-intro/world5/crux-sacra-guadalajara-redemption-tan.mp4?v=1",
-      ttitin: "../video-intro/world5/crux-sacra-guadalajara-redemption-mr-zuil.mp4?v=1",
-      tata: "../video-intro/world5/crux-sacra-guadalajara-redemption-mr-hernandez.mp4?v=1",
-      mrsFavi: "../video-intro/world5/crux-sacra-guadalajara-redemption-mr-domingo.mp4?v=1",
-      mrChuy: "../video-intro/world5/crux-sacra-guadalajara-redemption-don-maro.mp4?v=1",
-      abba: "../video-intro/world5/crux-sacra-guadalajara-redemption-lady-seferina.mp4?v=1",
-      timmy: "../video-intro/world5/crux-sacra-guadalajara-redemption-mr-tio.mp4?v=1",
-      guardian: "../video-intro/world5/crux-sacra-guadalajara-redemption-father-v.mp4?v=1",
-      michael: "../video-intro/world5/crux-sacra-guadalajara-redemption-father-m.mp4?v=1",
+      angie: "../video-intro/world5/crux-sacra-guadalajara-redemption-dona-carmelina.mp4?v=2",
+      nana: "../video-intro/world5/crux-sacra-guadalajara-redemption-tan.mp4?v=2",
+      ttitin: "../video-intro/world5/crux-sacra-guadalajara-redemption-mr-zuil.mp4?v=2",
+      tata: "../video-intro/world5/crux-sacra-guadalajara-redemption-mr-hernandez.mp4?v=2",
+      mrsFavi: "../video-intro/world5/crux-sacra-guadalajara-redemption-mr-domingo.mp4?v=2",
+      mrChuy: "../video-intro/world5/crux-sacra-guadalajara-redemption-don-maro.mp4?v=2",
+      abba: "../video-intro/world5/crux-sacra-guadalajara-redemption-lady-seferina.mp4?v=2",
+      timmy: "../video-intro/world5/crux-sacra-guadalajara-redemption-mr-tio.mp4?v=2",
+      guardian: "../video-intro/world5/crux-sacra-guadalajara-redemption-father-v.mp4?v=2",
+      michael: "../video-intro/world5/crux-sacra-guadalajara-redemption-father-m.mp4?v=2",
     };
     const mexicoCityFinalVideoByHero = {};
     const holyMountainFinalVideoByHero = {};
@@ -4235,8 +4262,8 @@
       colorado: { map: finalVideoByHero, fallback: "../video-intro/crux-sacra-final-redemption.mp4?v=3" },
       juarez: { map: juarezFinalVideoByHero, fallback: "../video-intro/world2/crux-sacra-juarez-ending-placeholder.mp4?v=1" },
       useast: { map: useastFinalVideoByHero, fallback: "../video-intro/world3/crux-sacra-us-east-redemption-tan.mp4?v=4" },
-      elpaso: { map: elPasoFinalVideoByHero, fallback: "../video-intro/world4/crux-sacra-el-paso-redemption-placeholder.mp4?v=1" },
-      guadalajara: { map: guadalajaraFinalVideoByHero, fallback: "../video-intro/world5/crux-sacra-guadalajara-redemption-placeholder.mp4?v=1" },
+      elpaso: { map: elPasoFinalVideoByHero, fallback: "../video-intro/world4/crux-sacra-el-paso-redemption-placeholder.mp4?v=2" },
+      guadalajara: { map: guadalajaraFinalVideoByHero, fallback: "../video-intro/world5/crux-sacra-guadalajara-redemption-placeholder.mp4?v=2" },
       mexicocity: { map: mexicoCityFinalVideoByHero, fallback: "../video-intro/world6/crux-sacra-mexico-city-redemption-placeholder.mp4?v=1" },
       holymountain: { map: holyMountainFinalVideoByHero, fallback: "../video-intro/world7/crux-sacra-holy-mountain-redemption-placeholder.mp4?v=2" },
       saints: { map: saintsFinalVideoByHero, fallback: "../video-intro/world8/crux-sacra-saints-bonus-ending.mp4?v=1" },
