@@ -88,7 +88,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "80";
+  const ASSET_VERSION = "81";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -3848,16 +3848,16 @@
       michael: "../video-intro/world2/crux-sacra-juarez-redemption-father-m.mp4?v=1",
     };
     const useastFinalVideoByHero = {
-      angie: "../video-intro/world3/crux-sacra-us-east-redemption-dona-carmelina.mp4?v=3",
-      nana: "../video-intro/world3/crux-sacra-us-east-redemption-tan.mp4?v=3",
-      ttitin: "../video-intro/world3/crux-sacra-us-east-redemption-mr-zuil.mp4?v=3",
-      tata: "../video-intro/world3/crux-sacra-us-east-redemption-mr-hernandez.mp4?v=3",
-      mrsFavi: "../video-intro/world3/crux-sacra-us-east-redemption-mr-domingo.mp4?v=3",
-      mrChuy: "../video-intro/world3/crux-sacra-us-east-redemption-don-maro.mp4?v=3",
-      abba: "../video-intro/world3/crux-sacra-us-east-redemption-lady-seferina.mp4?v=3",
-      timmy: "../video-intro/world3/crux-sacra-us-east-redemption-mr-tio.mp4?v=3",
-      guardian: "../video-intro/world3/crux-sacra-us-east-redemption-father-v.mp4?v=3",
-      michael: "../video-intro/world3/crux-sacra-us-east-redemption-father-m.mp4?v=3",
+      angie: "../video-intro/world3/crux-sacra-us-east-redemption-dona-carmelina.mp4?v=4",
+      nana: "../video-intro/world3/crux-sacra-us-east-redemption-tan.mp4?v=4",
+      ttitin: "../video-intro/world3/crux-sacra-us-east-redemption-mr-zuil.mp4?v=4",
+      tata: "../video-intro/world3/crux-sacra-us-east-redemption-mr-hernandez.mp4?v=4",
+      mrsFavi: "../video-intro/world3/crux-sacra-us-east-redemption-mr-domingo.mp4?v=4",
+      mrChuy: "../video-intro/world3/crux-sacra-us-east-redemption-don-maro.mp4?v=4",
+      abba: "../video-intro/world3/crux-sacra-us-east-redemption-lady-seferina.mp4?v=4",
+      timmy: "../video-intro/world3/crux-sacra-us-east-redemption-mr-tio.mp4?v=4",
+      guardian: "../video-intro/world3/crux-sacra-us-east-redemption-father-v.mp4?v=4",
+      michael: "../video-intro/world3/crux-sacra-us-east-redemption-father-m.mp4?v=4",
     };
     const elPasoFinalVideoByHero = {
       angie: "../video-intro/world4/crux-sacra-el-paso-redemption-dona-carmelina.mp4?v=1",
@@ -3889,7 +3889,7 @@
     const finalVideosByWorld = {
       colorado: { map: finalVideoByHero, fallback: "../video-intro/crux-sacra-final-redemption.mp4?v=3" },
       juarez: { map: juarezFinalVideoByHero, fallback: "../video-intro/world2/crux-sacra-juarez-ending-placeholder.mp4?v=1" },
-      useast: { map: useastFinalVideoByHero, fallback: "../video-intro/world3/crux-sacra-us-east-ending-placeholder.mp4?v=2" },
+      useast: { map: useastFinalVideoByHero, fallback: "../video-intro/world3/crux-sacra-us-east-redemption-tan.mp4?v=4" },
       elpaso: { map: elPasoFinalVideoByHero, fallback: "../video-intro/world4/crux-sacra-el-paso-redemption-placeholder.mp4?v=1" },
       guadalajara: { map: guadalajaraFinalVideoByHero, fallback: "../video-intro/world5/crux-sacra-guadalajara-redemption-placeholder.mp4?v=1" },
       mexicocity: { map: mexicoCityFinalVideoByHero, fallback: "../video-intro/world6/crux-sacra-mexico-city-redemption-placeholder.mp4?v=1" },
@@ -3899,7 +3899,9 @@
     const finalSet = finalVideosByWorld[game.world] || finalVideosByWorld.colorado;
     const redeemedKey = redeemedKeyForHero();
     const surpriseFinalVideoByRedeemed = {
-      angeliux: "../video-intro/crux-sacra-final-redemption-angeliux.mp4?v=1",
+      angeliux: game.world === "useast"
+        ? "../video-intro/world3/crux-sacra-us-east-redemption-angeliux.mp4?v=1"
+        : "../video-intro/crux-sacra-final-redemption-angeliux.mp4?v=2",
     };
     const nextFinalVideo = surpriseFinalVideoByRedeemed[redeemedKey] || finalSet.map[game.selectedHero] || finalSet.fallback;
     const redeemedName = redeemedNameForHero();
