@@ -52,8 +52,9 @@
     michael: "Father M",
     mrTio: "Sr Joe",
     donaCarmelina: "Lord Santy",
+    tan: "Doña Nene",
   };
-  const surpriseRedeemedCharacterKeys = new Set(["angeliux", "srJoe", "lordSanty"]);
+  const surpriseRedeemedCharacterKeys = new Set(["angeliux", "srJoe", "lordSanty", "donaNene"]);
   const redeemedCharacterByHero = {
     angie: "donaCarmelina",
     elayitas: "padrino",
@@ -68,6 +69,7 @@
     michael: "fatherM",
     mrTio: "srJoe",
     donaCarmelina: "lordSanty",
+    tan: "donaNene",
   };
   const redeemedCharacterKeys = new Set([...Object.values(redeemedCharacterByHero), "padrino", ...surpriseRedeemedCharacterKeys]);
   const fallbackRedemptionCandidates = [
@@ -99,7 +101,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "85";
+  const ASSET_VERSION = "86";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -220,6 +222,8 @@
     srJoeSheet: "character-sprites/redeemed-sheets-v5/sr-joe-walk-sheet-v5.png",
     lordSanty: "character-sprites/lord-santy/lord-santy-transparent.png",
     lordSantySheet: "character-sprites/redeemed-sheets-v5/lord-santy-walk-sheet-v5.png",
+    donaNene: "character-sprites/dona-nene/dona-nene-transparent.png",
+    donaNeneSheet: "character-sprites/redeemed-sheets-v5/dona-nene-walk-sheet-v5.png",
   };
 
   const worldSketches = {
@@ -467,6 +471,7 @@
     angeliux: { label: "Angeliux", animated: "redeemedWalk", sheet: "angeliuxSheet", front: "angeliux", height: 146 },
     srJoe: { label: "Sr Joe", animated: "redeemedWalk", sheet: "srJoeSheet", front: "srJoe", height: 150 },
     lordSanty: { label: "Lord Santy", animated: "redeemedWalk", sheet: "lordSantySheet", front: "lordSanty", height: 144 },
+    donaNene: { label: "Doña Nene", animated: "redeemedWalk", sheet: "donaNeneSheet", front: "donaNene", height: 132 },
   };
 
   const difficultySettings = {
@@ -4295,6 +4300,7 @@
         : "../video-intro/crux-sacra-final-redemption-angeliux.mp4?v=2",
       srJoe: "../video-intro/crux-sacra-final-redemption-sr-joe.mp4?v=1",
       lordSanty: "../video-intro/crux-sacra-final-redemption-lord-santy.mp4?v=1",
+      donaNene: "../video-intro/crux-sacra-final-redemption-dona-nene.mp4?v=1",
     };
     const nextFinalVideo = surpriseFinalVideoByRedeemed[redeemedKey] || finalSet.map[game.selectedHero] || finalSet.fallback;
     const redeemedName = redeemedNameForHero();
@@ -4346,6 +4352,7 @@
     if (game.selectedHero === "nana" && game.selectedCompanion === "nana") return "angeliux";
     if (game.selectedHero === "mrTio") return "srJoe";
     if (game.selectedHero === "donaCarmelina") return "lordSanty";
+    if (game.selectedHero === "tan") return "donaNene";
     const mapped = redeemedCharacterByHero[game.selectedHero] || "padrino";
     if (mapped && mapped !== game.selectedHero && !redeemedCharacterKeys.has(game.selectedHero)) return mapped;
     const blocked = new Set([game.selectedHero, game.selectedCompanion, mapped]);
