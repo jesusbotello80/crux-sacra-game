@@ -91,11 +91,15 @@
   const query = new URLSearchParams(window.location.search);
   const finalWorldOverride = query.get("unlockFinal") === "1";
   const bonusWorldOverride = query.get("unlockBonus") === "1";
+  const redeemedOverrideKeys = (query.get("unlockRedeemed") || "")
+    .split(",")
+    .map((key) => key.trim())
+    .filter(Boolean);
 
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "84";
+  const ASSET_VERSION = "85";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -1477,13 +1481,18 @@
   function hydrateUnlockedRedeemed() {
     try {
       const stored = JSON.parse(window.localStorage.getItem(unlockedStorageKey) || "[]");
-      if (!Array.isArray(stored)) return;
-      stored.forEach((key) => {
-        if (redeemedCharacterKeys.has(key)) game.unlockedRedeemed.add(key);
-      });
+      if (Array.isArray(stored)) {
+        stored.forEach((key) => {
+          if (redeemedCharacterKeys.has(key)) game.unlockedRedeemed.add(key);
+        });
+      }
     } catch {
       game.unlockedRedeemed = new Set();
     }
+    redeemedOverrideKeys.forEach((key) => {
+      if (redeemedCharacterKeys.has(key)) game.unlockedRedeemed.add(key);
+    });
+    if (redeemedOverrideKeys.length) persistUnlockedRedeemed();
   }
 
   function persistUnlockedRedeemed() {
