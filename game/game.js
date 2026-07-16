@@ -48,6 +48,7 @@
     guardian: "Father V",
     michael: "Father M",
   };
+  const surpriseRedeemedCharacterKeys = new Set(["angeliux"]);
   const redeemedCharacterByHero = {
     angie: "donaCarmelina",
     elayitas: "padrino",
@@ -61,7 +62,7 @@
     guardian: "fatherV",
     michael: "fatherM",
   };
-  const redeemedCharacterKeys = new Set([...Object.values(redeemedCharacterByHero), "padrino"]);
+  const redeemedCharacterKeys = new Set([...Object.values(redeemedCharacterByHero), "padrino", ...surpriseRedeemedCharacterKeys]);
   const fallbackRedemptionCandidates = [
     "elayitas",
     "angie",
@@ -87,7 +88,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "77";
+  const ASSET_VERSION = "78";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -181,27 +182,29 @@
     angel: "character-sprites/guardian-angel/guardian-angel-front-reference.png",
     michael: "character-sprites/saint-michael/saint-michael-front-reference.png",
     tan: "character-sprites/tan/tan-transparent.png",
-    tanSheet: "character-sprites/redeemed-sheets/tan-walk-sheet-prototype-v2.png",
+    tanSheet: "character-sprites/redeemed-sheets-v3/tan-walk-sheet-v3.png",
     mrHernandez: "character-sprites/mr-hernandez/mr-hernandez-transparent.png",
-    mrHernandezSheet: "character-sprites/redeemed-sheets/mr-hernandez-walk-sheet-prototype-v2.png",
+    mrHernandezSheet: "character-sprites/redeemed-sheets-v3/mr-hernandez-walk-sheet-v3.png",
     mrDomingo: "character-sprites/mr-domingo/mr-domingo-transparent.png",
-    mrDomingoSheet: "character-sprites/redeemed-sheets/mr-domingo-walk-sheet-prototype-v2.png",
+    mrDomingoSheet: "character-sprites/redeemed-sheets-v3/mr-domingo-walk-sheet-v3.png",
     donMaro: "character-sprites/don-maro/don-maro-transparent.png",
-    donMaroSheet: "character-sprites/redeemed-sheets/don-maro-walk-sheet-prototype-v2.png",
+    donMaroSheet: "character-sprites/redeemed-sheets-v3/don-maro-walk-sheet-v3.png",
     ladySeferina: "character-sprites/lady-seferina/lady-seferina-transparent.png",
-    ladySeferinaSheet: "character-sprites/redeemed-sheets/lady-seferina-walk-sheet-prototype-v2.png",
+    ladySeferinaSheet: "character-sprites/redeemed-sheets-v3/lady-seferina-walk-sheet-v3.png",
     donaCarmelina: "character-sprites/dona-carmelina/dona-carmelina-transparent.png",
-    donaCarmelinaSheet: "character-sprites/redeemed-sheets/dona-carmelina-walk-sheet-prototype-v2.png",
+    donaCarmelinaSheet: "character-sprites/redeemed-sheets-v3/dona-carmelina-walk-sheet-v3.png",
     mrZuil: "character-sprites/mr-zuil/mr-zuil-transparent.png",
-    mrZuilSheet: "character-sprites/redeemed-sheets/mr-zuil-walk-sheet-prototype-v2.png",
+    mrZuilSheet: "character-sprites/redeemed-sheets-v3/mr-zuil-walk-sheet-v3.png",
     mrTio: "character-sprites/mr-tio/mr-tio-transparent.png",
-    mrTioSheet: "character-sprites/redeemed-sheets/mr-tio-walk-sheet-prototype-v2.png",
+    mrTioSheet: "character-sprites/redeemed-sheets-v3/mr-tio-walk-sheet-v3.png",
     fatherV: "character-sprites/father-v/father-v-transparent.png",
-    fatherVSheet: "character-sprites/redeemed-sheets/father-v-walk-sheet-prototype-v2.png",
+    fatherVSheet: "character-sprites/redeemed-sheets-v3/father-v-walk-sheet-v3.png",
     fatherM: "character-sprites/father-m/father-m-transparent.png",
-    fatherMSheet: "character-sprites/redeemed-sheets/father-m-walk-sheet-prototype-v2.png",
+    fatherMSheet: "character-sprites/redeemed-sheets-v3/father-m-walk-sheet-v3.png",
     padrino: "character-sprites/tacalache-redeemed/tacalache-redeemed-transparent.png",
-    padrinoSheet: "character-sprites/tacalache-redeemed/padrino-walk-sheet-prototype-v3.png",
+    padrinoSheet: "character-sprites/redeemed-sheets-v3/padrino-walk-sheet-v3.png",
+    angeliux: "character-sprites/angeliux/angeliux-transparent-clean.png",
+    angeliuxSheet: "character-sprites/redeemed-sheets-v3/angeliux-walk-sheet-v3.png",
   };
 
   const worldSketches = {
@@ -446,6 +449,7 @@
     fatherV: { label: "Father V", animated: "redeemedWalk", sheet: "fatherVSheet", front: "fatherV", height: 148 },
     fatherM: { label: "Father M", animated: "redeemedWalk", sheet: "fatherMSheet", front: "fatherM", height: 148 },
     padrino: { label: "Padrino", animated: "redeemedWalk", sheet: "padrinoSheet", front: "padrino", height: 146 },
+    angeliux: { label: "Angeliux", animated: "redeemedWalk", sheet: "angeliuxSheet", front: "angeliux", height: 146 },
   };
 
   const difficultySettings = {
@@ -1411,6 +1415,7 @@
     for (const button of characterButtons) {
       const key = button.dataset.character;
       const locked = redeemedCharacterKeys.has(key) && !game.unlockedRedeemed.has(key);
+      button.hidden = surpriseRedeemedCharacterKeys.has(key) && locked;
       button.disabled = locked;
       button.classList.toggle("locked", locked);
       button.setAttribute("aria-disabled", locked ? "true" : "false");
@@ -3900,6 +3905,7 @@
   }
 
   function redeemedKeyForHero() {
+    if (game.selectedHero === "nana" && game.selectedCompanion === "nana") return "angeliux";
     const mapped = redeemedCharacterByHero[game.selectedHero] || "padrino";
     if (mapped && mapped !== game.selectedHero && !redeemedCharacterKeys.has(game.selectedHero)) return mapped;
     const blocked = new Set([game.selectedHero, game.selectedCompanion, mapped]);

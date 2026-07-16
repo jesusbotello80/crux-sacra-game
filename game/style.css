@@ -451,6 +451,10 @@ button:focus-visible {
   white-space: normal;
 }
 
+.character-choice[hidden] {
+  display: none;
+}
+
 .difficulty-choice,
 .world-choice {
   min-height: 44px;
