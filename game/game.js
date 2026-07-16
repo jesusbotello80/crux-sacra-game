@@ -88,7 +88,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "78";
+  const ASSET_VERSION = "79";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -182,29 +182,29 @@
     angel: "character-sprites/guardian-angel/guardian-angel-front-reference.png",
     michael: "character-sprites/saint-michael/saint-michael-front-reference.png",
     tan: "character-sprites/tan/tan-transparent.png",
-    tanSheet: "character-sprites/redeemed-sheets-v3/tan-walk-sheet-v3.png",
+    tanSheet: "character-sprites/redeemed-sheets-v4/tan-walk-sheet-v4.png",
     mrHernandez: "character-sprites/mr-hernandez/mr-hernandez-transparent.png",
-    mrHernandezSheet: "character-sprites/redeemed-sheets-v3/mr-hernandez-walk-sheet-v3.png",
+    mrHernandezSheet: "character-sprites/redeemed-sheets-v4/mr-hernandez-walk-sheet-v4.png",
     mrDomingo: "character-sprites/mr-domingo/mr-domingo-transparent.png",
-    mrDomingoSheet: "character-sprites/redeemed-sheets-v3/mr-domingo-walk-sheet-v3.png",
+    mrDomingoSheet: "character-sprites/redeemed-sheets-v4/mr-domingo-walk-sheet-v4.png",
     donMaro: "character-sprites/don-maro/don-maro-transparent.png",
-    donMaroSheet: "character-sprites/redeemed-sheets-v3/don-maro-walk-sheet-v3.png",
+    donMaroSheet: "character-sprites/redeemed-sheets-v4/don-maro-walk-sheet-v4.png",
     ladySeferina: "character-sprites/lady-seferina/lady-seferina-transparent.png",
-    ladySeferinaSheet: "character-sprites/redeemed-sheets-v3/lady-seferina-walk-sheet-v3.png",
+    ladySeferinaSheet: "character-sprites/redeemed-sheets-v4/lady-seferina-walk-sheet-v4.png",
     donaCarmelina: "character-sprites/dona-carmelina/dona-carmelina-transparent.png",
-    donaCarmelinaSheet: "character-sprites/redeemed-sheets-v3/dona-carmelina-walk-sheet-v3.png",
+    donaCarmelinaSheet: "character-sprites/redeemed-sheets-v4/dona-carmelina-walk-sheet-v4.png",
     mrZuil: "character-sprites/mr-zuil/mr-zuil-transparent.png",
-    mrZuilSheet: "character-sprites/redeemed-sheets-v3/mr-zuil-walk-sheet-v3.png",
+    mrZuilSheet: "character-sprites/redeemed-sheets-v4/mr-zuil-walk-sheet-v4.png",
     mrTio: "character-sprites/mr-tio/mr-tio-transparent.png",
-    mrTioSheet: "character-sprites/redeemed-sheets-v3/mr-tio-walk-sheet-v3.png",
+    mrTioSheet: "character-sprites/redeemed-sheets-v4/mr-tio-walk-sheet-v4.png",
     fatherV: "character-sprites/father-v/father-v-transparent.png",
-    fatherVSheet: "character-sprites/redeemed-sheets-v3/father-v-walk-sheet-v3.png",
+    fatherVSheet: "character-sprites/redeemed-sheets-v4/father-v-walk-sheet-v4.png",
     fatherM: "character-sprites/father-m/father-m-transparent.png",
-    fatherMSheet: "character-sprites/redeemed-sheets-v3/father-m-walk-sheet-v3.png",
+    fatherMSheet: "character-sprites/redeemed-sheets-v4/father-m-walk-sheet-v4.png",
     padrino: "character-sprites/tacalache-redeemed/tacalache-redeemed-transparent.png",
-    padrinoSheet: "character-sprites/redeemed-sheets-v3/padrino-walk-sheet-v3.png",
+    padrinoSheet: "character-sprites/redeemed-sheets-v4/padrino-walk-sheet-v4.png",
     angeliux: "character-sprites/angeliux/angeliux-transparent-clean.png",
-    angeliuxSheet: "character-sprites/redeemed-sheets-v3/angeliux-walk-sheet-v3.png",
+    angeliuxSheet: "character-sprites/redeemed-sheets-v4/angeliux-walk-sheet-v4.png",
   };
 
   const worldSketches = {
@@ -2564,7 +2564,7 @@
 
   function drawCharacter(def, x, groundY, face = 1, moving = false, companion = false) {
     if (!def) return;
-    const height = companion ? Math.max(72, Math.round(def.height * 0.88)) : def.height;
+    const height = def.height;
     const useMovementFrames = moving || def.animated === "redeemedWalk";
     if (def.animated && useMovementFrames) {
       const cycle = frames[def.animated];
@@ -3809,16 +3809,16 @@
       michael: "../video-intro/world2/crux-sacra-juarez-redemption-father-m.mp4?v=1",
     };
     const useastFinalVideoByHero = {
-      angie: "../video-intro/world3/crux-sacra-us-east-redemption-dona-carmelina.mp4?v=2",
-      nana: "../video-intro/world3/crux-sacra-us-east-redemption-tan.mp4?v=2",
-      ttitin: "../video-intro/world3/crux-sacra-us-east-redemption-mr-zuil.mp4?v=2",
-      tata: "../video-intro/world3/crux-sacra-us-east-redemption-mr-hernandez.mp4?v=2",
-      mrsFavi: "../video-intro/world3/crux-sacra-us-east-redemption-mr-domingo.mp4?v=2",
-      mrChuy: "../video-intro/world3/crux-sacra-us-east-redemption-don-maro.mp4?v=2",
-      abba: "../video-intro/world3/crux-sacra-us-east-redemption-lady-seferina.mp4?v=2",
-      timmy: "../video-intro/world3/crux-sacra-us-east-redemption-mr-tio.mp4?v=2",
-      guardian: "../video-intro/world3/crux-sacra-us-east-redemption-father-v.mp4?v=2",
-      michael: "../video-intro/world3/crux-sacra-us-east-redemption-father-m.mp4?v=2",
+      angie: "../video-intro/world3/crux-sacra-us-east-redemption-dona-carmelina.mp4?v=3",
+      nana: "../video-intro/world3/crux-sacra-us-east-redemption-tan.mp4?v=3",
+      ttitin: "../video-intro/world3/crux-sacra-us-east-redemption-mr-zuil.mp4?v=3",
+      tata: "../video-intro/world3/crux-sacra-us-east-redemption-mr-hernandez.mp4?v=3",
+      mrsFavi: "../video-intro/world3/crux-sacra-us-east-redemption-mr-domingo.mp4?v=3",
+      mrChuy: "../video-intro/world3/crux-sacra-us-east-redemption-don-maro.mp4?v=3",
+      abba: "../video-intro/world3/crux-sacra-us-east-redemption-lady-seferina.mp4?v=3",
+      timmy: "../video-intro/world3/crux-sacra-us-east-redemption-mr-tio.mp4?v=3",
+      guardian: "../video-intro/world3/crux-sacra-us-east-redemption-father-v.mp4?v=3",
+      michael: "../video-intro/world3/crux-sacra-us-east-redemption-father-m.mp4?v=3",
     };
     const elPasoFinalVideoByHero = {
       angie: "../video-intro/world4/crux-sacra-el-paso-redemption-dona-carmelina.mp4?v=1",
@@ -3858,7 +3858,11 @@
       saints: { map: saintsFinalVideoByHero, fallback: "../video-intro/world8/crux-sacra-saints-bonus-ending.mp4?v=1" },
     };
     const finalSet = finalVideosByWorld[game.world] || finalVideosByWorld.colorado;
-    const nextFinalVideo = finalSet.map[game.selectedHero] || finalSet.fallback;
+    const redeemedKey = redeemedKeyForHero();
+    const surpriseFinalVideoByRedeemed = {
+      angeliux: "../video-intro/crux-sacra-final-redemption-angeliux.mp4?v=1",
+    };
+    const nextFinalVideo = surpriseFinalVideoByRedeemed[redeemedKey] || finalSet.map[game.selectedHero] || finalSet.fallback;
     const redeemedName = redeemedNameForHero();
     finalCaption.textContent = game.world === bonusWorldKey
       ? "St. Mary, Mother of Jesus, joins the Saints bonus world. The next adventure begins soon."
