@@ -50,8 +50,10 @@
     timmy: "Mr Tío",
     guardian: "Father V",
     michael: "Father M",
+    mrTio: "Sr Joe",
+    donaCarmelina: "Lord Santy",
   };
-  const surpriseRedeemedCharacterKeys = new Set(["angeliux"]);
+  const surpriseRedeemedCharacterKeys = new Set(["angeliux", "srJoe", "lordSanty"]);
   const redeemedCharacterByHero = {
     angie: "donaCarmelina",
     elayitas: "padrino",
@@ -64,6 +66,8 @@
     timmy: "mrTio",
     guardian: "fatherV",
     michael: "fatherM",
+    mrTio: "srJoe",
+    donaCarmelina: "lordSanty",
   };
   const redeemedCharacterKeys = new Set([...Object.values(redeemedCharacterByHero), "padrino", ...surpriseRedeemedCharacterKeys]);
   const fallbackRedemptionCandidates = [
@@ -91,7 +95,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "83";
+  const ASSET_VERSION = "84";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -208,6 +212,10 @@
     padrinoSheet: "character-sprites/redeemed-sheets-v5/padrino-walk-sheet-v5.png",
     angeliux: "character-sprites/angeliux/angeliux-transparent-clean.png",
     angeliuxSheet: "character-sprites/redeemed-sheets-v5/angeliux-walk-sheet-v5.png",
+    srJoe: "character-sprites/sr-joe/sr-joe-transparent.png",
+    srJoeSheet: "character-sprites/redeemed-sheets-v5/sr-joe-walk-sheet-v5.png",
+    lordSanty: "character-sprites/lord-santy/lord-santy-transparent.png",
+    lordSantySheet: "character-sprites/redeemed-sheets-v5/lord-santy-walk-sheet-v5.png",
   };
 
   const worldSketches = {
@@ -453,6 +461,8 @@
     fatherM: { label: "Father M", animated: "redeemedWalk", sheet: "fatherMSheet", front: "fatherM", height: 148 },
     padrino: { label: "Padrino", animated: "redeemedWalk", sheet: "padrinoSheet", front: "padrino", height: 146 },
     angeliux: { label: "Angeliux", animated: "redeemedWalk", sheet: "angeliuxSheet", front: "angeliux", height: 146 },
+    srJoe: { label: "Sr Joe", animated: "redeemedWalk", sheet: "srJoeSheet", front: "srJoe", height: 150 },
+    lordSanty: { label: "Lord Santy", animated: "redeemedWalk", sheet: "lordSantySheet", front: "lordSanty", height: 144 },
   };
 
   const difficultySettings = {
@@ -4274,6 +4284,8 @@
       angeliux: game.world === "useast"
         ? "../video-intro/world3/crux-sacra-us-east-redemption-angeliux.mp4?v=1"
         : "../video-intro/crux-sacra-final-redemption-angeliux.mp4?v=2",
+      srJoe: "../video-intro/crux-sacra-final-redemption-sr-joe.mp4?v=1",
+      lordSanty: "../video-intro/crux-sacra-final-redemption-lord-santy.mp4?v=1",
     };
     const nextFinalVideo = surpriseFinalVideoByRedeemed[redeemedKey] || finalSet.map[game.selectedHero] || finalSet.fallback;
     const redeemedName = redeemedNameForHero();
@@ -4323,6 +4335,8 @@
 
   function redeemedKeyForHero() {
     if (game.selectedHero === "nana" && game.selectedCompanion === "nana") return "angeliux";
+    if (game.selectedHero === "mrTio") return "srJoe";
+    if (game.selectedHero === "donaCarmelina") return "lordSanty";
     const mapped = redeemedCharacterByHero[game.selectedHero] || "padrino";
     if (mapped && mapped !== game.selectedHero && !redeemedCharacterKeys.has(game.selectedHero)) return mapped;
     const blocked = new Set([game.selectedHero, game.selectedCompanion, mapped]);
