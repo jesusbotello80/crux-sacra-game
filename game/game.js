@@ -88,7 +88,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "79";
+  const ASSET_VERSION = "80";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -182,29 +182,29 @@
     angel: "character-sprites/guardian-angel/guardian-angel-front-reference.png",
     michael: "character-sprites/saint-michael/saint-michael-front-reference.png",
     tan: "character-sprites/tan/tan-transparent.png",
-    tanSheet: "character-sprites/redeemed-sheets-v4/tan-walk-sheet-v4.png",
+    tanSheet: "character-sprites/redeemed-sheets-v5/tan-walk-sheet-v5.png",
     mrHernandez: "character-sprites/mr-hernandez/mr-hernandez-transparent.png",
-    mrHernandezSheet: "character-sprites/redeemed-sheets-v4/mr-hernandez-walk-sheet-v4.png",
+    mrHernandezSheet: "character-sprites/redeemed-sheets-v5/mr-hernandez-walk-sheet-v5.png",
     mrDomingo: "character-sprites/mr-domingo/mr-domingo-transparent.png",
-    mrDomingoSheet: "character-sprites/redeemed-sheets-v4/mr-domingo-walk-sheet-v4.png",
+    mrDomingoSheet: "character-sprites/redeemed-sheets-v5/mr-domingo-walk-sheet-v5.png",
     donMaro: "character-sprites/don-maro/don-maro-transparent.png",
-    donMaroSheet: "character-sprites/redeemed-sheets-v4/don-maro-walk-sheet-v4.png",
+    donMaroSheet: "character-sprites/redeemed-sheets-v5/don-maro-walk-sheet-v5.png",
     ladySeferina: "character-sprites/lady-seferina/lady-seferina-transparent.png",
-    ladySeferinaSheet: "character-sprites/redeemed-sheets-v4/lady-seferina-walk-sheet-v4.png",
+    ladySeferinaSheet: "character-sprites/redeemed-sheets-v5/lady-seferina-walk-sheet-v5.png",
     donaCarmelina: "character-sprites/dona-carmelina/dona-carmelina-transparent.png",
-    donaCarmelinaSheet: "character-sprites/redeemed-sheets-v4/dona-carmelina-walk-sheet-v4.png",
+    donaCarmelinaSheet: "character-sprites/redeemed-sheets-v5/dona-carmelina-walk-sheet-v5.png",
     mrZuil: "character-sprites/mr-zuil/mr-zuil-transparent.png",
-    mrZuilSheet: "character-sprites/redeemed-sheets-v4/mr-zuil-walk-sheet-v4.png",
+    mrZuilSheet: "character-sprites/redeemed-sheets-v5/mr-zuil-walk-sheet-v5.png",
     mrTio: "character-sprites/mr-tio/mr-tio-transparent.png",
-    mrTioSheet: "character-sprites/redeemed-sheets-v4/mr-tio-walk-sheet-v4.png",
+    mrTioSheet: "character-sprites/redeemed-sheets-v5/mr-tio-walk-sheet-v5.png",
     fatherV: "character-sprites/father-v/father-v-transparent.png",
-    fatherVSheet: "character-sprites/redeemed-sheets-v4/father-v-walk-sheet-v4.png",
+    fatherVSheet: "character-sprites/redeemed-sheets-v5/father-v-walk-sheet-v5.png",
     fatherM: "character-sprites/father-m/father-m-transparent.png",
-    fatherMSheet: "character-sprites/redeemed-sheets-v4/father-m-walk-sheet-v4.png",
+    fatherMSheet: "character-sprites/redeemed-sheets-v5/father-m-walk-sheet-v5.png",
     padrino: "character-sprites/tacalache-redeemed/tacalache-redeemed-transparent.png",
-    padrinoSheet: "character-sprites/redeemed-sheets-v4/padrino-walk-sheet-v4.png",
+    padrinoSheet: "character-sprites/redeemed-sheets-v5/padrino-walk-sheet-v5.png",
     angeliux: "character-sprites/angeliux/angeliux-transparent-clean.png",
-    angeliuxSheet: "character-sprites/redeemed-sheets-v4/angeliux-walk-sheet-v4.png",
+    angeliuxSheet: "character-sprites/redeemed-sheets-v5/angeliux-walk-sheet-v5.png",
   };
 
   const worldSketches = {
@@ -2982,25 +2982,64 @@
       ctx.quadraticCurveTo(-r * 2.2, -18, -r * 3.2, 5);
       ctx.stroke();
     } else if (hazard.kind === "rat") {
-      ctx.fillStyle = "#6c5f59";
+      const run = Math.sin(game.time * 18 + hazard.spin);
+      ctx.shadowColor = "rgba(0, 0, 0, 0.35)";
+      ctx.shadowBlur = 5;
+      ctx.fillStyle = "rgba(0, 0, 0, 0.22)";
       ctx.beginPath();
-      ctx.ellipse(0, 0, 20, 10, 0, 0, Math.PI * 2);
+      ctx.ellipse(-2, 13, 24, 5, 0, 0, Math.PI * 2);
       ctx.fill();
-      ctx.fillStyle = "#8b7d75";
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = "#d4b2a4";
+      ctx.lineWidth = 3.2;
+      ctx.lineCap = "round";
       ctx.beginPath();
-      ctx.arc(14, -3, 8, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.strokeStyle = "#d7b7a8";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(-18, 2);
-      ctx.quadraticCurveTo(-34, 8, -42, -2);
+      ctx.moveTo(-19, 4);
+      ctx.bezierCurveTo(-34, 1 + run * 3, -43, 10 - run * 2, -52, 2);
       ctx.stroke();
-      ctx.fillStyle = "#f1c7bd";
+      ctx.fillStyle = "#675852";
       ctx.beginPath();
-      ctx.arc(17, -10, 4, 0, Math.PI * 2);
-      ctx.arc(10, -11, 4, 0, Math.PI * 2);
+      ctx.ellipse(-3, 1, 23, 12, -0.08, 0, Math.PI * 2);
       ctx.fill();
+      ctx.fillStyle = "#887a72";
+      ctx.beginPath();
+      ctx.ellipse(17, -2, 10, 8, 0.2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#c79b98";
+      ctx.beginPath();
+      ctx.arc(18, -10, 5, 0, Math.PI * 2);
+      ctx.arc(11, -10, 4.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#f0c8c0";
+      ctx.beginPath();
+      ctx.arc(18, -10, 2.7, 0, Math.PI * 2);
+      ctx.arc(11, -10, 2.4, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#171312";
+      ctx.beginPath();
+      ctx.arc(22, -4, 1.7, 0, Math.PI * 2);
+      ctx.arc(27, -1, 2.2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = "#302623";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(-11, 10);
+      ctx.lineTo(-18 + run * 4, 18);
+      ctx.moveTo(2, 10);
+      ctx.lineTo(-2 - run * 4, 18);
+      ctx.moveTo(10, 8);
+      ctx.lineTo(18 + run * 3, 16);
+      ctx.stroke();
+      ctx.strokeStyle = "rgba(245, 230, 210, 0.85)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(24, -2);
+      ctx.lineTo(35, -7);
+      ctx.moveTo(24, 0);
+      ctx.lineTo(36, 0);
+      ctx.moveTo(24, 2);
+      ctx.lineTo(34, 7);
+      ctx.stroke();
     } else {
       ctx.fillStyle = "#3c2116";
       ctx.beginPath();
