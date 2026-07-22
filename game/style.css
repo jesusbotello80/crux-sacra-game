@@ -143,7 +143,7 @@ canvas {
 #titleScreen {
   place-content: start center;
   align-content: start;
-  padding-top: max(72px, calc(env(safe-area-inset-top) + 34px));
+  padding-top: max(36px, calc(env(safe-area-inset-top) + 22px));
   padding-bottom: max(34px, env(safe-area-inset-bottom));
 }
 
@@ -174,6 +174,35 @@ canvas {
   margin: 4px auto 18px;
   color: rgba(255, 249, 220, 0.74);
   font-size: clamp(12px, 1.7vw, 15px);
+}
+
+.brand-lockup {
+  width: min(220px, 42vw);
+  margin: 0 auto 4px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 248, 211, 0.28);
+  border-radius: 8px;
+  background: rgba(4, 9, 18, 0.32);
+  box-shadow: 0 0 22px rgba(246, 220, 117, 0.12);
+  backdrop-filter: blur(5px);
+}
+
+.brand-lockup img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 78px;
+  object-fit: contain;
+}
+
+.brand-lockup-small {
+  width: min(150px, 32vw);
+  margin-bottom: 0;
+  padding: 4px 9px;
+}
+
+.brand-lockup-small img {
+  max-height: 52px;
 }
 
 .title-actions {
@@ -835,6 +864,15 @@ button:focus-visible {
     font-size: clamp(34px, 11vw, 52px);
   }
 
+  .brand-lockup {
+    width: min(150px, 34vw);
+    padding: 4px 8px;
+  }
+
+  .brand-lockup img {
+    max-height: 48px;
+  }
+
   .overlay p {
     font-size: 13px;
   }
@@ -994,6 +1032,15 @@ button:focus-visible {
   .title-mark,
   .overlay p {
     display: none;
+  }
+
+  .brand-lockup {
+    width: min(110px, 24vw);
+    padding: 2px 6px;
+  }
+
+  .brand-lockup img {
+    max-height: 32px;
   }
 
   h1 {
