@@ -106,7 +106,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "96";
+  const ASSET_VERSION = "97";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -2228,6 +2228,8 @@
     const worldDone = game.stageIndex >= stages.length - 1;
     const fromWorld = worldSketches[game.world] || worldSketches.colorado;
     const toWorld = nextWorldSketch();
+    const fromStageKey = fromWorld.stages[fromWorld.stages.length - 1];
+    const toStageKey = toWorld?.stages?.[0] || fromStageKey;
     game.mode = "travel";
     game.stageClearTimer = 0;
     game.travel = {
@@ -2239,6 +2241,8 @@
       companionStartY: game.companion.y,
       fromLabel: fromWorld.label,
       toLabel: worldDone ? (toWorld?.label || "the next adventure") : stages[game.stageIndex + 1]?.name || "next level",
+      fromStageKey,
+      toStageKey,
     };
     game.player.face = 1;
     game.companion.face = 1;
@@ -3158,22 +3162,25 @@
     if (travel.kind === "world") {
       ctx.fillStyle = `rgba(5, 10, 18, ${0.22 + Math.sin(t * Math.PI) * 0.34})`;
       ctx.fillRect(0, 0, W, H);
-      ctx.fillStyle = "rgba(8, 14, 24, 0.84)";
-      ctx.strokeStyle = "rgba(248, 220, 113, 0.62)";
+      ctx.fillStyle = "rgba(8, 14, 24, 0.88)";
+      ctx.strokeStyle = "rgba(248, 220, 113, 0.66)";
       ctx.lineWidth = 3;
-      roundRect(258, 118, 764, 198, 14);
+      roundRect(116, 82, 1048, 298, 16);
       ctx.fill();
       ctx.stroke();
 
-      const routeStart = 370;
-      const routeEnd = 910;
-      const routeY = 208;
-      ctx.strokeStyle = "rgba(255, 248, 211, 0.36)";
-      ctx.lineWidth = 9;
+      drawTravelPostcard(images[travel.fromStageKey], 156, 142, 360, 162, travel.fromLabel, 1 - t * 0.18);
+      drawTravelPostcard(images[travel.toStageKey], 764, 142, 360, 162, travel.toLabel, 0.72 + t * 0.28);
+
+      const routeStart = 520;
+      const routeEnd = 760;
+      const routeY = 220;
+      ctx.strokeStyle = "rgba(255, 248, 211, 0.46)";
+      ctx.lineWidth = 8;
       ctx.setLineDash([18, 14]);
       ctx.beginPath();
       ctx.moveTo(routeStart, routeY);
-      ctx.quadraticCurveTo(W / 2, routeY - 72, routeEnd, routeY);
+      ctx.quadraticCurveTo(W / 2, routeY - 78, routeEnd, routeY);
       ctx.stroke();
       ctx.setLineDash([]);
 
@@ -3188,12 +3195,12 @@
       ctx.shadowBlur = 0;
 
       ctx.fillStyle = "#fff8d3";
-      ctx.font = "700 28px Arial, Helvetica, sans-serif";
+      ctx.font = "700 30px Arial, Helvetica, sans-serif";
       ctx.textAlign = "center";
-      ctx.fillText("Next World / Siguiente Mundo", W / 2, 154);
-      ctx.font = "700 22px Arial, Helvetica, sans-serif";
-      ctx.fillText(travel.fromLabel, routeStart, 268);
-      ctx.fillText(travel.toLabel, routeEnd, 268);
+      ctx.fillText("Next World / Siguiente Mundo", W / 2, 124);
+      ctx.font = "700 20px Arial, Helvetica, sans-serif";
+      ctx.fillStyle = "rgba(255, 248, 211, 0.82)";
+      ctx.fillText("A new adventure opens ahead", W / 2, 344);
     } else {
       ctx.fillStyle = "rgba(8, 14, 24, 0.68)";
       ctx.strokeStyle = "rgba(248, 220, 113, 0.5)";
@@ -3207,6 +3214,41 @@
       ctx.fillText("Next level / Siguiente nivel", 997, 617);
     }
     ctx.restore();
+  }
+
+  function drawTravelPostcard(img, x, y, w, h, label, alpha = 1) {
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = "rgba(6, 11, 18, 0.92)";
+    ctx.strokeStyle = "rgba(255, 248, 211, 0.62)";
+    ctx.lineWidth = 3;
+    roundRect(x - 8, y - 8, w + 16, h + 58, 12);
+    ctx.fill();
+    ctx.stroke();
+    if (img) {
+      ctx.save();
+      ctx.beginPath();
+      roundRect(x, y, w, h, 8);
+      ctx.clip();
+      drawImageCover(img, x, y, w, h);
+      ctx.fillStyle = "rgba(6, 11, 18, 0.16)";
+      ctx.fillRect(x, y, w, h);
+      ctx.restore();
+    }
+    ctx.fillStyle = "#fff8d3";
+    ctx.font = "700 22px Arial, Helvetica, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(label, x + w / 2, y + h + 36);
+    ctx.restore();
+  }
+
+  function drawImageCover(img, x, y, w, h) {
+    const scale = Math.max(w / img.width, h / img.height);
+    const sw = w / scale;
+    const sh = h / scale;
+    const sx = (img.width - sw) / 2;
+    const sy = (img.height - sh) / 2;
+    ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
   }
 
   function villainImage() {
