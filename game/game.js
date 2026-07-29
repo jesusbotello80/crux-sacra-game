@@ -106,7 +106,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "98";
+  const ASSET_VERSION = "99";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -238,7 +238,7 @@
     donaNene: "character-sprites/dona-nene/dona-nene-transparent.png",
     donaNeneSheet: "character-sprites/redeemed-cartoon-v1/processed/dona-nene-cartoon-sheet.png",
     daroe: "character-sprites/daroe/daroe-front-reference.png",
-    daroeSheet: "character-sprites/daroe/daroe-walk-sheet-right-packed.png",
+    daroeSheet: "character-sprites/daroe/daroe-walk-sheet-facing-right.png",
     mamel: "character-sprites/mamel/mamel-front-reference.png",
     mamelSheet: "character-sprites/mamel/mamel-walk-sheet-clean.png",
   };
