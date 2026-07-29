@@ -106,7 +106,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "95";
+  const ASSET_VERSION = "96";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -1713,6 +1713,7 @@
     nextFireAt: 0,
     nextLightningAt: 0,
     pendingEnd: null,
+    travel: null,
     warningSoundAt: 0,
     finalSequencePlayed: false,
     unlockedRedeemed: new Set(),
@@ -2152,6 +2153,7 @@
     game.sprayCooldown = 0;
     game.rosaryCooldown = 0;
     game.pendingEnd = null;
+    game.travel = null;
     game.finalSequencePlayed = false;
     startStage(0);
     titleScreen.classList.add("hidden");
@@ -2169,6 +2171,7 @@
     const ramp = 1 + index * 0.09;
     game.stageIndex = index;
     game.stageClearTimer = 0;
+    game.travel = null;
     game.collected = 0;
     game.message = stage.message;
     game.player = { x: stage.start.x, y: stage.start.y, vx: 0, vy: 0, w: 78, h: 128, face: 1 };
@@ -2206,11 +2209,78 @@
   }
 
   function advanceStage() {
-    if (game.stageIndex < stages.length - 1) {
-      startStage(game.stageIndex + 1);
+    if (!game.travel) {
+      beginTravelTransition();
       return;
     }
+    const travelKind = game.travel.kind;
+    game.travel = null;
+    if (game.stageIndex < stages.length - 1) {
+      startStage(game.stageIndex + 1);
+      game.mode = "playing";
+      return;
+    }
+    if (travelKind === "world") game.mode = "playing";
     finish(true);
+  }
+
+  function beginTravelTransition() {
+    const worldDone = game.stageIndex >= stages.length - 1;
+    const fromWorld = worldSketches[game.world] || worldSketches.colorado;
+    const toWorld = nextWorldSketch();
+    game.mode = "travel";
+    game.stageClearTimer = 0;
+    game.travel = {
+      kind: worldDone ? "world" : "level",
+      timer: 0,
+      duration: worldDone ? 4.6 : 2.45,
+      startX: game.player.x,
+      startY: game.player.y,
+      companionStartY: game.companion.y,
+      fromLabel: fromWorld.label,
+      toLabel: worldDone ? (toWorld?.label || "the next adventure") : stages[game.stageIndex + 1]?.name || "next level",
+    };
+    game.player.face = 1;
+    game.companion.face = 1;
+    game.player.vx = 185;
+    game.player.vy = 0;
+    touchMove.active = false;
+    joy.x = 0;
+    joy.y = 0;
+    stickKnob.style.transform = "translate(0, 0)";
+    game.message = worldDone
+      ? `Traveling to ${game.travel.toLabel} / Viajando al siguiente mundo`
+      : "Walking to the next level / Caminando al siguiente nivel";
+  }
+
+  function nextWorldSketch() {
+    const keys = Object.keys(worldSketches);
+    const index = keys.indexOf(game.world);
+    if (index < 0 || index >= keys.length - 1) return null;
+    return worldSketches[keys[index + 1]];
+  }
+
+  function updateTravel(dt) {
+    const travel = game.travel;
+    if (!travel) {
+      game.mode = "playing";
+      return;
+    }
+    travel.timer += dt;
+    const t = clamp(travel.timer / travel.duration, 0, 1);
+    const ease = t < 0.5 ? 2 * t * t : 1 - ((-2 * t + 2) ** 2) / 2;
+    const walkEase = travel.kind === "world" ? clamp(t / 0.58, 0, 1) : ease;
+    const targetX = travel.kind === "world" ? W + 170 : W + 90;
+    const bob = Math.sin(game.time * 11) * 5;
+    game.player.x = travel.startX + (targetX - travel.startX) * walkEase;
+    game.player.y = travel.startY + bob;
+    game.player.vx = 210;
+    game.player.vy = 0;
+    game.player.face = 1;
+    game.companion.x = game.player.x - 100;
+    game.companion.y = travel.companionStartY + bob * 0.75;
+    game.companion.face = 1;
+    if (travel.timer >= travel.duration) advanceStage();
   }
 
   const defeatMessages = {
@@ -2305,6 +2375,7 @@
     const stage = stages[game.stageIndex];
     game.mode = "playing";
     game.pendingEnd = null;
+    game.travel = null;
     game.prayer = 0;
     game.shake = 0;
     game.projectiles = [];
@@ -2369,6 +2440,7 @@
     game.sprayCooldown = 0;
     game.rosaryCooldown = 0;
     game.pendingEnd = null;
+    game.travel = null;
     titleScreen.classList.remove("hidden");
     introScreen.classList.add("hidden");
     finalScreen.classList.add("hidden");
@@ -2610,13 +2682,21 @@
 
   function update(dt) {
     if (game.mode === "paused") return;
-    if (game.mode !== "playing" && game.mode !== "ending") return;
+    if (game.mode !== "playing" && game.mode !== "ending" && game.mode !== "travel") return;
     game.time += dt;
     game.prayer = Math.max(0, game.prayer - dt);
     game.shake = Math.max(0, game.shake - dt);
     game.sprayCooldown = Math.max(0, game.sprayCooldown - dt);
     game.rosaryCooldown = Math.max(0, game.rosaryCooldown - dt);
     const stage = stages[game.stageIndex];
+
+    if (game.mode === "travel") {
+      updateTravel(dt);
+      updateParticles(dt);
+      updateEffects(dt);
+      updateHud();
+      return;
+    }
 
     if (game.mode === "ending") {
       game.pendingEnd.timer -= dt;
@@ -2926,6 +3006,7 @@
     drawCharacters();
     drawEffects();
     drawParticles();
+    if (game.mode === "travel") drawTravelOverlay();
     drawMessage();
     if (game.mode === "paused") drawPauseOverlay();
     ctx.restore();
@@ -3038,7 +3119,7 @@
   function drawCharacters() {
     const stage = stages[game.stageIndex] || stages[0];
     const p = game.player;
-    const moving = Math.hypot(p.vx, p.vy) > 8;
+    const moving = game.mode === "travel" || Math.hypot(p.vx, p.vy) > 8;
     const hero = characterDefs[game.selectedHero];
     const companion = characterDefs[game.selectedCompanion];
     drawCharacter(hero, p.x, p.y, p.face, moving, false);
@@ -3067,6 +3148,65 @@
       return;
     }
     drawSprite(images[def.front], x, groundY, height, face);
+  }
+
+  function drawTravelOverlay() {
+    const travel = game.travel;
+    if (!travel) return;
+    const t = clamp(travel.timer / travel.duration, 0, 1);
+    ctx.save();
+    if (travel.kind === "world") {
+      ctx.fillStyle = `rgba(5, 10, 18, ${0.22 + Math.sin(t * Math.PI) * 0.34})`;
+      ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = "rgba(8, 14, 24, 0.84)";
+      ctx.strokeStyle = "rgba(248, 220, 113, 0.62)";
+      ctx.lineWidth = 3;
+      roundRect(258, 118, 764, 198, 14);
+      ctx.fill();
+      ctx.stroke();
+
+      const routeStart = 370;
+      const routeEnd = 910;
+      const routeY = 208;
+      ctx.strokeStyle = "rgba(255, 248, 211, 0.36)";
+      ctx.lineWidth = 9;
+      ctx.setLineDash([18, 14]);
+      ctx.beginPath();
+      ctx.moveTo(routeStart, routeY);
+      ctx.quadraticCurveTo(W / 2, routeY - 72, routeEnd, routeY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      const travelerX = routeStart + (routeEnd - routeStart) * t;
+      const travelerY = routeY - Math.sin(t * Math.PI) * 60;
+      ctx.fillStyle = "#fff4a8";
+      ctx.shadowColor = "#fff4a8";
+      ctx.shadowBlur = 22;
+      ctx.beginPath();
+      ctx.arc(travelerX, travelerY, 18, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      ctx.fillStyle = "#fff8d3";
+      ctx.font = "700 28px Arial, Helvetica, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("Next World / Siguiente Mundo", W / 2, 154);
+      ctx.font = "700 22px Arial, Helvetica, sans-serif";
+      ctx.fillText(travel.fromLabel, routeStart, 268);
+      ctx.fillText(travel.toLabel, routeEnd, 268);
+    } else {
+      ctx.fillStyle = "rgba(8, 14, 24, 0.68)";
+      ctx.strokeStyle = "rgba(248, 220, 113, 0.5)";
+      ctx.lineWidth = 2;
+      roundRect(770, 582, 454, 58, 8);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "#fff8d3";
+      ctx.font = "700 22px Arial, Helvetica, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("Next level / Siguiente nivel", 997, 617);
+    }
+    ctx.restore();
   }
 
   function villainImage() {
@@ -4225,7 +4365,7 @@
   }
 
   function quitToSelection() {
-    if (game.mode !== "playing" && game.mode !== "paused" && game.mode !== "ending" && game.mode !== "lost" && game.mode !== "won") return;
+    if (game.mode !== "playing" && game.mode !== "paused" && game.mode !== "ending" && game.mode !== "travel" && game.mode !== "lost" && game.mode !== "won") return;
     keys.clear();
     showCharacterSelect();
     pauseButton.textContent = "Ⅱ";
