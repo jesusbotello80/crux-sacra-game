@@ -106,7 +106,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "97";
+  const ASSET_VERSION = "98";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -609,14 +609,14 @@
       animated: "abbaWalk",
       sheet: "abbaSheet",
       front: "abba",
-      height: 132,
+      height: 130,
     },
     nana: {
       label: "Ñaña",
       animated: "nanaWalk",
       sheet: "nanaSheet",
       front: "nana",
-      height: 140,
+      height: 136,
     },
     mrsFavi: {
       label: "Mrs Favi",
@@ -632,7 +632,7 @@
       front: "mrChuy",
       height: 136,
     },
-    tata: { label: "Tata", animated: "tataWalk", sheet: "tataSheet", front: "tata", height: 126 },
+    tata: { label: "Tata", animated: "tataWalk", sheet: "tataSheet", front: "tata", height: 130 },
     timmy: { label: "Timmy", animated: "timmyRun", sheet: "timmySheet", front: "timmyFront", height: 96 },
     guardian: {
       label: "Guardian Angel",
@@ -652,7 +652,7 @@
     mrHernandez: { label: "Mr Hernandez", animated: "mrHernandezWalk", sheet: "mrHernandezSheet", front: "mrHernandez", height: 144 },
     mrDomingo: { label: "Mr. Domingo", animated: "mrDomingoWalk", sheet: "mrDomingoSheet", front: "mrDomingo", height: 144 },
     donMaro: { label: "Don Maro", animated: "donMaroWalk", sheet: "donMaroSheet", front: "donMaro", height: 146 },
-    ladySeferina: { label: "Lady Seferina", animated: "ladySeferinaWalk", sheet: "ladySeferinaSheet", front: "ladySeferina", height: 124 },
+    ladySeferina: { label: "Lady Seferina", animated: "ladySeferinaWalk", sheet: "ladySeferinaSheet", front: "ladySeferina", height: 136 },
     donaCarmelina: { label: "Doña Carmelina", animated: "donaCarmelinaWalk", sheet: "donaCarmelinaSheet", front: "donaCarmelina", height: 136 },
     mrZuil: { label: "Mr Zuil", animated: "mrZuilWalk", sheet: "mrZuilSheet", front: "mrZuil", height: 148 },
     mrTio: { label: "Mr Tío", animated: "mrTioWalk", sheet: "mrTioSheet", front: "mrTio", height: 146 },
@@ -663,7 +663,7 @@
     srJoe: { label: "Sr Joe", animated: "srJoeWalk", sheet: "srJoeSheet", front: "srJoe", height: 150 },
     lordSanty: { label: "Lord Santy", animated: "lordSantyWalk", sheet: "lordSantySheet", front: "lordSanty", height: 144 },
     donaNene: { label: "Doña Nene", animated: "donaNeneWalk", sheet: "donaNeneSheet", front: "donaNene", height: 132 },
-    daroe: { label: "Daroe", animated: "daroeWalk", sheet: "daroeSheet", front: "daroe", height: 126 },
+    daroe: { label: "Daroe", animated: "daroeWalk", sheet: "daroeSheet", front: "daroe", height: 118 },
     mamel: { label: "Mamel", animated: "mamelWalk", sheet: "mamelSheet", front: "mamel", height: 108 },
   };
 
