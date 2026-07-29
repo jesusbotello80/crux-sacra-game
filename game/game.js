@@ -53,6 +53,8 @@
     mrTio: "Sr Joe",
     donaCarmelina: "Lord Santy",
     tan: "Doña Nene",
+    daroe: "Daroe",
+    mamel: "Mamel",
   };
   const surpriseRedeemedCharacterKeys = new Set(["angeliux", "srJoe", "lordSanty", "donaNene"]);
   const redeemedCharacterByHero = {
@@ -71,7 +73,8 @@
     donaCarmelina: "lordSanty",
     tan: "donaNene",
   };
-  const redeemedCharacterKeys = new Set([...Object.values(redeemedCharacterByHero), "padrino", ...surpriseRedeemedCharacterKeys]);
+  const comboRedeemedCharacterKeys = new Set(["daroe", "mamel"]);
+  const redeemedCharacterKeys = new Set([...Object.values(redeemedCharacterByHero), "padrino", ...surpriseRedeemedCharacterKeys, ...comboRedeemedCharacterKeys]);
   const fallbackRedemptionCandidates = [
     "elayitas",
     "angie",
@@ -89,10 +92,12 @@
   const worldProgressStorageKey = "cruxSacraWorldsPassed";
   const finalWorldKey = "holymountain";
   const bonusWorldKey = "saints";
+  const ranchWorldKey = "elrancho";
   const finalWorldRequiredKeys = ["colorado", "juarez", "useast", "elpaso", "guadalajara", "mexicocity"];
   const query = new URLSearchParams(window.location.search);
   const finalWorldOverride = query.get("unlockFinal") === "1";
   const bonusWorldOverride = query.get("unlockBonus") === "1";
+  const ranchWorldOverride = query.get("unlockRanch") === "1";
   const redeemedOverrideKeys = (query.get("unlockRedeemed") || "")
     .split(",")
     .map((key) => key.trim())
@@ -101,7 +106,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "86";
+  const ASSET_VERSION = "95";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -162,6 +167,13 @@
     bgHolyMountain5: "video-demo/backgrounds/holy-mountain/playable/bg-holy-mountain-level-5-gethsemane.png",
     bgHolyMountain6: "video-demo/backgrounds/holy-mountain/playable/bg-holy-mountain-level-6-golgotha.png",
     bgSaints: "character-sprites/saints/saints-bonus-world-contact-sheet.png",
+    bgElRancho1: "video-demo/backgrounds/el-rancho/playable/bg-el-rancho-level-1-ejido.png",
+    bgElRancho2: "video-demo/backgrounds/el-rancho/playable/bg-el-rancho-level-2-highway.png",
+    bgElRancho3: "video-demo/backgrounds/el-rancho/playable/bg-el-rancho-level-3-torreon-stadium.png",
+    bgElRancho4: "video-demo/backgrounds/el-rancho/playable/bg-el-rancho-level-4-lerdo-church.png",
+    bgElRancho5: "video-demo/backgrounds/el-rancho/playable/bg-el-rancho-level-5-cerro-noas.png",
+    bgElRancho6: "video-demo/backgrounds/el-rancho/playable/bg-el-rancho-level-6-parras.png",
+    bgElRancho7: "video-demo/backgrounds/el-rancho/playable/bg-el-rancho-level-7-monterrey-boss.png",
     prairieBoy: "character-sprites/prairie-boy/prairie-boy-cutout.png",
     stMary: "character-sprites/saints/st-mary-reference.png",
     elayitasSheet: "character-sprites/baseball-kid/baseball-kid-sheet-transparent.png",
@@ -190,40 +202,45 @@
     elCharroNegro: "character-sprites/el-charro-negro/el-charro-negro-cutout.png",
     laLlorona: "character-sprites/la-llorona/la-llorona-cutout.png",
     theDevil: "character-sprites/the-devil/the-devil-cutout.png",
+    laAparecidaCarretera: "character-sprites/la-aparecida-carretera/la-aparecida-carretera-cutout.png",
     swampShadow: "character-sprites/swamp-shadow/swamp-shadow-alligator-cutout-v2.png",
     jesus: "character-sprites/jesus/jesus-divine-mercy-transparent.png",
     angel: "character-sprites/guardian-angel/guardian-angel-front-reference.png",
     michael: "character-sprites/saint-michael/saint-michael-front-reference.png",
     tan: "character-sprites/tan/tan-transparent.png",
-    tanSheet: "character-sprites/redeemed-sheets-v5/tan-walk-sheet-v5.png",
+    tanSheet: "character-sprites/redeemed-cartoon-v1/processed/tan-cartoon-sheet.png",
     mrHernandez: "character-sprites/mr-hernandez/mr-hernandez-transparent.png",
-    mrHernandezSheet: "character-sprites/redeemed-sheets-v5/mr-hernandez-walk-sheet-v5.png",
+    mrHernandezSheet: "character-sprites/redeemed-cartoon-v1/processed/mr-hernandez-cartoon-sheet.png",
     mrDomingo: "character-sprites/mr-domingo/mr-domingo-transparent.png",
-    mrDomingoSheet: "character-sprites/redeemed-sheets-v5/mr-domingo-walk-sheet-v5.png",
+    mrDomingoSheet: "character-sprites/redeemed-cartoon-v1/processed/mr-domingo-cartoon-sheet.png",
     donMaro: "character-sprites/don-maro/don-maro-transparent.png",
-    donMaroSheet: "character-sprites/redeemed-sheets-v5/don-maro-walk-sheet-v5.png",
+    donMaroSheet: "character-sprites/redeemed-cartoon-v1/processed/don-maro-cartoon-sheet.png",
     ladySeferina: "character-sprites/lady-seferina/lady-seferina-transparent.png",
-    ladySeferinaSheet: "character-sprites/redeemed-sheets-v5/lady-seferina-walk-sheet-v5.png",
+    ladySeferinaSheet: "character-sprites/redeemed-cartoon-v1/processed/lady-seferina-cartoon-sheet.png",
     donaCarmelina: "character-sprites/dona-carmelina/dona-carmelina-transparent.png",
-    donaCarmelinaSheet: "character-sprites/redeemed-sheets-v5/dona-carmelina-walk-sheet-v5.png",
+    donaCarmelinaSheet: "character-sprites/redeemed-cartoon-v1/processed/dona-carmelina-cartoon-sheet.png",
     mrZuil: "character-sprites/mr-zuil/mr-zuil-transparent.png",
-    mrZuilSheet: "character-sprites/redeemed-sheets-v5/mr-zuil-walk-sheet-v5.png",
+    mrZuilSheet: "character-sprites/redeemed-cartoon-v1/processed/mr-zuil-cartoon-sheet.png",
     mrTio: "character-sprites/mr-tio/mr-tio-transparent.png",
-    mrTioSheet: "character-sprites/redeemed-sheets-v5/mr-tio-walk-sheet-v5.png",
+    mrTioSheet: "character-sprites/redeemed-cartoon-v1/processed/mr-tio-cartoon-sheet.png",
     fatherV: "character-sprites/father-v/father-v-transparent.png",
-    fatherVSheet: "character-sprites/redeemed-sheets-v5/father-v-walk-sheet-v5.png",
+    fatherVSheet: "character-sprites/redeemed-cartoon-v1/processed/father-v-cartoon-sheet.png",
     fatherM: "character-sprites/father-m/father-m-transparent.png",
-    fatherMSheet: "character-sprites/redeemed-sheets-v5/father-m-walk-sheet-v5.png",
+    fatherMSheet: "character-sprites/redeemed-cartoon-v1/processed/father-m-cartoon-sheet.png",
     padrino: "character-sprites/tacalache-redeemed/tacalache-redeemed-transparent.png",
-    padrinoSheet: "character-sprites/redeemed-sheets-v5/padrino-walk-sheet-v5.png",
+    padrinoSheet: "character-sprites/redeemed-cartoon-v1/processed/padrino-cartoon-sheet.png",
     angeliux: "character-sprites/angeliux/angeliux-transparent-clean.png",
-    angeliuxSheet: "character-sprites/redeemed-sheets-v5/angeliux-walk-sheet-v5.png",
+    angeliuxSheet: "character-sprites/redeemed-cartoon-v1/processed/angeliux-cartoon-sheet.png",
     srJoe: "character-sprites/sr-joe/sr-joe-transparent.png",
-    srJoeSheet: "character-sprites/redeemed-sheets-v5/sr-joe-walk-sheet-v5.png",
+    srJoeSheet: "character-sprites/redeemed-cartoon-v1/processed/sr-joe-cartoon-sheet.png",
     lordSanty: "character-sprites/lord-santy/lord-santy-transparent.png",
-    lordSantySheet: "character-sprites/redeemed-sheets-v5/lord-santy-walk-sheet-v5.png",
+    lordSantySheet: "character-sprites/redeemed-cartoon-v1/processed/lord-santy-cartoon-sheet.png",
     donaNene: "character-sprites/dona-nene/dona-nene-transparent.png",
-    donaNeneSheet: "character-sprites/redeemed-sheets-v5/dona-nene-walk-sheet-v5.png",
+    donaNeneSheet: "character-sprites/redeemed-cartoon-v1/processed/dona-nene-cartoon-sheet.png",
+    daroe: "character-sprites/daroe/daroe-front-reference.png",
+    daroeSheet: "character-sprites/daroe/daroe-walk-sheet-right-packed.png",
+    mamel: "character-sprites/mamel/mamel-front-reference.png",
+    mamelSheet: "character-sprites/mamel/mamel-walk-sheet-clean.png",
   };
 
   const worldSketches = {
@@ -288,6 +305,12 @@
       villain: "The Prairie Boy",
       cruxColor: "#dff7ff",
       stages: ["bgSaints"],
+    },
+    elrancho: {
+      label: "El Rancho",
+      villain: "La Aparecida de la Carretera",
+      cruxColor: "#f2b86d",
+      stages: ["bgElRancho1", "bgElRancho2", "bgElRancho3", "bgElRancho4", "bgElRancho5", "bgElRancho6", "bgElRancho7"],
     },
   };
 
@@ -389,6 +412,174 @@
       [880, 0, 220, 320],
       [1100, 0, 220, 320],
     ],
+    tanWalk: [
+      [0, 0, 280, 400],
+      [280, 0, 280, 400],
+      [560, 0, 280, 400],
+      [840, 0, 280, 400],
+      [1120, 0, 280, 400],
+      [1400, 0, 280, 400],
+      [1680, 0, 280, 400],
+      [1960, 0, 280, 400],
+    ],
+    mrHernandezWalk: [
+      [0, 0, 280, 400],
+      [280, 0, 280, 400],
+      [560, 0, 280, 400],
+      [840, 0, 280, 400],
+      [1120, 0, 280, 400],
+      [1400, 0, 280, 400],
+      [1680, 0, 280, 400],
+      [1960, 0, 280, 400],
+    ],
+    mrDomingoWalk: [
+      [0, 0, 280, 400],
+      [280, 0, 280, 400],
+      [560, 0, 280, 400],
+      [840, 0, 280, 400],
+      [1120, 0, 280, 400],
+      [1400, 0, 280, 400],
+      [1680, 0, 280, 400],
+      [1960, 0, 280, 400],
+    ],
+    donMaroWalk: [
+      [0, 0, 280, 400],
+      [280, 0, 280, 400],
+      [560, 0, 280, 400],
+      [840, 0, 280, 400],
+      [1120, 0, 280, 400],
+      [1400, 0, 280, 400],
+      [1680, 0, 280, 400],
+      [1960, 0, 280, 400],
+    ],
+    ladySeferinaWalk: [
+      [0, 0, 280, 400],
+      [280, 0, 280, 400],
+      [560, 0, 280, 400],
+      [840, 0, 280, 400],
+      [1120, 0, 280, 400],
+      [1400, 0, 280, 400],
+      [1680, 0, 280, 400],
+      [1960, 0, 280, 400],
+    ],
+    donaCarmelinaWalk: [
+      [0, 0, 280, 400],
+      [280, 0, 280, 400],
+      [560, 0, 280, 400],
+      [840, 0, 280, 400],
+      [1120, 0, 280, 400],
+      [1400, 0, 280, 400],
+      [1680, 0, 280, 400],
+      [1960, 0, 280, 400],
+    ],
+    mrZuilWalk: [
+      [0, 0, 280, 400],
+      [280, 0, 280, 400],
+      [560, 0, 280, 400],
+      [840, 0, 280, 400],
+      [1120, 0, 280, 400],
+      [1400, 0, 280, 400],
+      [1680, 0, 280, 400],
+      [1960, 0, 280, 400],
+    ],
+    mrTioWalk: [
+      [0, 0, 280, 400],
+      [280, 0, 280, 400],
+      [560, 0, 280, 400],
+      [840, 0, 280, 400],
+      [1120, 0, 280, 400],
+      [1400, 0, 280, 400],
+      [1680, 0, 280, 400],
+      [1960, 0, 280, 400],
+    ],
+    fatherVWalk: [
+      [0, 0, 280, 400],
+      [280, 0, 280, 400],
+      [560, 0, 280, 400],
+      [840, 0, 280, 400],
+      [1120, 0, 280, 400],
+      [1400, 0, 280, 400],
+      [1680, 0, 280, 400],
+      [1960, 0, 280, 400],
+    ],
+    fatherMWalk: [
+      [0, 0, 280, 400],
+      [280, 0, 280, 400],
+      [560, 0, 280, 400],
+      [840, 0, 280, 400],
+      [1120, 0, 280, 400],
+      [1400, 0, 280, 400],
+      [1680, 0, 280, 400],
+      [1960, 0, 280, 400],
+    ],
+    padrinoWalk: [
+      [0, 0, 280, 400],
+      [280, 0, 280, 400],
+      [560, 0, 280, 400],
+      [840, 0, 280, 400],
+      [1120, 0, 280, 400],
+      [1400, 0, 280, 400],
+      [1680, 0, 280, 400],
+      [1960, 0, 280, 400],
+    ],
+    angeliuxWalk: [
+      [0, 0, 280, 400],
+      [280, 0, 280, 400],
+      [560, 0, 280, 400],
+      [840, 0, 280, 400],
+      [1120, 0, 280, 400],
+      [1400, 0, 280, 400],
+      [1680, 0, 280, 400],
+      [1960, 0, 280, 400],
+    ],
+    srJoeWalk: [
+      [0, 0, 280, 400],
+      [280, 0, 280, 400],
+      [560, 0, 280, 400],
+      [840, 0, 280, 400],
+      [1120, 0, 280, 400],
+      [1400, 0, 280, 400],
+      [1680, 0, 280, 400],
+      [1960, 0, 280, 400],
+    ],
+    lordSantyWalk: [
+      [0, 0, 280, 400],
+      [280, 0, 280, 400],
+      [560, 0, 280, 400],
+      [840, 0, 280, 400],
+      [1120, 0, 280, 400],
+      [1400, 0, 280, 400],
+      [1680, 0, 280, 400],
+      [1960, 0, 280, 400],
+    ],
+    donaNeneWalk: [
+      [0, 0, 280, 400],
+      [280, 0, 280, 400],
+      [560, 0, 280, 400],
+      [840, 0, 280, 400],
+      [1120, 0, 280, 400],
+      [1400, 0, 280, 400],
+      [1680, 0, 280, 400],
+      [1960, 0, 280, 400],
+    ],
+    daroeWalk: [
+      [0, 0, 320, 640],
+      [320, 0, 320, 640],
+      [640, 0, 320, 640],
+      [960, 0, 320, 640],
+      [1280, 0, 320, 640],
+      [1600, 0, 320, 640],
+      [1920, 0, 320, 640],
+    ],
+    mamelWalk: [
+      [0, 0, 320, 560],
+      [320, 0, 320, 560],
+      [640, 0, 320, 560],
+      [960, 0, 320, 560],
+      [1280, 0, 320, 560],
+      [1600, 0, 320, 560],
+      [1920, 0, 320, 560],
+    ],
   };
 
   const characterDefs = {
@@ -457,21 +648,23 @@
       front: "michael",
       height: 178,
     },
-    tan: { label: "Tan", animated: "redeemedWalk", sheet: "tanSheet", front: "tan", height: 142 },
-    mrHernandez: { label: "Mr Hernandez", animated: "redeemedWalk", sheet: "mrHernandezSheet", front: "mrHernandez", height: 144 },
-    mrDomingo: { label: "Mr. Domingo", animated: "redeemedWalk", sheet: "mrDomingoSheet", front: "mrDomingo", height: 144 },
-    donMaro: { label: "Don Maro", animated: "redeemedWalk", sheet: "donMaroSheet", front: "donMaro", height: 146 },
-    ladySeferina: { label: "Lady Seferina", animated: "redeemedWalk", sheet: "ladySeferinaSheet", front: "ladySeferina", height: 124 },
-    donaCarmelina: { label: "Doña Carmelina", animated: "redeemedWalk", sheet: "donaCarmelinaSheet", front: "donaCarmelina", height: 136 },
-    mrZuil: { label: "Mr Zuil", animated: "redeemedWalk", sheet: "mrZuilSheet", front: "mrZuil", height: 148 },
-    mrTio: { label: "Mr Tío", animated: "redeemedWalk", sheet: "mrTioSheet", front: "mrTio", height: 146 },
-    fatherV: { label: "Father V", animated: "redeemedWalk", sheet: "fatherVSheet", front: "fatherV", height: 148 },
-    fatherM: { label: "Father M", animated: "redeemedWalk", sheet: "fatherMSheet", front: "fatherM", height: 148 },
-    padrino: { label: "Padrino", animated: "redeemedWalk", sheet: "padrinoSheet", front: "padrino", height: 146 },
-    angeliux: { label: "Angeliux", animated: "redeemedWalk", sheet: "angeliuxSheet", front: "angeliux", height: 146 },
-    srJoe: { label: "Sr Joe", animated: "redeemedWalk", sheet: "srJoeSheet", front: "srJoe", height: 150 },
-    lordSanty: { label: "Lord Santy", animated: "redeemedWalk", sheet: "lordSantySheet", front: "lordSanty", height: 144 },
-    donaNene: { label: "Doña Nene", animated: "redeemedWalk", sheet: "donaNeneSheet", front: "donaNene", height: 132 },
+    tan: { label: "Tan", animated: "tanWalk", sheet: "tanSheet", front: "tan", height: 142 },
+    mrHernandez: { label: "Mr Hernandez", animated: "mrHernandezWalk", sheet: "mrHernandezSheet", front: "mrHernandez", height: 144 },
+    mrDomingo: { label: "Mr. Domingo", animated: "mrDomingoWalk", sheet: "mrDomingoSheet", front: "mrDomingo", height: 144 },
+    donMaro: { label: "Don Maro", animated: "donMaroWalk", sheet: "donMaroSheet", front: "donMaro", height: 146 },
+    ladySeferina: { label: "Lady Seferina", animated: "ladySeferinaWalk", sheet: "ladySeferinaSheet", front: "ladySeferina", height: 124 },
+    donaCarmelina: { label: "Doña Carmelina", animated: "donaCarmelinaWalk", sheet: "donaCarmelinaSheet", front: "donaCarmelina", height: 136 },
+    mrZuil: { label: "Mr Zuil", animated: "mrZuilWalk", sheet: "mrZuilSheet", front: "mrZuil", height: 148 },
+    mrTio: { label: "Mr Tío", animated: "mrTioWalk", sheet: "mrTioSheet", front: "mrTio", height: 146 },
+    fatherV: { label: "Father V", animated: "fatherVWalk", sheet: "fatherVSheet", front: "fatherV", height: 148 },
+    fatherM: { label: "Father M", animated: "fatherMWalk", sheet: "fatherMSheet", front: "fatherM", height: 148 },
+    padrino: { label: "Padrino", animated: "padrinoWalk", sheet: "padrinoSheet", front: "padrino", height: 146 },
+    angeliux: { label: "Angeliux", animated: "angeliuxWalk", sheet: "angeliuxSheet", front: "angeliux", height: 146 },
+    srJoe: { label: "Sr Joe", animated: "srJoeWalk", sheet: "srJoeSheet", front: "srJoe", height: 150 },
+    lordSanty: { label: "Lord Santy", animated: "lordSantyWalk", sheet: "lordSantySheet", front: "lordSanty", height: 144 },
+    donaNene: { label: "Doña Nene", animated: "donaNeneWalk", sheet: "donaNeneSheet", front: "donaNene", height: 132 },
+    daroe: { label: "Daroe", animated: "daroeWalk", sheet: "daroeSheet", front: "daroe", height: 126 },
+    mamel: { label: "Mamel", animated: "mamelWalk", sheet: "mamelSheet", front: "mamel", height: 108 },
   };
 
   const difficultySettings = {
@@ -512,6 +705,10 @@
     saints: {
       projectiles: ["ghostMarble", "strawDart"],
       lightning: { warning: "#d5ecff", hot: "#fff4a8", bolt: "#ffffff", core: "#9ed8ff", glow: "#f6e891", impact: "#fffbd8", ring: "#d5ecff", delay: 1.12, warningTime: 1.28, radius: 0.92, message: "Prairie thunder / Trueno de pradera" },
+    },
+    elrancho: {
+      projectiles: ["dustRibbon", "roadLantern"],
+      lightning: { warning: "#ffd28a", hot: "#75e8ff", bolt: "#fff2ce", core: "#f6b15f", glow: "#70d6e7", impact: "#ffe2a8", ring: "#ffd28a", delay: 0.98, warningTime: 1.06, radius: 1.03, message: "Highway storm / Tormenta de carretera" },
     },
   };
 
@@ -1344,6 +1541,140 @@
         ],
       },
     ],
+    elrancho: [
+      {
+        name: "El Rancho 1 - El Compás / San Felipe",
+        bg: "bgElRancho1",
+        start: { x: 145, y: 535 },
+        helper: "angel",
+        enemy: { x: 1085, y: 510, minX: 830, maxX: 1190, speed: 96, chaseAfter: 4 },
+        crossCount: 7,
+        message: "Restore the amber Crux Sacras by El Compás and San Felipe.",
+        complete: "Ejido level passed / Nivel ejido superado",
+        crosses: [
+          { x: 250, y: 465 },
+          { x: 405, y: 525 },
+          { x: 565, y: 410 },
+          { x: 730, y: 520 },
+          { x: 890, y: 430 },
+          { x: 1035, y: 505 },
+        ],
+      },
+      {
+        name: "El Rancho 2 - Highway Through La Laguna",
+        bg: "bgElRancho2",
+        start: { x: 150, y: 535 },
+        helper: "michael",
+        enemy: { x: 1105, y: 505, minX: 760, maxX: 1190, speed: 118, chaseAfter: 3 },
+        crossCount: 8,
+        message: "Stay in the light on the La Laguna highway.",
+        complete: "Highway level passed / Carretera superada",
+        crosses: [
+          { x: 235, y: 500 },
+          { x: 380, y: 420 },
+          { x: 535, y: 525 },
+          { x: 690, y: 405 },
+          { x: 830, y: 520 },
+          { x: 975, y: 430 },
+          { x: 1120, y: 500 },
+        ],
+      },
+      {
+        name: "El Rancho 3 - Torreón Stadium",
+        bg: "bgElRancho3",
+        start: { x: 145, y: 535 },
+        helper: "both",
+        enemy: { x: 1100, y: 505, minX: 715, maxX: 1190, speed: 132, chaseAfter: 2 },
+        crossCount: 8,
+        message: "Find the Crux Sacras near the Torreón stadium lights.",
+        complete: "Torreón level passed / Nivel Torreón superado",
+        crosses: [
+          { x: 245, y: 455 },
+          { x: 395, y: 525 },
+          { x: 555, y: 405 },
+          { x: 710, y: 520 },
+          { x: 865, y: 415 },
+          { x: 1015, y: 530 },
+          { x: 1140, y: 450 },
+        ],
+      },
+      {
+        name: "El Rancho 4 - Lerdo Church",
+        bg: "bgElRancho4",
+        start: { x: 155, y: 545 },
+        helper: "both",
+        enemy: { x: 1115, y: 505, minX: 850, maxX: 1190, speed: 84, chaseAfter: 99 },
+        crossCount: 7,
+        message: "Pray by the church in Lerdo. Reza junto a la iglesia de Lerdo.",
+        complete: "Lerdo church passed / Iglesia de Lerdo superada",
+        crosses: [
+          { x: 300, y: 500 },
+          { x: 450, y: 420 },
+          { x: 600, y: 520 },
+          { x: 745, y: 405 },
+          { x: 890, y: 520 },
+          { x: 1035, y: 455 },
+        ],
+      },
+      {
+        name: "El Rancho 5 - Cerro de las Noas",
+        bg: "bgElRancho5",
+        start: { x: 150, y: 540 },
+        helper: "angel",
+        enemy: { x: 1110, y: 510, minX: 700, maxX: 1190, speed: 150, chaseAfter: 2 },
+        crossCount: 9,
+        message: "Climb in faith under the Cristo de las Noas light.",
+        complete: "Cerro de las Noas passed / Cerro de las Noas superado",
+        crosses: [
+          { x: 230, y: 500 },
+          { x: 365, y: 420 },
+          { x: 510, y: 530 },
+          { x: 660, y: 405 },
+          { x: 810, y: 520 },
+          { x: 960, y: 435 },
+          { x: 1110, y: 505 },
+        ],
+      },
+      {
+        name: "El Rancho 6 - Parras de la Fuente",
+        bg: "bgElRancho6",
+        start: { x: 150, y: 535 },
+        helper: "michael",
+        enemy: { x: 1120, y: 510, minX: 690, maxX: 1190, speed: 164, chaseAfter: 2 },
+        crossCount: 9,
+        message: "La Aparecida follows through the Parras night.",
+        complete: "Parras level passed / Nivel Parras superado",
+        crosses: [
+          { x: 235, y: 500 },
+          { x: 365, y: 420 },
+          { x: 510, y: 530 },
+          { x: 660, y: 405 },
+          { x: 810, y: 520 },
+          { x: 960, y: 435 },
+          { x: 1110, y: 505 },
+        ],
+      },
+      {
+        name: "Boss - La Aparecida de la Carretera",
+        bg: "bgElRancho7",
+        start: { x: 150, y: 535 },
+        helper: "both",
+        boss: true,
+        enemy: { x: 1040, y: 520, minX: 610, maxX: 1190, speed: 188, chaseAfter: 1 },
+        crossCount: 9,
+        message: "Collect Lux, then pray near La Aparecida.",
+        complete: "Crux Sacra Sit Mihi Lux",
+        crosses: [
+          { x: 230, y: 465 },
+          { x: 380, y: 390 },
+          { x: 530, y: 525 },
+          { x: 680, y: 410 },
+          { x: 830, y: 525 },
+          { x: 980, y: 455 },
+          { x: 1120, y: 500 },
+        ],
+      },
+    ],
   };
   let stages = worldStages.colorado;
 
@@ -1565,20 +1896,31 @@
     return bonusWorldOverride || game.passedWorlds.has(finalWorldKey);
   }
 
+  function areAllRedeemedCharactersUnlocked() {
+    return [...redeemedCharacterKeys].every((key) => game.unlockedRedeemed.has(key));
+  }
+
+  function isRanchWorldUnlocked() {
+    return ranchWorldOverride || (game.passedWorlds.has(bonusWorldKey) && areAllRedeemedCharactersUnlocked());
+  }
+
   function updateWorldLocks() {
     const finalUnlocked = isFinalWorldUnlocked();
     const bonusUnlocked = isBonusWorldUnlocked();
+    const ranchUnlocked = isRanchWorldUnlocked();
     for (const button of worldButtons) {
       const worldKey = button.dataset.world;
-      const locked = (worldKey === finalWorldKey && !finalUnlocked) || (worldKey === bonusWorldKey && !bonusUnlocked);
+      const locked = (worldKey === finalWorldKey && !finalUnlocked) || (worldKey === bonusWorldKey && !bonusUnlocked) || (worldKey === ranchWorldKey && !ranchUnlocked);
       button.disabled = locked;
       button.classList.toggle("locked", locked);
-      button.classList.toggle("unlocked", (worldKey === finalWorldKey && finalUnlocked) || (worldKey === bonusWorldKey && bonusUnlocked));
+      button.classList.toggle("unlocked", (worldKey === finalWorldKey && finalUnlocked) || (worldKey === bonusWorldKey && bonusUnlocked) || (worldKey === ranchWorldKey && ranchUnlocked));
       button.setAttribute("aria-disabled", locked ? "true" : "false");
       button.title = locked && worldKey === finalWorldKey
         ? "Locked until Worlds 1-6 are passed / Bloqueado hasta superar los mundos 1-6"
         : locked && worldKey === bonusWorldKey
           ? "Locked until Holy Land is passed / Bloqueado hasta superar Tierra Santa"
+          : locked && worldKey === ranchWorldKey
+            ? "Locked until Saints is passed and every redeemed character is unlocked / Bloqueado hasta superar Santos y redimir todos los personajes"
           : "";
     }
   }
@@ -1589,6 +1931,10 @@
       return false;
     }
     if (worldKey === bonusWorldKey && !isBonusWorldUnlocked()) {
+      updateWorldLocks();
+      return false;
+    }
+    if (worldKey === ranchWorldKey && !isRanchWorldUnlocked()) {
       updateWorldLocks();
       return false;
     }
@@ -1886,6 +2232,8 @@
     temptationFlame: "A temptation flame hit the hero. Use Holy Water before it reaches you.",
     ghostMarble: "A ghost marble hit the hero. Use Holy Water before it reaches you.",
     strawDart: "A straw dart hit the hero. Use Holy Water before it reaches you.",
+    dustRibbon: "A road dust ribbon hit the hero. Use Holy Water before it reaches you.",
+    roadLantern: "A phantom road lantern hit the hero. Use Holy Water before it reaches you.",
     lightning: "Lightning struck the hero. Holy Water and Rosary cannot stop thunder.",
     cross: "A red cross exploded. Reach glowing crosses before the danger meter fills.",
   };
@@ -1907,6 +2255,8 @@
     temptationFlame: "A temptation flame hit the hero!",
     ghostMarble: "The Prairie Boy threw a ghost marble!",
     strawDart: "A scarecrow straw dart hit the hero!",
+    dustRibbon: "La Aparecida sent a road dust ribbon!",
+    roadLantern: "A phantom road lantern hit the hero!",
   };
 
   function hazardForWorld(world = game.world) {
@@ -1918,6 +2268,7 @@
     if (kind === "horseshoe" || kind === "temptationFlame" || kind === "ghostHand") return 16;
     if (kind === "clawSlash" || kind === "darkChain") return 15;
     if (kind === "cactusThorn" || kind === "strawDart") return 12;
+    if (kind === "dustRibbon" || kind === "roadLantern") return 15;
     return 13;
   }
 
@@ -1938,6 +2289,8 @@
       temptationFlame: 1.12,
       ghostMarble: 1.04,
       strawDart: 1.16,
+      dustRibbon: 1.02,
+      roadLantern: 0.88,
     };
     return base * (multipliers[kind] || 1);
   }
@@ -2702,9 +3055,10 @@
     const useMovementFrames = moving || def.animated === "redeemedWalk";
     if (def.animated && useMovementFrames) {
       const cycle = frames[def.animated];
-      const speed = def.animated === "timmyRun" ? 10 : def.animated === "elayitasRun" ? 11 : def.animated === "redeemedWalk" ? 7 : 8;
-      const frame = cycle[Math.floor(game.time * speed) % cycle.length];
-      drawFrame(images[def.sheet], frame, x, groundY, height, face);
+      const speed = def.animated === "timmyRun" ? 10 : def.animated === "elayitasRun" ? 11 : def.redeemedMotion ? 9 : def.animated === "redeemedWalk" ? 7 : 8;
+      const frameIndex = Math.floor(game.time * speed) % cycle.length;
+      const frame = cycle[frameIndex];
+      drawFrame(images[def.sheet], frame, x, groundY, height, face, def.redeemedMotion ? frameIndex : null);
       return;
     }
     if (def.animated) {
@@ -2722,6 +3076,7 @@
     if (game.world === "mexicocity") return images.laLlorona;
     if (game.world === "holymountain") return images.theDevil;
     if (game.world === "saints") return images.prairieBoy;
+    if (game.world === "elrancho") return images.laAparecidaCarretera;
     return game.world === "juarez" ? images.elCucuy : images.tacalache;
   }
 
@@ -2744,6 +3099,9 @@
     if (game.world === "saints") {
       return stage.boss ? "rgba(190, 240, 255, 0.98)" : "rgba(98, 225, 255, 0.78)";
     }
+    if (game.world === "elrancho") {
+      return stage.boss ? "rgba(242, 184, 109, 0.98)" : "rgba(83, 217, 224, 0.78)";
+    }
     if (game.world === "juarez") {
       return stage.boss ? "rgba(22, 10, 45, 0.95)" : "rgba(35, 196, 255, 0.78)";
     }
@@ -2756,13 +3114,13 @@
     if (!img) return;
     const bob = Math.sin(game.time * 5) * 4;
     const cucuyBoost = game.world === "juarez" ? 1.12 : 1;
-    const artBoost = game.world === "useast" ? 1.38 : game.world === "elpaso" ? 1.22 : game.world === "guadalajara" ? 1.18 : game.world === "mexicocity" ? 1.16 : game.world === "holymountain" ? 1.3 : game.world === "saints" ? 1.08 : 1;
+    const artBoost = game.world === "useast" ? 1.38 : game.world === "elpaso" ? 1.22 : game.world === "guadalajara" ? 1.18 : game.world === "mexicocity" ? 1.16 : game.world === "holymountain" ? 1.3 : game.world === "saints" ? 1.08 : game.world === "elrancho" ? 1.14 : 1;
     const h = (stage.boss ? (e.stun > 0 ? 285 : 320) : (e.stun > 0 ? 180 : 205)) * cucuyBoost * artBoost;
     const w = (img.width / img.height) * h;
     ctx.save();
     if (stage.boss && game.world === "juarez") drawCucuyBossAura(e.x, e.y - h + bob, w, h);
-    if (stage.boss && (game.world === "useast" || game.world === "elpaso" || game.world === "guadalajara" || game.world === "mexicocity" || game.world === "holymountain")) {
-      const aura = game.world === "useast" ? "#63ff4d" : game.world === "elpaso" ? "#c77eff" : game.world === "guadalajara" ? "#ff4638" : game.world === "mexicocity" ? "#bdefff" : "#fff4a8";
+    if (stage.boss && (game.world === "useast" || game.world === "elpaso" || game.world === "guadalajara" || game.world === "mexicocity" || game.world === "holymountain" || game.world === "elrancho")) {
+      const aura = game.world === "useast" ? "#63ff4d" : game.world === "elpaso" ? "#c77eff" : game.world === "guadalajara" ? "#ff4638" : game.world === "mexicocity" ? "#bdefff" : game.world === "elrancho" ? "#f2b86d" : "#fff4a8";
       drawWorldBossAura(e.x, e.y - h + bob, w, h, aura);
     }
     ctx.globalAlpha = e.stun > 0 ? 0.55 + Math.sin(game.time * 22) * 0.18 : 1;
@@ -3293,6 +3651,47 @@
       ctx.beginPath();
       ctx.arc(0, 0, 19, 0.1, Math.PI * 1.55);
       ctx.stroke();
+    } else if (hazard.kind === "dustRibbon") {
+      ctx.shadowColor = "#f2b86d";
+      ctx.shadowBlur = 15;
+      ctx.strokeStyle = "rgba(231, 177, 112, 0.86)";
+      ctx.lineWidth = 8;
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(-42, 4);
+      ctx.bezierCurveTo(-20, -18, 12, 20, 42, -4);
+      ctx.stroke();
+      ctx.strokeStyle = "rgba(116, 220, 225, 0.58)";
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(-34, -6);
+      ctx.bezierCurveTo(-10, 9, 10, -13, 35, 4);
+      ctx.stroke();
+      ctx.fillStyle = "#f4d59b";
+      for (let i = 0; i < 4; i += 1) {
+        ctx.beginPath();
+        ctx.arc(-22 + i * 15, Math.sin(game.time * 7 + i) * 7, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    } else if (hazard.kind === "roadLantern") {
+      ctx.shadowColor = "#73e0e5";
+      ctx.shadowBlur = 18;
+      ctx.fillStyle = "#253135";
+      roundRect(-10, -13, 20, 24, 5);
+      ctx.fill();
+      ctx.fillStyle = "#ffd782";
+      roundRect(-5, -6, 10, 13, 4);
+      ctx.fill();
+      ctx.strokeStyle = "#73e0e5";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(0, -14, 9, Math.PI, Math.PI * 2);
+      ctx.stroke();
+      ctx.globalAlpha = 0.32;
+      ctx.fillStyle = "#73e0e5";
+      ctx.beginPath();
+      ctx.arc(0, 2, 26, 0, Math.PI * 2);
+      ctx.fill();
     } else if (hazard.kind === "rat") {
       const run = Math.sin(game.time * 18 + hazard.spin);
       ctx.shadowColor = "rgba(0, 0, 0, 0.35)";
@@ -3580,10 +3979,26 @@
     }
   }
 
-  function drawFrame(img, frame, x, groundY, targetH, face = 1) {
+  function drawFrame(img, frame, x, groundY, targetH, face = 1, walkPhase = null) {
     const [sx, sy, sw, sh] = frame;
     const targetW = (sw / sh) * targetH;
     ctx.save();
+    if (walkPhase !== null) {
+      const phase = (walkPhase % 6) / 6;
+      const stride = Math.sin(phase * Math.PI * 2);
+      const lift = Math.abs(stride);
+      const lean = stride * 0.045;
+      const squash = 1 - lift * 0.025;
+      const stretch = 1 + lift * 0.018;
+      ctx.translate(x, groundY);
+      if (face < 0) ctx.scale(-1, 1);
+      ctx.translate(stride * 4, -lift * 5);
+      ctx.rotate(lean);
+      ctx.scale(stretch, squash);
+      ctx.drawImage(img, sx, sy, sw, sh, -targetW / 2, -targetH, targetW, targetH);
+      ctx.restore();
+      return;
+    }
     if (face < 0) {
       ctx.translate(x, 0);
       ctx.scale(-1, 1);
@@ -3824,6 +4239,7 @@
     if (game.world === "mexicocity") return "La Llorona";
     if (game.world === "holymountain") return "The Devil";
     if (game.world === "saints") return "The Prairie Boy";
+    if (game.world === "elrancho") return "La Aparecida de la Carretera";
     return "El Tacalache";
   }
 
@@ -3871,6 +4287,9 @@
     }
     if (game.world === "saints") {
       return { key: "prairieBoy", label: "The Prairie Boy", villain: true };
+    }
+    if (game.world === "elrancho") {
+      return { key: "laAparecidaCarretera", label: "La Aparecida", villain: true };
     }
     return {
       key: game.world === "juarez" ? "elCucuy" : "tacalache",
@@ -4193,6 +4612,7 @@
       mexicocity: "../video-intro/world6/crux-sacra-mexico-city-intro-placeholder.mp4?v=1",
       holymountain: "../video-intro/world7/crux-sacra-holy-mountain-intro-placeholder.mp4?v=1",
       saints: "../video-intro/world8/crux-sacra-saints-bonus-intro.mp4?v=1",
+      elrancho: "../video-intro/world9/crux-sacra-el-rancho-intro.mp4?v=1",
     };
     const nextIntroVideo = introVideoByWorld[game.world] || introVideoByWorld.colorado;
     if (!introVideo.src.endsWith(nextIntroVideo)) {
@@ -4282,6 +4702,7 @@
     const mexicoCityFinalVideoByHero = {};
     const holyMountainFinalVideoByHero = {};
     const saintsFinalVideoByHero = {};
+    const elRanchoFinalVideoByHero = {};
     const finalVideosByWorld = {
       colorado: { map: finalVideoByHero, fallback: "../video-intro/crux-sacra-final-redemption.mp4?v=3" },
       juarez: { map: juarezFinalVideoByHero, fallback: "../video-intro/world2/crux-sacra-juarez-ending-placeholder.mp4?v=1" },
@@ -4291,6 +4712,7 @@
       mexicocity: { map: mexicoCityFinalVideoByHero, fallback: "../video-intro/world6/crux-sacra-mexico-city-redemption-placeholder.mp4?v=1" },
       holymountain: { map: holyMountainFinalVideoByHero, fallback: "../video-intro/world7/crux-sacra-holy-mountain-redemption-placeholder.mp4?v=2" },
       saints: { map: saintsFinalVideoByHero, fallback: "../video-intro/world8/crux-sacra-saints-bonus-ending.mp4?v=1" },
+      elrancho: { map: elRanchoFinalVideoByHero, fallback: "../video-intro/world9/crux-sacra-el-rancho-redemption-placeholder.mp4?v=1" },
     };
     const finalSet = finalVideosByWorld[game.world] || finalVideosByWorld.colorado;
     const redeemedKey = redeemedKeyForHero();
@@ -4302,7 +4724,8 @@
       lordSanty: "../video-intro/crux-sacra-final-redemption-lord-santy.mp4?v=1",
       donaNene: "../video-intro/crux-sacra-final-redemption-dona-nene.mp4?v=1",
     };
-    const nextFinalVideo = surpriseFinalVideoByRedeemed[redeemedKey] || finalSet.map[game.selectedHero] || finalSet.fallback;
+    const surpriseFinalVideo = game.world === ranchWorldKey ? null : surpriseFinalVideoByRedeemed[redeemedKey];
+    const nextFinalVideo = surpriseFinalVideo || finalSet.map[game.selectedHero] || finalSet.fallback;
     const redeemedName = redeemedNameForHero();
     finalCaption.textContent = game.world === bonusWorldKey
       ? "St. Mary, Mother of Jesus, joins the Saints bonus world. The next adventure begins soon."
@@ -4350,6 +4773,8 @@
 
   function redeemedKeyForHero() {
     if (game.selectedHero === "nana" && game.selectedCompanion === "nana") return "angeliux";
+    if (game.selectedHero === "elayitas" && game.selectedCompanion === "elayitas") return "daroe";
+    if (game.selectedHero === "elayitas" && game.selectedCompanion === "angie") return "mamel";
     if (game.selectedHero === "mrTio") return "srJoe";
     if (game.selectedHero === "donaCarmelina") return "lordSanty";
     if (game.selectedHero === "tan") return "donaNene";
