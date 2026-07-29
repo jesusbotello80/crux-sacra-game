@@ -106,7 +106,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "99";
+  const ASSET_VERSION = "100";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -663,7 +663,7 @@
     srJoe: { label: "Sr Joe", animated: "srJoeWalk", sheet: "srJoeSheet", front: "srJoe", height: 150 },
     lordSanty: { label: "Lord Santy", animated: "lordSantyWalk", sheet: "lordSantySheet", front: "lordSanty", height: 144 },
     donaNene: { label: "Doña Nene", animated: "donaNeneWalk", sheet: "donaNeneSheet", front: "donaNene", height: 132 },
-    daroe: { label: "Daroe", animated: "daroeWalk", sheet: "daroeSheet", front: "daroe", height: 118 },
+    daroe: { label: "Daroe", animated: "daroeWalk", sheet: "daroeSheet", front: "daroe", height: 118, idleFrame: 6, previewFrame: 6 },
     mamel: { label: "Mamel", animated: "mamelWalk", sheet: "mamelSheet", front: "mamel", height: 108 },
   };
 
@@ -1779,7 +1779,8 @@
       return ASSET + sources[def.front];
     }
     const cycle = frames[def.animated];
-    const frame = cycle && cycle.length ? cycle[Math.min(frameIndex, cycle.length - 1)] : null;
+    const preferredFrame = def.previewFrame ?? frameIndex;
+    const frame = cycle && cycle.length ? cycle[Math.min(preferredFrame, cycle.length - 1)] : null;
     if (!frame) return ASSET + sources[def.front];
 
     const img = images[def.sheet];
@@ -3148,7 +3149,8 @@
     }
     if (def.animated) {
       const cycle = frames[def.animated];
-      drawFrame(images[def.sheet], cycle[0], x, groundY, height, face);
+      const idleIndex = Math.min(def.idleFrame || 0, cycle.length - 1);
+      drawFrame(images[def.sheet], cycle[idleIndex], x, groundY, height, face);
       return;
     }
     drawSprite(images[def.front], x, groundY, height, face);
