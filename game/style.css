@@ -672,18 +672,6 @@ button:focus-visible {
   object-position: center;
 }
 
-.world-choice.ranch-world {
-  grid-column: 1 / -1;
-  min-height: 168px;
-  border-color: rgba(247, 181, 99, 0.42);
-}
-
-.world-choice.ranch-world img {
-  height: 116px;
-  object-fit: cover;
-  object-position: center;
-}
-
 .choice-portrait {
   width: 38px;
   height: 38px;
@@ -746,11 +734,6 @@ button:focus-visible {
 .world-choice.bonus-world.unlocked {
   border-color: rgba(180, 220, 255, 0.86);
   box-shadow: 0 0 24px rgba(180, 220, 255, 0.32);
-}
-
-.world-choice.ranch-world.unlocked {
-  border-color: rgba(247, 181, 99, 0.9);
-  box-shadow: 0 0 24px rgba(247, 181, 99, 0.34);
 }
 
 .final-cast.edition-finale {

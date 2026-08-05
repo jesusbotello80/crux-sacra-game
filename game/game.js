@@ -106,7 +106,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "101";
+  const ASSET_VERSION = "105";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -174,13 +174,14 @@
     bgElRancho5: "video-demo/backgrounds/el-rancho/playable/bg-el-rancho-level-5-cerro-noas.png",
     bgElRancho6: "video-demo/backgrounds/el-rancho/playable/bg-el-rancho-level-6-parras.png",
     bgElRancho7: "video-demo/backgrounds/el-rancho/playable/bg-el-rancho-level-7-monterrey-boss.png",
-    bgElCoco1: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-1-colorado-bedroom.svg",
-    bgElCoco2: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-2-alabama-bedroom.svg",
-    bgElCoco3: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-3-juarez-infonavit-bedroom.svg",
-    bgElCoco4: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-4-el-paso-bedroom.svg",
-    bgElCoco5: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-5-guadalajara-bedroom.svg",
-    bgElCoco6: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-6-mexico-city-bedroom.svg",
-    bgElCoco7: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-7-closet-boss.svg",
+    bgElCoco1: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-1-colorado-bedroom.png",
+    bgElCoco2: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-2-alabama-bedroom.png",
+    bgElCoco3: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-3-juarez-bedroom.png",
+    bgElCoco4: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-4-el-paso-bedroom.png",
+    bgElCoco5: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-5-guadalajara-bedroom.png",
+    bgElCoco6: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-6-el-rancho-bedroom.png",
+    bgElCoco7: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-7-mexico-city-bedroom.png",
+    bgElCoco8: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-8-boss-closet.png",
     prairieBoy: "character-sprites/prairie-boy/prairie-boy-cutout.png",
     stMary: "character-sprites/saints/st-mary-reference.png",
     elayitasSheet: "character-sprites/baseball-kid/baseball-kid-sheet-transparent.png",
@@ -208,10 +209,13 @@
     elChupacabras: "character-sprites/el-chupacabras/el-chupacabras-cutout.png",
     elCharroNegro: "character-sprites/el-charro-negro/el-charro-negro-cutout.png",
     laLlorona: "character-sprites/la-llorona/la-llorona-cutout.png",
-    elCoco: "character-sprites/el-coco/el-coco-cutout.svg",
+    elCoco: "character-sprites/el-coco/processed/el-coco-idle-v3.png",
+    elCocoWalk1: "character-sprites/el-coco/processed/el-coco-walk-1-v3.png",
+    elCocoWalk2: "character-sprites/el-coco/processed/el-coco-walk-2-v3.png",
+    elCocoBoss: "character-sprites/el-coco/processed/el-coco-boss-v3.png",
     theDevil: "character-sprites/the-devil/the-devil-cutout.png",
     laAparecidaCarretera: "character-sprites/la-aparecida-carretera/la-aparecida-carretera-cutout.png",
-    swampShadow: "character-sprites/swamp-shadow/swamp-shadow-alligator-cutout-v2.png",
+    swampShadow: "character-sprites/swamp-shadow/swamp-shadow-humanoid-cutout-v1.png",
     jesus: "character-sprites/jesus/jesus-divine-mercy-transparent.png",
     angel: "character-sprites/guardian-angel/guardian-angel-front-reference.png",
     michael: "character-sprites/saint-michael/saint-michael-front-reference.png",
@@ -312,7 +316,7 @@
       label: "Bedtime Rooms",
       villain: "El Coco",
       cruxColor: "#b58cff",
-      stages: ["bgElCoco1", "bgElCoco2", "bgElCoco3", "bgElCoco4", "bgElCoco5", "bgElCoco6", "bgElCoco7"],
+      stages: ["bgElCoco1", "bgElCoco2", "bgElCoco3", "bgElCoco4", "bgElCoco5", "bgElCoco6", "bgElCoco7", "bgElCoco8"],
     },
     holymountain: {
       label: "Holy Land (Tierra Santa)",
@@ -1416,13 +1420,13 @@
         ],
       },
       {
-        name: "Bedtime Rooms 3 - Juárez Infonavit Room",
+        name: "Bedtime Rooms 3 - Juárez Room",
         bg: "bgElCoco3",
         start: { x: 145, y: 535 },
         helper: "both",
         enemy: { x: 1100, y: 505, minX: 715, maxX: 1190, speed: 132, chaseAfter: 2 },
         crossCount: 8,
-        message: "Save the Crux Sacras in the compact Infonavit room.",
+        message: "Save the Crux Sacras in the compact Juárez room.",
         complete: "Juarez room passed / Cuarto de Juarez superado",
         crosses: [
           { x: 245, y: 455 },
@@ -1472,8 +1476,27 @@
         ],
       },
       {
-        name: "Bedtime Rooms 6 - Mexico City Night Room",
+        name: "Bedtime Rooms 6 - El Rancho Adobe Room",
         bg: "bgElCoco6",
+        start: { x: 150, y: 535 },
+        helper: "angel",
+        enemy: { x: 1120, y: 510, minX: 710, maxX: 1190, speed: 156, chaseAfter: 2 },
+        crossCount: 9,
+        message: "The adobe room glows softly around the Crux Sacras.",
+        complete: "El Rancho room passed / Cuarto de El Rancho superado",
+        crosses: [
+          { x: 235, y: 500 },
+          { x: 365, y: 420 },
+          { x: 510, y: 530 },
+          { x: 660, y: 405 },
+          { x: 810, y: 520 },
+          { x: 960, y: 435 },
+          { x: 1110, y: 505 },
+        ],
+      },
+      {
+        name: "Bedtime Rooms 7 - Mexico City Night Room",
+        bg: "bgElCoco7",
         start: { x: 150, y: 535 },
         helper: "michael",
         enemy: { x: 1120, y: 510, minX: 690, maxX: 1190, speed: 164, chaseAfter: 2 },
@@ -1492,7 +1515,7 @@
       },
       {
         name: "Boss - El Coco",
-        bg: "bgElCoco7",
+        bg: "bgElCoco8",
         start: { x: 150, y: 535 },
         helper: "both",
         boss: true,
@@ -3469,9 +3492,18 @@
     return stage.boss ? "rgba(255, 45, 30, 0.92)" : "rgba(190, 20, 25, 0.75)";
   }
 
+  function elCocoFrame(stage) {
+    if (stage.boss && images.elCocoBoss) return images.elCocoBoss;
+    const moving = Math.abs(game.enemy.vx || 0) > 4 || game.mode === "playing";
+    if (!moving) return images.elCoco;
+    return Math.floor(game.time * 5) % 2 === 0
+      ? (images.elCocoWalk1 || images.elCoco)
+      : (images.elCocoWalk2 || images.elCoco);
+  }
+
   function drawVillain(stage) {
     const e = game.enemy;
-    const img = villainImage();
+    const img = game.world === "elcoco" ? elCocoFrame(stage) : villainImage();
     if (!img) return;
     const bob = Math.sin(game.time * 5) * 4;
     const cucuyBoost = game.world === "juarez" ? 1.12 : 1;
@@ -5005,7 +5037,7 @@
     const introVideoByWorld = {
       colorado: "../video-intro/crux-sacra-game-intro-sora-audio-2-clean-fill.mp4",
       juarez: "../video-intro/world2/crux-sacra-juarez-intro-placeholder.mp4?v=2",
-      useast: "../video-intro/world3/crux-sacra-us-east-intro-placeholder.mp4?v=5",
+      useast: "../video-intro/world3/crux-sacra-us-east-intro-humanoid-swamp-shadow.mp4?v=1",
       elpaso: "../video-intro/world4/crux-sacra-el-paso-intro-placeholder.mp4?v=7",
       guadalajara: "../video-intro/world5/crux-sacra-guadalajara-intro-placeholder.mp4?v=8",
       mexicocity: "../video-intro/world6/crux-sacra-mexico-city-intro-placeholder.mp4?v=1",
