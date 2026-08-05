@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="900" viewBox="0 0 720 900">
+  <style>
+  .ink{stroke:#201a25;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+  .soft{filter:url(#soft)}
+  .label{font-family:Arial,Helvetica,sans-serif;font-weight:800;letter-spacing:.5px}
+</style>
+  <defs>
+    <radialGradient id="body" cx=".45" cy=".3" r=".72"><stop stop-color="#33324d"/><stop offset=".62" stop-color="#11131f"/><stop offset="1" stop-color="#050609"/></radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <path d="M138 802 C166 725 176 640 158 564 C126 431 137 300 231 209 C279 163 330 141 384 142 C478 144 562 209 590 311 C620 419 577 511 592 611 C604 688 643 748 654 809 C546 764 470 782 358 829 C271 786 203 771 138 802Z" fill="url(#body)" stroke="#11131f" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M250 205 C236 135 254 91 315 43 C309 105 333 137 376 153" fill="#10121e" class="ink"/>
+  <path d="M441 168 C479 105 528 82 594 91 C543 140 531 182 547 239" fill="#10121e" class="ink"/>
+  <path d="M194 487 C104 495 70 552 60 636 C117 584 155 585 195 614" fill="#090a11" class="ink"/>
+  <path d="M578 472 C652 488 690 548 688 637 C633 582 594 590 561 628" fill="#090a11" class="ink"/>
+  <circle cx="310" cy="330" r="31" fill="#ffdf70" filter="url(#glow)"/>
+  <circle cx="428" cy="330" r="31" fill="#ffdf70" filter="url(#glow)"/>
+  <path d="M292 458 C336 486 398 488 450 455" stroke="#f4d58d" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M328 508 C340 548 333 597 296 648 M392 510 C384 560 400 605 440 652" stroke="#2c2a3b" stroke-width="14" fill="none" stroke-linecap="round"/>
+  <path d="M218 268 C170 320 156 398 180 468 M539 271 C577 333 579 406 551 466" stroke="#514f68" stroke-width="9" fill="none" opacity=".5"/>
+  <path d="M276 748 C295 708 332 688 360 685 C397 688 438 712 464 755" stroke="#f6d86f" stroke-width="10" stroke-linecap="round" opacity=".55"/>
+</svg>

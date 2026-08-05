@@ -93,7 +93,7 @@
   const finalWorldKey = "holymountain";
   const bonusWorldKey = "saints";
   const ranchWorldKey = "elrancho";
-  const finalWorldRequiredKeys = ["colorado", "juarez", "useast", "elpaso", "guadalajara", "mexicocity"];
+  const finalWorldRequiredKeys = ["colorado", "juarez", "useast", "elpaso", "guadalajara", "elrancho", "mexicocity", "elcoco"];
   const query = new URLSearchParams(window.location.search);
   const finalWorldOverride = query.get("unlockFinal") === "1";
   const bonusWorldOverride = query.get("unlockBonus") === "1";
@@ -106,7 +106,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "100";
+  const ASSET_VERSION = "101";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -174,6 +174,13 @@
     bgElRancho5: "video-demo/backgrounds/el-rancho/playable/bg-el-rancho-level-5-cerro-noas.png",
     bgElRancho6: "video-demo/backgrounds/el-rancho/playable/bg-el-rancho-level-6-parras.png",
     bgElRancho7: "video-demo/backgrounds/el-rancho/playable/bg-el-rancho-level-7-monterrey-boss.png",
+    bgElCoco1: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-1-colorado-bedroom.svg",
+    bgElCoco2: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-2-alabama-bedroom.svg",
+    bgElCoco3: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-3-juarez-infonavit-bedroom.svg",
+    bgElCoco4: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-4-el-paso-bedroom.svg",
+    bgElCoco5: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-5-guadalajara-bedroom.svg",
+    bgElCoco6: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-6-mexico-city-bedroom.svg",
+    bgElCoco7: "video-demo/backgrounds/el-coco/playable/bg-el-coco-level-7-closet-boss.svg",
     prairieBoy: "character-sprites/prairie-boy/prairie-boy-cutout.png",
     stMary: "character-sprites/saints/st-mary-reference.png",
     elayitasSheet: "character-sprites/baseball-kid/baseball-kid-sheet-transparent.png",
@@ -201,6 +208,7 @@
     elChupacabras: "character-sprites/el-chupacabras/el-chupacabras-cutout.png",
     elCharroNegro: "character-sprites/el-charro-negro/el-charro-negro-cutout.png",
     laLlorona: "character-sprites/la-llorona/la-llorona-cutout.png",
+    elCoco: "character-sprites/el-coco/el-coco-cutout.svg",
     theDevil: "character-sprites/the-devil/the-devil-cutout.png",
     laAparecidaCarretera: "character-sprites/la-aparecida-carretera/la-aparecida-carretera-cutout.png",
     swampShadow: "character-sprites/swamp-shadow/swamp-shadow-alligator-cutout-v2.png",
@@ -288,11 +296,23 @@
       cruxColor: "#ff4b4f",
       stages: ["bgGuadalajara1", "bgGuadalajara2", "bgGuadalajara3", "bgGuadalajara4", "bgGuadalajara5", "bgGuadalajara6"],
     },
+    elrancho: {
+      label: "El Rancho",
+      villain: "La Aparecida de la Carretera",
+      cruxColor: "#f2b86d",
+      stages: ["bgElRancho1", "bgElRancho2", "bgElRancho3", "bgElRancho4", "bgElRancho5", "bgElRancho6", "bgElRancho7"],
+    },
     mexicocity: {
       label: "Mexico City, MX",
       villain: "La Llorona",
       cruxColor: "#bdefff",
       stages: ["bgMexicoCity1", "bgMexicoCity2", "bgMexicoCity3", "bgMexicoCity4", "bgMexicoCity5", "bgMexicoCity6"],
+    },
+    elcoco: {
+      label: "Bedtime Rooms",
+      villain: "El Coco",
+      cruxColor: "#b58cff",
+      stages: ["bgElCoco1", "bgElCoco2", "bgElCoco3", "bgElCoco4", "bgElCoco5", "bgElCoco6", "bgElCoco7"],
     },
     holymountain: {
       label: "Holy Land (Tierra Santa)",
@@ -305,12 +325,6 @@
       villain: "The Prairie Boy",
       cruxColor: "#dff7ff",
       stages: ["bgSaints"],
-    },
-    elrancho: {
-      label: "El Rancho",
-      villain: "La Aparecida de la Carretera",
-      cruxColor: "#f2b86d",
-      stages: ["bgElRancho1", "bgElRancho2", "bgElRancho3", "bgElRancho4", "bgElRancho5", "bgElRancho6", "bgElRancho7"],
     },
   };
 
@@ -697,6 +711,10 @@
     mexicocity: {
       projectiles: ["tearDrop", "ghostHand"],
       lightning: { warning: "#c5f3ff", hot: "#edf8ff", bolt: "#ffffff", core: "#aeefff", glow: "#b5f2ff", impact: "#dffaff", ring: "#d7f6ff", delay: 1.02, warningTime: 1.1, radius: 1, message: "Mist lightning / Rayo entre neblina" },
+    },
+    elcoco: {
+      projectiles: ["shadowSock", "closetWhisper"],
+      lightning: { warning: "#d7c2ff", hot: "#fff4a8", bolt: "#fff9d8", core: "#b58cff", glow: "#caa8ff", impact: "#efe2ff", ring: "#fff0a6", delay: 1.05, warningTime: 1.15, radius: 0.98, message: "Night-light flash / Luz de noche" },
     },
     holymountain: {
       projectiles: ["darkChain", "temptationFlame"],
@@ -1359,6 +1377,140 @@
         ],
       },
     ],
+    elcoco: [
+      {
+        name: "Bedtime Rooms 1 - Colorado Bedroom",
+        bg: "bgElCoco1",
+        start: { x: 145, y: 535 },
+        helper: "angel",
+        enemy: { x: 1085, y: 510, minX: 830, maxX: 1190, speed: 98, chaseAfter: 4 },
+        crossCount: 7,
+        message: "Keep the Crux Sacra bright above the bed.",
+        complete: "Colorado bedroom passed / Cuarto de Colorado superado",
+        crosses: [
+          { x: 250, y: 465 },
+          { x: 405, y: 525 },
+          { x: 565, y: 410 },
+          { x: 730, y: 520 },
+          { x: 890, y: 430 },
+          { x: 1035, y: 505 },
+        ],
+      },
+      {
+        name: "Bedtime Rooms 2 - Alabama Rain Room",
+        bg: "bgElCoco2",
+        start: { x: 150, y: 535 },
+        helper: "michael",
+        enemy: { x: 1105, y: 505, minX: 760, maxX: 1190, speed: 118, chaseAfter: 3 },
+        crossCount: 8,
+        message: "El Coco listens from the rainy window and closet.",
+        complete: "Alabama room passed / Cuarto de Alabama superado",
+        crosses: [
+          { x: 235, y: 500 },
+          { x: 380, y: 420 },
+          { x: 535, y: 525 },
+          { x: 690, y: 405 },
+          { x: 830, y: 520 },
+          { x: 975, y: 430 },
+          { x: 1120, y: 500 },
+        ],
+      },
+      {
+        name: "Bedtime Rooms 3 - Juárez Infonavit Room",
+        bg: "bgElCoco3",
+        start: { x: 145, y: 535 },
+        helper: "both",
+        enemy: { x: 1100, y: 505, minX: 715, maxX: 1190, speed: 132, chaseAfter: 2 },
+        crossCount: 8,
+        message: "Save the Crux Sacras in the compact Infonavit room.",
+        complete: "Juarez room passed / Cuarto de Juarez superado",
+        crosses: [
+          { x: 245, y: 455 },
+          { x: 395, y: 525 },
+          { x: 555, y: 405 },
+          { x: 710, y: 520 },
+          { x: 865, y: 415 },
+          { x: 1015, y: 530 },
+          { x: 1140, y: 450 },
+        ],
+      },
+      {
+        name: "Bedtime Rooms 4 - El Paso Desert Room",
+        bg: "bgElCoco4",
+        start: { x: 155, y: 545 },
+        helper: "both",
+        enemy: { x: 1115, y: 505, minX: 850, maxX: 1190, speed: 86, chaseAfter: 99 },
+        crossCount: 7,
+        message: "The star in the window helps guide the Crux Sacra.",
+        complete: "El Paso room passed / Cuarto de El Paso superado",
+        crosses: [
+          { x: 300, y: 500 },
+          { x: 450, y: 420 },
+          { x: 600, y: 520 },
+          { x: 745, y: 405 },
+          { x: 890, y: 520 },
+          { x: 1035, y: 455 },
+        ],
+      },
+      {
+        name: "Bedtime Rooms 5 - Guadalajara Ropero",
+        bg: "bgElCoco5",
+        start: { x: 150, y: 540 },
+        helper: "angel",
+        enemy: { x: 1110, y: 510, minX: 700, maxX: 1190, speed: 152, chaseAfter: 2 },
+        crossCount: 9,
+        message: "Pray near the old ropero and warm arches.",
+        complete: "Guadalajara room passed / Cuarto de Guadalajara superado",
+        crosses: [
+          { x: 230, y: 500 },
+          { x: 365, y: 420 },
+          { x: 510, y: 530 },
+          { x: 660, y: 405 },
+          { x: 810, y: 520 },
+          { x: 960, y: 435 },
+          { x: 1110, y: 505 },
+        ],
+      },
+      {
+        name: "Bedtime Rooms 6 - Mexico City Night Room",
+        bg: "bgElCoco6",
+        start: { x: 150, y: 535 },
+        helper: "michael",
+        enemy: { x: 1120, y: 510, minX: 690, maxX: 1190, speed: 164, chaseAfter: 2 },
+        crossCount: 9,
+        message: "City lights shine while El Coco hides in the shadows.",
+        complete: "Mexico City room passed / Cuarto de Mexico superado",
+        crosses: [
+          { x: 235, y: 500 },
+          { x: 365, y: 420 },
+          { x: 510, y: 530 },
+          { x: 660, y: 405 },
+          { x: 810, y: 520 },
+          { x: 960, y: 435 },
+          { x: 1110, y: 505 },
+        ],
+      },
+      {
+        name: "Boss - El Coco",
+        bg: "bgElCoco7",
+        start: { x: 150, y: 535 },
+        helper: "both",
+        boss: true,
+        enemy: { x: 1040, y: 520, minX: 610, maxX: 1190, speed: 188, chaseAfter: 1 },
+        crossCount: 9,
+        message: "Collect Lux, then pray near El Coco.",
+        complete: "Crux Sacra Sit Mihi Lux",
+        crosses: [
+          { x: 230, y: 465 },
+          { x: 380, y: 390 },
+          { x: 530, y: 525 },
+          { x: 680, y: 410 },
+          { x: 830, y: 525 },
+          { x: 980, y: 455 },
+          { x: 1120, y: 500 },
+        ],
+      },
+    ],
     holymountain: [
       {
         name: "Holy Mountain 1 - The Holy Road",
@@ -1898,12 +2050,8 @@
     return bonusWorldOverride || game.passedWorlds.has(finalWorldKey);
   }
 
-  function areAllRedeemedCharactersUnlocked() {
-    return [...redeemedCharacterKeys].every((key) => game.unlockedRedeemed.has(key));
-  }
-
   function isRanchWorldUnlocked() {
-    return ranchWorldOverride || (game.passedWorlds.has(bonusWorldKey) && areAllRedeemedCharactersUnlocked());
+    return ranchWorldOverride || Boolean(worldSketches[ranchWorldKey]);
   }
 
   function updateWorldLocks() {
@@ -1918,11 +2066,11 @@
       button.classList.toggle("unlocked", (worldKey === finalWorldKey && finalUnlocked) || (worldKey === bonusWorldKey && bonusUnlocked) || (worldKey === ranchWorldKey && ranchUnlocked));
       button.setAttribute("aria-disabled", locked ? "true" : "false");
       button.title = locked && worldKey === finalWorldKey
-        ? "Locked until Worlds 1-6 are passed / Bloqueado hasta superar los mundos 1-6"
+        ? "Locked until the regular worlds are passed / Bloqueado hasta superar los mundos regulares"
         : locked && worldKey === bonusWorldKey
           ? "Locked until Holy Land is passed / Bloqueado hasta superar Tierra Santa"
           : locked && worldKey === ranchWorldKey
-            ? "Locked until Saints is passed and every redeemed character is unlocked / Bloqueado hasta superar Santos y redimir todos los personajes"
+            ? "Locked until El Rancho is ready / Bloqueado hasta que El Rancho este listo"
           : "";
     }
   }
@@ -2265,6 +2413,25 @@
     return worldSketches[keys[index + 1]];
   }
 
+  function nextWorldKeyAfter(worldKey) {
+    const keys = Object.keys(worldSketches);
+    const index = keys.indexOf(worldKey);
+    if (index < 0) return null;
+    for (let i = index + 1; i < keys.length; i += 1) {
+      const candidate = keys[i];
+      if (candidate === finalWorldKey && !isFinalWorldUnlocked()) continue;
+      if (candidate === bonusWorldKey && !isBonusWorldUnlocked()) continue;
+      if (candidate === ranchWorldKey && !isRanchWorldUnlocked()) continue;
+      return candidate;
+    }
+    return null;
+  }
+
+  function selectNextWorldAfterCompletion(completedWorld) {
+    const nextKey = nextWorldKeyAfter(completedWorld);
+    if (nextKey) selectWorld(nextKey);
+  }
+
   function updateTravel(dt) {
     const travel = game.travel;
     if (!travel) {
@@ -2309,6 +2476,8 @@
     strawDart: "A straw dart hit the hero. Use Holy Water before it reaches you.",
     dustRibbon: "A road dust ribbon hit the hero. Use Holy Water before it reaches you.",
     roadLantern: "A phantom road lantern hit the hero. Use Holy Water before it reaches you.",
+    shadowSock: "El Coco threw a shadow sock from under the bed!",
+    closetWhisper: "A closet whisper reached the hero!",
     lightning: "Lightning struck the hero. Holy Water and Rosary cannot stop thunder.",
     cross: "A red cross exploded. Reach glowing crosses before the danger meter fills.",
   };
@@ -2332,6 +2501,8 @@
     strawDart: "A scarecrow straw dart hit the hero!",
     dustRibbon: "La Aparecida sent a road dust ribbon!",
     roadLantern: "A phantom road lantern hit the hero!",
+    shadowSock: "El Coco threw a shadow sock!",
+    closetWhisper: "A closet whisper hit the hero!",
   };
 
   function hazardForWorld(world = game.world) {
@@ -2339,11 +2510,11 @@
   }
 
   function projectileRadius(kind) {
-    if (kind === "sandSkull" || kind === "swampBubble" || kind === "lassoRing" || kind === "shriekWave") return 17;
+    if (kind === "sandSkull" || kind === "swampBubble" || kind === "lassoRing" || kind === "shriekWave" || kind === "closetWhisper") return 17;
     if (kind === "horseshoe" || kind === "temptationFlame" || kind === "ghostHand") return 16;
     if (kind === "clawSlash" || kind === "darkChain") return 15;
     if (kind === "cactusThorn" || kind === "strawDart") return 12;
-    if (kind === "dustRibbon" || kind === "roadLantern") return 15;
+    if (kind === "dustRibbon" || kind === "roadLantern" || kind === "shadowSock") return 15;
     return 13;
   }
 
@@ -2360,6 +2531,8 @@
       lassoRing: 0.88,
       tearDrop: 1.08,
       ghostHand: 0.92,
+      shadowSock: 1.06,
+      closetWhisper: 0.9,
       darkChain: 0.96,
       temptationFlame: 1.12,
       ghostMarble: 1.04,
@@ -3258,6 +3431,7 @@
     if (game.world === "elpaso") return images.elChupacabras;
     if (game.world === "guadalajara") return images.elCharroNegro;
     if (game.world === "mexicocity") return images.laLlorona;
+    if (game.world === "elcoco") return images.elCoco;
     if (game.world === "holymountain") return images.theDevil;
     if (game.world === "saints") return images.prairieBoy;
     if (game.world === "elrancho") return images.laAparecidaCarretera;
@@ -3276,6 +3450,9 @@
     }
     if (game.world === "mexicocity") {
       return stage.boss ? "rgba(189, 239, 255, 0.95)" : "rgba(119, 220, 255, 0.78)";
+    }
+    if (game.world === "elcoco") {
+      return stage.boss ? "rgba(181, 140, 255, 0.98)" : "rgba(255, 244, 168, 0.75)";
     }
     if (game.world === "holymountain") {
       return stage.boss ? "rgba(255, 244, 168, 0.98)" : "rgba(255, 77, 54, 0.78)";
@@ -3298,13 +3475,13 @@
     if (!img) return;
     const bob = Math.sin(game.time * 5) * 4;
     const cucuyBoost = game.world === "juarez" ? 1.12 : 1;
-    const artBoost = game.world === "useast" ? 1.38 : game.world === "elpaso" ? 1.22 : game.world === "guadalajara" ? 1.18 : game.world === "mexicocity" ? 1.16 : game.world === "holymountain" ? 1.3 : game.world === "saints" ? 1.08 : game.world === "elrancho" ? 1.14 : 1;
+    const artBoost = game.world === "useast" ? 1.38 : game.world === "elpaso" ? 1.22 : game.world === "guadalajara" ? 1.18 : game.world === "mexicocity" ? 1.16 : game.world === "elcoco" ? 1.14 : game.world === "holymountain" ? 1.3 : game.world === "saints" ? 1.08 : game.world === "elrancho" ? 1.14 : 1;
     const h = (stage.boss ? (e.stun > 0 ? 285 : 320) : (e.stun > 0 ? 180 : 205)) * cucuyBoost * artBoost;
     const w = (img.width / img.height) * h;
     ctx.save();
     if (stage.boss && game.world === "juarez") drawCucuyBossAura(e.x, e.y - h + bob, w, h);
-    if (stage.boss && (game.world === "useast" || game.world === "elpaso" || game.world === "guadalajara" || game.world === "mexicocity" || game.world === "holymountain" || game.world === "elrancho")) {
-      const aura = game.world === "useast" ? "#63ff4d" : game.world === "elpaso" ? "#c77eff" : game.world === "guadalajara" ? "#ff4638" : game.world === "mexicocity" ? "#bdefff" : game.world === "elrancho" ? "#f2b86d" : "#fff4a8";
+    if (stage.boss && (game.world === "useast" || game.world === "elpaso" || game.world === "guadalajara" || game.world === "mexicocity" || game.world === "elcoco" || game.world === "holymountain" || game.world === "elrancho")) {
+      const aura = game.world === "useast" ? "#63ff4d" : game.world === "elpaso" ? "#c77eff" : game.world === "guadalajara" ? "#ff4638" : game.world === "mexicocity" ? "#bdefff" : game.world === "elcoco" ? "#b58cff" : game.world === "elrancho" ? "#f2b86d" : "#fff4a8";
       drawWorldBossAura(e.x, e.y - h + bob, w, h, aura);
     }
     ctx.globalAlpha = e.stun > 0 ? 0.55 + Math.sin(game.time * 22) * 0.18 : 1;
@@ -3876,6 +4053,40 @@
       ctx.beginPath();
       ctx.arc(0, 2, 26, 0, Math.PI * 2);
       ctx.fill();
+    } else if (hazard.kind === "shadowSock") {
+      ctx.shadowColor = "#b58cff";
+      ctx.shadowBlur = 14;
+      ctx.fillStyle = "#2c2540";
+      ctx.strokeStyle = "#f1d577";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(-18, -14);
+      ctx.lineTo(8, -12);
+      ctx.quadraticCurveTo(15, 6, 3, 14);
+      ctx.lineTo(-15, 10);
+      ctx.quadraticCurveTo(-28, 0, -18, -14);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "#f1d577";
+      ctx.fillRect(-12, -7, 12, 5);
+    } else if (hazard.kind === "closetWhisper") {
+      ctx.shadowColor = "#d7c2ff";
+      ctx.shadowBlur = 18;
+      ctx.strokeStyle = "rgba(222, 204, 255, 0.9)";
+      ctx.lineWidth = 5;
+      ctx.lineCap = "round";
+      for (let i = 0; i < 3; i += 1) {
+        ctx.beginPath();
+        ctx.moveTo(-25, -10 + i * 10);
+        ctx.bezierCurveTo(-6, -25 + i * 7, 14, 22 - i * 4, 33, -4 + i * 9);
+        ctx.stroke();
+      }
+      ctx.fillStyle = "rgba(255, 244, 168, 0.85)";
+      ctx.beginPath();
+      ctx.arc(-30, 0, 4, 0, Math.PI * 2);
+      ctx.arc(38, 0, 4, 0, Math.PI * 2);
+      ctx.fill();
     } else if (hazard.kind === "rat") {
       const run = Math.sin(game.time * 18 + hazard.spin);
       ctx.shadowColor = "rgba(0, 0, 0, 0.35)";
@@ -4421,6 +4632,7 @@
     if (game.world === "elpaso") return "El Chupacabras";
     if (game.world === "guadalajara") return game.stageIndex === 5 ? "El Jinete Sin Cabeza" : "El Charro Negro";
     if (game.world === "mexicocity") return "La Llorona";
+    if (game.world === "elcoco") return "El Coco";
     if (game.world === "holymountain") return "The Devil";
     if (game.world === "saints") return "The Prairie Boy";
     if (game.world === "elrancho") return "La Aparecida de la Carretera";
@@ -4465,6 +4677,9 @@
     }
     if (game.world === "mexicocity") {
       return { key: "laLlorona", label: "La Llorona", villain: true };
+    }
+    if (game.world === "elcoco") {
+      return { key: "elCoco", label: "El Coco", villain: true };
     }
     if (game.world === "holymountain") {
       return { key: "theDevil", label: "The Devil", villain: true };
@@ -4794,6 +5009,7 @@
       elpaso: "../video-intro/world4/crux-sacra-el-paso-intro-placeholder.mp4?v=7",
       guadalajara: "../video-intro/world5/crux-sacra-guadalajara-intro-placeholder.mp4?v=8",
       mexicocity: "../video-intro/world6/crux-sacra-mexico-city-intro-placeholder.mp4?v=1",
+      elcoco: "../video-intro/world10/crux-sacra-el-coco-intro.mp4?v=1",
       holymountain: "../video-intro/world7/crux-sacra-holy-mountain-intro-placeholder.mp4?v=1",
       saints: "../video-intro/world8/crux-sacra-saints-bonus-intro.mp4?v=1",
       elrancho: "../video-intro/world9/crux-sacra-el-rancho-intro.mp4?v=1",
@@ -4884,6 +5100,7 @@
       michael: "../video-intro/world5/crux-sacra-guadalajara-redemption-father-m.mp4?v=2",
     };
     const mexicoCityFinalVideoByHero = {};
+    const elCocoFinalVideoByHero = {};
     const holyMountainFinalVideoByHero = {};
     const saintsFinalVideoByHero = {};
     const elRanchoFinalVideoByHero = {};
@@ -4894,6 +5111,7 @@
       elpaso: { map: elPasoFinalVideoByHero, fallback: "../video-intro/world4/crux-sacra-el-paso-redemption-placeholder.mp4?v=2" },
       guadalajara: { map: guadalajaraFinalVideoByHero, fallback: "../video-intro/world5/crux-sacra-guadalajara-redemption-placeholder.mp4?v=2" },
       mexicocity: { map: mexicoCityFinalVideoByHero, fallback: "../video-intro/world6/crux-sacra-mexico-city-redemption-placeholder.mp4?v=1" },
+      elcoco: { map: elCocoFinalVideoByHero, fallback: "../video-intro/world10/crux-sacra-el-coco-redemption-placeholder.mp4?v=1" },
       holymountain: { map: holyMountainFinalVideoByHero, fallback: "../video-intro/world7/crux-sacra-holy-mountain-redemption-placeholder.mp4?v=2" },
       saints: { map: saintsFinalVideoByHero, fallback: "../video-intro/world8/crux-sacra-saints-bonus-ending.mp4?v=1" },
       elrancho: { map: elRanchoFinalVideoByHero, fallback: "../video-intro/world9/crux-sacra-el-rancho-redemption-placeholder.mp4?v=1" },
@@ -4928,11 +5146,13 @@
   function closeFinalSequence() {
     finalVideo.pause();
     finalScreen.classList.add("hidden");
-    game.passedWorlds.add(game.world);
+    const completedWorld = game.world;
+    game.passedWorlds.add(completedWorld);
     persistWorldProgress();
     updateWorldLocks();
     unlockRedeemedForHero();
-    if (game.world === finalWorldKey) {
+    selectNextWorldAfterCompletion(completedWorld);
+    if (completedWorld === finalWorldKey) {
       creditsScreen.classList.remove("hidden");
       creditsContinueButton.focus();
       return;
