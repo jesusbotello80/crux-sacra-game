@@ -5119,6 +5119,12 @@
       timmy: "../video-intro/world4/crux-sacra-el-paso-redemption-mr-tio.mp4?v=2",
       guardian: "../video-intro/world4/crux-sacra-el-paso-redemption-father-v.mp4?v=2",
       michael: "../video-intro/world4/crux-sacra-el-paso-redemption-father-m.mp4?v=2",
+      elayitas: "../video-intro/world4/crux-sacra-el-paso-redemption-tio-abuelo-original.mp4?v=1",
+      mrsFavi: "../video-intro/world4/crux-sacra-el-paso-redemption-gaspa-raspa.mp4?v=1",
+      abba: "../video-intro/world4/crux-sacra-el-paso-redemption-tio-abuelo-cuate.mp4?v=1",
+      daroe: "../video-intro/world4/crux-sacra-el-paso-redemption-tia-more.mp4?v=1",
+      mamel: "../video-intro/world4/crux-sacra-el-paso-redemption-tio-viktorock.mp4?v=1",
+      donLalo: "../video-intro/world4/crux-sacra-el-paso-redemption-don-lalo.mp4?v=1",
     };
     const guadalajaraFinalVideoByHero = {
       angie: "../video-intro/world5/crux-sacra-guadalajara-redemption-dona-carmelina.mp4?v=2",
@@ -5128,6 +5134,12 @@
       timmy: "../video-intro/world5/crux-sacra-guadalajara-redemption-mr-tio.mp4?v=2",
       guardian: "../video-intro/world5/crux-sacra-guadalajara-redemption-father-v.mp4?v=2",
       michael: "../video-intro/world5/crux-sacra-guadalajara-redemption-father-m.mp4?v=2",
+      elayitas: "../video-intro/world5/crux-sacra-guadalajara-redemption-tio-abuelo-original.mp4?v=1",
+      mrsFavi: "../video-intro/world5/crux-sacra-guadalajara-redemption-gaspa-raspa.mp4?v=1",
+      abba: "../video-intro/world5/crux-sacra-guadalajara-redemption-tio-abuelo-cuate.mp4?v=1",
+      daroe: "../video-intro/world5/crux-sacra-guadalajara-redemption-tia-more.mp4?v=1",
+      mamel: "../video-intro/world5/crux-sacra-guadalajara-redemption-tio-viktorock.mp4?v=1",
+      donLalo: "../video-intro/world5/crux-sacra-guadalajara-redemption-don-lalo.mp4?v=1",
     };
     const mexicoCityFinalVideoByHero = {};
     const elCocoFinalVideoByHero = {};
@@ -5157,7 +5169,10 @@
       donaNene: "../video-intro/crux-sacra-final-redemption-dona-nene.mp4?v=1",
     };
     const surpriseFinalVideo = game.world === ranchWorldKey ? null : surpriseFinalVideoByRedeemed[redeemedKey];
-    const nextFinalVideo = surpriseFinalVideo || finalSet.map[game.selectedHero] || finalSet.fallback;
+    const nextFinalVideo = surpriseFinalVideo
+      || (redeemedKey === "donLalo" && (finalSet.map.donLalo || finalSet.map[game.selectedHero]))
+      || finalSet.map[game.selectedHero]
+      || finalSet.fallback;
     const redeemedName = redeemedNameForHero();
     finalCaption.textContent = game.world === bonusWorldKey
       ? "St. Mary, Mother of Jesus, joins the Saints bonus world. The next adventure begins soon."
