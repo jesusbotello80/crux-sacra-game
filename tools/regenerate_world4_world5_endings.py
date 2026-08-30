@@ -18,7 +18,7 @@ W, H = 1280, 720
 
 REDEEMED = {
     "dona-carmelina": ("Doña Carmelina", "character-sprites/dona-carmelina/dona-carmelina-transparent.png"),
-    "tan": ("Tan", "character-sprites/tan/tan-transparent.png"),
+    "tan": ("Tío Tan", "character-sprites/tan/tan-transparent.png"),
     "mr-zuil": ("Mr Zuil", "character-sprites/mr-zuil/mr-zuil-transparent.png"),
     "mr-hernandez": ("Mr Hernandez", "character-sprites/mr-hernandez/mr-hernandez-transparent.png"),
     "mr-domingo": ("Mr. Domingo", "character-sprites/mr-domingo/mr-domingo-transparent.png"),

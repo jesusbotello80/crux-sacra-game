@@ -41,7 +41,6 @@ Available heroes:
 - Elayitas
 - Angie
 - Titín
-- Tata
 - Abba
 - Ñaña
 - Mrs Favi
@@ -54,7 +53,6 @@ Available companions:
 
 - Angie
 - Elayitas
-- Tata
 - Ñaña
 - Timmy
 - Guardian Angel
@@ -63,6 +61,10 @@ Available companions:
 - Mr Chuy
 
 Most selectable characters now use real movement frames from their sprite sheets. Some motion is still prototype-level, but it is no longer only static sliding.
+
+## Character Roster Update (v1.1)
+
+Daroe and Mamel are permanent main characters. New redeemable characters are Tía More, Tío Abuelo Original, Tío Abuelo Cuate, GaspaRaspa, and Tío Viktorock. Mr Chuy and Mrs Favi together unlock the surprise character Don Lalo; either selection order works.
 
 ## Music And Sounds
 

@@ -41,45 +41,44 @@
   const pauseButton = document.getElementById("pauseButton");
   const redeemedByHero = {
     angie: "Doña Carmelina",
-    nana: "Tan",
+    elayitas: "Tío Abuelo Original",
+    nana: "Tío Tan",
     ttitin: "Mr Zuil",
-    tata: "Mr Hernandez",
-    mrsFavi: "Mr. Domingo",
+    mrsFavi: "GaspaRaspa",
     mrChuy: "Don Maro",
-    abba: "Lady Seferina",
+    abba: "Tío Abuelo Cuate",
     timmy: "Mr Tío",
     guardian: "Father V",
     michael: "Father M",
     mrTio: "Sr Joe",
     donaCarmelina: "Lord Santy",
     tan: "Doña Nene",
-    daroe: "Daroe",
-    mamel: "Mamel",
+    daroe: "Tía More",
+    mamel: "Tío Viktorock",
   };
-  const surpriseRedeemedCharacterKeys = new Set(["angeliux", "srJoe", "lordSanty", "donaNene"]);
+  const surpriseRedeemedCharacterKeys = new Set(["angeliux", "srJoe", "lordSanty", "donaNene", "donLalo"]);
   const redeemedCharacterByHero = {
     angie: "donaCarmelina",
-    elayitas: "padrino",
+    elayitas: "tioAbueloOriginal",
     nana: "tan",
     ttitin: "mrZuil",
-    tata: "mrHernandez",
-    mrsFavi: "mrDomingo",
+    mrsFavi: "gaspaRaspa",
     mrChuy: "donMaro",
-    abba: "ladySeferina",
+    abba: "tioAbueloCuate",
     timmy: "mrTio",
     guardian: "fatherV",
     michael: "fatherM",
     mrTio: "srJoe",
     donaCarmelina: "lordSanty",
     tan: "donaNene",
+    daroe: "tiaMore",
+    mamel: "tioViktorock",
   };
-  const comboRedeemedCharacterKeys = new Set(["daroe", "mamel"]);
-  const redeemedCharacterKeys = new Set([...Object.values(redeemedCharacterByHero), "padrino", ...surpriseRedeemedCharacterKeys, ...comboRedeemedCharacterKeys]);
+  const redeemedCharacterKeys = new Set([...Object.values(redeemedCharacterByHero), ...surpriseRedeemedCharacterKeys]);
   const fallbackRedemptionCandidates = [
     "elayitas",
     "angie",
     "ttitin",
-    "tata",
     "abba",
     "nana",
     "mrsFavi",
@@ -106,7 +105,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "105";
+  const ASSET_VERSION = "106";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -191,13 +190,11 @@
     abbaSheet: "character-sprites/abba/abba-sheet-transparent.png",
     nanaSheet: "character-sprites/nana/nana-sheet-corrected-transparent.png",
     ttitinSheet: "character-sprites/ttitin/ttitin-sheet-transparent.png",
-    tataSheet: "character-sprites/tata/tata-sheet-transparent.png",
     mrsFaviSheet: "character-sprites/mrs-favi/mrs-favi-sheet-solid-transparent.png",
     mrChuySheet: "character-sprites/mr-chuy/mr-chuy-sheet-transparent.png",
     guardianSheet: "character-sprites/guardian-angel/guardian-angel-sheet-transparent.png",
     michaelSheet: "character-sprites/saint-michael/saint-michael-sheet-transparent.png",
     ttitin: "character-sprites/ttitin/ttitin-front-reference.png",
-    tata: "character-sprites/tata/tata-front-reference.png",
     abba: "character-sprites/abba/abba-front-reference.png",
     nana: "character-sprites/nana/nana-front-corrected-reference.png",
     mrsFavi: "character-sprites/mrs-favi/mrs-favi-front-solid-reference.png",
@@ -221,14 +218,8 @@
     michael: "character-sprites/saint-michael/saint-michael-front-reference.png",
     tan: "character-sprites/tan/tan-transparent.png",
     tanSheet: "character-sprites/redeemed-cartoon-v1/processed/tan-cartoon-sheet.png",
-    mrHernandez: "character-sprites/mr-hernandez/mr-hernandez-transparent.png",
-    mrHernandezSheet: "character-sprites/redeemed-cartoon-v1/processed/mr-hernandez-cartoon-sheet.png",
-    mrDomingo: "character-sprites/mr-domingo/mr-domingo-transparent.png",
-    mrDomingoSheet: "character-sprites/redeemed-cartoon-v1/processed/mr-domingo-cartoon-sheet.png",
     donMaro: "character-sprites/don-maro/don-maro-transparent.png",
     donMaroSheet: "character-sprites/redeemed-cartoon-v1/processed/don-maro-cartoon-sheet.png",
-    ladySeferina: "character-sprites/lady-seferina/lady-seferina-transparent.png",
-    ladySeferinaSheet: "character-sprites/redeemed-cartoon-v1/processed/lady-seferina-cartoon-sheet.png",
     donaCarmelina: "character-sprites/dona-carmelina/dona-carmelina-transparent.png",
     donaCarmelinaSheet: "character-sprites/redeemed-cartoon-v1/processed/dona-carmelina-cartoon-sheet.png",
     mrZuil: "character-sprites/mr-zuil/mr-zuil-transparent.png",
@@ -239,8 +230,6 @@
     fatherVSheet: "character-sprites/redeemed-cartoon-v1/processed/father-v-cartoon-sheet.png",
     fatherM: "character-sprites/father-m/father-m-transparent.png",
     fatherMSheet: "character-sprites/redeemed-cartoon-v1/processed/father-m-cartoon-sheet.png",
-    padrino: "character-sprites/tacalache-redeemed/tacalache-redeemed-transparent.png",
-    padrinoSheet: "character-sprites/redeemed-cartoon-v1/processed/padrino-cartoon-sheet.png",
     angeliux: "character-sprites/angeliux/angeliux-transparent-clean.png",
     angeliuxSheet: "character-sprites/redeemed-cartoon-v1/processed/angeliux-cartoon-sheet.png",
     srJoe: "character-sprites/sr-joe/sr-joe-transparent.png",
@@ -249,6 +238,18 @@
     lordSantySheet: "character-sprites/redeemed-cartoon-v1/processed/lord-santy-cartoon-sheet.png",
     donaNene: "character-sprites/dona-nene/dona-nene-transparent.png",
     donaNeneSheet: "character-sprites/redeemed-cartoon-v1/processed/dona-nene-cartoon-sheet.png",
+    gaspaRaspa: "character-sprites/gaspa-raspa/gaspa-raspa-front.png",
+    gaspaRaspaSheet: "character-sprites/gaspa-raspa/gaspa-raspa-sheet.png",
+    tioAbueloOriginal: "character-sprites/tio-abuelo-original/tio-abuelo-original-front.png",
+    tioAbueloOriginalSheet: "character-sprites/tio-abuelo-original/tio-abuelo-original-sheet.png",
+    tioAbueloCuate: "character-sprites/tio-abuelo-cuate/tio-abuelo-cuate-front.png",
+    tioAbueloCuateSheet: "character-sprites/tio-abuelo-cuate/tio-abuelo-cuate-sheet.png",
+    tiaMore: "character-sprites/tia-more/tia-more-front.png",
+    tiaMoreSheet: "character-sprites/tia-more/tia-more-sheet.png",
+    donLalo: "character-sprites/don-lalo/don-lalo-front.png",
+    donLaloSheet: "character-sprites/don-lalo/don-lalo-sheet.png",
+    tioViktorock: "character-sprites/tio-viktorock/tio-viktorock-front.png",
+    tioViktorockSheet: "character-sprites/tio-viktorock/tio-viktorock-sheet.png",
     daroe: "character-sprites/daroe/daroe-front-reference.png",
     daroeSheet: "character-sprites/daroe/daroe-walk-sheet-facing-right.png",
     mamel: "character-sprites/mamel/mamel-front-reference.png",
@@ -598,6 +599,18 @@
       [1600, 0, 320, 560],
       [1920, 0, 320, 560],
     ],
+    grid1774Walk: [
+      [0, 0, 444, 444], [444, 0, 443, 444], [887, 0, 443, 444], [1330, 0, 444, 444],
+      [0, 444, 444, 443], [444, 444, 443, 443], [887, 444, 443, 443], [1330, 444, 444, 443],
+    ],
+    tioAbueloCuateWalk: [
+      [0, 0, 314, 627], [314, 0, 313, 627], [627, 0, 313, 627], [940, 0, 314, 627],
+      [0, 627, 314, 627], [314, 627, 313, 627], [627, 627, 313, 627], [940, 627, 314, 627],
+    ],
+    donLaloWalk: [
+      [0, 0, 384, 512], [384, 0, 384, 512], [768, 0, 384, 512], [1152, 0, 384, 512],
+      [0, 512, 384, 512], [384, 512, 384, 512], [768, 512, 384, 512], [1152, 512, 384, 512],
+    ],
   };
 
   const characterDefs = {
@@ -650,7 +663,6 @@
       front: "mrChuy",
       height: 136,
     },
-    tata: { label: "Tata", animated: "tataWalk", sheet: "tataSheet", front: "tata", height: 130 },
     timmy: { label: "Timmy", animated: "timmyRun", sheet: "timmySheet", front: "timmyFront", height: 96 },
     guardian: {
       label: "Guardian Angel",
@@ -666,21 +678,23 @@
       front: "michael",
       height: 178,
     },
-    tan: { label: "Tan", animated: "tanWalk", sheet: "tanSheet", front: "tan", height: 142 },
-    mrHernandez: { label: "Mr Hernandez", animated: "mrHernandezWalk", sheet: "mrHernandezSheet", front: "mrHernandez", height: 144 },
-    mrDomingo: { label: "Mr. Domingo", animated: "mrDomingoWalk", sheet: "mrDomingoSheet", front: "mrDomingo", height: 144 },
+    tan: { label: "Tío Tan", animated: "tanWalk", sheet: "tanSheet", front: "tan", height: 142 },
     donMaro: { label: "Don Maro", animated: "donMaroWalk", sheet: "donMaroSheet", front: "donMaro", height: 146 },
-    ladySeferina: { label: "Lady Seferina", animated: "ladySeferinaWalk", sheet: "ladySeferinaSheet", front: "ladySeferina", height: 136 },
     donaCarmelina: { label: "Doña Carmelina", animated: "donaCarmelinaWalk", sheet: "donaCarmelinaSheet", front: "donaCarmelina", height: 136 },
     mrZuil: { label: "Mr Zuil", animated: "mrZuilWalk", sheet: "mrZuilSheet", front: "mrZuil", height: 148 },
     mrTio: { label: "Mr Tío", animated: "mrTioWalk", sheet: "mrTioSheet", front: "mrTio", height: 146 },
     fatherV: { label: "Father V", animated: "fatherVWalk", sheet: "fatherVSheet", front: "fatherV", height: 148 },
     fatherM: { label: "Father M", animated: "fatherMWalk", sheet: "fatherMSheet", front: "fatherM", height: 148 },
-    padrino: { label: "Padrino", animated: "padrinoWalk", sheet: "padrinoSheet", front: "padrino", height: 146 },
     angeliux: { label: "Angeliux", animated: "angeliuxWalk", sheet: "angeliuxSheet", front: "angeliux", height: 146 },
     srJoe: { label: "Sr Joe", animated: "srJoeWalk", sheet: "srJoeSheet", front: "srJoe", height: 150 },
     lordSanty: { label: "Lord Santy", animated: "lordSantyWalk", sheet: "lordSantySheet", front: "lordSanty", height: 144 },
     donaNene: { label: "Doña Nene", animated: "donaNeneWalk", sheet: "donaNeneSheet", front: "donaNene", height: 132 },
+    gaspaRaspa: { label: "GaspaRaspa", animated: "grid1774Walk", sheet: "gaspaRaspaSheet", front: "gaspaRaspa", height: 142 },
+    tioAbueloOriginal: { label: "Tío Abuelo Original", animated: "grid1774Walk", sheet: "tioAbueloOriginalSheet", front: "tioAbueloOriginal", height: 142 },
+    tioAbueloCuate: { label: "Tío Abuelo Cuate", animated: "tioAbueloCuateWalk", sheet: "tioAbueloCuateSheet", front: "tioAbueloCuate", height: 142 },
+    tiaMore: { label: "Tía More", animated: "grid1774Walk", sheet: "tiaMoreSheet", front: "tiaMore", height: 142 },
+    donLalo: { label: "Don Lalo", animated: "donLaloWalk", sheet: "donLaloSheet", front: "donLalo", height: 142 },
+    tioViktorock: { label: "Tío Viktorock", animated: "grid1774Walk", sheet: "tioViktorockSheet", front: "tioViktorock", height: 142 },
     daroe: { label: "Daroe", animated: "daroeWalk", sheet: "daroeSheet", front: "daroe", height: 118, idleFrame: 6, previewFrame: 6 },
     mamel: { label: "Mamel", animated: "mamelWalk", sheet: "mamelSheet", front: "mamel", height: 108 },
   };
@@ -3228,7 +3242,7 @@
   }
 
   function drawCheeringHelpers(stage) {
-    const helpers = ["elayitas", "angie", "ttitin", "tata", "abba", "nana", "mrsFavi", "mrChuy", "timmy", "guardian", "michael"];
+    const helpers = ["elayitas", "angie", "ttitin", "abba", "nana", "mrsFavi", "mrChuy", "timmy", "guardian", "michael", "daroe", "mamel"];
     const spotsByStage = [
       [[88, 342], [176, 333], [1090, 345], [1180, 330]],
       [[90, 365], [182, 356], [1025, 348], [1132, 360]],
@@ -4764,7 +4778,6 @@
         "elayitas",
         "angie",
         "ttitin",
-        "tata",
         "abba",
         "nana",
         "mrsFavi",
@@ -5075,10 +5088,7 @@
       angie: "../video-intro/crux-sacra-final-redemption-dona-carmelina.mp4?v=1",
       nana: "../video-intro/crux-sacra-final-redemption-tan.mp4?v=1",
       ttitin: "../video-intro/crux-sacra-final-redemption-mr-zuil.mp4?v=1",
-      tata: "../video-intro/crux-sacra-final-redemption-mr-hernandez.mp4?v=1",
-      mrsFavi: "../video-intro/crux-sacra-final-redemption-mr-domingo.mp4?v=1",
       mrChuy: "../video-intro/crux-sacra-final-redemption-don-maro.mp4?v=1",
-      abba: "../video-intro/crux-sacra-final-redemption-lady-seferina.mp4?v=1",
       timmy: "../video-intro/crux-sacra-final-redemption-mr-tio.mp4?v=1",
       guardian: "../video-intro/crux-sacra-final-redemption-father-v.mp4?v=1",
       michael: "../video-intro/crux-sacra-final-redemption-father-m.mp4?v=1",
@@ -5087,10 +5097,7 @@
       angie: "../video-intro/world2/crux-sacra-juarez-redemption-dona-carmelina.mp4?v=1",
       nana: "../video-intro/world2/crux-sacra-juarez-redemption-tan.mp4?v=1",
       ttitin: "../video-intro/world2/crux-sacra-juarez-redemption-mr-zuil.mp4?v=1",
-      tata: "../video-intro/world2/crux-sacra-juarez-redemption-mr-hernandez.mp4?v=1",
-      mrsFavi: "../video-intro/world2/crux-sacra-juarez-redemption-mr-domingo.mp4?v=1",
       mrChuy: "../video-intro/world2/crux-sacra-juarez-redemption-don-maro.mp4?v=1",
-      abba: "../video-intro/world2/crux-sacra-juarez-redemption-lady-seferina.mp4?v=1",
       timmy: "../video-intro/world2/crux-sacra-juarez-redemption-mr-tio.mp4?v=1",
       guardian: "../video-intro/world2/crux-sacra-juarez-redemption-father-v.mp4?v=1",
       michael: "../video-intro/world2/crux-sacra-juarez-redemption-father-m.mp4?v=1",
@@ -5099,10 +5106,7 @@
       angie: "../video-intro/world3/crux-sacra-us-east-redemption-dona-carmelina.mp4?v=4",
       nana: "../video-intro/world3/crux-sacra-us-east-redemption-tan.mp4?v=4",
       ttitin: "../video-intro/world3/crux-sacra-us-east-redemption-mr-zuil.mp4?v=4",
-      tata: "../video-intro/world3/crux-sacra-us-east-redemption-mr-hernandez.mp4?v=4",
-      mrsFavi: "../video-intro/world3/crux-sacra-us-east-redemption-mr-domingo.mp4?v=4",
       mrChuy: "../video-intro/world3/crux-sacra-us-east-redemption-don-maro.mp4?v=4",
-      abba: "../video-intro/world3/crux-sacra-us-east-redemption-lady-seferina.mp4?v=4",
       timmy: "../video-intro/world3/crux-sacra-us-east-redemption-mr-tio.mp4?v=4",
       guardian: "../video-intro/world3/crux-sacra-us-east-redemption-father-v.mp4?v=4",
       michael: "../video-intro/world3/crux-sacra-us-east-redemption-father-m.mp4?v=4",
@@ -5111,10 +5115,7 @@
       angie: "../video-intro/world4/crux-sacra-el-paso-redemption-dona-carmelina.mp4?v=2",
       nana: "../video-intro/world4/crux-sacra-el-paso-redemption-tan.mp4?v=2",
       ttitin: "../video-intro/world4/crux-sacra-el-paso-redemption-mr-zuil.mp4?v=2",
-      tata: "../video-intro/world4/crux-sacra-el-paso-redemption-mr-hernandez.mp4?v=2",
-      mrsFavi: "../video-intro/world4/crux-sacra-el-paso-redemption-mr-domingo.mp4?v=2",
       mrChuy: "../video-intro/world4/crux-sacra-el-paso-redemption-don-maro.mp4?v=2",
-      abba: "../video-intro/world4/crux-sacra-el-paso-redemption-lady-seferina.mp4?v=2",
       timmy: "../video-intro/world4/crux-sacra-el-paso-redemption-mr-tio.mp4?v=2",
       guardian: "../video-intro/world4/crux-sacra-el-paso-redemption-father-v.mp4?v=2",
       michael: "../video-intro/world4/crux-sacra-el-paso-redemption-father-m.mp4?v=2",
@@ -5123,10 +5124,7 @@
       angie: "../video-intro/world5/crux-sacra-guadalajara-redemption-dona-carmelina.mp4?v=2",
       nana: "../video-intro/world5/crux-sacra-guadalajara-redemption-tan.mp4?v=2",
       ttitin: "../video-intro/world5/crux-sacra-guadalajara-redemption-mr-zuil.mp4?v=2",
-      tata: "../video-intro/world5/crux-sacra-guadalajara-redemption-mr-hernandez.mp4?v=2",
-      mrsFavi: "../video-intro/world5/crux-sacra-guadalajara-redemption-mr-domingo.mp4?v=2",
       mrChuy: "../video-intro/world5/crux-sacra-guadalajara-redemption-don-maro.mp4?v=2",
-      abba: "../video-intro/world5/crux-sacra-guadalajara-redemption-lady-seferina.mp4?v=2",
       timmy: "../video-intro/world5/crux-sacra-guadalajara-redemption-mr-tio.mp4?v=2",
       guardian: "../video-intro/world5/crux-sacra-guadalajara-redemption-father-v.mp4?v=2",
       michael: "../video-intro/world5/crux-sacra-guadalajara-redemption-father-m.mp4?v=2",
@@ -5208,13 +5206,15 @@
   }
 
   function redeemedKeyForHero() {
+    if (
+      (game.selectedHero === "mrChuy" && game.selectedCompanion === "mrsFavi") ||
+      (game.selectedHero === "mrsFavi" && game.selectedCompanion === "mrChuy")
+    ) return "donLalo";
     if (game.selectedHero === "nana" && game.selectedCompanion === "nana") return "angeliux";
-    if (game.selectedHero === "elayitas" && game.selectedCompanion === "elayitas") return "daroe";
-    if (game.selectedHero === "elayitas" && game.selectedCompanion === "angie") return "mamel";
     if (game.selectedHero === "mrTio") return "srJoe";
     if (game.selectedHero === "donaCarmelina") return "lordSanty";
     if (game.selectedHero === "tan") return "donaNene";
-    const mapped = redeemedCharacterByHero[game.selectedHero] || "padrino";
+    const mapped = redeemedCharacterByHero[game.selectedHero] || "tioAbueloOriginal";
     if (mapped && mapped !== game.selectedHero && !redeemedCharacterKeys.has(game.selectedHero)) return mapped;
     const blocked = new Set([game.selectedHero, game.selectedCompanion, mapped]);
     return fallbackRedemptionCandidates.find((key) => !blocked.has(key)) || mapped;
@@ -5222,7 +5222,7 @@
 
   function redeemedNameForHero() {
     const key = redeemedKeyForHero();
-    return characterDefs[key]?.label || redeemedByHero[game.selectedHero] || "Padrino";
+    return characterDefs[key]?.label || redeemedByHero[game.selectedHero] || "Tío Abuelo Original";
   }
 
   function redemptionMessage(name) {
