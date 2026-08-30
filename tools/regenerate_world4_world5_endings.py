@@ -20,14 +20,16 @@ REDEEMED = {
     "dona-carmelina": ("Doña Carmelina", "character-sprites/dona-carmelina/dona-carmelina-transparent.png"),
     "tan": ("Tío Tan", "character-sprites/tan/tan-transparent.png"),
     "mr-zuil": ("Mr Zuil", "character-sprites/mr-zuil/mr-zuil-transparent.png"),
-    "mr-hernandez": ("Mr Hernandez", "character-sprites/mr-hernandez/mr-hernandez-transparent.png"),
-    "mr-domingo": ("Mr. Domingo", "character-sprites/mr-domingo/mr-domingo-transparent.png"),
     "don-maro": ("Don Maro", "character-sprites/don-maro/don-maro-transparent.png"),
-    "lady-seferina": ("Lady Seferina", "character-sprites/lady-seferina/lady-seferina-transparent.png"),
     "mr-tio": ("Mr Tío", "character-sprites/mr-tio/mr-tio-transparent.png"),
     "father-v": ("Father V", "character-sprites/father-v/father-v-transparent.png"),
     "father-m": ("Father M", "character-sprites/father-m/father-m-transparent.png"),
-    "padrino": ("Padrino", "character-sprites/tacalache-redeemed/tacalache-redeemed-transparent.png"),
+    "gaspa-raspa": ("GaspaRaspa", "character-sprites/gaspa-raspa/gaspa-raspa-front.png"),
+    "tio-abuelo-original": ("Tío Abuelo Original", "character-sprites/tio-abuelo-original/tio-abuelo-original-front.png"),
+    "tio-abuelo-cuate": ("Tío Abuelo Cuate", "character-sprites/tio-abuelo-cuate/tio-abuelo-cuate-front.png"),
+    "tia-more": ("Tía More", "character-sprites/tia-more/tia-more-front.png"),
+    "tio-viktorock": ("Tío Viktorock", "character-sprites/tio-viktorock/tio-viktorock-front.png"),
+    "don-lalo": ("Don Lalo", "character-sprites/don-lalo/don-lalo-front.png"),
 }
 
 WORLDS = {
@@ -100,7 +102,7 @@ def draw_panel(draw: ImageDraw.ImageDraw, text: str, y: int) -> None:
     draw.text((x, y), text, font=FONT_BODY, fill=(255, 248, 211, 255))
 
 
-def make_frame(world: dict, redeemed: tuple[str, str], t: float) -> Image.Image:
+def make_frame(world: dict, redeemed: tuple[str, str] | None, t: float) -> Image.Image:
     bg = fit_cover(Image.open(ROOT / world["background"]), (W, H)).convert("RGBA")
     bg = ImageEnhance.Color(bg).enhance(1.06)
     bg = ImageEnhance.Contrast(bg).enhance(1.04)
@@ -110,8 +112,11 @@ def make_frame(world: dict, redeemed: tuple[str, str], t: float) -> Image.Image:
     jesus = fit_height(Image.open(ROOT / "character-sprites/jesus/jesus-divine-mercy-transparent.png"), 330)
     villain_name, villain_path = world["villain"]
     villain = fit_height(Image.open(ROOT / villain_path), 245 if world["city"] == "El Paso" else 360)
-    redeemed_name, redeemed_path = redeemed
-    redeemed_sprite = fit_height(Image.open(ROOT / redeemed_path), 285 if "lady" not in redeemed_path else 245)
+    redeemed_name = redeemed[0] if redeemed else "a new friend"
+    redeemed_sprite = None
+    if redeemed:
+        _, redeemed_path = redeemed
+        redeemed_sprite = fit_height(Image.open(ROOT / redeemed_path), 285 if "lady" not in redeemed_path else 245)
 
     pulse = 0.5 + 0.5 * math.sin(t * math.pi * 2)
     light = Image.new("RGBA", (W, H), (0, 0, 0, 0))
@@ -127,7 +132,8 @@ def make_frame(world: dict, redeemed: tuple[str, str], t: float) -> Image.Image:
     villain = ImageEnhance.Brightness(villain).enhance(0.78)
     paste_shadow(bg, villain, vx, vy, 0.34)
     rx = 130 + round(math.sin(t * math.pi * 2.0) * 6)
-    paste_shadow(bg, redeemed_sprite, rx, H - redeemed_sprite.height - 42, 0.32)
+    if redeemed_sprite is not None:
+        paste_shadow(bg, redeemed_sprite, rx, H - redeemed_sprite.height - 42, 0.32)
 
     draw = ImageDraw.Draw(bg)
     draw_panel(draw, f"{villain_name} was touched by the grace of God", 36)
@@ -139,12 +145,13 @@ def make_frame(world: dict, redeemed: tuple[str, str], t: float) -> Image.Image:
     return bg.convert("RGB")
 
 
-def render_video(world_key: str, suffix: str, redeemed_key: str) -> None:
+def render_video(world_key: str, suffix: str, redeemed_key: str | None) -> None:
     world = WORLDS[world_key]
     out_dir = ROOT / "video-intro" / world_key
+    out_dir.mkdir(parents=True, exist_ok=True)
     out_name = f"{world['prefix']}-{suffix}.mp4" if suffix != "placeholder" else f"{world['prefix']}-placeholder.mp4"
     out_path = out_dir / out_name
-    redeemed = REDEEMED[redeemed_key]
+    redeemed = REDEEMED[redeemed_key] if redeemed_key else None
 
     with tempfile.TemporaryDirectory(prefix=f"{world_key}-ending-") as tmp:
         frame_dir = Path(tmp) / "frames"
@@ -210,15 +217,17 @@ def main() -> None:
         "dona-carmelina": "dona-carmelina",
         "tan": "tan",
         "mr-zuil": "mr-zuil",
-        "mr-hernandez": "mr-hernandez",
-        "mr-domingo": "mr-domingo",
         "don-maro": "don-maro",
-        "lady-seferina": "lady-seferina",
         "mr-tio": "mr-tio",
         "father-v": "father-v",
         "father-m": "father-m",
-        "padrino": "padrino",
-        "placeholder": "padrino",
+        "gaspa-raspa": "gaspa-raspa",
+        "tio-abuelo-original": "tio-abuelo-original",
+        "tio-abuelo-cuate": "tio-abuelo-cuate",
+        "tia-more": "tia-more",
+        "tio-viktorock": "tio-viktorock",
+        "don-lalo": "don-lalo",
+        "placeholder": None,
     }
     for world_key in WORLDS:
         for suffix, redeemed_key in jobs.items():
