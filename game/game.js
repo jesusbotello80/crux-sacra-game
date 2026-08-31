@@ -5147,7 +5147,7 @@
     const saintsFinalVideoByHero = {};
     const elRanchoFinalVideoByHero = {};
     const finalVideosByWorld = {
-      colorado: { map: finalVideoByHero, fallback: "../video-intro/crux-sacra-final-redemption.mp4?v=3" },
+      colorado: { map: finalVideoByHero, fallback: "../video-intro/world1/crux-sacra-colorado-redemption-placeholder.mp4?v=1" },
       juarez: { map: juarezFinalVideoByHero, fallback: "../video-intro/world2/crux-sacra-juarez-ending-placeholder.mp4?v=1" },
       useast: { map: useastFinalVideoByHero, fallback: "../video-intro/world3/crux-sacra-us-east-redemption-tan.mp4?v=4" },
       elpaso: { map: elPasoFinalVideoByHero, fallback: "../video-intro/world4/crux-sacra-el-paso-redemption-placeholder.mp4?v=2" },

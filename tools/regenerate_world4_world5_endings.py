@@ -3,6 +3,7 @@ from __future__ import annotations
 import math
 import shutil
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
@@ -33,6 +34,14 @@ REDEEMED = {
 }
 
 WORLDS = {
+    "world1": {
+        "prefix": "crux-sacra-colorado-redemption",
+        "output_dir": "video-intro/world1",
+        "background": "video-demo/backgrounds/colorado-v2/bg-colorado-night-tacalache-v2.png",
+        "villain": ("El Tacalache", "character-sprites/el-tacalache/el-tacalache-front-reference.png"),
+        "accent": "#f8dc71",
+        "city": "Colorado Springs",
+    },
     "world4": {
         "prefix": "crux-sacra-el-paso-redemption",
         "background": "video-demo/backgrounds/el-paso/playable/bg-el-paso-level-4.png",
@@ -147,7 +156,7 @@ def make_frame(world: dict, redeemed: tuple[str, str] | None, t: float) -> Image
 
 def render_video(world_key: str, suffix: str, redeemed_key: str | None) -> None:
     world = WORLDS[world_key]
-    out_dir = ROOT / "video-intro" / world_key
+    out_dir = ROOT / world.get("output_dir", f"video-intro/{world_key}")
     out_dir.mkdir(parents=True, exist_ok=True)
     out_name = f"{world['prefix']}-{suffix}.mp4" if suffix != "placeholder" else f"{world['prefix']}-placeholder.mp4"
     out_path = out_dir / out_name
@@ -229,7 +238,11 @@ def main() -> None:
         "don-lalo": "don-lalo",
         "placeholder": None,
     }
-    for world_key in WORLDS:
+    requested_worlds = sys.argv[1:] or list(WORLDS)
+    unknown_worlds = set(requested_worlds) - set(WORLDS)
+    if unknown_worlds:
+        raise SystemExit(f"Unknown world key(s): {', '.join(sorted(unknown_worlds))}")
+    for world_key in requested_worlds:
         for suffix, redeemed_key in jobs.items():
             render_video(world_key, suffix, redeemed_key)
 
