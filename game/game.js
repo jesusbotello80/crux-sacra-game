@@ -5092,6 +5092,12 @@
       timmy: "../video-intro/crux-sacra-final-redemption-mr-tio.mp4?v=1",
       guardian: "../video-intro/crux-sacra-final-redemption-father-v.mp4?v=1",
       michael: "../video-intro/crux-sacra-final-redemption-father-m.mp4?v=1",
+      elayitas: "../video-intro/world1/crux-sacra-colorado-redemption-tio-abuelo-original.mp4?v=1",
+      mrsFavi: "../video-intro/world1/crux-sacra-colorado-redemption-gaspa-raspa.mp4?v=1",
+      abba: "../video-intro/world1/crux-sacra-colorado-redemption-tio-abuelo-cuate.mp4?v=1",
+      daroe: "../video-intro/world1/crux-sacra-colorado-redemption-tia-more.mp4?v=1",
+      mamel: "../video-intro/world1/crux-sacra-colorado-redemption-tio-viktorock.mp4?v=1",
+      donLalo: "../video-intro/world1/crux-sacra-colorado-redemption-don-lalo.mp4?v=1",
     };
     const juarezFinalVideoByHero = {
       angie: "../video-intro/world2/crux-sacra-juarez-redemption-dona-carmelina.mp4?v=1",
