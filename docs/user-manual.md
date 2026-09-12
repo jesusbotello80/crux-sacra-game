@@ -5,6 +5,20 @@ Product: FJ Botello Faith & Family
 
 ## English
 
+### Release information
+
+| Item | Details |
+| --- | --- |
+| Game | Crux Sacra |
+| Version | v1.1 — Character Roster Update (2026) |
+| Product | FJ Botello Faith & Family |
+| Guide status | Maintained player and parent guide; public-route publication is pending release setup. |
+
+### Credits
+
+Created by Jesús B. · Ideas by Elías B.<br />
+AI helpers: OpenAI Codex, OpenAI Image Generation, and OpenCode, guided and approved by Jesús B.
+
 ### Purpose and family play
 
 Crux Sacra is a bilingual family adventure. Choose a hero and companion, protect the glowing Crux Sacras in each world, and unlock new worlds and redeemed characters through play. The game uses imaginative faith-themed challenges; parent guidance is encouraged for younger players.
@@ -43,12 +57,21 @@ Crux Sacra is intended as family-safe imaginative play. The goal is to protect, 
 - Use **Reset Progress / Reiniciar Progreso** only when you intentionally want to erase local unlock progress.
 - For feedback, include the world, selected hero/companion, device type, and a screenshot when possible.
 
-### Credits
-
-Created by Jesús B. · Ideas by Elías B.  
-AI helpers: OpenAI Codex, OpenAI Image Generation, and OpenCode, guided and approved by Jesús B.
-
 ## Español
+
+### Información de la versión
+
+| Elemento | Detalles |
+| --- | --- |
+| Juego | Crux Sacra |
+| Versión | v1.1 — Actualización del Reparto de Personajes (2026) |
+| Producto | FJ Botello Faith & Family |
+| Estado de la guía | Guía mantenida para jugadores y familias; la publicación en una ruta pública está pendiente de configuración de lanzamiento. |
+
+### Créditos
+
+Creado por Jesús B. · Ideas por Elías B.<br />
+Ayudantes de IA: OpenAI Codex, OpenAI Image Generation y OpenCode, guiados y aprobados por Jesús B.
 
 ### Propósito y juego en familia
 
@@ -87,8 +110,3 @@ Crux Sacra está pensado como juego imaginativo seguro para familias. La meta es
 - Si la pantalla se ve muy llena en el celular, gira a horizontal y cierra las barras del navegador.
 - Usa **Reiniciar Progreso** solo cuando quieras borrar intencionalmente el progreso local.
 - Para enviar comentarios, incluye mundo, héroe/compañero, tipo de dispositivo y una captura si es posible.
-
-### Créditos
-
-Creado por Jesús B. · Ideas por Elías B.  
-Ayudantes de IA: OpenAI Codex, OpenAI Image Generation y OpenCode, guiados y aprobados por Jesús B.
