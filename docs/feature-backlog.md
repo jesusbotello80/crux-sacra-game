@@ -2,7 +2,7 @@
 
 ## DOC-001 — Official player and parent guide
 
-**Status:** Approved for documentation work; publication handoff pending root-site ownership.
+**Status:** Source guide complete locally; public-route and FJ Games Hub handoff pending root-site ownership.
 
 Create a bilingual English/Spanish guide for the original Crux Sacra game. It
 must cover controls, iPhone setup, heroes/companions, collectibles, levels,
