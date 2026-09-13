@@ -208,7 +208,7 @@ canvas {
 .title-actions {
   width: min(760px, calc(100% - 24px));
   display: grid;
-  grid-template-columns: 1.35fr 0.8fr 1fr;
+  grid-template-columns: 1.35fr repeat(3, 1fr);
   gap: 10px;
   margin: 16px auto 0;
 }
@@ -217,6 +217,25 @@ canvas {
   background: rgba(9, 15, 25, 0.78);
   color: #fff8d3;
   border-color: rgba(255, 248, 211, 0.48);
+}
+
+.guide-action {
+  display: grid;
+  place-items: center;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 248, 211, 0.48);
+  border-radius: 8px;
+  color: #fff8d3;
+  font: 700 16px/1 Arial, Helvetica, sans-serif;
+  text-align: center;
+  text-decoration: none;
+}
+
+.guide-action:focus-visible {
+  outline: 3px solid #9ee7ff;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(158, 231, 255, 0.22), 0 0 24px rgba(246, 220, 117, 0.4);
 }
 
 .progress-status {
@@ -1092,6 +1111,7 @@ button:focus-visible {
   #introButton,
   #startButton,
   #helpButton,
+  .guide-action,
   #resetProgressButton,
   #againButton,
   #skipIntroButton,
