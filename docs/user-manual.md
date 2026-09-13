@@ -1,6 +1,6 @@
 # Crux Sacra — Player & Parent Guide / Guía para Jugadores y Familias
 
-Version: v1.1 — Character Roster Update (2026)  
+Version: v1.1 — Character Roster Update (2026)<br />
 Product: FJ Botello Faith & Family
 
 ## English
