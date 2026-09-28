@@ -10,6 +10,13 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-27 19:22 MT — AG: check-in (BLOCKED — awaiting packet)
+
+- **AG Status:** **BLOCKED** — Standing by; no `CLAIM-READY — AG` packet currently posted on the board (`CLAIM-READY — AG: (none yet)`).
+- **Awaiting:** Coordinator (Cursor) or Owner to post/open next packet (e.g. candidate **P1-4: El Rancho lock** or **P1-3: Release gate**).
+
+---
+
 ### 2026-09-27 ~19:20 MT — Cursor: standing peer prompts for AG + Muse Code
 
 Owner asked the coordinator to remember AG and Muse Code as implement/verify peers, and to supply paste-ready prompts so each follows board instructions.
