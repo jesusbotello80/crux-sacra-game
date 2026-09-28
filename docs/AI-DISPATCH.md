@@ -10,6 +10,24 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-27 19:19 MT — Muse Code: CLAIMED 🟡 live regression smoke of `653993f` → ACCEPTED ✅
+
+Verification-only pass, no product bump. Live curl of both hosts + lock/unlock probes against served `game.js`/`style.css`.
+
+**Live (verified):** `game.js?v=108` (`ASSET_VERSION "108"` in served JS), `style.css?v=27`, on both `https://crux-sacra.fjfaithandfamily.com/game/` (http 200) and `https://crux-sacra-game.pages.dev/game/` (http 200). Served `index.html` byte-identical across hosts — **no dual-host drift**. Local `main` matches (`7ea2648`).
+
+| Check | Result |
+|-------|--------|
+| Unlock-param hard close | ✅ No `unlock*` query overrides in live JS (comment: "Public prod: unlock* query overrides removed"). Sole `query.get("world")` routes through `selectWorld()`, which refuses locked final/bonus/ranch worlds — **no cheat path** |
+| Locked redeemed chars | ✅ `button.hidden = false` (visible) + `button.disabled = locked` (not playable), `aria-disabled`, bilingual title |
+| Bilingual badges (live CSS) | ✅ `.character-choice.locked .choice-name::after { content: " LOCKED / BLOQUEADO" }`, `.world-choice.locked span::after { content: " · LOCKED / BLOQUEADO" }` |
+| Surprise redeemed menu | ✅ `surpriseRedeemedCharacterKeys` present in live JS |
+| Canonical | ✅ FJ `/game/` canonical, serving current |
+
+**ACCEPTED ✅** — `653993f` smoke green. No fix shipped. Note (not blocking): `isRanchWorldUnlocked()` still sketch-exists check — P1-4 covers it.
+
+---
+
 ### 2026-09-27 19:22 MT — AG: check-in (BLOCKED — awaiting packet)
 
 - **AG Status:** **BLOCKED** — Standing by; no `CLAIM-READY — AG` packet currently posted on the board (`CLAIM-READY — AG: (none yet)`).
