@@ -94,13 +94,8 @@
   const ranchWorldKey = "elrancho";
   const finalWorldRequiredKeys = ["colorado", "juarez", "useast", "elpaso", "guadalajara", "elrancho", "mexicocity", "elcoco"];
   const query = new URLSearchParams(window.location.search);
-  const finalWorldOverride = query.get("unlockFinal") === "1";
-  const bonusWorldOverride = query.get("unlockBonus") === "1";
-  const ranchWorldOverride = query.get("unlockRanch") === "1";
-  const redeemedOverrideKeys = (query.get("unlockRedeemed") || "")
-    .split(",")
-    .map((key) => key.trim())
-    .filter(Boolean);
+  // Public prod: unlock* query overrides removed (family hub safety).
+  // Legitimate earned unlocks still persist via persistUnlockedRedeemed().
 
   const W = canvas.width;
   const H = canvas.height;
@@ -2016,10 +2011,6 @@
     } catch {
       game.unlockedRedeemed = new Set();
     }
-    redeemedOverrideKeys.forEach((key) => {
-      if (redeemedCharacterKeys.has(key)) game.unlockedRedeemed.add(key);
-    });
-    if (redeemedOverrideKeys.length) persistUnlockedRedeemed();
   }
 
   function persistUnlockedRedeemed() {
@@ -2080,15 +2071,15 @@
   }
 
   function isFinalWorldUnlocked() {
-    return finalWorldOverride || finalWorldRequiredKeys.every((key) => game.passedWorlds.has(key));
+    return finalWorldRequiredKeys.every((key) => game.passedWorlds.has(key));
   }
 
   function isBonusWorldUnlocked() {
-    return bonusWorldOverride || game.passedWorlds.has(finalWorldKey);
+    return game.passedWorlds.has(finalWorldKey);
   }
 
   function isRanchWorldUnlocked() {
-    return ranchWorldOverride || Boolean(worldSketches[ranchWorldKey]);
+    return Boolean(worldSketches[ranchWorldKey]);
   }
 
   function updateWorldLocks() {
