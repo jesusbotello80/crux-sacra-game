@@ -730,7 +730,7 @@ button:focus-visible {
 }
 
 .character-choice.locked .choice-name::after {
-  content: " LOCKED";
+  content: " LOCKED / BLOQUEADO";
   display: block;
   margin-top: 3px;
   font-size: 9px;
@@ -739,7 +739,7 @@ button:focus-visible {
 }
 
 .world-choice.locked span::after {
-  content: " · LOCKED";
+  content: " · LOCKED / BLOQUEADO";
   font-size: 10px;
   letter-spacing: 0;
   color: rgba(255, 249, 220, 0.78);
