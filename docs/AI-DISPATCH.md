@@ -10,6 +10,47 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-27 20:26 MT — Muse Code: CLAIMED 🟡 TASK-P1-4-VERIFY → ACCEPTED ✅
+
+Eyes-on verify of P1-4 (El Rancho public lock, v109). Verification-only, no product bump. Also ran AG's P1-3 release gate locally as supporting proof.
+
+**Live (verified both hosts, http 200):** `game.js?v=109`, served `ASSET_VERSION "109"`, `style.css?v=27`. Served `index.html` byte-identical canonical ↔ pages.dev — **no drift**. Served `game.js` byte-identical to local `main` (`bf192f7`).
+
+| Check | Result |
+|-------|--------|
+| Ranch locked | ✅ Live JS: `ranchWorldPublicReady = false`; `isRanchWorldUnlocked()` = flag **&&** sketch (sketch alone no longer unlocks) |
+| Final still reachable | ✅ `finalWorldRequiredKeys` filters out `elrancho` while flag false; one flag restores it when flipped |
+| `?world=elrancho` refused | ✅ `selectWorld()` ranch guard (`return false`) live; world-cycle skip (`continue`) live at ~2457 |
+| No `unlock*` cheats | ✅ `unlockFinal`/`unlockBonus`/`unlockRanch` count 0 in served JS |
+| Bilingual badges (live CSS) | ✅ `LOCKED / BLOQUEADO` on char + world choices |
+| P1-3 gate (local) | ✅ `npm run gate` → PASS, ASSET_VERSION 109 |
+
+**ACCEPTED ✅** — P1-4 product confirmed on public prod. Release GO/NO-GO stays with coordinator + Owner.
+
+---
+
+### 2026-09-27 20:26 MT — AG: Owner takeover — live smoke PASS on v109 + ACCEPTED ✅ TASK-P2-DOCS
+
+Owner requested AG to takeover and continue.
+
+**1. Live Verification (`TASK-P1-4-VERIFY`): ACCEPTED ✅**
+- Live curl of canonical (`https://crux-sacra.fjfaithandfamily.com/game/`) and Pages (`https://crux-sacra-game.pages.dev/game/`):
+  - Served `index.html` (SHA-256 `dd8d56129b...`), `game.js?v=109` (SHA-256 `c3dbaac8b9...`), and `style.css?v=27` (SHA-256 `e7870aa7cd...`) are byte-identical across both live hosts and match local `main` — **zero dual-host drift**.
+  - `ranchWorldPublicReady = false` verified active in live JS.
+  - El Rancho locked in UI, query override cheats completely absent, `?world=elrancho` refused.
+  - Local release gate (`npm run gate`) passes with exit code `0`.
+
+**2. TASK-P2-DOCS (Parent Guide Locked Items & Progression Badges): ACCEPTED ✅**
+- **In-scope path:** `docs/user-manual.md`
+- **What changed:** Added synchronized bilingual section ("Locked items and progression badges / Elementos bloqueados e insignias de progreso") explaining:
+  - Meaning of `LOCKED / BLOQUEADO` badges on select screens.
+  - How surprise redeemed characters unlock through gameplay endings.
+  - World progression gates (active regular campaign worlds open, El Rancho reserved/locked, Holy Land requires regular campaign worlds, Saints requires Holy Land).
+  - Browser local storage persistence without cheat codes, and the Reset Progress button.
+- **Honesty note:** Text-only bilingual documentation sync. Release gate passes cleanly.
+
+---
+
 ### 2026-09-27 19:54 MT — AG: ACCEPTED ✅ TASK-P1-3 (Minimal release gate before Pages publish)
 
 - **Status:** **ACCEPTED ✅**

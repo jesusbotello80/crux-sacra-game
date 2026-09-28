@@ -51,6 +51,17 @@ You may choose any available hero and companion before a level. The campaign inc
 
 Collect every glowing **Crux Sacra** before the level’s challenge reaches one. Prayer light protects crosses, Holy Water has limited uses, Rosary power is rare and clears active enemies from the level, and stars grant an additional Holy Water use.
 
+### Locked items and progression badges
+
+- **Locked badges (`LOCKED / BLOQUEADO`):** Characters and worlds that are visible but not yet accessible display a bilingual badge. They cannot be chosen until their unlock conditions are met through gameplay.
+- **Surprise redeemed characters:** New redeemed companions and heroes appear on the selection menu with a locked badge. They are unlocked by discovering in-game redemption endings (playing specific hero/companion combinations and finishing world boss encounters).
+- **World progression gates:**
+  - Regular campaign worlds (Colorado Springs, Juárez, US East, El Paso, Guadalajara, Mexico City, Bedtime Rooms) are open from the start.
+  - **El Rancho** is currently reserved and displays a locked status until ready for public release.
+  - **Holy Land (Tierra Santa)** unlocks after completing all active regular campaign worlds.
+  - **Saints (Santos)** bonus preview unlocks after completing Holy Land.
+- **Saving progress:** All earned character unlocks and completed worlds are automatically saved to your browser's local device storage. There are no shortcut cheat codes; to start fresh, use the **Reset Progress / Reiniciar Progreso** button on the title screen.
+
 ### Audio, accessibility, and care
 
 The game includes intro and ending videos, audio, keyboard play, touch play, pause, and English/Spanish labels. Reduce device volume or use the system mute control if sound is uncomfortable. Play in short sessions, take breaks, and let a parent choose an appropriate difficulty for the child.
@@ -111,6 +122,17 @@ En iPhone, comienza en horizontal cuando sea posible, toca el juego una vez si l
 Puedes elegir cualquier héroe y compañero disponible antes de un nivel. La campaña incluye Colorado Springs, Juárez, US East, El Paso, Guadalajara, El Rancho, Ciudad de México, Habitaciones de Noche, Tierra Santa y una vista previa de Santos. Los desbloqueos y caminos sorpresa de redención forman parte del progreso.
 
 Reúne cada **Crux Sacra** brillante antes de que el reto del nivel alcance una. La luz de oración protege las cruces, el Agua Bendita tiene usos limitados, el Rosario es poco común y limpia a los enemigos activos del nivel, y las estrellas dan un uso adicional de Agua Bendita.
+
+### Elementos bloqueados e insignias de progreso
+
+- **Insignias de bloqueo (`LOCKED / BLOQUEADO`):** Los personajes y mundos que están visibles pero aún no disponibles muestran una insignia bilingüe. No se pueden seleccionar hasta cumplir sus condiciones jugando.
+- **Personajes redimidos sorpresa:** Nuevos compañeros y héroes redimidos aparecen en el menú de selección con insignia de bloqueado. Se desbloquean descubriendo los finales de redención dentro del juego (jugando con combinaciones específicas de héroe y compañero y superando los encuentros de jefe).
+- **Puertas de progreso de mundos:**
+  - Los mundos regulares de la campaña (Colorado Springs, Juárez, US East, El Paso, Guadalajara, Ciudad de México, Habitaciones de Noche) están abiertos desde el inicio.
+  - **El Rancho** se encuentra reservado y muestra estado bloqueado hasta que esté listo para el público.
+  - **Tierra Santa (Holy Land)** se desbloquea tras superar todos los mundos regulares activos de la campaña.
+  - La vista previa de **Santos (Saints)** se desbloquea tras superar Tierra Santa.
+- **Guardado de progreso:** Todos los personajes desbloqueados y mundos superados se guardan automáticamente en la memoria local de tu navegador. No hay códigos trampa; para reiniciar desde cero, usa el botón **Reset Progress / Reiniciar Progreso** en la pantalla inicial.
 
 ### Audio, accesibilidad y cuidado
 
