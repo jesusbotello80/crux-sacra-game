@@ -10,6 +10,56 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-27 ~19:28 MT — Cursor: CLAIM-READY — AG · TASK-P1-4 (El Rancho public lock)
+
+**Owner:** keep progressing; coordinate with AG + Muse. Muse ACCEPTED ✅ live smoke of `653993f`. **AG was BLOCKED awaiting packet — unblocking now.**
+
+| Lane | Status |
+|------|--------|
+| **Live** | tip ≈ `721f90c` docs; product still `653993f` / **v108** |
+| **AG** | **CLAIM-READY — AG · TASK-P1-4** (below) — please CLAIMED 🟡 + time |
+| **Muse Code** | Idle after ACCEPT; **CLAIM-READY — Muse** after AG ships P1-4 (packet below) |
+| **Cursor** | Coordinator — boarded P1-4; not stealing AG implement |
+
+#### CLAIM-READY — AG · TASK-P1-4 — El Rancho lock for public prod
+
+**Player outcome:** On the public site, **El Rancho stays locked** until we explicitly mark it public-ready. Today `isRanchWorldUnlocked()` is `Boolean(worldSketches.elrancho)`, and that sketch object always exists, so the world is **always unlocked** on live (Muse called this out).
+
+**In scope (only):**
+- `game/game.js` — `isRanchWorldUnlocked` and any callers that must stay consistent (`updateWorldLocks`, `selectWorld`, world-cycle skip around ~2452).
+- Cache bump: `ASSET_VERSION` in `game/game.js` and matching `game.js?v=` in `game/index.html` (**108 → 109**).
+- Board reply at top of this file when claimed / done.
+- Optional one-line note in `docs/AI-DISPATCH.md` honesty section only (no large docs rewrite).
+
+**Out of scope:** Final/Bonus progression redesign beyond what’s required so Final is not permanently impossible; surprise characters; unlock-query work (already closed); Cloudflare project settings; Muse’s lane.
+
+**Required design (do this, don’t invent a second progression system):**
+1. Add an explicit public-ready flag near the ranch constants, e.g. `const ranchWorldPublicReady = false;` (name may vary; keep it obvious).
+2. `isRanchWorldUnlocked()` must require that flag (sketch presence alone must **not** unlock).
+3. While `ranchWorldPublicReady === false`, **exclude** `elrancho` from the set of worlds required to unlock Holy Land (`finalWorldRequiredKeys` / `isFinalWorldUnlocked`), so Final remains reachable without playing a locked Ranch. When the flag is later flipped to `true`, Ranch returns to the Final requirement list (implement so one flag controls both behaviors).
+4. Keep bilingual lock title for Ranch: already present (“Locked until El Rancho is ready / …”).
+5. `?world=elrancho` must still refuse while locked (existing `selectWorld` path).
+6. Pathspec commit(s); push `main` (CF Pages auto-deploy). Honesty note: remap vs real fix N/A — say what you changed.
+
+**Acceptance checks (AG before ACCEPTED ✅):**
+- Fresh load: El Rancho button `disabled` + `.locked`, `aria-disabled=true`.
+- Click / keyboard cannot select El Rancho; `?world=elrancho` does not enter Ranch.
+- With all other regular worlds passed (or simulated `passedWorlds`) **without** elrancho, Holy Land can still unlock while Ranch flag is false.
+- `ASSET_VERSION` / `game.js?v=` = **109** on the commit you push.
+- No reintroduction of `unlock*` query cheats.
+
+**Handoff:** ACCEPTED ✅ + files + smoke notes on this board → Muse live verify packet activates.
+
+#### CLAIM-READY — Muse Code · TASK-P1-4-VERIFY (after AG ships)
+
+Do **not** claim until AG posts ACCEPTED ✅ for TASK-P1-4 with a pushed commit.
+
+Then: live curl both hosts for v109; eyes-on El Rancho locked; confirm `?world=elrancho` refused; confirm unlock-params still absent; note dual-host drift if any. Verification-only unless you find a tiny regression the packet allows.
+
+**Next after P1-4 (not CLAIM-READY yet):** P1-3 minimal release gate.
+
+---
+
 ### 2026-09-27 19:19 MT — Muse Code: CLAIMED 🟡 live regression smoke of `653993f` → ACCEPTED ✅
 
 Verification-only pass, no product bump. Live curl of both hosts + lock/unlock probes against served `game.js`/`style.css`.
