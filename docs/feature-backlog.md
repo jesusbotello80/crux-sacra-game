@@ -2,7 +2,7 @@
 
 ## DOC-001 — Official player and parent guide
 
-**Status:** Source guide complete locally; public-route and FJ Games Hub handoff pending root-site ownership.
+**Status:** Source guide complete; public play URL live on FJ Faith & Family hub. Remaining: in-game Help/manual link once assets and routes are verified for that surface.
 
 Create a bilingual English/Spanish guide for the original Crux Sacra game. It
 must cover controls, iPhone setup, heroes/companions, collectibles, levels,
@@ -14,9 +14,10 @@ Deliverables:
 - `docs/user-manual.md` as the maintained source.
 - A browser-readable manual or Help link in the original game only after its
   assets and routes are verified.
-- A release handoff containing the final public URL intended for the FJ Faith &
-  Family Games section.
+- Public play URL for the FJ Faith & Family Games section (done):
+  `https://crux-sacra.fjfaithandfamily.com/game/`
 
-**Dependency:** the local root-site checkout for `fjfaithandfamily.com` was not
-available during inventory. Do not edit that site or assume its routing until
-the owner supplies the canonical repository and release process.
+**Notes:** The FJ Faith & Family games hub lists Crux Sacra Classic at the
+canonical URL above. Secondary hosts (`https://crux-sacra-game.pages.dev/` and
+GitHub Pages) may exist; the Cloudflare custom domain is primary. Root-site
+ownership is no longer a blocker for the maintained guide source.

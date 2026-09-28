@@ -1,8 +1,14 @@
-# CRUX SACRA Prototype
+# CRUX SACRA
 
-Playable browser prototype for laptop and iPhone Safari.
+Playable bilingual family browser game for laptop and iPhone Safari.
 
-## Run On This Mac
+## Play
+
+**Canonical public URL:** https://crux-sacra.fjfaithandfamily.com/game/
+
+Also available via Cloudflare Pages and GitHub Pages; the FJ Faith & Family custom domain is primary.
+
+## Run Locally
 
 Open:
 
@@ -10,10 +16,10 @@ Open:
 index.html
 ```
 
-Or serve from the `outputs` folder:
+Or serve from the repository root:
 
 ```bash
-cd /Users/jesusbotello/Documents/Codex/2026-07-09/hatch-pet-users-jesusbotello-codex-skills-2/outputs
+cd /path/to/crux-sacra-game
 python3 -m http.server 8765 --bind 0.0.0.0
 ```
 
@@ -34,9 +40,9 @@ For iPhone on the same Wi-Fi, replace `127.0.0.1` with the Mac's local IP addres
 
 ## Character Select
 
-Choose any hero and any companion before starting. The prototype supports every combination against El Tacalache.
+Choose any available hero and companion before starting.
 
-Available heroes:
+Available heroes include:
 
 - Elayitas
 - Angie
@@ -48,8 +54,10 @@ Available heroes:
 - Timmy
 - Guardian Angel
 - St Michael
+- Daroe
+- Mamel
 
-Available companions:
+Available companions include:
 
 - Angie
 - Elayitas
@@ -60,11 +68,11 @@ Available companions:
 - Mrs Favi
 - Mr Chuy
 
-Most selectable characters now use real movement frames from their sprite sheets. Some motion is still prototype-level, but it is no longer only static sliding.
+Most selectable characters use real movement frames from their sprite sheets.
 
 ## Character Roster Update (v1.1)
 
-Daroe and Mamel are permanent main characters. New redeemable characters are Tía More, Tío Abuelo Original, Tío Abuelo Cuate, GaspaRaspa, and Tío Viktorock. Mr Chuy and Mrs Favi together unlock the surprise character Don Lalo; either selection order works.
+Daroe and Mamel are permanent main characters. Redeemable characters include Tía More, Tío Abuelo Original, Tío Abuelo Cuate, GaspaRaspa, and Tío Viktorock. Surprise redeemed faces appear locked until earned through play (for example, Mr Chuy and Mrs Favi together unlock Don Lalo; either selection order works).
 
 ## Music And Sounds
 
@@ -88,35 +96,18 @@ Browsers only allow game audio after a user action, so sound starts after pressi
 
 ## Goal
 
-The prototype now has four simple stages:
-
-1. Summer Park / Parque
-2. Winter Snow / Nieve
-3. Pater Noster / Padre Nuestro
-4. Boss: El Tacalache
-
-For stages 1-3, collect all Saint Benedict crosses to complete the stage and advance automatically.
-
-For the boss stage, collect all crosses to build Lux. When El Tacalache gets close, use the cross light:
-
-```text
-Crux Sacra Sit Mihi Lux
-```
-
-Push El Tacalache back with the cross light to complete the game.
+Protect glowing Crux Sacras across campaign worlds. Collect crosses to progress; use prayer light, Holy Water, and Rosary power as needed. Unlocks and surprise redemption paths are part of progression.
 
 ## Cross Danger Logic
 
-If El Tacalache gets too close to an uncollected cross, that cross starts glowing red. Reach it with the good character before the red glow fills up.
+If a threat gets too close to an uncollected cross, that cross starts glowing red. Reach it with the good character before the red glow fills up.
 
 If the red cross explodes, the game ends.
 
-After a win or loss, the restart button returns to character selection so you can choose a new hero and companion combination.
+After a win or loss, restart returns to character selection so you can choose a new hero and companion combination.
 
 ## Extra Hazards
 
-El Tacalache can spit small moving hazards from his mouth. Avoid them.
+Hazards can appear in levels (for example spit projectiles or fire patches). Avoid them; touching some ends the run.
 
-Small fire patches can appear around the level. They are intentionally small, but touching one ends the run.
-
-Cross explosions now show a flash, shockwave ring, sparks, and screen shake before the game-over screen appears.
+Cross explosions show a flash, shockwave ring, sparks, and screen shake before the game-over screen appears.

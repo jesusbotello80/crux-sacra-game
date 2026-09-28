@@ -1,14 +1,24 @@
 # CRUX SACRA Phone Setup
 
-This export is a mobile-ready browser game bundle.
+Mobile-ready browser / PWA guidance for families. Prefer the public game when possible.
 
-## Run On iPhone From This Mac
+## Play Online (recommended)
+
+Open the canonical URL on iPhone Safari:
+
+```text
+https://crux-sacra.fjfaithandfamily.com/game/
+```
+
+Then tap Share → Add to Home Screen for a full-screen home-screen icon.
+
+## Run On iPhone From a Local Mac (developers)
 
 1. Connect the Mac and iPhone to the same Wi-Fi.
-2. On the Mac, open Terminal and run:
+2. From this repository root, open Terminal and run:
 
 ```bash
-cd /Users/jesusbotello/Documents/Codex/2026-07-09/hatch-pet-users-jesusbotello-codex-skills-2/outputs/mobile-export/crux-sacra-game
+cd /path/to/crux-sacra-game
 python3 -m http.server 8765 --bind 0.0.0.0
 ```
 
@@ -40,10 +50,10 @@ Open:
 game/index.html
 ```
 
-Or serve locally:
+Or serve locally from the repository root:
 
 ```bash
-cd /Users/jesusbotello/Documents/Codex/2026-07-09/hatch-pet-users-jesusbotello-codex-skills-2/outputs/mobile-export/crux-sacra-game
+cd /path/to/crux-sacra-game
 python3 -m http.server 8765
 ```
 
@@ -56,5 +66,5 @@ http://127.0.0.1:8765/game/index.html
 ## Notes
 
 - Audio starts after tapping Start because mobile browsers require a user gesture.
-- This is still a web/PWA prototype, not an App Store IPA.
-- A native iPhone/Mac version can be built next in Xcode with SpriteKit using the same assets and game logic.
+- This is a web/PWA experience, not an App Store IPA.
+- Begin in landscape when possible, tap the game once if controls do not respond, and keep browser chrome from covering the play area.

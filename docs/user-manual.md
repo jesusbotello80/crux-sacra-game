@@ -12,7 +12,14 @@ Product: FJ Botello Faith & Family
 | Game | Crux Sacra |
 | Version | v1.1 — Character Roster Update (2026) |
 | Product | FJ Botello Faith & Family |
-| Guide status | Maintained player and parent guide; public-route publication is pending release setup. |
+| Guide status | Maintained player and parent guide. |
+| Play URL | https://crux-sacra.fjfaithandfamily.com/game/ |
+
+### Play online
+
+Canonical public URL: `https://crux-sacra.fjfaithandfamily.com/game/`
+
+Also available via Cloudflare Pages (`https://crux-sacra-game.pages.dev/`) and GitHub Pages; the FJ Faith & Family custom domain is primary. The FJ Faith & Family games hub lists Crux Sacra Classic at the canonical URL.
 
 ### Credits
 
@@ -66,7 +73,14 @@ Crux Sacra is intended as family-safe imaginative play. The goal is to protect, 
 | Juego | Crux Sacra |
 | Versión | v1.1 — Actualización del Reparto de Personajes (2026) |
 | Producto | FJ Botello Faith & Family |
-| Estado de la guía | Guía mantenida para jugadores y familias; la publicación en una ruta pública está pendiente de configuración de lanzamiento. |
+| Estado de la guía | Guía mantenida para jugadores y familias. |
+| URL de juego | https://crux-sacra.fjfaithandfamily.com/game/ |
+
+### Jugar en línea
+
+URL pública canónica: `https://crux-sacra.fjfaithandfamily.com/game/`
+
+También disponible en Cloudflare Pages (`https://crux-sacra-game.pages.dev/`) y GitHub Pages; el dominio personalizado de FJ Faith & Family es el principal. El hub de juegos de FJ Faith & Family enlaza Crux Sacra Classic a la URL canónica.
 
 ### Créditos
 
