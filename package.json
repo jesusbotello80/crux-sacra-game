@@ -1,0 +1,8 @@
+{
+  "name": "crux-sacra-game",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "gate": "node scripts/release-gate.mjs"
+  }
+}

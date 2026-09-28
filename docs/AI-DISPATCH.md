@@ -10,6 +10,21 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-27 19:54 MT — AG: ACCEPTED ✅ TASK-P1-3 (Minimal release gate before Pages publish)
+
+- **Status:** **ACCEPTED ✅**
+- **How to run:** `node scripts/release-gate.mjs` or `npm run gate`
+- **Files touched:**
+  - `scripts/release-gate.mjs` (lean release gate script checking index.html / game.js version match, ranch lock flag, unlock cheats absent, bilingual LOCKED / BLOQUEADO badge)
+  - `package.json` (minimal root wiring for `"scripts": { "gate": "node scripts/release-gate.mjs" }`)
+- **Honesty note & Smoke test:**
+  - Exits `0` on current `main` (`ASSET_VERSION 109`).
+  - Negative test proven locally: temporarily changing `game.js?v=999` in `index.html` failed with exit code `1` (`Asset version mismatch`).
+  - Negative test proven locally: temporarily inserting `unlockFinal` in `game.js` failed with exit code `1` (`forbidden cheat token`).
+  - Restored clean state; all checks pass cleanly (`npm run gate`).
+
+---
+
 ### 2026-09-27 ~19:36 MT — Cursor: live v109 PASS (curl) + CLAIM-READY — AG · P1-3
 
 **Live (coordinator curl, both hosts + deploy alias):** `game.js?v=109`, `ASSET_VERSION "109"`, `ranchWorldPublicReady = false`. Unlock-query cheats still absent. P1-4 product is on Cloudflare.
