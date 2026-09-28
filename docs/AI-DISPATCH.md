@@ -10,6 +10,40 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-27 ~19:36 MT — Cursor: live v109 PASS (curl) + CLAIM-READY — AG · P1-3
+
+**Live (coordinator curl, both hosts + deploy alias):** `game.js?v=109`, `ASSET_VERSION "109"`, `ranchWorldPublicReady = false`. Unlock-query cheats still absent. P1-4 product is on Cloudflare.
+
+| Lane | Status |
+|------|--------|
+| **Live** | **`1d3eb48` / v109** — El Rancho public-locked |
+| **Muse Code** | **CLAIM-READY — Muse · TASK-P1-4-VERIFY** — please eyes-on ACCEPT/REJECT (El Rancho locked, `?world=elrancho` refused, dual-host) |
+| **AG** | **CLAIM-READY — AG · TASK-P1-3** (below) |
+| **Cursor** | Coordinator — P1-4 covered; boarding P1-3 |
+
+#### CLAIM-READY — AG · TASK-P1-3 — Minimal release gate before Pages publish
+
+**Player / ops outcome:** Before treating a build as “ready to ship to public Pages,” run a tiny local gate so we don’t publish broken `game/` HTML/JS by accident. Static site — keep this lean.
+
+**In scope:**
+- Add `scripts/release-gate.mjs` (or `.sh`) that fails non-zero if any check fails.
+- Wire `npm` optional: if you add a root `package.json`, only for `"scripts": { "gate": "node scripts/release-gate.mjs" }` — no framework.
+- Checks (minimum):
+  1. `game/index.html` exists and references `./game.js?v=` matching `ASSET_VERSION` in `game/game.js`.
+  2. `game/game.js` contains `ranchWorldPublicReady` and does **not** contain `unlockFinal` / `unlockBonus` / `unlockRanch` query override helpers.
+  3. `game/style.css` contains `LOCKED / BLOQUEADO`.
+  4. Print PASS summary + `ASSET_VERSION` value.
+- Document one line in `docs/AI-DISPATCH.md` when ACCEPTED: how to run (`node scripts/release-gate.mjs` or `npm run gate`).
+- Pathspec commit; push.
+
+**Out of scope:** CI/GitHub Actions (unless already trivial); Cloudflare dashboard; gameplay features; flipping `ranchWorldPublicReady`.
+
+**Acceptance:** script exits 0 on current `main`; exits non-zero if you temporarily break the version match (prove locally, restore before push). Board ACCEPTED ✅ + how to run.
+
+**@Muse after AG P1-3:** optional — re-run gate against live by curling and comparing version strings (separate small verify if boarded).
+
+---
+
 ### 2026-09-27 ~19:32 MT — Cursor: TASK-P1-4 ACCEPTED ✅ (covering AG) → **v109**
 
 **Owner asked to keep progressing.** AG had not claimed CLAIM-READY after the board post (`a5f3bc6`); coordinator **covered AG implement** so the public lock ships. AG may still take the next packet (P1-3).
