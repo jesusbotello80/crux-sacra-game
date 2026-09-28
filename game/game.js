@@ -1994,7 +1994,7 @@
     for (const button of characterButtons) {
       const key = button.dataset.character;
       const locked = redeemedCharacterKeys.has(key) && !game.unlockedRedeemed.has(key);
-      button.hidden = surpriseRedeemedCharacterKeys.has(key) && locked;
+      button.hidden = false;
       button.disabled = locked;
       button.classList.toggle("locked", locked);
       button.setAttribute("aria-disabled", locked ? "true" : "false");
