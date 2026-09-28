@@ -92,7 +92,12 @@
   const finalWorldKey = "holymountain";
   const bonusWorldKey = "saints";
   const ranchWorldKey = "elrancho";
-  const finalWorldRequiredKeys = ["colorado", "juarez", "useast", "elpaso", "guadalajara", "elrancho", "mexicocity", "elcoco"];
+  // Public prod: El Rancho stays locked until owner flips this to true.
+  const ranchWorldPublicReady = false;
+  const finalWorldRequiredKeysAll = ["colorado", "juarez", "useast", "elpaso", "guadalajara", "elrancho", "mexicocity", "elcoco"];
+  const finalWorldRequiredKeys = ranchWorldPublicReady
+    ? finalWorldRequiredKeysAll
+    : finalWorldRequiredKeysAll.filter((key) => key !== ranchWorldKey);
   const query = new URLSearchParams(window.location.search);
   // Public prod: unlock* query overrides removed (family hub safety).
   // Legitimate earned unlocks still persist via persistUnlockedRedeemed().
@@ -100,7 +105,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "108";
+  const ASSET_VERSION = "109";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -2079,7 +2084,7 @@
   }
 
   function isRanchWorldUnlocked() {
-    return Boolean(worldSketches[ranchWorldKey]);
+    return ranchWorldPublicReady && Boolean(worldSketches[ranchWorldKey]);
   }
 
   function updateWorldLocks() {

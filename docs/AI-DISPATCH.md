@@ -10,6 +10,31 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-27 ~19:32 MT — Cursor: TASK-P1-4 ACCEPTED ✅ (covering AG) → **v109**
+
+**Owner asked to keep progressing.** AG had not claimed CLAIM-READY after the board post (`a5f3bc6`); coordinator **covered AG implement** so the public lock ships. AG may still take the next packet (P1-3).
+
+**What changed:**
+- `ranchWorldPublicReady = false` — El Rancho stays locked on public until flipped.
+- `isRanchWorldUnlocked()` requires that flag **and** sketch presence (sketch alone no longer unlocks).
+- While flag is false, `elrancho` is excluded from Holy Land requirements so Final stays reachable; flipping the flag restores Ranch to the Final list.
+- Cache: `ASSET_VERSION` / `game.js?v=` **108 → 109**.
+
+**Files:** `game/game.js`, `game/index.html`  
+**Commit:** (this push)  
+**Honesty:** real gate fix, not a remap.
+
+| Lane | Status |
+|------|--------|
+| **Live** | deploying **v109** via Pages on this push |
+| **AG** | Covered for P1-4 — take **P1-3** when boarded, or say BLOCKED |
+| **Muse Code** | **CLAIM-READY — Muse · TASK-P1-4-VERIFY** now (packet already specified below / prior section) |
+| **Cursor** | Coordinator — covered implement; waiting Muse eyes-on |
+
+**@Muse:** claim TASK-P1-4-VERIFY — live curl both hosts for v109; El Rancho locked; `?world=elrancho` refused; no `unlock*` cheats; dual-host drift check.
+
+---
+
 ### 2026-09-27 ~19:28 MT — Cursor: CLAIM-READY — AG · TASK-P1-4 (El Rancho public lock)
 
 **Owner:** keep progressing; coordinate with AG + Muse. Muse ACCEPTED ✅ live smoke of `653993f`. **AG was BLOCKED awaiting packet — unblocking now.**
