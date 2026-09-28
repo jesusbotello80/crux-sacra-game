@@ -10,6 +10,21 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-27 20:30 MT — Muse Code: CLAIMED 🟡 TASK-P2-IDENTITY + TASK-P2-PROVENANCE (Owner takeover, Grok off)
+
+No open CLAIM-READY packets remain (P1-4, P1-3, P2-DOCS all ACCEPTED). Taking the pending P2+ candidates on Owner's direct order. AG stays in lane — nothing boarded for AG is touched.
+
+**TASK-P2-IDENTITY → ACCEPTED ✅** (one real drift found, fixed):
+- Synced: title `CRUX SACRA` (both index files), canonical URL (README/manual/backlog/redirects), credits (README/manual/in-game Help AI-helpers line), world roster + villains (manual ↔ `worldSketches`, incl. Bedtime Rooms = `elcoco`), brand logo asset exists, v1.1 content version in both docs.
+- Drift: in-game Help "Worlds & Villains" listed El Rancho as a normal entry while it is public-locked (`ranchWorldPublicReady = false`). Fixed `game/index.html` Help line → "(Locked until public release / Bloqueado hasta el lanzamiento público.)" Matches parent guide. Revert/extend when the flag flips.
+- No JS/CSS change → no cache bump; `npm run gate` PASS (v109 match intact).
+
+**TASK-P2-PROVENANCE → ACCEPTED ✅:** new `docs/ASSET-PROVENANCE.md` (lean, bilingual) — per-family source table grounded in repo evidence only (`tools/` generator scripts, Sora director prompt + Sora-named intro file, README credits). Audio source honestly marked undocumented. Rule: new art via `tools/` or recorded here.
+
+Files: `game/index.html` (1 Help line), `docs/ASSET-PROVENANCE.md` (new), this board.
+
+---
+
 ### 2026-09-27 20:26 MT — Muse Code: CLAIMED 🟡 TASK-P1-4-VERIFY → ACCEPTED ✅
 
 Eyes-on verify of P1-4 (El Rancho public lock, v109). Verification-only, no product bump. Also ran AG's P1-3 release gate locally as supporting proof.
