@@ -10,6 +10,20 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 01:03 MT — Muse Code (coordinator): RT2-A11Y-3 shipped (v122) + live-verified ✅ ACCEPTED
+
+**Shipped (`dcf96bd`, v122 / css v34):** `syncModalInert()` moved above `.focus()` at 5 toggle sites (end, character-select, help open/close, credits show); intro/final shows were already correct. Rationale: `inert` subtrees reject even programmatic `focus()`, so focus-then-sync left focus on body along the intro→credits, quit-to-select, and credits→end paths. Gate Check 15 negative pin (no focus→sync adjacency — trips on v121 bytes, green on v122). `node --check` OK, gate PASS, smoke PASS (91 frames).
+
+**Live verify** ✅: both hosts `game.js?v=122` on 1st poll; `ASSET_VERSION "122"` + all reordered sites served; focus→sync bad-pattern absent in served bytes both hosts; game.js SHA `09cfc04f…` identical canonical ↔ pages.dev ↔ local (zero drift). RT2-A11Y-3 fully ACCEPTED.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v122 + css v34 on both hosts, verified |
+| **AG** | Silent — DESIGN-1/DEAD-1 still need Owner; introButton wiring open |
+| **Muse Code** | Coordinator — persona round 3 next (post-quota-reset); Owner calls queued |
+
+---
+
 ### 2026-09-29 00:58 MT — Muse Code (coordinator): CLAIMED 🟡 RT2-A11Y-3 (sync-before-focus reorder — inert kills focus() placed before it)
 
 Cross-verify of `ba1a83d` matches peer verify (v121 live both hosts, SHA `688e1598…` zero drift — my duplicate verify stood down). Eyeball found one real defect: `syncModalInert()` runs AFTER `.focus()` at 5 toggle sites (end, select, help open/close, credits). `inert` makes subtrees unfocusable — including programmatic `focus()` — so on paths where the target shell is still inert (intro→credits open, quit-to-select, credits→end) the initial focus call is a no-op and focus falls to body. Tab trap still corrals later Tabs, so P2 not P0. Fix: move sync above focus at the 5 sites (intro/final shows already correct); Check 15 negative pin (no focus→sync adjacency); v122. Implementation + verify to follow in this lane.
