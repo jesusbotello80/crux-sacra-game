@@ -212,8 +212,8 @@ const regularLabel = gameJs.match(/regular: \{ label: "([^"]*)"/);
 if (!easyLabel || !hasEsHalf(easyLabel[1])) failures.push("game/game.js easy difficulty label is missing its ES half");
 if (!hardLabel || !hasEsHalf(hardLabel[1])) failures.push("game/game.js hard difficulty label is missing its ES half");
 if (!regularLabel || !hasEsHalf(regularLabel[1])) failures.push("game/game.js regular difficulty label is missing its ES half");
-if (!gameJs.includes('fillText("Paused. Pausado."')) {
-  failures.push('game/game.js pause overlay title is missing its ES half ("Paused. Pausado.")');
+if (!gameJs.includes('fillText("Paused / Pausa"')) {
+  failures.push('game/game.js pause overlay title is missing its ES half ("Paused / Pausa")');
 }
 if (!gameJs.includes("Pulsa P para seguir")) {
   failures.push("game/game.js pause key hints are missing their ES half (Pulsa P para seguir)");
@@ -576,8 +576,8 @@ if (!/function drawFrame\(img,[\s\S]{0,200}?if \(!img\) return;/.test(gameJs)) {
     failures.push("index.html is missing #retryBossButton (boss checkpoint)");
   } else {
     if (!/hidden/.test(retryTag[0])) failures.push("#retryBossButton must ship hidden (boss checkpoint)");
-    if (!retryTag[1].includes("Retry Boss") || !retryTag[1].includes("Reintentar Jefe")) {
-      failures.push("#retryBossButton label must stay bilingual (Retry Boss / Reintentar Jefe)");
+    if (!retryTag[1].includes("Retry Boss") || !retryTag[1].includes("Reintentar el jefe")) {
+      failures.push("#retryBossButton label must stay bilingual (Retry Boss / Reintentar el jefe)");
     }
   }
   if (!styleCss.includes("#retryBossButton")) {
@@ -629,7 +629,7 @@ if (!/function drawFrame\(img,[\s\S]{0,200}?if \(!img\) return;/.test(gameJs)) {
   if (!gameJs.includes("sessionPlaySeconds") || !gameJs.includes("breakRemindedAt")) {
     failures.push("break reminder state missing (sessionPlaySeconds/breakRemindedAt)");
   }
-  if (!gameJs.includes("Take a break, champion!") || !gameJs.includes("¡Toma un descanso, campeón!")) {
+  if (!gameJs.includes("Take a break, champion!") || !gameJs.includes("¡Toma un descanso! Estírate y reza en familia.")) {
     failures.push("break reminder message must stay bilingual (EN + ES)");
   }
   const remindIdx = gameJs.indexOf("sessionPlaySeconds - breakRemindedAt >= 1500");
@@ -686,6 +686,31 @@ if (!/function drawFrame\(img,[\s\S]{0,200}?if \(!img\) return;/.test(gameJs)) {
         if (re.test(text)) failures.push(`possible secret (${re}) in ${rel} (public web surface)`);
       }
     }
+  }
+}
+
+// Check 22: RT5-SCENE-1 embedded finale (scene staged, video backup retained)
+{
+  if (!gameJs.includes('finalScreen.classList.add("scene-finale")')) {
+    failures.push("finale does not stage scene-finale (embedded ending missing)");
+  }
+  if (!gameJs.includes("stopFinaleScene();")) {
+    failures.push("finale teardown missing (stopFinaleScene never called)");
+  }
+  if (!/finaleTimer = window\.setTimeout\([\s\S]{0,200}?closeFinalSequence\(\);/.test(gameJs)) {
+    failures.push("finale does not auto-advance to closeFinalSequence (scene strands without skip)");
+  }
+  if (!gameJs.includes("new Audio(") || !gameJs.includes("audio/finale/")) {
+    failures.push("finale music hook missing (new Audio + audio/finale/ path)");
+  }
+  if (!gameJs.includes("crux-sacra-final-redemption-dona-carmelina")) {
+    failures.push("finale video backup maps removed (Owner requires mp4s + maps retained)");
+  }
+  if (!styleCss.includes(".video-overlay.scene-finale #finalVideo") || !styleCss.includes("@keyframes finale-villain-fade")) {
+    failures.push("style.css finale staging missing (scene-finale video hide / villain-fade keyframes)");
+  }
+  if (!gameJs.includes('card.classList.add("converting")')) {
+    failures.push("cast renderer does not mark converting cards (villain fade has no hook)");
   }
 }
 

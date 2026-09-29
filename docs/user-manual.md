@@ -47,7 +47,7 @@ On an iPhone, begin in landscape when possible, tap the game once if controls do
 
 ### Heroes, companions, worlds, and collectibles
 
-You may choose any available hero and companion before a level. The campaign includes Colorado Springs, Juárez, US East, El Paso, Guadalajara, El Rancho, Mexico City, Bedtime Rooms, Holy Land, and a Saints bonus preview. Unlocks and surprise redemption paths are part of the game’s progression.
+You may choose any available hero and companion before a level. The campaign includes Colorado Springs, Juárez, US East, El Paso, Guadalajara, El Rancho (reserved until ready), Mexico City, Bedtime Rooms, Holy Land, and a Saints bonus preview. Unlocks and surprise redemption paths are part of the game’s progression.
 
 ### Sacramentals & spiritual weapons
 
@@ -84,11 +84,12 @@ Crux Sacra connects game mechanics directly to authentic Catholic tradition and 
   - **El Rancho** is currently reserved and displays a locked status until ready for public release.
   - **Holy Land (Tierra Santa)** unlocks after completing 6 regular campaign worlds.
   - **Saints (Santos)** bonus preview unlocks after completing Holy Land.
+- **Boss retry:** Losing to a world boss offers Retry Boss, which restarts that boss stage with full difficulty lives (Easy 5 / Regular 3 / Hard 2) — the world run is kept.
 - **Saving progress:** All earned character unlocks and completed worlds are automatically saved to your browser's local device storage. There are no shortcut cheat codes; to start fresh, use the **Reset Progress / Reiniciar Progreso** button on the title screen.
 
 ### Audio, accessibility, and care
 
-The game includes intro and ending videos, audio, keyboard play, touch play, pause, and English/Spanish labels. Reduce device volume or use the system mute control if sound is uncomfortable. Play in short sessions, take breaks, and let a parent choose an appropriate difficulty for the child.
+The game includes intro and ending videos, audio, keyboard play, touch play, pause, and English/Spanish labels. Reduce device volume or use the system mute control if sound is uncomfortable. Play in short sessions, take breaks, and let a parent choose an appropriate difficulty for the child. After 25 minutes of active play the game shows a bilingual break reminder; play continues.
 
 Crux Sacra is intended as family-safe imaginative play. The goal is to protect, rescue, and redeem. Parents can use the Help screen to review controls before a child starts. Content note (also shown in-game): villains include spooky figures (ghosts, El Coco, the Devil in Holy Land) and mild menace, never to frighten; Bedtime Rooms are set in children's bedrooms, so preview them first for small children. No ads, no chat, no purchases; progress stays on the device.
 
@@ -143,7 +144,7 @@ En iPhone, comienza en horizontal cuando sea posible, toca el juego una vez si l
 
 ### Héroes, compañeros, mundos y coleccionables
 
-Puedes elegir cualquier héroe y compañero disponible antes de un nivel. La campaña incluye Colorado Springs, Juárez, US East, El Paso, Guadalajara, El Rancho, Ciudad de México, Habitaciones de Noche, Tierra Santa y una vista previa de Santos. Los desbloqueos y caminos sorpresa de redención forman parte del progreso.
+Puedes elegir cualquier héroe y compañero disponible antes de un nivel. La campaña incluye Colorado Springs, Juárez, US East, El Paso, Guadalajara, El Rancho (reservado hasta que esté listo), Ciudad de México, Habitaciones de Noche, Tierra Santa y una vista previa de Santos. Los desbloqueos y caminos sorpresa de redención forman parte del progreso.
 
 ### Sacramentales y armas espirituales
 
@@ -180,11 +181,12 @@ Crux Sacra une la aventura con la auténtica tradición y sacramentales de la Ig
   - **El Rancho** se encuentra reservado y muestra estado bloqueado hasta que esté listo para el público.
   - **Tierra Santa (Holy Land)** se desbloquea tras superar 6 mundos regulares de la campaña.
   - La vista previa de **Santos (Saints)** se desbloquea tras superar Tierra Santa.
+- **Reintento del jefe:** Perder ante un jefe de mundo ofrece Reintentar el jefe, que reinicia esa etapa con todas las vidas de la dificultad (Fácil 5 / Normal 3 / Difícil 2); el avance del mundo se conserva.
 - **Guardado de progreso:** Todos los personajes desbloqueados y mundos superados se guardan automáticamente en la memoria local de tu navegador. No hay códigos trampa; para reiniciar desde cero, usa el botón **Reset Progress / Reiniciar Progreso** en la pantalla inicial.
 
 ### Audio, accesibilidad y cuidado
 
-El juego incluye videos de introducción y final, audio, teclado, controles táctiles, pausa y etiquetas en inglés/español. Baja el volumen del dispositivo o usa el silencio del sistema si el sonido incomoda. Juega sesiones cortas, toma descansos y permite que un adulto elija una dificultad adecuada.
+El juego incluye videos de introducción y final, audio, teclado, controles táctiles, pausa y etiquetas en inglés/español. Baja el volumen del dispositivo o usa el silencio del sistema si el sonido incomoda. Juega sesiones cortas, toma descansos y permite que un adulto elija una dificultad adecuada. Tras 25 minutos de juego activo, el juego muestra un recordatorio bilingüe de descanso; la partida continúa.
 
 Crux Sacra está pensado como juego imaginativo seguro para familias. La meta es proteger, rescatar y redimir. Los padres pueden usar la pantalla de Ayuda para revisar los controles antes de que un niño comience. Nota de contenido (también en el juego): los villanos incluyen figuras inquietantes (fantasmas, El Coco, el Diablo en Tierra Santa) y amenaza leve, nunca para asustar; los cuartos de noche están en dormitorios de niños, conviene verlos antes con los pequeños. Sin anuncios, sin chat, sin compras; el progreso queda en el dispositivo.
 

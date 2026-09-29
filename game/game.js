@@ -110,7 +110,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "129";
+  const ASSET_VERSION = "133";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -128,6 +128,9 @@
   };
   let sessionPlaySeconds = 0;
   let breakRemindedAt = 0;
+  let breakReminderUnseen = false;
+  let finaleTimer = null;
+  let finaleMusic = null;
   let introStartsGame = false;
 
   const sources = {
@@ -2154,7 +2157,7 @@
     if (progressStatus) {
       progressStatus.textContent = "Progress reset on this device / Progreso reiniciado en este dispositivo";
       window.setTimeout(() => {
-        if (progressStatus.textContent.startsWith("Progress reset")) progressStatus.textContent = "";
+        if (progressStatus.textContent.startsWith("Progress reset")) updateWorldLocks();
       }, 3600);
     }
   }
@@ -2190,6 +2193,14 @@
           : locked && worldKey === ranchWorldKey
             ? "Locked until El Rancho is ready / Bloqueado hasta que El Rancho esté listo"
           : "";
+    }
+    const passedGateCount = finalWorldRequiredKeys.filter((key) => game.passedWorlds.has(key)).length;
+    if (progressStatus) {
+      if (!finalUnlocked) {
+        progressStatus.textContent = `Holy Land: ${passedGateCount}/${finalWorldRequiredCount} worlds passed / Tierra Santa: ${passedGateCount}/${finalWorldRequiredCount} mundos superados`;
+      } else if (progressStatus.textContent.startsWith("Holy Land:") || progressStatus.textContent.startsWith("Progress reset")) {
+        progressStatus.textContent = "";
+      }
     }
     syncSelectPressed();
   }
@@ -2719,7 +2730,8 @@
       playDanger();
     }
     const isBossStage = Boolean(stages[game.stageIndex]?.boss);
-    endTitle.textContent = win ? "Game Complete / Juego Completo" : "Try Again / Intenta otra vez";
+    const clearedFinal = win && (game.world === finalWorldKey || game.world === bonusWorldKey);
+    endTitle.textContent = win ? (clearedFinal ? "Game Complete / Juego Completo" : "World Complete / Mundo Completo") : (isBossStage ? "Try Again / Intenta otra vez" : "Run Over / Fin del juego");
     if (win) {
       const rKey = redeemedKeyForHero();
       endCopy.textContent = redeemedCharacterKeys.has(rKey)
@@ -3051,7 +3063,8 @@
       sessionPlaySeconds += dt;
       if (sessionPlaySeconds - breakRemindedAt >= 1500) {
         breakRemindedAt = sessionPlaySeconds;
-        game.message = "Take a break, champion! Stretch and pray with family. / ¡Toma un descanso, campeón! Estírate y reza en familia.";
+        breakReminderUnseen = true;
+        game.message = "Take a break, champion! Stretch and pray with family. / ¡Toma un descanso! Estírate y reza en familia.";
         announceStatus(game.message);
       }
     }
@@ -3498,7 +3511,7 @@
     const companion = characterDefs[game.selectedCompanion];
     drawCharacter(hero, p.x, p.y, p.face, moving, false);
     if (game.selectedCompanion !== game.selectedHero) {
-      drawCharacter(companion, game.companion.x, game.companion.y, game.companion.face, true, true);
+      drawCharacter(companion, game.companion.x, game.companion.y, game.companion.face, moving, true);
     }
 
     drawVillain(stage);
@@ -4827,11 +4840,12 @@
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.font = "700 64px Arial, Helvetica, sans-serif";
-    ctx.fillText("Paused. Pausado.", W / 2, H / 2 - 24);
+    ctx.fillText("Paused / Pausa", W / 2, H / 2 - 24);
     ctx.font = "700 25px Arial, Helvetica, sans-serif";
     ctx.fillText("P to resume · Q to quit. Pulsa P para seguir · Q para salir.", W / 2, H / 2 + 42);
     ctx.fillText("Tap ▶ below to resume · Toca ▶ abajo para seguir.", W / 2, H / 2 + 78);
     ctx.fillText("Tap ✕ to quit · Toca ✕ para salir.", W / 2, H / 2 + 114);
+    if (breakReminderUnseen) ctx.fillText("⏰ Rest and pray with family. / Descansa y reza en familia.", W / 2, H / 2 + 150);
     ctx.restore();
   }
 
@@ -4846,7 +4860,7 @@
       stickKnob.style.transform = "translate(0, 0)";
       pauseButton.textContent = "▶";
       if (quitButton) quitButton.hidden = false;
-      announceStatus("Paused / Pausado");
+      announceStatus("Paused / Pausa");
       return;
     }
     if (game.mode === "paused") {
@@ -4854,7 +4868,8 @@
       game.last = performance.now();
       pauseButton.textContent = "Ⅱ";
       if (quitButton) quitButton.hidden = true;
-      announceStatus("Resumed / Continúa");
+      breakReminderUnseen = false;
+      announceStatus("Resumed / Juego reanudado");
     }
   }
 
@@ -4884,6 +4899,7 @@
     card.className = item.villain ? "intro-cast-card villain" : "intro-cast-card";
     if (item.featured) card.classList.add("featured");
     if (item.jesus) card.classList.add("jesus-card");
+    if (item.converting) card.classList.add("converting");
     const img = document.createElement("img");
     img.alt = "";
     img.src = `${ASSET}${sources[characterDefs[item.key]?.front || item.key]}?v=${ASSET_VERSION}`;
@@ -5480,25 +5496,83 @@
       || finalSet.fallback;
     const redeemedName = redeemedNameForHero();
     finalCaption.textContent = game.world === bonusWorldKey
-      ? "St. Mary, Mother of Jesus, joins the Saints bonus world. The next adventure begins soon."
+      ? "St. Mary, Mother of Jesus, joins the Saints bonus world. The next adventure begins soon. / Santa María, Madre de Jesús, se une a la vista previa de Santos. La próxima aventura empezará pronto."
       : (redeemedCharacterKeys.has(redeemedKey)
         ? redemptionMessage(redeemedName)
         : "The light triumphed in this world. / La luz triunfó en este mundo.");
-    if (!finalVideo.src.endsWith(nextFinalVideo)) {
-      finalVideo.src = nextFinalVideo;
-      finalVideo.load();
-    }
-    updateFinalCast();
+    // RT5-SCENE-1: embedded finale. Video maps above + mp4s on disk stay as
+    // the backup (Owner: restore = git revert this hunk + drop scene-finale).
+    startFinaleScene();
     finalScreen.classList.remove("hidden");
     syncModalInert();
     skipFinalButton.focus();
-    finalVideo.currentTime = 0;
-    finalVideo.play().catch(() => {});
+  }
+
+  function startFinaleScene() {
+    stopFinaleScene();
+    renderFinaleCast();
+    finalScreen.classList.add("scene-finale");
+    playFinaleMusic();
+    announceStatus(finalCaption.textContent);
+    finaleTimer = window.setTimeout(() => {
+      finaleTimer = null;
+      closeFinalSequence();
+    }, 8000);
+  }
+
+  function stopFinaleScene() {
+    if (finaleTimer) {
+      window.clearTimeout(finaleTimer);
+      finaleTimer = null;
+    }
+    stopFinaleMusic();
+    if (finalScreen) finalScreen.classList.remove("scene-finale");
+  }
+
+  function renderFinaleCast() {
+    if (!finalCast) return;
+    if (game.world === finalWorldKey) {
+      updateFinalCast();
+      return;
+    }
+    finalCast.classList.remove("hidden", "edition-finale");
+    const villain = villainCastItem();
+    const redeemed = game.world === bonusWorldKey
+      ? { key: "stMary", label: "St. Mary, Mother of Jesus", featured: true }
+      : { key: redeemedKeyForHero(), label: redeemedNameForHero(), featured: true };
+    renderCast(finalCast, [
+      { ...villain, converting: true },
+      redeemed,
+    ]);
+  }
+
+  function playFinaleMusic() {
+    stopFinaleMusic();
+    try {
+      finaleMusic = new Audio(`../audio/finale/${game.world}.mp3?v=1`);
+      finaleMusic.addEventListener("error", () => { finaleMusic = null; }, { once: true });
+      const played = finaleMusic.play();
+      if (played && played.catch) played.catch(() => { finaleMusic = null; });
+    } catch (err) {
+      finaleMusic = null;
+    }
+  }
+
+  function stopFinaleMusic() {
+    if (finaleMusic) {
+      try {
+        finaleMusic.pause();
+      } catch (err) {
+        finaleMusic = null;
+      }
+      finaleMusic = null;
+    }
   }
 
   function closeFinalSequence() {
     if (finalScreen.classList.contains("hidden")) return;
     finalVideo.pause();
+    stopFinaleScene();
     finalScreen.classList.add("hidden");
     const completedWorld = game.world;
     game.passedWorlds.add(completedWorld);

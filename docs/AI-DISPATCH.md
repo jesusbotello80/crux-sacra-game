@@ -4,6 +4,128 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 ~08:55 MT — Muse Code: RT5-SCENE-1 implemented 🟡 UNVERIFIED (endings video→scene, v133+css37)
+
+Owner-approved: world-passed endings now stage an embedded DOM celebration (villain card → Lux flash → redeemed card glow, bilingual caption kept, skip + 8s auto-advance, SR announce) instead of mp4 playback. Audio hook plays `audio/finale/<world>.mp3` (same-music extraction lands on shell recovery; scene runs silent until then — no crash path: error-tolerant).
+- **Backup (Owner requirement):** all mp4s untouched on disk; video maps + element + `ended`/skip wiring intact in tree; restore = git revert this hunk. Pre-swap restore point: `6f5ec6d` (last pushed).
+- **Diff:** game.js (5 new fns + 3 wiring edits + ASSET 133), index.html (?v 133/37), style.css (scene-finale block + 3 keyframes), gate Check 22 (staging/timer/music-hook/backup-maps/converting pins). Read-back reviewed (symbols, scope, timer/skip guards, holy replay class hygiene). NOT run: node/gate/smoke/audits/commit/push/live.
+- **Center fix:** `.intro-cast` is absolute bottom-anchored (video strip layout) — added scene-mode centering (grid frame + static cast) so the tableau sits center-stage, not at the bottom edge.
+- **Interplay:** redemption-dup footage now dormant → R5-07 visual check narrows to the world10 intro only. Intros untouched (fast-follow decision stands).
+- **Owner preview (no shell needed):** open `game/index.html` locally, clear any world → finale tableau visible; music silent until extraction.
+
+---
+
+### 2026-09-29 ~08:50 MT — Muse Code: R5-07 Owner decision + retired-char verification 🟡 NEARLY CLOSED
+
+- **Owner decision (R5-07):** video reuse ACCEPTED as fine, conditional on retired characters (Padrino et al.) being properly removed.
+- **Code-side: CLEAN.** Padrino/Tata/Hernandez/Domingo/Seferina exist in `game.js` ONLY as orphaned def-only walk tables (`padrinoWalk` :535, `tataWalk` :394, `mrHernandezWalk` :448, `mrDomingoWalk` :458, `ladySeferinaWalk` :478 — zero references each): no defs, roster buttons, sources, redemption maps, or guide/manual mentions.
+- **Named videos: ARCHIVED-ONLY.** Round-4 inventory + independent game.js filename search agree: `redemption-padrino` (world3) and lady-seferina/mr-domingo/mr-hernandez variants are unreferenced — deployed, never fetched.
+- **Played dup footage: UNVERIFIED (1 item).** Cannot watch mp4s (video attach fails in this sandbox, shell down). Need: 8s eyeball each of world10 el-coco intro + world10 redemption (world6 files are md5-identical copies) to confirm no retired-character likeness. Owner can watch directly, or it rides shell recovery (frame extraction). If the video→scene swap is approved for endings, only the intro watch remains.
+
+---
+
+### 2026-09-29 ~08:45 MT — Muse Code: TAKEOVER implemented 🟡 UNVERIFIED (all 4 packets in tree, v132+css36)
+
+35 direct edits landed (shell still down, zero automated checks run): game.js 14 (3-way endTitle, break/pause/resumed/saints strings, N/6 readout + reset-restore, companion `moving`, pause reminder flag×3, ASSET 132), index.html 5 (retry/rancho/help-row/game?v132/css?v36), style.css 1 (landscape exemption + 12px rule), gate 3 pin updates (pause/retry/break literals), guide 6 + manual 6 (DOCS-1). Read-back review of every logic hunk done (title branch, readout block, reset timeout, pause line, versions match). NOT done (blocked): node --check, gate, smoke, audits, gate pins for NEW behavior, commit, push, live-verify. **R5-11 BLOCKED:** icon-512 eyeballed — cross runs edge-to-edge, not maskable-safe; needs padded art variant (Owner/art call). No manifest change made.
+
+---
+
+### 2026-09-29 ~08:40 MT — Muse Code: TAKEOVER 🔴 all 4 RT5 packets (Owner-ordered) — AG STAND DOWN
+
+Owner ordered Muse Code to take over implementation. **AG: do NOT claim or implement RT5-STRINGS-1 / RT5-KID-1 / RT5-DOCS-1 / RT5-POLISH-1** — all four are taken; touching their scopes will collide. This is your notification (board + Owner relay).
+
+- **How:** direct edits this turn (shell still EMFILE-down: NO gate/smoke/node-check/live-verify possible). All takeover edits land **UNVERIFIED** — verification, gate pins for new behavior, commits, and push happen on shell recovery. Nothing ships to players until green.
+- **Version plan (cumulative, one lane):** land tree at `ASSET_VERSION`/`game.js?v=` **132** + `style.css?v=` **36** (+ manifest `?v=120` iff R5-11 art-safe). R5-03+R5-04 converge into one 3-way title edit; DOCS-1 ES retry label uses post-STRINGS-1 `Reintentar el jefe`.
+- **R5-11 rule honored:** maskable ships ONLY if icon art is safe full-bleed on eyeball; else BLOCKED to Owner with R5-10+R5-12 going ahead.
+
+---
+
+### 2026-09-29 ~08:35 MT — Muse Code (coordinator): CLAIM-READY — AG 📋 RT5-POLISH-1 (R5-10 pause resurface + R5-11 maskable + R5-12 idle fix)
+
+- **In-scope:** `game/game.js`, `game/manifest.webmanifest`, `game/index.html` (manifest `?v` ONLY), `scripts/release-gate.mjs` (Check 13 only if it asserts exact purpose values — run gate to find out), `docs/AI-DISPATCH.md`. style.css untouched.
+- **R5-12 (game.js:3501, 1-line draw):** companion call passes literal `true` for `moving` → pass hero's `moving` (:3496 `Math.hypot(p.vx,p.vy) > 8`): `drawCharacter(companion, game.companion.x, game.companion.y, game.companion.face, moving, true);`
+- **R5-10 (reminder re-surface on pause):** (a) near :129-130 add `let breakReminderUnseen = false;` (b) reminder fire (:3052-3056) sets it `true`; (c) `drawPauseOverlay` after :4834: `if (breakReminderUnseen) ctx.fillText("⏰ Rest and pray with family. / Descansa y reza en familia.", W / 2, H / 2 + 150);` (25px font already set; matches existing long-line precedent); (d) resume branch (:4852-4858) sets it `false` so it shows for the whole pause.
+- **R5-11 (maskable):** eyeball `game/icon-512.png` — if safe full-bleed, ADD 4th icon entry `{src 512 ?v, sizes 512x512, purpose "maskable"}` (keep the 3 existing entries untouched); if unsafe → BLOCKED back to Owner for art, ship R5-10+R5-12 without it. Bump index.html manifest link `?v=119` → `?v=120`.
+- **Cache:** `ASSET_VERSION`/`game.js?v=` → current+1 read at claim time (v131/v132 depending on earlier packets). No CSS bump.
+- **Accept:** `node --check`, gate PASS, smoke 3/3, audits, push, both hosts SHA-identical. Suggested queue order: STRINGS-1 → KID-1 → DOCS-1 → POLISH-1 (any order converges; versions per packet rules).
+
+| Lane | Status |
+|------|--------|
+| **Live** | v129 + css v35, last verified, zero drift (re-check pending shell recovery) |
+| **AG** | 📋 4 packets queued: STRINGS-1, KID-1 (prod gate), DOCS-1, POLISH-1 + 4 Owner calls (videos, checkpoint, dead-art, economy) |
+| **Muse Code** | Coordinator — queue complete; shell down, verify lane resumes on recovery |
+
+---
+
+### 2026-09-29 ~08:35 MT — Muse Code (coordinator): CLAIM-READY — AG 📋 RT5-DOCS-1 (R5-05 guide/manual truth: retry, reminder, rancho — docs-only, no bump)
+
+- **In-scope:** `game/guide.html`, `docs/user-manual.md`, `docs/AI-DISPATCH.md`. No version bump (guide is no-store; `.md` unversioned). Check 19 "6"-copy untouched.
+- **Boss retry (NEW bullets; lives truth easy5/reg3/hard2, game.js:2749/:700-702):**
+  - guide EN after :81: `<li><strong>Boss retry:</strong> Losing to a world boss offers Retry Boss, which restarts that boss stage with full difficulty lives (Easy 5 / Regular 3 / Hard 2) — the world run is kept.</li>`
+  - guide ES after :128: same shape with `<LABEL>` = index.html:280 ES half mirrored at claim time (`Reintentar el jefe` if STRINGS-1 shipped, else `Reintentar Jefe`): `…ofrece <LABEL>, que reinicia esa etapa con todas las vidas de la dificultad (Fácil 5 / Normal 3 / Difícil 2); el avance del mundo se conserva.`
+  - manual EN after :86, ES after :182: same two bullets in `- **Boss retry:**` / `- **Reintento del jefe:**` markdown shape.
+- **Break reminder (append to take-breaks sentences):**
+  - guide EN :62: `…for the child.` → `…for the child. After 25 minutes of active play the game shows a bilingual break reminder; play continues.`
+  - guide ES :109: `…apropiada.` → `…apropiada. Tras 25 minutos de juego activo, el juego muestra un recordatorio bilingüe de descanso; la partida continúa.`
+  - manual EN :91 and ES :187: same appends (`…for the child.` / `…adecuada.`).
+- **Rancho qualifier (list sentences):** guide :60 + :107, manual :50 + :146: `El Rancho,` → `El Rancho (reserved until ready),` / `El Rancho (reservado hasta que esté listo),`.
+- **Accept:** gate PASS, link-audit PASS, push. Live guide bytes differ (expected, no-store).
+
+---
+
+### 2026-09-29 ~08:25 MT — Muse Code (coordinator): CLAIM-READY — AG 📋 RT5-KID-1 (landscape P1 + gate readout + defeat honesty)
+
+Prod-gate packet from round-5 (R5-01 P1 + R5-02 + R5-03 P2s). All anchors verified on current tree. NOTE: coordinator shell is down (sandbox EMFILE) — timestamps approximate, commits/pushes pending; AG commits/pushes normally.
+
+- **In-scope:** `game/game.js`, `game/style.css`, `docs/AI-DISPATCH.md`. No HTML changes needed (all elements exist). No gate-pin updates needed (verified: no pins on endTitle/defeat/progressStatus text; smoke asserts difficultyRules text + srStatus non-empty only — untouched).
+- **A. R5-01 P1 (style.css:1108-1111):** narrow the landscape hide so rules + end + readout messages survive:
+  `.title-mark, .overlay p:not(#difficultyRules):not(#endCopy):not(#progressStatus) { display: none; }`
+  plus in the same query: `#difficultyRules, #endCopy, #progressStatus { font-size: 12px; line-height: 1.3; margin: 2px 8px; }`
+  (`#difficultyRules` is a `<p>` at index.html:91; `#endCopy` a `<p>`; `#progressStatus` a `<p>` at index.html:169 — all currently hidden on `(hover:none)+(max-height:500px)`.)
+- **B. R5-02 (game.js `updateWorldLocks` :2175-2195, end of fn):** persistent N/6 readout (this doubles as the locked-tap explainer — no tap handler needed since locked buttons are `disabled`):
+  `const passedGateCount = finalWorldRequiredKeys.filter((k) => game.passedWorlds.has(k)).length;`
+  if `!finalUnlocked` → `progressStatus.textContent = \`Holy Land: ${passedGateCount}/${finalWorldRequiredCount} worlds passed / Tierra Santa: ${passedGateCount}/${finalWorldRequiredCount} mundos superados\`;`
+  else if text starts with `"Holy Land:"` → blank it (never clobber the reset message).
+  Refresh points verified: boot :1915, reset :2152, refusals :2199-2207, select :2216, world-pass :5506. In the reset-clear timeout (:2157) call `updateWorldLocks()` instead of blanking, so the readout restores after "Progress reset" fades.
+- **C. R5-03 (game.js:2722):** full 3-way title (converges regardless of STRINGS-1 order — implement this exact target state):
+  `endTitle.textContent = win ? (clearedFinal ? "Game Complete / Juego Completo" : "World Complete / Mundo Completo") : (isBossStage ? "Try Again / Intenta otra vez" : "Run Over / Fin del juego");`
+  with `const clearedFinal = win && (game.world === finalWorldKey || game.world === bonusWorldKey);` If STRINGS-1 already shipped R5-04, only add the `: (isBossStage ? …)` defeat leg.
+- **D. Cache:** `ASSET_VERSION`/`game.js?v=` → **v131** if STRINGS-1 shipped first, else **v130**; `style.css?v=` **35 → 36**.
+- **Accept:** `node --check`, gate PASS, smoke 3/3, both audits, push, both hosts SHA-identical. Coordinator verifies + pins (landscape exemption, N/6 readout, defeat title) post-ship.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v129 + css v35, last verified, zero drift (live re-check pending shell recovery) |
+| **AG** | 📋 RT5-STRINGS-1 + RT5-KID-1 ready (KID-1 is the prod gate; either order converges) |
+| **Muse Code** | Coordinator — shell down, boarding via direct edits; verify lane resumes on recovery |
+
+---
+
+### 2026-09-29 08:19 MT — Muse Code (coordinator): CLAIM-READY — AG 📋 RT5-STRINGS-1 (World-Complete title + P3 strings sweep, → v130)
+
+Smallest-first packet from round-5 (R5-04 + R5-08). Strings + one title-only branch. All current literals verified at the cited lines on `6f5ec6d`.
+
+- **In-scope:** `game/game.js`, `game/index.html`, `scripts/release-gate.mjs` (3 pin updates), `docs/AI-DISPATCH.md`. Out: `style.css` (stays v35), guides/manual, gameplay logic.
+- **A. R5-04 (game.js:2722):** `endTitle` on win → `"World Complete / Mundo Completo"`, keeping `"Game Complete / Juego Completo"` only when `game.world === finalWorldKey || game.world === bonusWorldKey` (`holymountain`/`saints`, consts :96-97; `game.world` persists through the final-sequence early return):
+  `const clearedFinal = win && (game.world === finalWorldKey || game.world === bonusWorldKey);`
+- **B1. Break (game.js:3054):** ES half → `¡Toma un descanso! Estírate y reza en familia.` (drop gendered noun; EN `champion` stays). Update gate pin :632 to the new ES half.
+- **B2. Retry (index.html:280):** `Reintentar Jefe` → `Reintentar el jefe`. Update gate pin :579-580.
+- **B3. Help (index.html ~208, after ✚ row):** add `<div><dt>✕</dt><dd>Quit to selection / Salir a elegir</dd></div>`.
+- **B4. Resumed (game.js:4857):** `Resumed / Continúa` → `Resumed / Juego reanudado`.
+- **B5. Saints caption (game.js:5483):** append ` / Santa María, Madre de Jesús, se une a la vista previa de Santos. La próxima aventura empezará pronto.` (guide-consistent term, not "mundo de regalo").
+- **B6. Pause (game.js:4830 + :4849):** `Paused. Pausado.` → `Paused / Pausa`; `Paused / Pausado` → `Paused / Pausa`. Update gate pin :215-216. (Smoke asserts srStatus non-empty only — safe.)
+- **B7. Rancho (index.html:55):** `<span>6 El Rancho</span>` → `<span>6 El Rancho (soon/pronto)</span>`.
+- **C. Cache:** `ASSET_VERSION` / `game.js?v=` **129 → 130**. No CSS bump.
+- **Accept:** `node --check`, gate PASS, smoke 3/3, both audits, push, both hosts v130 SHA-identical. Coordinator verifies + pins new strings post-ship.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v129 + css v35, verified, zero drift |
+| **AG** | 📋 RT5-STRINGS-1 ready to claim (smallest-first) |
+| **Muse Code** | Coordinator — packet boarded; verify lane open |
+
+---
+
 ### 2026-09-29 08:15 MT — Muse Code (coordinator): RT-SEC-1 shipped ✅ (public-surface secret audit — CLEAN)
 
 **Owner-asked audit: are users/passwords/tokens exposed on the web? Answer: no.**
