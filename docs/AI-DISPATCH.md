@@ -10,6 +10,24 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 00:30 MT — Muse Code (coordinator): round-2 sweep done + RT2-COPY-1 shipped (v119) + live-verified ✅
+
+Persona sweep round 2 complete (5/5 lenses + synthesis, filed at `docs/reviews/round2-*-2026-09-29.md` + `M-A-PERSONA-ROUNDTABLE-2026-09-29.md`, committed `225413a`). Verdict **Almost**: locks/cheats/cache/persist/reset/44px/live-regions all survive falsification; 14-item ranked backlog (RT2-COPY-1/KID-1/A11Y-1/A11Y-2/DESIGN-1/DEAD-1). AG silent → coordinator covering packets directly.
+
+**Shipped RT2-COPY-1 (`f7d8454` + `ec40508`, v119):** pause grammar (`Pulsa P para seguir · Q para salir`), tú fix (`Sigue junto a tu compañero`), gender-neutral grace (`recibió la gracia`), travel label ES (`Viajando: {mundo}`), rancho help separator, caption `usos de Agua Bendita`; guide truth (Don Maro/Favi exclusion, Nangie+Maro in examples, content note + bedtime preview EN+ES); manual ditto; gate pause-check updated. `node --check` OK, gate PASS, smoke PASS.
+
+**Live verify** ✅: both hosts `game.js?v=119` by 2nd poll; index SHA `2f2b42fb…` identical both hosts; game.js SHA `4ee104d4…` identical canonical ↔ pages.dev ↔ local (zero drift); new strings live, unlock 0. RT2-COPY-1 fully ACCEPTED.
+
+**Correction:** designer recheck caught my grind-summary slips — 53 stages → **51** (48 to clear), hard 517 → **490** (double-counted Saints); rows themselves validated exact. Entry corrected in place.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v119 on both hosts, verified |
+| **AG** | Silent — RT2-KID-1/A11Y-1 next for coordinator cover; DESIGN-1/DEAD-1 need Owner |
+| **Muse Code** | Coordinator — RT2-KID-1 next (bilingual buttons, caption size, touch-quit, Start gating + retry) |
+
+---
+
 ### 2026-09-29 00:17 MT — Muse Code (coordinator): header-merge QA closed — peer fix verified live, `/game/*` pin complement (`cf22de3`)
 
 Race note: both lanes independently found the Pages header-merge void (peer's "first match wins" assumption disproved by live `Cache-Control` concatenation) and wrote the same disjoint fix; peer published first (`f4c36f0`, verified `97261fd`) so my duplicate stayed unpublished. Cross-verified their fix live just now: versioned asset serves single-valued `public, max-age=31536000, immutable`, HTML/JS single-valued `no-store` — RT-PERF-2 genuinely effective.
@@ -43,7 +61,7 @@ Total crosses per full world clear (sum, with worst single stage):
 | Saints | 3 | 21 (max 8) | 24 (max 9) | 27 (max 10) |
 | El Rancho (locked) | 7 | 59 (max 11) | 66 (max 12) | 73 (max 13) |
 
-Holy Land gate = 7 worlds (all minus locked ranch). Full regular run to endgame ≈ **439 crosses / 53 stages**; hard ≈ **517**, incl. an 86-cross / 2-life no-checkpoint Bedtime run. This is the data behind design P1s (checkpoints, gate credit, cross-load spike) — Owner, your call on: (a) checkpoint shape (mid-world? boss-retry? +1 life per stage?), (b) Holy Land N-of-7 or keep full clear, (c) hard crossBonus 1→0 or keep. No code until you rule.
+Holy Land gate = 7 worlds (all minus locked ranch). Full regular run ≈ **439 crosses / 51 stages incl. Saints bonus (415/48 to Holy Land clear); hard 490**, incl. an 86-cross / 2-life no-checkpoint Bedtime run. *(Corrected 00:30 — designer recheck: 53→51, hard 517→490 double-counted Saints.)* This is the data behind design P1s (checkpoints, gate credit, cross-load spike) — Owner, your call on: (a) checkpoint shape (mid-world? boss-retry? +1 life per stage?), (b) Holy Land N-of-7 or keep full clear, (c) hard crossBonus 1→0 or keep. No code until you rule.
 
 (Sequenced after peer v118 — no overlap.)
 
