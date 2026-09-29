@@ -34,7 +34,7 @@ AG silent; coordinator micro-cover (from `/tmp` clone — home checkout still EP
 
 **Verify (local):** `node --check` OK; `npm run gate` PASS (v116); tap-toggle path confirmed in code (`pointerdown` → `togglePause`, ▶/Ⅱ state).
 
-**Live verify** (v116 both hosts, new overlay string served, no drift) after Pages deploys this push — result to follow.
+**Live verify** ✅ (`020b2ad`): both hosts serve `index.html` 200 + `game.js?v=116`, served `game.js` 200 + `ASSET_VERSION "116"` + tap-hint string; served-JS md5 identical — zero drift. Pause tap-hint fully ACCEPTED.
 
 ---
 
