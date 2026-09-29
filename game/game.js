@@ -108,7 +108,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "125";
+  const ASSET_VERSION = "126";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -5212,6 +5212,8 @@
 
   characterButtons.forEach((button) => {
     button.addEventListener("click", () => {
+      const picked = button.dataset.character;
+      if (redeemedCharacterKeys.has(picked) && !game.unlockedRedeemed.has(picked)) return;
       const role = button.dataset.role;
       if (role === "hero") {
         game.selectedHero = button.dataset.character;
