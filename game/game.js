@@ -106,7 +106,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "111";
+  const ASSET_VERSION = "112";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -698,9 +698,9 @@
   };
 
   const difficultySettings = {
-    easy: { label: "Easy / Facil", lives: 5, spray: 5, speed: 0.82, hazards: 1.35, lightning: 1.25, lightningWarning: 1.8, fireBonus: -1, danger: 0.72, crossBonus: -1 },
-    regular: { label: "Regular", lives: 3, spray: 4, speed: 1, hazards: 1, lightning: 0.86, lightningWarning: 1.55, fireBonus: 0, danger: 1, crossBonus: 0 },
-    hard: { label: "Hard / Dificil", lives: 2, spray: 3, speed: 1.24, hazards: 0.72, lightning: 0.58, lightningWarning: 1.18, fireBonus: 1, danger: 1.32, crossBonus: 1 },
+    easy: { label: "Easy / Fácil", lives: 5, spray: 5, speed: 0.82, hazards: 1.35, lightning: 1.25, lightningWarning: 1.8, fireBonus: -1, danger: 0.72, crossBonus: -1 },
+    regular: { label: "Regular / Normal", lives: 3, spray: 4, speed: 1, hazards: 1, lightning: 0.86, lightningWarning: 1.55, fireBonus: 0, danger: 1, crossBonus: 0 },
+    hard: { label: "Hard / Difícil", lives: 2, spray: 3, speed: 1.24, hazards: 0.72, lightning: 0.58, lightningWarning: 1.18, fireBonus: 1, danger: 1.32, crossBonus: 1 },
   };
 
   const worldHazards = {
@@ -718,7 +718,7 @@
     },
     elpaso: {
       projectiles: ["clawSlash", "shriekWave"],
-      lightning: { warning: "#c9a2ff", hot: "#ffcf5a", bolt: "#fbf0ff", core: "#b678ff", glow: "#c07cff", impact: "#e4ccff", ring: "#e8d5ff", delay: 0.92, warningTime: 0.98, radius: 1.05, message: "Monsoon lightning / Rayo monzonico" },
+      lightning: { warning: "#c9a2ff", hot: "#ffcf5a", bolt: "#fbf0ff", core: "#b678ff", glow: "#c07cff", impact: "#e4ccff", ring: "#e8d5ff", delay: 0.92, warningTime: 0.98, radius: 1.05, message: "Monsoon lightning / Rayo monzónico" },
     },
     guadalajara: {
       projectiles: ["horseshoe", "lassoRing"],
@@ -792,7 +792,7 @@
       helper: "both",
       enemy: { x: 1110, y: 505, minX: 940, maxX: 1190, speed: 38, chaseAfter: 99 },
       crossCount: 5,
-      message: "Gather prayer light. Reune la luz de la oracion.",
+      message: "Gather prayer light. Reúne la luz de la oración.",
       complete: "Church level passed / Nivel Iglesia superado",
       crosses: [
         { x: 335, y: 485 },
@@ -810,7 +810,7 @@
       boss: true,
       enemy: { x: 1040, y: 505, minX: 700, maxX: 1185, speed: 120, chaseAfter: 1 },
       crossCount: 5,
-      message: "Collect Lux, then pray near El Tacalache.",
+      message: "Collect Lux, then pray near El Tacalache. Junta Lux y reza junto a El Tacalache.",
       complete: "Crux Sacra Sit Mihi Lux",
       crosses: [
         { x: 260, y: 460 },
@@ -846,7 +846,7 @@
         helper: "michael",
         enemy: { x: 1105, y: 505, minX: 740, maxX: 1190, speed: 92, chaseAfter: 3 },
         crossCount: 7,
-        message: "El Cucuy hides in the park shadows.",
+        message: "El Cucuy hides in the park shadows. El Cucuy se esconde en las sombras del parque.",
         complete: "Chamizal cleared / Chamizal superado",
         crosses: [
           { x: 250, y: 430 },
@@ -865,7 +865,7 @@
         helper: "both",
         enemy: { x: 1090, y: 505, minX: 720, maxX: 1190, speed: 105, chaseAfter: 3 },
         crossCount: 8,
-        message: "Find the Crux Sacras between the mall shadows.",
+        message: "Find the Crux Sacras between the mall shadows. Encuentra las Crux Sacras entre las sombras del centro comercial.",
         complete: "Mall level passed / Nivel Mall superado",
         crosses: [
           { x: 235, y: 470 },
@@ -884,7 +884,7 @@
         helper: "angel",
         enemy: { x: 1110, y: 505, minX: 680, maxX: 1190, speed: 118, chaseAfter: 2 },
         crossCount: 8,
-        message: "Dust and fear move fast in the dunes.",
+        message: "Dust and fear move fast in the dunes. El polvo y el miedo se mueven rápido en las dunas.",
         complete: "Dunes crossed / Dunas superadas",
         crosses: [
           { x: 250, y: 455 },
@@ -922,7 +922,7 @@
         boss: true,
         enemy: { x: 1040, y: 505, minX: 650, maxX: 1190, speed: 145, chaseAfter: 1 },
         crossCount: 7,
-        message: "Collect Lux, then pray near El Cucuy.",
+        message: "Collect Lux, then pray near El Cucuy. Junta Lux y reza junto a El Cucuy.",
         complete: "Crux Sacra Sit Mihi Lux",
         crosses: [
           { x: 245, y: 465 },
@@ -942,7 +942,7 @@
         helper: "angel",
         enemy: { x: 1085, y: 510, minX: 830, maxX: 1190, speed: 78, chaseAfter: 4 },
         crossCount: 6,
-        message: "Restore the emerald Crux Sacras on the rainy boulevard.",
+        message: "Restore the emerald Crux Sacras on the rainy boulevard. Restaura las Crux Sacras esmeralda en el bulevar lluvioso.",
         complete: "Mobile level passed / Nivel Mobile superado",
         crosses: [
           { x: 260, y: 470 },
@@ -960,7 +960,7 @@
         helper: "michael",
         enemy: { x: 1105, y: 505, minX: 760, maxX: 1190, speed: 96, chaseAfter: 3 },
         crossCount: 7,
-        message: "The Swamp Shadow follows the stadium lights.",
+        message: "The Swamp Shadow follows the stadium lights. La Sombra del Pantano sigue las luces del estadio.",
         complete: "Campus level passed / Nivel Campus superado",
         crosses: [
           { x: 250, y: 440 },
@@ -979,7 +979,7 @@
         helper: "both",
         enemy: { x: 1100, y: 505, minX: 720, maxX: 1190, speed: 108, chaseAfter: 3 },
         crossCount: 8,
-        message: "Find the Crux Sacras around the city fountains.",
+        message: "Find the Crux Sacras around the city fountains. Encuentra las Crux Sacras junto a las fuentes de la ciudad.",
         complete: "Atlanta level passed / Nivel Atlanta superado",
         crosses: [
           { x: 235, y: 470 },
@@ -998,7 +998,7 @@
         helper: "angel",
         enemy: { x: 1110, y: 505, minX: 680, maxX: 1190, speed: 122, chaseAfter: 2 },
         crossCount: 8,
-        message: "Sun and wind cannot hide the shadows.",
+        message: "Sun and wind cannot hide the shadows. El sol y el viento no pueden esconder las sombras.",
         complete: "Pensacola level passed / Nivel Pensacola superado",
         crosses: [
           { x: 250, y: 455 },
@@ -1017,7 +1017,7 @@
         helper: "both",
         enemy: { x: 1115, y: 505, minX: 760, maxX: 1190, speed: 118, chaseAfter: 2 },
         crossCount: 9,
-        message: "Stay in the light through the old streets.",
+        message: "Stay in the light through the old streets. Quédate en la luz por las calles viejas.",
         complete: "New Orleans level passed / Nivel New Orleans superado",
         crosses: [
           { x: 235, y: 500 },
@@ -1037,7 +1037,7 @@
         boss: true,
         enemy: { x: 1040, y: 520, minX: 630, maxX: 1190, speed: 152, chaseAfter: 1 },
         crossCount: 8,
-        message: "Collect Lux, then pray near The Swamp Shadow.",
+        message: "Collect Lux, then pray near The Swamp Shadow. Junta Lux y reza junto a La Sombra del Pantano.",
         complete: "Crux Sacra Sit Mihi Lux",
         crosses: [
           { x: 245, y: 465 },
@@ -1057,7 +1057,7 @@
         helper: "angel",
         enemy: { x: 1085, y: 510, minX: 830, maxX: 1190, speed: 86, chaseAfter: 4 },
         crossCount: 6,
-        message: "Restore the violet Crux Sacras near the mountains.",
+        message: "Restore the violet Crux Sacras near the mountains. Restaura las Crux Sacras violeta junto a las montañas.",
         complete: "El Paso neighborhood passed / Nivel vecindario El Paso superado",
         crosses: [
           { x: 250, y: 465 },
@@ -1075,7 +1075,7 @@
         helper: "michael",
         enemy: { x: 1105, y: 505, minX: 760, maxX: 1190, speed: 104, chaseAfter: 3 },
         crossCount: 7,
-        message: "El Chupacabras runs through the plaza shadows.",
+        message: "El Chupacabras runs through the plaza shadows. El Chupacabras corre entre las sombras de la plaza.",
         complete: "San Jacinto Plaza passed / Plaza San Jacinto superada",
         crosses: [
           { x: 245, y: 440 },
@@ -1094,7 +1094,7 @@
         helper: "both",
         enemy: { x: 1100, y: 505, minX: 715, maxX: 1190, speed: 116, chaseAfter: 3 },
         crossCount: 8,
-        message: "Collect the Crux Sacras above the city lights.",
+        message: "Collect the Crux Sacras above the city lights. Junta las Crux Sacras sobre las luces de la ciudad.",
         complete: "Mountain overlook passed / Mirador de la montaña superado",
         crosses: [
           { x: 235, y: 470 },
@@ -1113,7 +1113,7 @@
         helper: "both",
         enemy: { x: 1115, y: 505, minX: 850, maxX: 1190, speed: 76, chaseAfter: 99 },
         crossCount: 7,
-        message: "Pray by the mission and the mountain star.",
+        message: "Pray by the mission and the mountain star. Reza junto a la misión y la estrella de la montaña.",
         complete: "Mission level passed / Nivel Misión superado",
         crosses: [
           { x: 300, y: 500 },
@@ -1131,7 +1131,7 @@
         helper: "angel",
         enemy: { x: 1110, y: 510, minX: 700, maxX: 1190, speed: 132, chaseAfter: 2 },
         crossCount: 9,
-        message: "Stay in the light across the bridge.",
+        message: "Stay in the light across the bridge. Quédate en la luz al cruzar el puente.",
         complete: "Bridge lights passed / Luces del puente superadas",
         crosses: [
           { x: 230, y: 500 },
@@ -1151,7 +1151,7 @@
         boss: true,
         enemy: { x: 1040, y: 515, minX: 630, maxX: 1190, speed: 162, chaseAfter: 1 },
         crossCount: 8,
-        message: "Collect Lux, then pray near El Chupacabras.",
+        message: "Collect Lux, then pray near El Chupacabras. Junta Lux y reza junto a El Chupacabras.",
         complete: "Crux Sacra Sit Mihi Lux",
         crosses: [
           { x: 245, y: 465 },
@@ -1171,7 +1171,7 @@
         helper: "angel",
         enemy: { x: 1085, y: 510, minX: 830, maxX: 1190, speed: 90, chaseAfter: 4 },
         crossCount: 6,
-        message: "Restore the ruby Crux Sacras by the cathedral.",
+        message: "Restore the ruby Crux Sacras by the cathedral. Restaura las Crux Sacras rubí junto a la catedral.",
         complete: "Guadalajara plaza passed / Plaza Guadalajara superada",
         crosses: [
           { x: 260, y: 470 },
@@ -1189,7 +1189,7 @@
         helper: "michael",
         enemy: { x: 1105, y: 505, minX: 760, maxX: 1190, speed: 110, chaseAfter: 3 },
         crossCount: 7,
-        message: "El Charro Negro moves between the arches.",
+        message: "El Charro Negro moves between the arches. El Charro Negro se mueve entre los arcos.",
         complete: "Historic courtyard passed / Patio histórico superado",
         crosses: [
           { x: 245, y: 440 },
@@ -1208,7 +1208,7 @@
         helper: "both",
         enemy: { x: 1100, y: 505, minX: 720, maxX: 1190, speed: 120, chaseAfter: 3 },
         crossCount: 8,
-        message: "Follow the light through the colorful streets.",
+        message: "Follow the light through the colorful streets. Sigue la luz por las calles de colores.",
         complete: "Tlaquepaque level passed / Nivel Tlaquepaque superado",
         crosses: [
           { x: 235, y: 470 },
@@ -1227,7 +1227,7 @@
         helper: "angel",
         enemy: { x: 1110, y: 505, minX: 680, maxX: 1190, speed: 130, chaseAfter: 2 },
         crossCount: 8,
-        message: "The rider waits in the forest shadows.",
+        message: "The rider waits in the forest shadows. El jinete espera en las sombras del bosque.",
         complete: "Forest level passed / Nivel bosque superado",
         crosses: [
           { x: 250, y: 455 },
@@ -1246,7 +1246,7 @@
         helper: "both",
         enemy: { x: 1115, y: 505, minX: 760, maxX: 1190, speed: 126, chaseAfter: 2 },
         crossCount: 9,
-        message: "Keep the light bright by the ocean.",
+        message: "Keep the light bright by the ocean. Mantén la luz brillante junto al mar.",
         complete: "Puerto Vallarta level passed / Nivel Puerto Vallarta superado",
         crosses: [
           { x: 235, y: 500 },
@@ -1266,7 +1266,7 @@
         boss: true,
         enemy: { x: 1040, y: 520, minX: 630, maxX: 1190, speed: 170, chaseAfter: 1 },
         crossCount: 8,
-        message: "Collect Lux, then pray near El Jinete Sin Cabeza.",
+        message: "Collect Lux, then pray near El Jinete Sin Cabeza. Junta Lux y reza junto a El Jinete Sin Cabeza.",
         complete: "Crux Sacra Sit Mihi Lux",
         crosses: [
           { x: 245, y: 465 },
@@ -1286,7 +1286,7 @@
         helper: "angel",
         enemy: { x: 1085, y: 510, minX: 830, maxX: 1190, speed: 94, chaseAfter: 4 },
         crossCount: 6,
-        message: "Restore the silver Crux Sacras by the cathedral.",
+        message: "Restore the silver Crux Sacras by the cathedral. Restaura las Crux Sacras de plata junto a la catedral.",
         complete: "Zocalo level passed / Nivel Zocalo superado",
         crosses: [
           { x: 260, y: 470 },
@@ -1304,7 +1304,7 @@
         helper: "michael",
         enemy: { x: 1105, y: 505, minX: 760, maxX: 1190, speed: 112, chaseAfter: 3 },
         crossCount: 7,
-        message: "La Llorona drifts through the canal mist.",
+        message: "La Llorona drifts through the canal mist. La Llorona flota entre la niebla del canal.",
         complete: "Xochimilco level passed / Nivel Xochimilco superado",
         crosses: [
           { x: 245, y: 440 },
@@ -1323,7 +1323,7 @@
         helper: "both",
         enemy: { x: 1100, y: 505, minX: 720, maxX: 1190, speed: 124, chaseAfter: 3 },
         crossCount: 8,
-        message: "Follow the light through Chapultepec park.",
+        message: "Follow the light through Chapultepec park. Sigue la luz por el parque de Chapultepec.",
         complete: "Chapultepec level passed / Nivel Chapultepec superado",
         crosses: [
           { x: 235, y: 470 },
@@ -1342,7 +1342,7 @@
         helper: "angel",
         enemy: { x: 1110, y: 505, minX: 680, maxX: 1190, speed: 134, chaseAfter: 2 },
         crossCount: 8,
-        message: "Keep the Crux Sacra bright by the Basilica.",
+        message: "Keep the Crux Sacra bright by the Basilica. Mantén la Crux Sacra brillante junto a la Basílica.",
         complete: "Basilica level passed / Nivel Basilica superado",
         crosses: [
           { x: 250, y: 455 },
@@ -1361,7 +1361,7 @@
         helper: "both",
         enemy: { x: 1115, y: 505, minX: 760, maxX: 1190, speed: 138, chaseAfter: 2 },
         crossCount: 9,
-        message: "Stay together through the night streets.",
+        message: "Stay together through the night streets. Sigan juntos por las calles de noche.",
         complete: "Coyoacan level passed / Nivel Coyoacan superado",
         crosses: [
           { x: 235, y: 500 },
@@ -1381,7 +1381,7 @@
         boss: true,
         enemy: { x: 1040, y: 520, minX: 630, maxX: 1190, speed: 176, chaseAfter: 1 },
         crossCount: 8,
-        message: "Collect Lux, then pray near La Llorona.",
+        message: "Collect Lux, then pray near La Llorona. Junta Lux y reza junto a La Llorona.",
         complete: "Crux Sacra Sit Mihi Lux",
         crosses: [
           { x: 245, y: 465 },
@@ -1401,7 +1401,7 @@
         helper: "angel",
         enemy: { x: 1085, y: 510, minX: 830, maxX: 1190, speed: 98, chaseAfter: 4 },
         crossCount: 7,
-        message: "Keep the Crux Sacra bright above the bed.",
+        message: "Keep the Crux Sacra bright above the bed. Mantén la Crux Sacra brillante sobre la cama.",
         complete: "Colorado bedroom passed / Cuarto de Colorado superado",
         crosses: [
           { x: 250, y: 465 },
@@ -1419,7 +1419,7 @@
         helper: "michael",
         enemy: { x: 1105, y: 505, minX: 760, maxX: 1190, speed: 118, chaseAfter: 3 },
         crossCount: 8,
-        message: "El Coco listens from the rainy window and closet.",
+        message: "El Coco listens from the rainy window and closet. El Coco escucha desde la ventana lluviosa y el clóset.",
         complete: "Alabama room passed / Cuarto de Alabama superado",
         crosses: [
           { x: 235, y: 500 },
@@ -1438,7 +1438,7 @@
         helper: "both",
         enemy: { x: 1100, y: 505, minX: 715, maxX: 1190, speed: 132, chaseAfter: 2 },
         crossCount: 8,
-        message: "Save the Crux Sacras in the compact Juárez room.",
+        message: "Save the Crux Sacras in the compact Juárez room. Salva las Crux Sacras en el cuarto compacto de Juárez.",
         complete: "Juarez room passed / Cuarto de Juarez superado",
         crosses: [
           { x: 245, y: 455 },
@@ -1457,7 +1457,7 @@
         helper: "both",
         enemy: { x: 1115, y: 505, minX: 850, maxX: 1190, speed: 86, chaseAfter: 99 },
         crossCount: 7,
-        message: "The star in the window helps guide the Crux Sacra.",
+        message: "The star in the window helps guide the Crux Sacra. La estrella de la ventana ayuda a guiar la Crux Sacra.",
         complete: "El Paso room passed / Cuarto de El Paso superado",
         crosses: [
           { x: 300, y: 500 },
@@ -1475,7 +1475,7 @@
         helper: "angel",
         enemy: { x: 1110, y: 510, minX: 700, maxX: 1190, speed: 152, chaseAfter: 2 },
         crossCount: 9,
-        message: "Pray near the old ropero and warm arches.",
+        message: "Pray near the old ropero and warm arches. Reza junto al ropero viejo y los arcos cálidos.",
         complete: "Guadalajara room passed / Cuarto de Guadalajara superado",
         crosses: [
           { x: 230, y: 500 },
@@ -1494,7 +1494,7 @@
         helper: "angel",
         enemy: { x: 1120, y: 510, minX: 710, maxX: 1190, speed: 156, chaseAfter: 2 },
         crossCount: 9,
-        message: "The adobe room glows softly around the Crux Sacras.",
+        message: "The adobe room glows softly around the Crux Sacras. El cuarto de adobe brilla suave junto a las Crux Sacras.",
         complete: "El Rancho room passed / Cuarto de El Rancho superado",
         crosses: [
           { x: 235, y: 500 },
@@ -1513,7 +1513,7 @@
         helper: "michael",
         enemy: { x: 1120, y: 510, minX: 690, maxX: 1190, speed: 164, chaseAfter: 2 },
         crossCount: 9,
-        message: "City lights shine while El Coco hides in the shadows.",
+        message: "City lights shine while El Coco hides in the shadows. Las luces de la ciudad brillan mientras El Coco se esconde en las sombras.",
         complete: "Mexico City room passed / Cuarto de Mexico superado",
         crosses: [
           { x: 235, y: 500 },
@@ -1533,7 +1533,7 @@
         boss: true,
         enemy: { x: 1040, y: 520, minX: 610, maxX: 1190, speed: 188, chaseAfter: 1 },
         crossCount: 9,
-        message: "Collect Lux, then pray near El Coco.",
+        message: "Collect Lux, then pray near El Coco. Junta Lux y reza junto a El Coco.",
         complete: "Crux Sacra Sit Mihi Lux",
         crosses: [
           { x: 230, y: 465 },
@@ -1555,7 +1555,7 @@
         cheering: true,
         enemy: { x: 1085, y: 510, minX: 835, maxX: 1190, speed: 102, chaseAfter: 4 },
         crossCount: 7,
-        message: "Begin the final pilgrimage with the Crux Sacra.",
+        message: "Begin the final pilgrimage with the Crux Sacra. Empieza la peregrinación final con la Crux Sacra.",
         complete: "Holy Road passed / Camino Santo superado",
         crosses: [
           { x: 250, y: 470 },
@@ -1575,7 +1575,7 @@
         cheering: true,
         enemy: { x: 1105, y: 505, minX: 760, maxX: 1190, speed: 122, chaseAfter: 3 },
         crossCount: 8,
-        message: "Resist the desert storm and save the Crux Sacras.",
+        message: "Resist the desert storm and save the Crux Sacras. Resiste la tormenta del desierto y salva las Crux Sacras.",
         complete: "Desert level passed / Desierto superado",
         crosses: [
           { x: 235, y: 500 },
@@ -1595,8 +1595,8 @@
         cheering: true,
         enemy: { x: 1100, y: 505, minX: 715, maxX: 1190, speed: 136, chaseAfter: 2 },
         crossCount: 8,
-        message: "Pray by the Jerusalem Temple / Reza junto al Templo de Jerusalen.",
-        complete: "Jerusalem Temple passed / Templo de Jerusalen superado",
+        message: "Pray by the Jerusalem Temple / Reza junto al Templo de Jerusalén.",
+        complete: "Jerusalem Temple passed / Templo de Jerusalén superado",
         crosses: [
           { x: 245, y: 455 },
           { x: 395, y: 525 },
@@ -1615,7 +1615,7 @@
         cheering: true,
         enemy: { x: 1110, y: 510, minX: 680, maxX: 1190, speed: 150, chaseAfter: 2 },
         crossCount: 9,
-        message: "Cross the storm bridge before the darkness closes in.",
+        message: "Cross the storm bridge before the darkness closes in. Cruza el puente de la tormenta antes de que llegue la oscuridad.",
         complete: "Storm Bridge passed / Puente de la Tormenta superado",
         crosses: [
           { x: 225, y: 500 },
@@ -1635,8 +1635,8 @@
         cheering: true,
         enemy: { x: 1115, y: 510, minX: 715, maxX: 1190, speed: 158, chaseAfter: 1 },
         crossCount: 9,
-        message: "Pray in Gethsemane / Reza en Getsemani.",
-        complete: "Gethsemane level passed / Nivel Getsemani superado",
+        message: "Pray in Gethsemane / Reza en Getsemaní.",
+        complete: "Gethsemane level passed / Nivel Getsemaní superado",
         crosses: [
           { x: 235, y: 500 },
           { x: 365, y: 420 },
@@ -1656,7 +1656,7 @@
         boss: true,
         enemy: { x: 1040, y: 520, minX: 610, maxX: 1190, speed: 194, chaseAfter: 1 },
         crossCount: 9,
-        message: "Collect Lux, then pray near The Devil.",
+        message: "Collect Lux, then pray near The Devil. Junta Lux y reza junto al Diablo.",
         complete: "Crux Sacra Sit Mihi Lux",
         crosses: [
           { x: 230, y: 465 },
@@ -1677,7 +1677,7 @@
         helper: "angel",
         enemy: { x: 1095, y: 510, minX: 725, maxX: 1190, speed: 112, chaseAfter: 4 },
         crossCount: 7,
-        message: "Bonus preview: walk with the saints and save the Crux Sacras.",
+        message: "Bonus preview: walk with the saints and save the Crux Sacras. Vista previa: camina con los santos y salva las Crux Sacras.",
         complete: "Saints preview level passed / Nivel Santos superado",
         crosses: [
           { x: 230, y: 505 },
@@ -1695,7 +1695,7 @@
         helper: "michael",
         enemy: { x: 1105, y: 510, minX: 680, maxX: 1190, speed: 132, chaseAfter: 3 },
         crossCount: 8,
-        message: "St. Mary joins this bonus-world ending as Mother of Jesus.",
+        message: "St. Mary joins this bonus-world ending as Mother of Jesus. Santa María se une a este final como Madre de Jesús.",
         complete: "Saints teaser passed / Avance de Santos superado",
         crosses: [
           { x: 245, y: 465 },
@@ -1715,8 +1715,8 @@
         boss: true,
         enemy: { x: 1065, y: 510, minX: 620, maxX: 1190, speed: 154, chaseAfter: 2 },
         crossCount: 8,
-        message: "Collect Lux, then pray near The Prairie Boy.",
-        complete: "Saints bonus intro complete",
+        message: "Collect Lux, then pray near The Prairie Boy. Junta Lux y reza junto a El Niño de la Pradera.",
+        complete: "Saints bonus intro complete / Vista previa de santos completa",
         crosses: [
           { x: 230, y: 465 },
           { x: 380, y: 390 },
@@ -1736,7 +1736,7 @@
         helper: "angel",
         enemy: { x: 1085, y: 510, minX: 830, maxX: 1190, speed: 96, chaseAfter: 4 },
         crossCount: 7,
-        message: "Restore the amber Crux Sacras by El Compás and San Felipe.",
+        message: "Restore the amber Crux Sacras by El Compás and San Felipe. Restaura las Crux Sacras ámbar junto a El Compás y San Felipe.",
         complete: "Ejido level passed / Nivel ejido superado",
         crosses: [
           { x: 250, y: 465 },
@@ -1754,7 +1754,7 @@
         helper: "michael",
         enemy: { x: 1105, y: 505, minX: 760, maxX: 1190, speed: 118, chaseAfter: 3 },
         crossCount: 8,
-        message: "Stay in the light on the La Laguna highway.",
+        message: "Stay in the light on the La Laguna highway. Quédate en la luz en la carretera de La Laguna.",
         complete: "Highway level passed / Carretera superada",
         crosses: [
           { x: 235, y: 500 },
@@ -1773,7 +1773,7 @@
         helper: "both",
         enemy: { x: 1100, y: 505, minX: 715, maxX: 1190, speed: 132, chaseAfter: 2 },
         crossCount: 8,
-        message: "Find the Crux Sacras near the Torreón stadium lights.",
+        message: "Find the Crux Sacras near the Torreón stadium lights. Encuentra las Crux Sacras junto a las luces del estadio de Torreón.",
         complete: "Torreón level passed / Nivel Torreón superado",
         crosses: [
           { x: 245, y: 455 },
@@ -1810,7 +1810,7 @@
         helper: "angel",
         enemy: { x: 1110, y: 510, minX: 700, maxX: 1190, speed: 150, chaseAfter: 2 },
         crossCount: 9,
-        message: "Climb in faith under the Cristo de las Noas light.",
+        message: "Climb in faith under the Cristo de las Noas light. Sube con fe bajo la luz del Cristo de las Noas.",
         complete: "Cerro de las Noas passed / Cerro de las Noas superado",
         crosses: [
           { x: 230, y: 500 },
@@ -1829,7 +1829,7 @@
         helper: "michael",
         enemy: { x: 1120, y: 510, minX: 690, maxX: 1190, speed: 164, chaseAfter: 2 },
         crossCount: 9,
-        message: "La Aparecida follows through the Parras night.",
+        message: "La Aparecida follows through the Parras night. La Aparecida sigue en la noche de Parras.",
         complete: "Parras level passed / Nivel Parras superado",
         crosses: [
           { x: 235, y: 500 },
@@ -1849,7 +1849,7 @@
         boss: true,
         enemy: { x: 1040, y: 520, minX: 610, maxX: 1190, speed: 188, chaseAfter: 1 },
         crossCount: 9,
-        message: "Collect Lux, then pray near La Aparecida.",
+        message: "Collect Lux, then pray near La Aparecida. Junta Lux y reza junto a La Aparecida.",
         complete: "Crux Sacra Sit Mihi Lux",
         crosses: [
           { x: 230, y: 465 },
@@ -2102,7 +2102,7 @@
         : locked && worldKey === bonusWorldKey
           ? "Locked until Holy Land is passed / Bloqueado hasta superar Tierra Santa"
           : locked && worldKey === ranchWorldKey
-            ? "Locked until El Rancho is ready / Bloqueado hasta que El Rancho este listo"
+            ? "Locked until El Rancho is ready / Bloqueado hasta que El Rancho esté listo"
           : "";
     }
     syncSelectPressed();
@@ -2490,30 +2490,30 @@
   }
 
   const defeatMessages = {
-    tacalache: "The villain got too close. Use the cross light to push him back.",
-    fire: "You stepped into the fire. Use Holy Water to extinguish it.",
-    rat: "A rat hit the hero. Use Holy Water before it reaches you.",
-    roach: "A cockroach hit the hero. Use Holy Water before it reaches you.",
-    cactusThorn: "A cactus thorn hit the hero. Use Holy Water before it reaches you.",
-    sandSkull: "A sand skull hit the hero. Use Holy Water before it reaches you.",
-    mosquito: "A mosquito swarm hit the hero. Use Holy Water before it reaches you.",
-    swampBubble: "A swamp bubble hit the hero. Use Holy Water before it reaches you.",
-    clawSlash: "A claw slash hit the hero. Use Holy Water before it reaches you.",
-    shriekWave: "A shriek wave hit the hero. Use Holy Water before it reaches you.",
-    horseshoe: "A cursed horseshoe hit the hero. Use Holy Water before it reaches you.",
-    lassoRing: "A black lasso ring hit the hero. Use Holy Water before it reaches you.",
-    tearDrop: "A ghostly tear hit the hero. Use Holy Water before it reaches you.",
-    ghostHand: "A ghost hand touched the hero. Use Holy Water before it reaches you.",
-    darkChain: "A dark chain hit the hero. Use Holy Water before it reaches you.",
-    temptationFlame: "A temptation flame hit the hero. Use Holy Water before it reaches you.",
-    ghostMarble: "A ghost marble hit the hero. Use Holy Water before it reaches you.",
-    strawDart: "A straw dart hit the hero. Use Holy Water before it reaches you.",
-    dustRibbon: "A road dust ribbon hit the hero. Use Holy Water before it reaches you.",
-    roadLantern: "A phantom road lantern hit the hero. Use Holy Water before it reaches you.",
-    shadowSock: "El Coco threw a shadow sock from under the bed!",
-    closetWhisper: "A closet whisper reached the hero!",
-    lightning: "Lightning struck the hero. Holy Water and Rosary cannot stop thunder.",
-    cross: "A red cross exploded. Reach glowing crosses before the danger meter fills.",
+    tacalache: "The villain got too close. Use the cross light to push him back. El villano se acercó. Usa la luz de la cruz para alejarlo.",
+    fire: "You stepped into the fire. Use Holy Water to extinguish it. Pisaste el fuego. Usa el Agua Bendita para apagarlo.",
+    rat: "A rat hit the hero. Use Holy Water before it reaches you. Una rata golpeó al héroe. Usa el Agua Bendita antes de que te alcance.",
+    roach: "A cockroach hit the hero. Use Holy Water before it reaches you. Una cucaracha golpeó al héroe. Usa el Agua Bendita antes de que te alcance.",
+    cactusThorn: "A cactus thorn hit the hero. Use Holy Water before it reaches you. Una espina de cactus golpeó al héroe. Usa el Agua Bendita antes de que te alcance.",
+    sandSkull: "A sand skull hit the hero. Use Holy Water before it reaches you. Una calavera de arena golpeó al héroe. Usa el Agua Bendita antes de que te alcance.",
+    mosquito: "A mosquito swarm hit the hero. Use Holy Water before it reaches you. Un enjambre de mosquitos golpeó al héroe. Usa el Agua Bendita antes de que te alcance.",
+    swampBubble: "A swamp bubble hit the hero. Use Holy Water before it reaches you. Una burbuja del pantano golpeó al héroe. Usa el Agua Bendita antes de que te alcance.",
+    clawSlash: "A claw slash hit the hero. Use Holy Water before it reaches you. Un zarpazo golpeó al héroe. Usa el Agua Bendita antes de que te alcance.",
+    shriekWave: "A shriek wave hit the hero. Use Holy Water before it reaches you. Una onda de chillido golpeó al héroe. Usa el Agua Bendita antes de que te alcance.",
+    horseshoe: "A cursed horseshoe hit the hero. Use Holy Water before it reaches you. Una herradura maldita golpeó al héroe. Usa el Agua Bendita antes de que te alcance.",
+    lassoRing: "A black lasso ring hit the hero. Use Holy Water before it reaches you. Un lazo negro golpeó al héroe. Usa el Agua Bendita antes de que te alcance.",
+    tearDrop: "A ghostly tear hit the hero. Use Holy Water before it reaches you. Una lágrima fantasma golpeó al héroe. Usa el Agua Bendita antes de que te alcance.",
+    ghostHand: "A ghost hand touched the hero. Use Holy Water before it reaches you. Una mano fantasma tocó al héroe. Usa el Agua Bendita antes de que te alcance.",
+    darkChain: "A dark chain hit the hero. Use Holy Water before it reaches you. Una cadena oscura golpeó al héroe. Usa el Agua Bendita antes de que te alcance.",
+    temptationFlame: "A temptation flame hit the hero. Use Holy Water before it reaches you. Una llama de tentación golpeó al héroe. Usa el Agua Bendita antes de que te alcance.",
+    ghostMarble: "A ghost marble hit the hero. Use Holy Water before it reaches you. Una canica fantasma golpeó al héroe. Usa el Agua Bendita antes de que te alcance.",
+    strawDart: "A straw dart hit the hero. Use Holy Water before it reaches you. Un dardo de paja golpeó al héroe. Usa el Agua Bendita antes de que te alcance.",
+    dustRibbon: "A road dust ribbon hit the hero. Use Holy Water before it reaches you. Una cinta de polvo golpeó al héroe. Usa el Agua Bendita antes de que te alcance.",
+    roadLantern: "A phantom road lantern hit the hero. Use Holy Water before it reaches you. Una linterna fantasma golpeó al héroe. Usa el Agua Bendita antes de que te alcance.",
+    shadowSock: "El Coco threw a shadow sock from under the bed! ¡El Coco lanzó un calcetín de sombra desde debajo de la cama!",
+    closetWhisper: "A closet whisper reached the hero! ¡Un susurro del clóset alcanzó al héroe!",
+    lightning: "Lightning struck the hero. Holy Water and Rosary cannot stop thunder. Un rayo golpeó al héroe. El Agua Bendita y el Rosario no detienen el trueno.",
+    cross: "A red cross exploded. Reach glowing crosses before the danger meter fills. Una cruz roja explotó. Alcanza las cruces brillantes antes de que se llene el peligro.",
   };
 
   const projectileNames = {
@@ -2605,7 +2605,7 @@
     game.nextSpitAt = game.time + 2.8;
     game.nextFireAt = game.time + 3.6;
     game.nextLightningAt = game.time + nextLightningDelay(stage, difficultySettings[game.difficulty] || difficultySettings.regular, 1 + game.stageIndex * 0.12, true);
-    game.message = `${defeatMessages[reason] || defeatMessages.tacalache} Lives left: ${game.lives}`;
+    game.message = `${defeatMessages[reason] || defeatMessages.tacalache} Lives left / Vidas restantes: ${game.lives}`;
     updateHud();
   }
 

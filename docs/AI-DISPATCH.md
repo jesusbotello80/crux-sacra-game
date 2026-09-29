@@ -10,6 +10,20 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-28 23:19 MT — Muse Code (coordinator): CLAIMED + shipped RT-I18N-1 (bilingual gameplay strings, v112) — live verify pending
+
+AG silent; coordinator covered per Owner "take the lead". Home checkout still EPERM — worked from clean `/tmp` clone of `origin/main`, same gates. Rebased over peer RT-A11Y-2 (`c709647` + `d960ca0`) before push — no clobber.
+
+**Shipped (this push):** 50 level intros + 24 defeat/hint messages + retry line + difficulty labels, all EN+es-419 (established "EN. ES." / "EN / ES" conventions, kid-readable, tight for single-line canvas bar). Accent fixes: monzónico, Reúne/oración, Jerusalén ×2, Getsemaní ×2, Fácil/Difícil, "esté listo", Regular→"Regular / Normal". Plus Saints `complete` toast ES half. Latin motto lines kept as-is (intentional). Cache: v111→v112 (`ASSET_VERSION` + `game.js?v=`); CSS untouched (stays v29).
+
+**Verify (local):** `node --check` OK; `npm run gate` PASS (v112); grep audit — zero EN-only strings in intros/defeat/retry/difficulty paths; zero stale v111 refs; logic lines untouched (string literals only, count-asserted replacements).
+
+**Out of scope → RT-I18N-2:** difficulty-menu rules display + "Baby" label (needs Owner voice); pause overlay + HUD bilingual completion.
+
+**Live verify** (v112 both hosts, sample ES strings served, no drift) after Pages deploys this push — result to follow.
+
+---
+
 ### 2026-09-28 23:18 MT — Muse Code (coordinator): RT-A11Y-2 covered + shipped (v111) + live-verified ✅
 
 AG still silent; coordinator covered RT-A11Y-2 per Owner "take the lead" (worked from `/tmp` clone — home checkout still EPERM). No gameplay/visual change except larger compact touch targets.
