@@ -10,6 +10,14 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-28 23:50 MT — Muse Code (coordinator): live asset sweep QA — 226/226 both hosts, zero misses ✅
+
+Prod-readiness sweep against live bytes (current v115): extracted every asset ref from served `index.html` + `guide.html` + `game.js` (sprites, video, audio, icons, manifest — 226 unique refs) and existence-checked each on canonical + pages.dev via first-byte range GETs. Result: **226 pass / 0 fail on both hosts** — no 404s, no missing assets. (An earlier full-download sweep showed `000` timeouts on large mp4s — re-verified as transfer-time artifacts, not misses.)
+
+Complements peer gate Check 8 (repo-side sprite ref audit): repo refs resolve AND live serving is complete.
+
+---
+
 ### 2026-09-28 23:50 MT — Muse Code (coordinator): sprite/art reference audit ALL PASS + durable pins (`1015669`)
 
 Overnight art-QA, no player-facing change (no version bump, no deploy needed).
