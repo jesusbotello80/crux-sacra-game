@@ -2,6 +2,12 @@
 
 Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coordinator + eyeball/QA, per Owner 2026-09-28), **Cursor / Crux-sacra-game** (prior coordinator).
 
+---
+
+### 2026-09-29 01:45 MT — Muse Code (coordinator): CLAIMED 🟡 RT3-ART-1 (movement walk cycles: daroe + sprint-pop)
+
+Owner-flagged sprites eyeballed frame-by-frame (alpha-bbox measurement + contact sheets). Verdict: **Daroe** plays 5 near-identical front-stands + run + walk (looks frozen, then jerks) → swap to `right-packed` sheet, 3-frame [walk, run, walk] cycle. **Tío Abuelo Original** (and same-defect **GaspaRaspa**) cycle [walk, walk, SPRINT] → per-char 2-frame [walk, walk] (correct L/R alternation). **Tía More + Tío Abuelo Cuate + Tío Viktorock verified coherent 3-frame walks — no change.** Code-only (no PNG bytes touched), v122. Gate pin + verify to follow in this lane.
+
 Standing prompts (Owner pastes into each tool):
 - AG: [`docs/prompts/STANDING-PROMPT-AG.md`](prompts/STANDING-PROMPT-AG.md)
 - Muse Code: [`docs/prompts/STANDING-PROMPT-MUSE-CODE.md`](prompts/STANDING-PROMPT-MUSE-CODE.md)
