@@ -294,6 +294,15 @@ if (!gameJs.includes("difficultyRules")) {
     for (const m of indexHtml.matchAll(/data-character="([A-Za-z0-9_]+)"/g)) {
       if (!defs.has(m[1])) failures.push(`roster button with no character def: ${m[1]}`);
     }
+    // RT3-ART-1: walk-cycle QA pins (frame counts eyeball-verified; update deliberately with art)
+    if (sources.daroeSheet !== "character-sprites/daroe/daroe-walk-sheet-right-packed.png") {
+      failures.push(`daroeSheet must be the right-packed sheet (facing-right sheet is 5 static fronts): ${sources.daroeSheet}`);
+    }
+    if (frames.daroeWalk !== 3) failures.push(`daroeWalk must be the 3-frame [walk, run, walk] cycle, found ${frames.daroeWalk} rects`);
+    for (const name of ["gaspaRaspaWalk", "tioAbueloOriginalWalk"]) {
+      if (frames[name] !== 2) failures.push(`${name} must be the 2-frame no-sprint walk, found ${frames[name] ?? 0} rects`);
+    }
+    if (frames.grid1774Walk !== 3) failures.push(`grid1774Walk must stay 3-frame for tia-more/viktorock, found ${frames.grid1774Walk} rects`);
   }
 }
 
