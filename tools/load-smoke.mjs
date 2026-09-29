@@ -20,6 +20,7 @@ const assert = (cond, msg) => { if (!cond) failures.push(msg); else console.log(
 
 // ---- parse real markup ----
 const ids = new Set([...html.matchAll(/id="([^"]+)"/g)].map((m) => m[1]));
+const hiddenIds = new Set([...html.matchAll(/<[a-z]+[^>]*id="([^"]+)"[^>]*>/g)].filter((m) => /(?:^|\s)hidden(\s|>)/.test(m[0])).map((m) => m[1]));
 const seedText = {};
 for (const m of html.matchAll(/<([a-z]+)[^>]*id="([^"]+)"[^>]*>([^<]*)</g)) seedText[m[2]] = m[3];
 const buttonTags = [...html.matchAll(/<button([^>]*)>/g)].map((m) => m[1]);
@@ -28,7 +29,7 @@ function parseButtons() {
     const data = {};
     for (const d of attrs.matchAll(/data-([a-zA-Z]+)="([^"]*)"/g)) data[d[1]] = d[2];
     const cls = (attrs.match(/class="([^"]*)"/) || ["", ""])[1].split(/\s+/).filter(Boolean);
-    return { cls, data };
+    return { cls, data, hidden: /(?:^|\s)hidden(\s|$)/.test(attrs) };
   });
 }
 const parsedButtons = parseButtons();
@@ -59,11 +60,11 @@ const ctxStub = new Proxy({}, {
 function makeEl(tag, extra = {}) {
   const el = {
     tagName: tag.toUpperCase(), _cls: extra.cls || [], dataset: extra.data || {},
-    style: {}, hidden: false, disabled: false, textContent: "", innerHTML: "",
+    style: {}, hidden: extra.hidden || false, disabled: false, textContent: "", innerHTML: "",
     width: 1280, height: 720, src: "", currentTime: 0, _attrs: {}, listeners: {},
     addEventListener: (t, f) => { (el.listeners[t] = el.listeners[t] || []).push(f); },
     removeEventListener: () => {}, append: () => {}, appendChild: () => {},
-    querySelector: () => null, querySelectorAll: () => [],
+    querySelector: (sel) => (sel && sel[0] !== "." && sel[0] !== "#" ? makeEl("div") : null), querySelectorAll: () => [],
     setAttribute: (k, v) => { el._attrs[k] = String(v); },
     getAttribute: (k) => el._attrs[k] ?? null,
     removeAttribute: (k) => { delete el._attrs[k]; },
@@ -83,7 +84,7 @@ const queryCache = {};
 global.document = {
   getElementById: (id) => {
     if (!ids.has(id)) return null;
-    if (!elsById[id]) { elsById[id] = makeEl(id === "game" ? "canvas" : "div"); if (seedText[id] !== undefined) elsById[id].textContent = seedText[id]; }
+    if (!elsById[id]) { elsById[id] = makeEl(id === "game" ? "canvas" : "div", { hidden: hiddenIds.has(id) }); if (seedText[id] !== undefined) elsById[id].textContent = seedText[id]; }
     return elsById[id];
   },
   querySelectorAll: (sel) => {
@@ -203,9 +204,12 @@ async function interact() {
     fire(byId("skipIntroButton"), "click");
     assert(byId("introScreen").classList.contains("hidden"), "intro closes on skip");
     assert(byId("levelName").textContent.includes("·"), `stage started (${byId("levelName").textContent})`);
-    // pause + resume
-    fire(byId("pauseButton"), "click");
-    fire(byId("pauseButton"), "click");
+    // pause + resume (game listens on pointerdown, not click)
+    fire(byId("pauseButton"), "pointerdown");
+    assert(byId("quitButton").hidden === false, "quit button appears on pause");
+    assert(byId("pauseButton").textContent === "▶", "pause glyph flips while paused");
+    fire(byId("pauseButton"), "pointerdown");
+    assert(byId("quitButton").hidden === true, "quit button hides on resume");
     // help open/close + inert + Escape cascade (RT2-A11Y-2)
     const fireKey = (code, extra = {}) => {
       for (const fn of global.windowListeners["keydown"] || []) fn({ code, key: code, shiftKey: false, preventDefault: () => {}, ...extra });
@@ -227,6 +231,13 @@ async function interact() {
     assert(byId("hud").getAttribute("inert") === "", "hud inert while intro open");
     fireKey("Escape");
     assert(byId("introScreen").classList.contains("hidden"), "Escape closes intro");
+    // RT-QA-3: pause-quit returns to character select (KID-1 phone quit path)
+    fire(byId("pauseButton"), "pointerdown");
+    assert(byId("quitButton").hidden === false, "quit button reappears on second pause");
+    fire(byId("quitButton"), "click");
+    assert(!byId("titleScreen").classList.contains("hidden"), "quit returns to character select");
+    assert(byId("quitButton").hidden === true, "quit button hides after quit");
+    assert(byId("pauseButton").textContent === "Ⅱ", "pause glyph resets after quit");
 }
 
 function finish() {
