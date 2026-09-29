@@ -24,6 +24,8 @@
  * 9. Asset links: every local src/href in game/index.html, game/guide.html,
  *    root index.html, the webmanifest icons, and every video-intro .mp4
  *    referenced by game.js exists on disk. (Full report: tools/link-audit.)
+ * 10. Load feedback: title screen shows a bilingual #loadStatus line while
+ *    the 129 boot images load, updated with counts and hidden on success.
  *
  * Exits 0 on PASS, 1 on FAIL.
  */
@@ -315,6 +317,19 @@ if (!gameJs.includes("difficultyRules")) {
       failures.push(`missing video referenced by game.js: ${m}`);
     }
   }
+}
+
+// Check 10: bilingual boot-load feedback
+if (!indexHtml.includes('id="loadStatus"')) {
+  failures.push('game/index.html is missing the #loadStatus boot progress line');
+} else {
+  const loadTag = indexHtml.match(/<[^>]*id="loadStatus"[^>]*>([^<]*)</s);
+  if (!loadTag || !loadTag[1].includes("Loading") || !loadTag[1].includes("Cargando")) {
+    failures.push("game/index.html #loadStatus is not bilingual (Loading / Cargando)");
+  }
+}
+if (!gameJs.includes("loadStatus")) {
+  failures.push("game/game.js does not update #loadStatus during boot");
 }
 
 if (failures.length > 0) {

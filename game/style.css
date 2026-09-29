@@ -663,6 +663,15 @@ button:focus-visible {
   text-align: center;
 }
 
+.load-status {
+  font-size: 13px;
+  color: #f6dc75;
+}
+
+.load-status[hidden] {
+  display: none;
+}
+
 .difficulty-icon {
   width: 28px;
   height: 28px;

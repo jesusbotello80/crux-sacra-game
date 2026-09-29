@@ -106,7 +106,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "116";
+  const ASSET_VERSION = "117";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -1913,13 +1913,24 @@
   applyInitialWorldFromQuery();
   updateWorldLocks();
 
+  const loadStatus = document.getElementById("loadStatus");
+
   function loadImages() {
+    const entries = Object.entries(sources);
+    const total = entries.length;
+    let loaded = 0;
+    const reportLoad = () => {
+      if (loadStatus) loadStatus.textContent = `Loading ${loaded}/${total} / Cargando ${loaded}/${total}`;
+    };
+    reportLoad();
     return Promise.all(
-      Object.entries(sources).map(([key, path]) => {
+      entries.map(([key, path]) => {
         return new Promise((resolve, reject) => {
           const img = new Image();
           img.onload = () => {
             images[key] = img;
+            loaded += 1;
+            reportLoad();
             resolve();
           };
           img.onerror = () => reject(new Error(`Could not load ${path}`));
@@ -5364,6 +5375,7 @@
 
   loadImages()
     .then(() => {
+      if (loadStatus) loadStatus.hidden = true;
       refreshCharacterChoicePortraits();
       draw();
       requestAnimationFrame((now) => {
@@ -5372,6 +5384,10 @@
       });
     })
     .catch((error) => {
-      titleScreen.querySelector("p").textContent = error.message;
+      const target = loadStatus || titleScreen.querySelector("p");
+      if (target) {
+        target.hidden = false;
+        target.textContent = `${error.message} / No se pudo cargar el juego. Revisa tu conexión y recarga.`;
+      }
     });
 })();
