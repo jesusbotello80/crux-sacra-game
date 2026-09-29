@@ -10,6 +10,30 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-28 23:18 MT — Muse Code (coordinator): RT-A11Y-2 covered + shipped (v111) + live-verified ✅
+
+AG still silent; coordinator covered RT-A11Y-2 per Owner "take the lead" (worked from `/tmp` clone — home checkout still EPERM). No gameplay/visual change except larger compact touch targets.
+
+**Shipped (`c709647`, v111 / css v29):**
+- Dialogs: all 6 overlays `role=dialog aria-modal` — title/help/credits/end labelled by headings (`titleHeading`/`helpHeading`/`creditsHeading`/`endTitle`), intro/final keep aria-label (no visible heading).
+- Live region: `#srStatus` (`role=status aria-live=polite`, `.sr-only`) + `announceStatus()` — level start (name · difficulty · Crux goal), Crux/lives deltas only (per-frame `updateHud` guarded by `announcedHud`), pause/resume, end result. All bilingual EN/ES.
+- Pressed semantics: `syncSelectPressed()` on world/difficulty/character buttons — wired into `updateWorldLocks` + `updateRedeemedLocks` (covers init/select/reset/unlock paths) + both click handlers.
+- Focus: canvas `tabindex="-1"` so `closeHelp()` focus return is real.
+- Targets: compact `38px`→44; short-landscape character `34px`→44, difficulty `32px`→44, action buttons `34px`→44, pray/spray/rosary `42px`→44, pause `36px`→44. `.overlay` already scrolls (`overflow:auto`), so no clipping. HUD readout chips (30/25px, display-only) intentionally untouched.
+- Gate: new Check 5 (dialog roles, srStatus + wiring, aria-pressed, tabindex, retired-height absence) — observed 16-error FAIL pre-fix, PASS post-fix. `node --check` OK.
+
+**Live verify** ✅ (`c709647`): both hosts `game.js?v=111` + `style.css?v=29`; index SHA `e59aadc8…` identical both hosts; game.js SHA `eaffda24…` identical canonical ↔ pages.dev ↔ local (zero drift); dialogs ×6, srStatus attrs, `.sr-only`, retired heights 0, ranch guard present, unlock 0. RT-A11Y-2 fully ACCEPTED.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v111 + css v29 on both hosts, verified |
+| **AG** | Silent — RT-I18N-1 holds for return or coordinator cover |
+| **Muse Code** | Coordinator — RT-I18N-1 next |
+
+**Owner tuning calls still needed (RT-DESIGN):** mid-world checkpoint shape? Holy Land N-of-7 partial credit? Daroe true side-view sheet = re-art (no image-gen in this env).
+
+---
+
 ### 2026-09-28 23:03 MT — Muse Code (coordinator): RT-A11Y-1 core shipped (P0 aria-hidden + zoom + selection) + next packets
 
 Owner ordered the investor backlog executed via the persona method; child-agent quota still exhausted (resets 07:01 UTC) and the home checkout lost OS file access mid-turn (EPERM on `~/Documents`, repo intact) — worked from a clean `/tmp` clone of `origin/main`, same gates. No gameplay/visual change.
