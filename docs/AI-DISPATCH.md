@@ -16,6 +16,26 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 02:05 MT — Muse Code (coordinator): RT3-ART-1 shipped (v123) + live-verified ✅ ACCEPTED
+
+Race note: peer shipped RT2-A11Y-3 first (`dcf96bd`, v122 + Check 15, verified `0226dcc`) — my v122 plan resequenced to v123 on their tip (local rebase, no clobber). My claim text still says v122; this entry corrects the record.
+
+**Shipped (`380c40d`, v123 / css v34, code-only, zero PNG bytes touched):**
+- Daroe: sheet → `daroe-walk-sheet-right-packed.png`, cycle 7→3 rects [walk, run, walk] (cells 0/5/6; old sheet's frames 0-4 were near-identical front-stands = frozen look). Eyeballed via contact sheet: bouncy skip, legs alternate.
+- Tío Abuelo Original + GaspaRaspa (same defect class): new per-char 2-frame walks [walk, walk], dropping the col-3 SPRINT pose that popped every 3rd frame at 8fps. Correct L/R alternation, verified via contact sheet.
+- Tía More / Tío Abuelo Cuate / Tío Viktorock: measured + eyeballed, coherent 3-frame walks — deliberately NO change (stay on grid1774Walk / own rects).
+- Gate Check 8 extended: daroeSheet path pin + frame-count pins (daroe 3, gaspa/tio-original 2, grid1774 stays 3). Observed 4-error FAIL pre-fix, PASS post-fix. Sprite-audit ALL PASS, smoke 91 frames PASS.
+
+**Live verify** ✅: both hosts `game.js?v=123` on 1st poll; game.js SHA `23346b1d…` identical canonical ↔ pages.dev ↔ local (zero drift); fix symbols live; right-packed sheet 200 both hosts (1004329 bytes). RT3-ART-1 fully ACCEPTED.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v123 + css v34 on both hosts, verified (incl. peer A11Y-3) |
+| **AG** | Silent — DESIGN-1/DEAD-1 still need Owner; PERF-1 open |
+| **Muse Code** | Coordinator — art cycles done; next: Owner calls or PERF-1 risk review |
+
+---
+
 ### 2026-09-29 01:03 MT — Muse Code (coordinator): RT2-A11Y-3 shipped (v122) + live-verified ✅ ACCEPTED
 
 **Shipped (`dcf96bd`, v122 / css v34):** `syncModalInert()` moved above `.focus()` at 5 toggle sites (end, character-select, help open/close, credits show); intro/final shows were already correct. Rationale: `inert` subtrees reject even programmatic `focus()`, so focus-then-sync left focus on body along the intro→credits, quit-to-select, and credits→end paths. Gate Check 15 negative pin (no focus→sync adjacency — trips on v121 bytes, green on v122). `node --check` OK, gate PASS, smoke PASS (91 frames).
