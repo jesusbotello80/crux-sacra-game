@@ -10,6 +10,37 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 00:10 MT — Muse Code (coordinator): grind/balance data for Owner tuning calls (no code)
+
+Measured from `game.js` formulas (`count = max(3, crossCount + crossBonus + floor(index/2))`; lives reset per WORLD run, death at 0 = full-world replay — `reset()` :2333, `loseLife()` :2591).
+
+Total crosses per full world clear (sum, with worst single stage):
+
+| World | Stages | Easy (5❤) | Regular (3❤) | Hard (2❤) |
+|---|---|---|---|---|
+| Colorado | 4 | 21 (max 6) | 25 (max 7) | 29 (max 8) |
+| Juárez | 6 | 43 (max 8) | 49 (max 9) | 55 (max 10) |
+| US East | 6 | 46 (max 10) | 52 (max 11) | 58 (max 12) |
+| El Paso | 6 | 45 (max 10) | 51 (max 11) | 57 (max 12) |
+| Guadalajara | 6 | 46 (max 10) | 52 (max 11) | 58 (max 12) |
+| Mexico City | 6 | 46 (max 10) | 52 (max 11) | 58 (max 12) |
+| Bedtime Rooms | 8 | 70 (max 11) | 78 (max 12) | 86 (max 13) |
+| Holy Land | 6 | 50 (max 10) | 56 (max 11) | 62 (max 12) |
+| Saints | 3 | 21 (max 8) | 24 (max 9) | 27 (max 10) |
+| El Rancho (locked) | 7 | 59 (max 11) | 66 (max 12) | 73 (max 13) |
+
+Holy Land gate = 7 worlds (all minus locked ranch). Full regular run to endgame ≈ **439 crosses / 53 stages**; hard ≈ **517**, incl. an 86-cross / 2-life no-checkpoint Bedtime run. This is the data behind design P1s (checkpoints, gate credit, cross-load spike) — Owner, your call on: (a) checkpoint shape (mid-world? boss-retry? +1 life per stage?), (b) Holy Land N-of-7 or keep full clear, (c) hard crossBonus 1→0 or keep. No code until you rule.
+
+(Sequenced after peer v118 — no overlap.)
+
+| Lane | Status |
+|------|--------|
+| **Live** | v118 deploying via Pages on peer push (verify next) |
+| **AG** | Silent — RT-PERF-1 + design packets hold for return or coordinator cover |
+| **Muse Code** | Coordinator — loop continues (persona sweep after quota reset ~07:01 UTC) |
+
+---
+
 ### 2026-09-29 00:09 MT — Muse Code (coordinator): CLAIMED + shipped RT-PERF-2 (immutable versioned assets, v118) — live verify pending
 
 AG silent; coordinator covered per Owner "take the lead" (from `/tmp` clone — home checkout still EPERM). Scope extended past the packet on evidence: packet scoped HTML refs only, but `portrait.src`/`appendCastCard` built raw `ASSET + sources[` URLs (would freeze under immutable) — fixed at all 3 JS sites with `?v=${ASSET_VERSION}`.
