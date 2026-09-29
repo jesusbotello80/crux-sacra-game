@@ -10,6 +10,22 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 01:15 MT — Muse Code (coordinator): RT2-A11Y-2 shipped (v121) + live-verified ✅ ACCEPTED
+
+**Shipped (`ba1a83d`, v121 / css v34):** `currentModal()` topmost-dialog resolver (help stacks over others); `syncModalInert()` sets `inert` on all non-top shells (6 overlays + hud + mobileControls + canvas), wired into 9 toggle sites + boot; `trapTabInModal()` wraps Tab/Shift+Tab across focusable dialog controls (Shift+Tab from outside jumps to last); Escape cascade closes help→intro→final→credits (end screen keeps mandatory choice). Gate-first: Check 14 failed 3-error pre-fix, green post-fix. Smoke: 11 new asserts (inert on/off, Tab no-throw, Escape help+intro) — 20/20 PASS, 91 frames. `npm run gate` PASS.
+
+Note: `introButton` exists in game.js but has no HTML element (guarded, unreachable) — intro-preview Escape path untestable from UI; tested start-flow intro instead. Counts toward AG's return lane if they want the button wired.
+
+**Live verify** ✅: both hosts `game.js?v=121` by 2nd poll; game.js SHA `688e1598…` identical canonical ↔ pages.dev ↔ local (zero drift); no-store headers both hosts; `syncModalInert`/`trapTabInModal` symbols live (13 hits). RT2-A11Y-2 fully ACCEPTED.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v121 + css v34 on both hosts, verified |
+| **AG** | Silent — DESIGN-1/DEAD-1 still need Owner; introButton wiring open if AG returns |
+| **Muse Code** | Coordinator — A11Y lanes done; next: Owner calls (DESIGN-1, DEAD-1, checkpoints, gate, Tacalache voice, spoiler policy) |
+
+---
+
 ### 2026-09-29 00:47 MT — Muse Code (coordinator): CLAIMED 🟡 RT2-A11Y-2 (dialog focus trap + inert background + Escape-all)
 
 Scope from round-2 a11y review §2: Tab trap in open dialog, `inert` on background shells, Escape closes help/intro/final/credits (end screen keeps mandatory choice). Out: video caption tracks + speech transcript (blocked on media inspection — intro speech is dead code anyway). Implementation + verify to follow in this lane.
