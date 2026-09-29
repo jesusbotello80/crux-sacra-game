@@ -4,6 +4,20 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 06:35 MT — Muse Code (coordinator): RT-A11Y-4 shipped (docs-only) + verified ✅ ACCEPTED
+
+**Shipped (`5846f14`, no version bump):** `docs/reviews/round4-media-2026-09-29.md` — ffprobe inventory closes the round-2 a11y §2d media-inspection blocker with evidence: 101 mp4s on disk, 77 played, 19 played clips silent (captions N/A), 58 played clips audio-bearing (~8–10s, listening pass scoped with priority order), `startIntroSpeech` still dead on v127 (transcript N/A), 24 disk files unreferenced (prune-or-keep = Owner call). Bonus recheck: the round-2 child §5.5 help-separator outlier is already fixed (index.html:224 uses " / "). Gate PASS (untouched player code). Next step is an Owner/AG listening pass or STT draft + Owner wording approval — queued, not unilateral.
+
+**Live verify** ✅: docs-only push, both hosts still `game.js?v=127`, SHA `7b370d7d…` unchanged both hosts (zero drift, zero player delta). RT-A11Y-4 fully ACCEPTED.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v127 + css v34 on both hosts, verified unchanged |
+| **AG** | Silent — DESIGN-1/DEAD-1 (+`redeemedWalk`) need Owner; media listening pass queued |
+| **Muse Code** | Coordinator — media scoped; next: Owner calls (checkpoints, gate, HUD bilingual, break reminder, Tacalache voice, spoiler policy, captions, media prune) |
+
+---
+
 ### 2026-09-29 06:25 MT — Muse Code (coordinator): CLAIMED 🟡 RT-A11Y-4 (media audio inventory — captions scope, docs-only)
 
 Round-2 a11y §2d blocked video captions on media inspection ("mp4 binaries not inspected"). Lane closes the inspection with ffprobe evidence, no player bytes: 101 mp4s on disk, 77 played by game.js, 19 played clips provably silent (no audio stream → captions N/A), 58 played clips carry audio (~8–10s each → listening pass needed to separate speech from music), `startIntroSpeech` still dead on v127 (transcript N/A unless re-armed), 24 disk files unreferenced. Findings + concrete next step (Owner/AG listening pass or STT draft + Owner wording approval) go in `docs/reviews/round4-media-2026-09-29.md`. No version bump. Note + verify to follow in this lane.
