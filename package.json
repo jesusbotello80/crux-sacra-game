@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "gate": "node scripts/release-gate.mjs",
-    "smoke": "node tools/load-smoke.mjs",
+    "smoke": "for q in \"\" \"?world=juarez\" \"?world=holymountain\"; do SMOKE_QUERY=\"$q\" node tools/load-smoke.mjs || exit 1; done",
     "audit:sprites": "node tools/sprite-audit.mjs",
     "audit:links": "node tools/link-audit.mjs"
   }

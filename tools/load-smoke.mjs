@@ -3,10 +3,15 @@
 // parsed from the real index.html), click through Start -> skip intro ->
 // difficulty/world/character selects, run 90 gameplay frames. Any exception
 // or failed assertion exits nonzero.
+// RT-QA-2: SMOKE_QUERY sets window.location.search for one boot scenario
+// (default colorado, "?world=juarez" eager-juarez boot, "?world=holymountain"
+// locked-refused boot). `npm run smoke` runs all three.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+const SMOKE_QUERY = process.env.SMOKE_QUERY || "";
+console.log(`scenario: ${SMOKE_QUERY || "(default boot)"}`);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const html = fs.readFileSync(path.join(ROOT, "game/index.html"), "utf8");
 const js = fs.readFileSync(path.join(ROOT, "game/game.js"), "utf8");
@@ -95,7 +100,7 @@ global.windowListeners = {};
 global.window = {
   addEventListener: (t, f) => { (global.windowListeners[t] = global.windowListeners[t] || []).push(f); },
   removeEventListener: () => {},
-  location: { search: "" },
+  location: { search: SMOKE_QUERY },
   localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} },
   confirm: () => false,
   setTimeout: setTimeout.bind(globalThis),
@@ -146,9 +151,25 @@ async function interact() {
     assert(byId("loadStatus").hidden === true, "loadStatus hidden after boot");
     assert(byId("levelName").textContent.length > 0, `levelName set (${byId("levelName").textContent})`);
     // RT-PERF-1: boot is lazy (non-selected world set + sheets not fetched)
+    // RT-QA-2: boot manifest follows the ?world= query (locked worlds refused).
+    const requestedWorld = new URLSearchParams(SMOKE_QUERY).get("world");
+    const expectWorld = requestedWorld === "juarez" ? "juarez" : "colorado"; // holymountain refused (locked)
     const bootSrcs = srcs();
     assert(bootSrcs.length > 0 && bootSrcs.length < 129, `boot fetched subset (${bootSrcs.length}/129)`);
-    assert(!bootSrcs.some((s) => s.includes("bg-juarez-colonia-morelos")), "juarez bg not fetched at boot");
+    if (expectWorld === "juarez") {
+      assert(byId("levelName").textContent.includes("Juarez"), `?world=juarez boots Juarez (${byId("levelName").textContent})`);
+      assert(bootSrcs.some((s) => s.includes("bg-juarez-colonia-morelos")), "juarez bg fetched eagerly at ?world=juarez boot");
+      assert(!bootSrcs.some((s) => s.includes("bg-colorado-")), "colorado bg deferred at ?world=juarez boot");
+    } else {
+      assert(!bootSrcs.some((s) => s.includes("bg-juarez-colonia-morelos")), "juarez bg not fetched at boot");
+      assert(bootSrcs.some((s) => s.includes("bg-colorado-")), "colorado bg fetched eagerly at colorado boot");
+      if (requestedWorld === "holymountain") {
+        // Refusal returns before levelName assignment, so it keeps the
+        // default-boot seed — identical to a no-query boot (no Holy Land entry).
+        assert(!byId("levelName").textContent.includes("Holy Land"), `?world=holymountain refused, levelName untouched (${byId("levelName").textContent})`);
+        assert(!bootSrcs.some((s) => s.includes("bg-holy-mountain-")), "holy bg not fetched when locked world refused");
+      }
+    }
     assert(!bootSrcs.some((s) => s.includes("nana-sheet-corrected-transparent")), "nana sheet not fetched at boot");
     // difficulty select
     const diffs = queryCache[".difficulty-choice"];
