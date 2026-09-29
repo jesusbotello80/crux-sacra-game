@@ -108,7 +108,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "122";
+  const ASSET_VERSION = "123";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -254,7 +254,7 @@
     tioViktorock: "character-sprites/tio-viktorock/tio-viktorock-front.png",
     tioViktorockSheet: "character-sprites/tio-viktorock/tio-viktorock-sheet.png",
     daroe: "character-sprites/daroe/daroe-front-reference.png",
-    daroeSheet: "character-sprites/daroe/daroe-walk-sheet-facing-right.png",
+    daroeSheet: "character-sprites/daroe/daroe-walk-sheet-right-packed.png",
     mamel: "character-sprites/mamel/mamel-front-reference.png",
     mamelSheet: "character-sprites/mamel/mamel-walk-sheet-clean.png",
   };
@@ -586,10 +586,6 @@
     ],
     daroeWalk: [
       [0, 0, 320, 640],
-      [320, 0, 320, 640],
-      [640, 0, 320, 640],
-      [960, 0, 320, 640],
-      [1280, 0, 320, 640],
       [1600, 0, 320, 640],
       [1920, 0, 320, 640],
     ],
@@ -604,6 +600,12 @@
     ],
     grid1774Walk: [
       [444, 0, 443, 444], [887, 0, 443, 444], [1330, 0, 444, 444],
+    ],
+    gaspaRaspaWalk: [
+      [444, 0, 443, 444], [887, 0, 443, 444],
+    ],
+    tioAbueloOriginalWalk: [
+      [444, 0, 443, 444], [887, 0, 443, 444],
     ],
     tioAbueloCuateWalk: [
       [314, 0, 313, 627], [627, 0, 313, 627], [940, 0, 314, 627],
@@ -689,8 +691,8 @@
     srJoe: { label: "Sr Joe", animated: "srJoeWalk", sheet: "srJoeSheet", front: "srJoe", height: 150 },
     lordSanty: { label: "Lord Santy", animated: "lordSantyWalk", sheet: "lordSantySheet", front: "lordSanty", height: 144 },
     donaNene: { label: "Doña Nene", animated: "donaNeneWalk", sheet: "donaNeneSheet", front: "donaNene", height: 132 },
-    gaspaRaspa: { label: "GaspaRaspa", animated: "grid1774Walk", sheet: "gaspaRaspaSheet", front: "gaspaRaspa", height: 142 },
-    tioAbueloOriginal: { label: "Tío Abuelo Original", animated: "grid1774Walk", sheet: "tioAbueloOriginalSheet", front: "tioAbueloOriginal", height: 142 },
+    gaspaRaspa: { label: "GaspaRaspa", animated: "gaspaRaspaWalk", sheet: "gaspaRaspaSheet", front: "gaspaRaspa", height: 142 },
+    tioAbueloOriginal: { label: "Tío Abuelo Original", animated: "tioAbueloOriginalWalk", sheet: "tioAbueloOriginalSheet", front: "tioAbueloOriginal", height: 142 },
     tioAbueloCuate: { label: "Tío Abuelo Cuate", animated: "tioAbueloCuateWalk", sheet: "tioAbueloCuateSheet", front: "tioAbueloCuate", height: 142 },
     tiaMore: { label: "Tía More", animated: "grid1774Walk", sheet: "tiaMoreSheet", front: "tiaMore", height: 142 },
     donLalo: { label: "Don Lalo", animated: "donLaloWalk", sheet: "donLaloSheet", front: "donLalo", height: 142 },
