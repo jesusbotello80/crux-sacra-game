@@ -106,7 +106,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "118";
+  const ASSET_VERSION = "119";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -1361,7 +1361,7 @@
         helper: "both",
         enemy: { x: 1115, y: 505, minX: 760, maxX: 1190, speed: 138, chaseAfter: 2 },
         crossCount: 9,
-        message: "Stay together through the night streets. Sigan juntos por las calles de noche.",
+        message: "Stay together through the night streets. Sigue junto a tu compañero por las calles de noche.",
         complete: "Coyoacán level passed / Nivel Coyoacán superado",
         crosses: [
           { x: 235, y: 500 },
@@ -2449,7 +2449,7 @@
     joy.y = 0;
     stickKnob.style.transform = "translate(0, 0)";
     game.message = worldDone
-      ? `Traveling to ${game.travel.toLabel} / Viajando al siguiente mundo`
+      ? `Traveling to ${game.travel.toLabel} / Viajando: ${game.travel.toLabel}`
       : "Walking to the next level / Caminando al siguiente nivel";
   }
 
@@ -4707,7 +4707,7 @@
     ctx.font = "700 64px Arial, Helvetica, sans-serif";
     ctx.fillText("Paused. Pausado.", W / 2, H / 2 - 24);
     ctx.font = "700 25px Arial, Helvetica, sans-serif";
-    ctx.fillText("P to resume · Q to quit. P seguir · Q salir.", W / 2, H / 2 + 42);
+    ctx.fillText("P to resume · Q to quit. Pulsa P para seguir · Q para salir.", W / 2, H / 2 + 42);
     ctx.fillText("Tap ▶ to resume / Toca ▶ para seguir.", W / 2, H / 2 + 78);
     ctx.restore();
   }
@@ -5077,9 +5077,9 @@
 
   const difficultyRules = document.getElementById("difficultyRules");
   const difficultyRuleLines = {
-    easy: "5 lives · 5 Holy Water · slower foes / 5 vidas · 5 aguas benditas · enemigos más lentos",
-    regular: "3 lives · 4 Holy Water · normal foes / 3 vidas · 4 aguas benditas · enemigos normales",
-    hard: "2 lives · 3 Holy Water · faster foes / 2 vidas · 3 aguas benditas · enemigos más rápidos",
+    easy: "5 lives · 5 Holy Water · slower foes / 5 vidas · 5 usos de Agua Bendita · enemigos más lentos",
+    regular: "3 lives · 4 Holy Water · normal foes / 3 vidas · 4 usos de Agua Bendita · enemigos normales",
+    hard: "2 lives · 3 Holy Water · faster foes / 2 vidas · 3 usos de Agua Bendita · enemigos más rápidos",
   };
   function updateDifficultyRules() {
     if (!difficultyRules) return;
@@ -5336,7 +5336,7 @@
 
   function redemptionMessage(name) {
     const villain = currentVillain();
-    return `${villain} was finally touched by the grace of God and became "${name}". / ${villain} finalmente fue tocado por la gracia de Dios y se convirtió en "${name}".`;
+    return `${villain} was finally touched by the grace of God and became "${name}". / ${villain} finalmente recibió la gracia de Dios y se convirtió en "${name}".`;
   }
 
   skipFinalButton.addEventListener("click", closeFinalSequence);

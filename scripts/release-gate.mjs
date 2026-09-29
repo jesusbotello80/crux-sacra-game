@@ -207,8 +207,8 @@ if (!regularLabel || !hasEsHalf(regularLabel[1])) failures.push("game/game.js re
 if (!gameJs.includes('fillText("Paused. Pausado."')) {
   failures.push('game/game.js pause overlay title is missing its ES half ("Paused. Pausado.")');
 }
-if (!gameJs.includes("P seguir")) {
-  failures.push("game/game.js pause key hints are missing their ES half");
+if (!gameJs.includes("Pulsa P para seguir")) {
+  failures.push("game/game.js pause key hints are missing their ES half (Pulsa P para seguir)");
 }
 if (!gameJs.includes("Una nueva aventura te espera")) {
   failures.push('game/game.js travel banner line "A new adventure opens ahead" is missing its ES half');
