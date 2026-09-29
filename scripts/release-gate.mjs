@@ -518,6 +518,36 @@ if (/\.focus\(\);\s*\n\s*syncModalInert\(\);/.test(gameJs)) {
   failures.push("game/game.js calls .focus() before syncModalInert() (inert target swallows focus)");
 }
 
+// Check 16: RT-PERF-1 lazy asset sets (boot ~24MB, never dead-ends)
+for (const fn of ["function worldAssetKeys(", "function ensureWorldSet(", "function ensureStartBundle(", "const VILLAIN_KEYS_BY_WORLD ="]) {
+  if (!gameJs.includes(fn)) failures.push(`game/game.js is missing ${fn} (lazy loading manifest)`);
+}
+{
+  const villainTable = (gameJs.match(/const VILLAIN_KEYS_BY_WORLD = \{[^}]*\}/s) || [""])[0];
+  const worldKeys = [...gameJs.match(/const worldSketches = \{[\s\S]*?\n  \};/s)?.[0].matchAll(/^    ([a-z]+): \{$/gm) || []].map((m) => m[1]);
+  for (const world of worldKeys) {
+    if (!villainTable.includes(`${world}:`)) failures.push(`VILLAIN_KEYS_BY_WORLD has no entry for world: ${world}`);
+  }
+  const sourcesBlock16 = gameJs.slice(gameJs.indexOf("const sources ="), gameJs.indexOf("const worldSketches ="));
+  for (const m of villainTable.matchAll(/"([A-Za-z0-9_]+)"/g)) {
+    if (!sourcesBlock16.includes(`${m[1]}:`)) failures.push(`villain key missing from sources: ${m[1]}`);
+  }
+}
+{
+  const selectWorldBody = (gameJs.match(/function selectWorld\(worldKey\) \{[\s\S]*?\n  \}/) || [""])[0];
+  if (!selectWorldBody.includes("ensureWorldSet(")) failures.push("selectWorld does not top-up its world asset set (lazy world missing)");
+  const startHandler = (gameJs.match(/startButton\.addEventListener\("click", [\s\S]*?\n  \}\);/) || [""])[0];
+  if (!startHandler.includes("ensureStartBundle(") && !startHandler.includes("ensureWorldSet(")) {
+    failures.push("start handler does not ensure gameplay assets before intro (lazy start missing)");
+  }
+}
+if (!/function drawBackground\(\) \{[\s\S]{0,300}?if \(!bgImg\) return;/.test(gameJs)) {
+  failures.push("drawBackground does not guard a not-yet-loaded stage bg (lazy crash risk)");
+}
+if (!/function drawFrame\(img,[\s\S]{0,200}?if \(!img\) return;/.test(gameJs)) {
+  failures.push("drawFrame does not guard a missing sheet image (lazy crash risk)");
+}
+
 if (failures.length > 0) {
   reportFailures(failures);
   process.exit(1);
