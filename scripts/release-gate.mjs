@@ -371,6 +371,11 @@ for (const line of gameJs.split("\n")) {
     failures.push(`game/game.js assigns a raw ASSET + sources[] URL without ?v=: ${line.trim().slice(0, 80)}`);
   }
 }
+for (const m of styleCss.matchAll(/url\("([^"]+)"\)/g)) {
+  if (!m[1].includes("?v=")) {
+    failures.push(`game/style.css has an unversioned url() ref under immutable caching: ${m[1]}`);
+  }
+}
 const headersFile = fs.readFileSync(path.join(repoRoot, "_headers"), "utf8");
 for (const assetPath of ["/character-sprites/*", "/video-demo/*", "/video-intro/*", "/audio/*", "/game/assets/*"]) {
   if (!headersFile.includes(assetPath) || !headersFile.includes("immutable")) {

@@ -177,7 +177,7 @@ canvas {
   padding-top: max(36px, calc(env(safe-area-inset-top) + 24px));
   background:
     linear-gradient(180deg, rgba(4, 8, 16, 0.24), rgba(4, 8, 16, 0.58)),
-    url("./assets/help/crux-sacra-help-poster-v1.png") center / cover no-repeat;
+    url("./assets/help/crux-sacra-help-poster-v1.png?v=118") center / cover no-repeat;
 }
 
 #helpScreen h2 {
