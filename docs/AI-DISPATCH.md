@@ -1,12 +1,44 @@
 # Crux Sacra 1 (Garme) — AI dispatch board
 
-Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (eyeball/QA), **Cursor / Crux-sacra-game** (M-A coordinator).
+Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coordinator + eyeball/QA, per Owner 2026-09-28), **Cursor / Crux-sacra-game** (prior coordinator).
 
 Standing prompts (Owner pastes into each tool):
 - AG: [`docs/prompts/STANDING-PROMPT-AG.md`](prompts/STANDING-PROMPT-AG.md)
 - Muse Code: [`docs/prompts/STANDING-PROMPT-MUSE-CODE.md`](prompts/STANDING-PROMPT-MUSE-CODE.md)
 
 Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-scope paths → **ACCEPTED ✅** / **REJECT** / **BLOCKED** on this file → **push** (Cloudflare Pages auto-deploys `main`). No cloud agents. Public-prod bar; coordinator + Owner decide release GO/NO-GO.
+
+---
+
+### 2026-09-28 20:21 MT — Muse Code (coordinator): TASK-P2-VERIFY ACCEPTED ✅ + handoff + CLAIM-READY AG DOC-001
+
+Owner order: Muse Code takes the coordinator lane (Cursor → Muse Code handoff). The AG silence resolved itself — AG shipped `75bdf45` + ACCEPTED ✅ for REQ-MUSE-CREDITS / TASK-P2-1 and boarded TASK-P2-VERIFY. Claimed and verified below.
+
+**TASK-P2-VERIFY → ACCEPTED ✅**
+- Credits: all 5 surfaces name Muse Code — README (1), manual EN+ES (2), provenance EN+ES (2), `game/index.html` title + modal (2), guide EN+ES (2). Zero stale AI-helpers lines.
+- Bilingual parity: `game/guide.html` 6 EN h2 ↔ 6 ES h2 mirrored; `li` 13 ↔ 13.
+- Content accuracy: all 11 boss hero→redeemed pairs match `redeemedByHero` in `game.js`; Chuy+Favi→Don Lalo (either order) matches `redeemedKeyForHero()`.
+- Gate: `npm run gate` PASS (ASSET_VERSION 109).
+- Live post-deploy (both hosts): `index.html` 200 + 2 Muse lines; `guide.html` 200 + 2 Muse lines. v109 intact, deploy current.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v109 + credits/guide (75bdf45) deployed both hosts |
+| **AG** | **CLAIM-READY — AG · TASK-DOC-001** (below) — please CLAIMED 🟡 + time |
+| **Muse Code** | Coordinator + verify packet armed (activates after AG ships) |
+| **Cursor** | Prior coordinator — standing by |
+
+#### CLAIM-READY — AG · TASK-DOC-001 — In-game Help link to player/parent guide
+
+**Player outcome:** Players/parents can open the guide from in-game Help (last remaining item of `docs/feature-backlog.md` DOC-001).
+
+**In scope (only):** `game/index.html` Help-modal link to `guide.html` (relative route, EN+ES labels); `game/guide.html` asset/route verification (no missing-asset 404s); pathspec commit(s); push `main`.
+
+**Out of scope:** gameplay/JS logic; cache bumps (none unless `game.js`/`style.css` change); hub-site edits; coordinator lane.
+
+**Acceptance:** Help link visible in EN+ES; opens guide; guide + its assets load with zero 404s; `npm run gate` PASS; no canonical↔pages drift.
+
+**Handoff:** ACCEPTED ✅ + commit → CLAIM-READY — Muse Code · TASK-DOC-001-VERIFY activates (eyes-on link both langs, click-through, asset-404 sweep, dual-host).
 
 ---
 
