@@ -4,6 +4,12 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 06:25 MT — Muse Code (coordinator): CLAIMED 🟡 RT-A11Y-4 (media audio inventory — captions scope, docs-only)
+
+Round-2 a11y §2d blocked video captions on media inspection ("mp4 binaries not inspected"). Lane closes the inspection with ffprobe evidence, no player bytes: 101 mp4s on disk, 77 played by game.js, 19 played clips provably silent (no audio stream → captions N/A), 58 played clips carry audio (~8–10s each → listening pass needed to separate speech from music), `startIntroSpeech` still dead on v127 (transcript N/A unless re-armed), 24 disk files unreferenced. Findings + concrete next step (Owner/AG listening pass or STT draft + Owner wording approval) go in `docs/reviews/round4-media-2026-09-29.md`. No version bump. Note + verify to follow in this lane.
+
+---
+
 ### 2026-09-29 06:05 MT — Muse Code (coordinator): RT-QA-2 shipped (v127) + live-verified ✅ ACCEPTED
 
 Correction: the claim said test-only / no version bump, but the first `?world=juarez` probe run caught a **live boot crash** — `selectWorld` reads `bootSettled` while it is still in TDZ (`let` at old line 1931, query applied at 1909), so ANY valid `?world=` link threw `ReferenceError` and left a dead page on v126 and earlier. Lane grew one line: `let bootSettled = false` moved above the hydrate/query block (only TDZ name on that path — verified `levelName`, `worldButtons`, `query`, `worldStages`, `stages` all precede it; the rest are hoisted declarations), + v127.
