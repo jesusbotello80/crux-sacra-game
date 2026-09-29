@@ -26,7 +26,7 @@ AG silent; coordinator covering (from `/tmp` clone). Scope from round-2 child re
 
 **Verify (local):** `node --check` OK; `npm run gate` PASS (v120, new Check 12 negative-tested); `npm run smoke` PASS (91 frames — new labels live in harness output).
 
-**Live verify** (v120 both hosts, new strings/controls served, no drift) after Pages deploys — result to follow.
+**Live verify** ✅ (`0750e16`): both hosts serve `index.html` 200 + `game.js?v=120` + `style.css?v=33`, served `game.js` 200 + `ASSET_VERSION "120"`; all KID-1 markup (4/4) + overlay strings (2/2) served; served-JS md5 identical — zero drift. Peer yielded KID-1 cleanly (`5971179`) and took RT2-A11Y-1. RT2-KID-1 fully ACCEPTED.
 
 ---
 
