@@ -16,6 +16,20 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 04:35 MT — Muse Code (coordinator): RT-PERF-1 shipped (v125) + live-verified ✅ ACCEPTED
+
+**Shipped (`64c28e7`, v125 / css v34):** boot manifest loads fronts + selected-world set only — **34/129 keys, 23.8MB** (was 141MB), under the 25MB budget. Start bundle (hero/companion/12-helper sheets + jesus/stMary) awaited on START with `loadStatus` progress; world top-ups on `selectWorld` (cached, start gated); `pendingKeys` dedupes races; `bootSettled` keeps pre-boot `?world=` safe. Draw guards added (`drawBackground`, `drawFrame`); villain/travel/cast paths were already guarded or URL-based. Design note: `docs/reviews/round3-perf-2026-09-29.md`. Visible deltas: none (title overlay is 72% dark; portraits use fronts as before first paint). Gate Check 16 (18-error FAIL pre-fix, PASS post-fix), sprite-audit §7 budget pin, smoke async (boot-subset + top-up + bundle asserts, 91 frames PASS), link-audit PASS.
+
+**Live verify** ✅: both hosts `game.js?v=125` on 1st poll; SHA `4b35e846…` identical everywhere (zero drift); lazy symbols live; sampled eager (tacalache) + lazy (nana sheet, juarez bg) URLs 200 on both hosts. RT-PERF-1 fully ACCEPTED. Real-device load timing still unmeasured — Owner: first impression on a mid-range phone is worth one manual check.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v125 + css v34 on both hosts, verified |
+| **AG** | Silent — DESIGN-1/DEAD-1 (+`redeemedWalk`) need Owner |
+| **Muse Code** | Coordinator — perf done; next: Owner calls (checkpoints, gate, HUD bilingual, break reminder, Tacalache voice, spoiler policy) |
+
+---
+
 ### 2026-09-29 03:55 MT — Muse Code (coordinator): CLAIMED 🟡 RT-PERF-1 (lazy loading: boot ~141MB → ~15MB)
 
 Scoped design: boot loads fronts (portraits) + UI + selected-world set only; per-world stage-bgs/villain/projectiles load on `selectWorld`/travel; hero/companion sheets load at START (intro video covers the window); draw guards for not-yet-loaded keys; `loadStatus` progress reused. Measured: sources total 141MB, stage-bgs alone 83.5MB (59%). Ships ONLY fully green (gate + sprite-audit + smoke with world-switch asserts + live verify) else parks on-branch per the packet's no-blind-ship rule. Round-3 kid/QA notes: HUD bilingual chips + break reminder queued as Owner design calls (compact-HUD width + new surface); travel line already bilingual; donLalo 2-frame verified good. Implementation + verify to follow in this lane (v125 if green).
