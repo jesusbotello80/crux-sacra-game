@@ -485,6 +485,11 @@ if (!escapeBlock || !escapeBlock[0].includes("closeIntro()") || !escapeBlock[0].
   failures.push("game/game.js Escape handler does not cascade past help (intro/final/credits)");
 }
 
+// Check 15: RT2-A11Y-3 sync-before-focus order (inert kills programmatic focus)
+if (/\.focus\(\);\s*\n\s*syncModalInert\(\);/.test(gameJs)) {
+  failures.push("game/game.js calls .focus() before syncModalInert() (inert target swallows focus)");
+}
+
 if (failures.length > 0) {
   reportFailures(failures);
   process.exit(1);

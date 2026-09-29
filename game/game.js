@@ -108,7 +108,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "121";
+  const ASSET_VERSION = "122";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -2645,9 +2645,9 @@
       endCopy.textContent = defeatMessages[reason] || defeatMessages.tacalache;
     }
     endScreen.classList.remove("hidden");
+    syncModalInert();
     againButton.focus();
     announceStatus(`${endTitle.textContent}. ${endCopy.textContent}`);
-    syncModalInert();
   }
 
   function finishAfter(win, delay, reason = "tacalache") {
@@ -2678,8 +2678,8 @@
     creditsScreen.classList.add("hidden");
     endScreen.classList.add("hidden");
     game.message = "Choose hero and companion. Elige héroe y compañía.";
-    startButton.focus();
     syncModalInert();
+    startButton.focus();
   }
 
   function inputVector() {
@@ -5189,15 +5189,15 @@
   if (resetProgressButton) resetProgressButton.addEventListener("click", resetSavedProgress);
   function showHelp() {
     helpScreen.classList.remove("hidden");
-    helpCloseButton.focus();
     syncModalInert();
+    helpCloseButton.focus();
   }
 
   function closeHelp() {
     helpScreen.classList.add("hidden");
+    syncModalInert();
     if (!titleScreen.classList.contains("hidden")) helpButton.focus();
     else canvas.focus();
-    syncModalInert();
   }
 
   if (helpButton) helpButton.addEventListener("click", showHelp);
@@ -5375,8 +5375,8 @@
     selectNextWorldAfterCompletion(completedWorld);
     if (completedWorld === finalWorldKey) {
       creditsScreen.classList.remove("hidden");
-      creditsContinueButton.focus();
       syncModalInert();
+      creditsContinueButton.focus();
       return;
     }
     finish(true);
