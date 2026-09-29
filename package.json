@@ -3,6 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "gate": "node scripts/release-gate.mjs"
+    "gate": "node scripts/release-gate.mjs",
+    "smoke": "node tools/load-smoke.mjs",
+    "audit:sprites": "node tools/sprite-audit.mjs",
+    "audit:links": "node tools/link-audit.mjs"
   }
 }
