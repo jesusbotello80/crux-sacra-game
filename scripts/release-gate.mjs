@@ -563,6 +563,10 @@ if (!/function drawFrame\(img,[\s\S]{0,200}?if \(!img\) return;/.test(gameJs)) {
   if (applyIdx < 0 || bootIdx < 0 || applyIdx > bootIdx) {
     failures.push("boot order broken: applyInitialWorldFromQuery() must run before the loadImages() boot call (?world= seam)");
   }
+  const settledDecl = gameJs.indexOf("let bootSettled");
+  if (settledDecl < 0 || settledDecl > applyIdx) {
+    failures.push("boot TDZ crash: 'let bootSettled' must be declared before applyInitialWorldFromQuery() runs (?world= boot throws)");
+  }
 }
 
 if (failures.length > 0) {
