@@ -106,7 +106,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "115";
+  const ASSET_VERSION = "116";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -4697,6 +4697,7 @@
     ctx.fillText("Paused. Pausado.", W / 2, H / 2 - 24);
     ctx.font = "700 25px Arial, Helvetica, sans-serif";
     ctx.fillText("P to resume · Q to quit. P seguir · Q salir.", W / 2, H / 2 + 42);
+    ctx.fillText("Tap ▶ to resume / Toca ▶ para seguir.", W / 2, H / 2 + 78);
     ctx.restore();
   }
 

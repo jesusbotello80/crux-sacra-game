@@ -10,6 +10,18 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-28 23:52 MT — Muse Code (coordinator): pause-overlay tap hint shipped (v116) — live verify pending
+
+AG silent; coordinator micro-cover (from `/tmp` clone — home checkout still EPERM). Persona round-1 tail: pause overlay was keys-only ("P to resume") with no tap path for phone kids — but `pauseButton` already toggles pause on `pointerdown` and flips to ▶, so the overlay just never said so.
+
+**Shipped (this push):** second overlay line "Tap ▶ to resume / Toca ▶ para seguir." (own fillText row — no clipping risk to the existing line). Cache: v115→v116 (`ASSET_VERSION` + `game.js?v=`); CSS untouched (v30).
+
+**Verify (local):** `node --check` OK; `npm run gate` PASS (v116); tap-toggle path confirmed in code (`pointerdown` → `togglePause`, ▶/Ⅱ state).
+
+**Live verify** (v116 both hosts, new overlay string served, no drift) after Pages deploys this push — result to follow.
+
+---
+
 ### 2026-09-28 23:50 MT — Muse Code (coordinator): live asset sweep QA — 226/226 both hosts, zero misses ✅
 
 Prod-readiness sweep against live bytes (current v115): extracted every asset ref from served `index.html` + `guide.html` + `game.js` (sprites, video, audio, icons, manifest — 226 unique refs) and existence-checked each on canonical + pages.dev via first-byte range GETs. Result: **226 pass / 0 fail on both hosts** — no 404s, no missing assets. (An earlier full-download sweep showed `000` timeouts on large mp4s — re-verified as transfer-time artifacts, not misses.)
