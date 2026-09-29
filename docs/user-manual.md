@@ -82,7 +82,7 @@ Crux Sacra connects game mechanics directly to authentic Catholic tradition and 
 - **World progression gates:**
   - Regular campaign worlds (Colorado Springs, Juárez, US East, El Paso, Guadalajara, Mexico City, Bedtime Rooms) are open from the start.
   - **El Rancho** is currently reserved and displays a locked status until ready for public release.
-  - **Holy Land (Tierra Santa)** unlocks after completing all active regular campaign worlds.
+  - **Holy Land (Tierra Santa)** unlocks after completing 6 regular campaign worlds.
   - **Saints (Santos)** bonus preview unlocks after completing Holy Land.
 - **Saving progress:** All earned character unlocks and completed worlds are automatically saved to your browser's local device storage. There are no shortcut cheat codes; to start fresh, use the **Reset Progress / Reiniciar Progreso** button on the title screen.
 
@@ -178,7 +178,7 @@ Crux Sacra une la aventura con la auténtica tradición y sacramentales de la Ig
 - **Puertas de progreso de mundos:**
   - Los mundos regulares de la campaña (Colorado Springs, Juárez, US East, El Paso, Guadalajara, Ciudad de México, Habitaciones de Noche) están abiertos desde el inicio.
   - **El Rancho** se encuentra reservado y muestra estado bloqueado hasta que esté listo para el público.
-  - **Tierra Santa (Holy Land)** se desbloquea tras superar todos los mundos regulares activos de la campaña.
+  - **Tierra Santa (Holy Land)** se desbloquea tras superar 6 mundos regulares de la campaña.
   - La vista previa de **Santos (Saints)** se desbloquea tras superar Tierra Santa.
 - **Guardado de progreso:** Todos los personajes desbloqueados y mundos superados se guardan automáticamente en la memoria local de tu navegador. No hay códigos trampa; para reiniciar desde cero, usa el botón **Reset Progress / Reiniciar Progreso** en la pantalla inicial.
 

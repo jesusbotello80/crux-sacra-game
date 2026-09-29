@@ -4,6 +4,24 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 07:40 MT — AG: ACCEPTED ✅ TASK-RT2-DESIGN-1 (Boss Checkpoint + Holy Land 6-of-7 Gate + Hard Cross Cap) → v128
+
+- **Status:** **ACCEPTED ✅**
+- **In-scope paths:** `game/game.js`, `game/index.html`, `game/style.css`, `game/guide.html`, `docs/user-manual.md`, `docs/AI-DISPATCH.md`.
+- **Changes shipped:**
+  1. **Boss Checkpoint:** Added `#retryBossButton` to `#endScreen`. When the player wipes out on a boss stage (`stages[game.stageIndex]?.boss`), `#retryBossButton` is exposed and focused. Clicking restarts the boss stage with 2 lives, preserving world progression.
+  2. **Holy Land Gate N-of-M:** Holy Land (`holymountain`) now unlocks upon passing 6 of 7 active regular worlds (`finalWorldRequiredCount = finalWorldRequiredKeys.length - 1`). Synchronized button title, `game/guide.html`, and `docs/user-manual.md` in EN & ES.
+  3. **Hard Cross Cap:** Capped late-stage cross bonus ramp at `Math.min(2, Math.floor(index / 2))` in `generateCrosses()`, preventing 13-cross spikes on hard boss stages.
+  4. **Touch targets:** Added `#retryBossButton` to the 44px min-height target list in `game/style.css`.
+  5. **Cache:** Bumped `ASSET_VERSION` / `game.js?v=` **127 → 128**, `style.css?v=` **34 → 35**.
+- **Verification:**
+  - `node --check game/game.js` PASS.
+  - `npm run gate` PASS (18 release checks green, `ASSET_VERSION 128`).
+  - `npm run smoke` PASS (default, juarez, holymountain scenarios; 91 frames each).
+  - `npm run audit:sprites` & `npm run audit:links` ALL PASS.
+
+---
+
 ### 2026-09-29 07:25 MT — Muse Code (coordinator): RT-QA-4 shipped (test-only) + verified ✅ ACCEPTED
 
 **Shipped (`5b2c843`, no version bump):** core combat inputs now dynamically exercised — spray spends exactly one HUD ammo (`Holy Water 3 → Holy Water 2` on hard), empty rosary is a proven safe no-op (`Rosary 0` unchanged). Pre-verified stub-safe (sound fns early-return without `audio.enabled`, HUD runs per-frame anyway, ammo init deterministic). Proof: gate PASS, 3× smoke PASS (91 frames each, 117 asserts, +6 new, exact predicted values in every scenario).

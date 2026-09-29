@@ -24,6 +24,7 @@
   const resetProgressButton = document.getElementById("resetProgressButton");
   const progressStatus = document.getElementById("progressStatus");
   const againButton = document.getElementById("againButton");
+  const retryBossButton = document.getElementById("retryBossButton");
   const endTitle = document.getElementById("endTitle");
   const endCopy = document.getElementById("endCopy");
   const lightFill = document.getElementById("lightFill");
@@ -101,6 +102,7 @@
   const finalWorldRequiredKeys = ranchWorldPublicReady
     ? finalWorldRequiredKeysAll
     : finalWorldRequiredKeysAll.filter((key) => key !== ranchWorldKey);
+  const finalWorldRequiredCount = finalWorldRequiredKeys.length - 1;
   const query = new URLSearchParams(window.location.search);
   // Public prod: unlock* query overrides removed (family hub safety).
   // Legitimate earned unlocks still persist via persistUnlockedRedeemed().
@@ -108,7 +110,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "127";
+  const ASSET_VERSION = "128";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -2157,7 +2159,8 @@
   }
 
   function isFinalWorldUnlocked() {
-    return finalWorldRequiredKeys.every((key) => game.passedWorlds.has(key));
+    const passedCount = finalWorldRequiredKeys.filter((key) => game.passedWorlds.has(key)).length;
+    return passedCount >= finalWorldRequiredCount;
   }
 
   function isBonusWorldUnlocked() {
@@ -2180,7 +2183,7 @@
       button.classList.toggle("unlocked", (worldKey === finalWorldKey && finalUnlocked) || (worldKey === bonusWorldKey && bonusUnlocked) || (worldKey === ranchWorldKey && ranchUnlocked));
       button.setAttribute("aria-disabled", locked ? "true" : "false");
       button.title = locked && worldKey === finalWorldKey
-        ? "Locked until the regular worlds are passed / Bloqueado hasta superar los mundos regulares"
+        ? `Locked until ${finalWorldRequiredCount} regular worlds are passed / Bloqueado hasta superar ${finalWorldRequiredCount} mundos regulares`
         : locked && worldKey === bonusWorldKey
           ? "Locked until Holy Land is passed / Bloqueado hasta superar Tierra Santa"
           : locked && worldKey === ranchWorldKey
@@ -2714,6 +2717,7 @@
     } else {
       playDanger();
     }
+    const isBossStage = Boolean(stages[game.stageIndex]?.boss);
     endTitle.textContent = win ? "Game Complete / Juego Completo" : "Try Again / Intenta otra vez";
     if (win) {
       const rKey = redeemedKeyForHero();
@@ -2723,10 +2727,27 @@
     } else {
       endCopy.textContent = defeatMessages[reason] || defeatMessages.tacalache;
     }
+    if (retryBossButton) {
+      const showRetry = !win && isBossStage;
+      retryBossButton.hidden = !showRetry;
+      retryBossButton.classList.toggle("hidden", !showRetry);
+    }
     endScreen.classList.remove("hidden");
     syncModalInert();
-    againButton.focus();
+    if (!win && isBossStage && retryBossButton && !retryBossButton.hidden) {
+      retryBossButton.focus();
+    } else {
+      againButton.focus();
+    }
     announceStatus(`${endTitle.textContent}. ${endCopy.textContent}`);
+  }
+
+  function retryBossStage() {
+    endScreen.classList.add("hidden");
+    syncModalInert();
+    game.lives = Math.max(2, difficultySettings[game.difficulty]?.lives || 2);
+    startStage(game.stageIndex);
+    announceStatus(`Restarting boss stage with ${game.lives} lives. / Reiniciando etapa del jefe con ${game.lives} vidas.`);
   }
 
   function finishAfter(win, delay, reason = "tacalache") {
@@ -2735,6 +2756,10 @@
   }
 
   function showCharacterSelect() {
+    if (retryBossButton) {
+      retryBossButton.hidden = true;
+      retryBossButton.classList.add("hidden");
+    }
     game.mode = "title";
     game.stageClearTimer = 0;
     game.prayer = 0;
@@ -2797,7 +2822,8 @@
   }
 
   function generateCrosses(stage, index, difficulty) {
-    const count = Math.max(3, (stage.crossCount || stage.crosses.length) + difficulty.crossBonus + Math.floor(index / 2));
+    const ramp = Math.min(2, Math.floor(index / 2));
+    const count = Math.max(3, (stage.crossCount || stage.crosses.length) + difficulty.crossBonus + ramp);
     const crosses = [];
     const minGap = stage.boss ? 150 : 128;
     for (let i = 0; i < count; i += 1) {
@@ -4998,7 +5024,10 @@
     if (!finalScreen.classList.contains("hidden")) return skipFinalButton;
     if (!creditsScreen.classList.contains("hidden")) return creditsContinueButton;
     if (!helpScreen.classList.contains("hidden")) return helpCloseButton;
-    if (!endScreen.classList.contains("hidden")) return againButton;
+    if (!endScreen.classList.contains("hidden")) {
+      if (retryBossButton && !retryBossButton.hidden && !retryBossButton.classList.contains("hidden")) return retryBossButton;
+      return againButton;
+    }
     if (!titleScreen.classList.contains("hidden")) return startButton;
     return null;
   }
@@ -5298,6 +5327,7 @@
   if (helpButton) helpButton.addEventListener("click", showHelp);
   if (helpCloseButton) helpCloseButton.addEventListener("click", closeHelp);
   againButton.addEventListener("click", showCharacterSelect);
+  if (retryBossButton) retryBossButton.addEventListener("click", retryBossStage);
   if (introButton) introButton.addEventListener("click", () => {
     playIntroSequence(false);
   });

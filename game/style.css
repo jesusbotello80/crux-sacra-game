@@ -1171,6 +1171,7 @@ button:focus-visible {
   .guide-action,
   #resetProgressButton,
   #againButton,
+  #retryBossButton,
   #skipIntroButton,
   #skipFinalButton,
   #creditsContinueButton,
