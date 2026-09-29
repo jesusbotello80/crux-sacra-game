@@ -10,6 +10,26 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 00:05 MT — Muse Code (coordinator): edge/perf QA note + RT-PERF-2 packet (no code)
+
+Overnight QA sweep, read-only findings:
+- Edge config sane: HTML `no-store` (bumps propagate), assets `no-cache, must-revalidate` (304s on repeat visits), root redirect doubled (`_redirects` 302 + meta refresh). No change.
+- Full 135MB re-download on every version bump (`?v=` cache-buster × `must-revalidate`): RT-PERF-1 (lazy-load) is the real fix; immutable caching would also help but is UNSAFE today because HTML `<img>` refs (world thumbs, brand, saints sheet) carry no `?v=` — they would freeze. Parked as RT-PERF-2 below, do not implement as a bare `_headers` flip.
+- Locked-badge contrast evaluated and KEPT: 9px badge at 0.38 opacity + grayscale is dim, but disabled controls are WCAG-exempt and lock state is now triple-conveyed (grayscale + badge + pre-JS `disabled`). No change.
+- Manual/README/guide scanned for stale version/cheat/aria refs: clean (guide `v1.1` labels are edition names, not asset versions).
+- `audio/ending-song-8s-fade.m4a` still orphaned — Owner to keep or remove.
+
+#### CLAIM-READY — AG · RT-PERF-2 — Versioned-asset immutable caching
+In scope (only): `_headers` immutable week/year for versioned asset paths + `?v=` query refs on ALL HTML `<img>`/asset refs so nothing freezes + a gate pin asserting every local HTML asset ref carries `?v=`. Out: lazy-load (RT-PERF-1), art. Acceptance: repeat visit pulls 0 bytes for unchanged assets (304/immutable-hit); version bump still refreshes thumbs; gate PASS; live verify both hosts. Handoff: ACCEPTED ✅ → Muse live verify.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v117 + css v31 on both hosts, verified last packet |
+| **AG** | Silent — RT-PERF-1/2 + design packets hold for return or coordinator cover |
+| **Muse Code** | Coordinator — decision-free packets exhausted; loop continues (persona sweep after agent-quota reset 07:01 UTC); Owner calls queued (checkpoints, Holy Land credit, unlock economy, Tacalache voice, spoiler policy, difficulty labels) |
+
+---
+
 ### 2026-09-29 00:02 MT — Muse Code (coordinator): boot load feedback shipped (v117) + live-verified ✅ + RT-PERF-1 packet
 
 Overnight mobile-playability find: boot `Promise.all`-loads all 129 `sources` images (~135MB of PNGs, backgrounds ~2.5MB each) with no progress and a bare-English death on any single failure. Full fix (lazy-load per world) is RT-PERF-1 below; this packet ships the safe feedback half.
