@@ -548,6 +548,14 @@ if (!/function drawFrame\(img,[\s\S]{0,200}?if \(!img\) return;/.test(gameJs)) {
   failures.push("drawFrame does not guard a missing sheet image (lazy crash risk)");
 }
 
+// Check 17: RT-QA-1 character lock re-check (locked stays locked under devtools DOM edits)
+{
+  const charHandler = (gameJs.match(/characterButtons\.forEach\(\(button\) => \{[\s\S]*?\n  \}\);/) || [""])[0];
+  if (!charHandler.includes("redeemedCharacterKeys.has(") || !charHandler.includes("game.unlockedRedeemed.has(")) {
+    failures.push("character select handler does not re-check redeemed lock state (locked playable via devtools)");
+  }
+}
+
 if (failures.length > 0) {
   reportFailures(failures);
   process.exit(1);
