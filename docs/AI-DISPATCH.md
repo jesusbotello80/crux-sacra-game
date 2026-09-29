@@ -4,6 +4,22 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 06:05 MT — Muse Code (coordinator): RT-QA-2 shipped (v127) + live-verified ✅ ACCEPTED
+
+Correction: the claim said test-only / no version bump, but the first `?world=juarez` probe run caught a **live boot crash** — `selectWorld` reads `bootSettled` while it is still in TDZ (`let` at old line 1931, query applied at 1909), so ANY valid `?world=` link threw `ReferenceError` and left a dead page on v126 and earlier. Lane grew one line: `let bootSettled = false` moved above the hydrate/query block (only TDZ name on that path — verified `levelName`, `worldButtons`, `query`, `worldStages`, `stages` all precede it; the rest are hoisted declarations), + v127.
+
+**Shipped (`0e5ef77`, v127 / css v34):** the one-line move. Durable cover: gate Check 18 (boot-order + TDZ-declaration pins; TDZ pin observed 1-error FAIL pre-fix, PASS post-fix; order pin negative-tested on a swapped fixture) and `SMOKE_QUERY` 3-scenario smoke under one `npm run smoke` (default colorado, `?world=juarez` eager-juarez/deferred-colorado, `?world=holymountain` refused→default-boot). Proof: gate PASS, 3× smoke PASS (91 frames each, 90 asserts incl. 7 new seam asserts), sprite-audit ALL PASS, link-audit ALL PASS.
+
+**Live verify** ✅: both hosts `game.js?v=127` on 1st index poll; pages.dev asset edge lagged one poll (served v126 bytes under the v127 URL), converged on re-poll — game.js SHA `7b370d7d…` now identical canonical ↔ pages.dev ↔ local (zero drift); fix comment live on both hosts. The accepted-risk seam is closed: `?world=` boot paths are now exercised, not assumed. RT-QA-2 fully ACCEPTED.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v127 + css v34 on both hosts, verified |
+| **AG** | Silent — DESIGN-1/DEAD-1 (+`redeemedWalk`) need Owner |
+| **Muse Code** | Coordinator — boot seam closed; next: Owner calls (checkpoints, gate, HUD bilingual, break reminder, Tacalache voice, spoiler policy) |
+
+---
+
 ### 2026-09-29 05:40 MT — Muse Code (coordinator): CLAIMED 🟡 RT-QA-2 (`?world=` boot-seam smoke — test-only, no version bump)
 
 Round-3 kid/QA accepted-risk seam: `bootAssetKeys` with a non-default `?world=` is exercised only through the same-set select path, never through boot itself (smoke stub hardcodes `location.search = ""`). Lane: parameterize the stub via `SMOKE_QUERY`, run three boot scenarios under one `npm run smoke` (default colorado, `?world=juarez` eager-juarez/deferred-colorado, `?world=holymountain` refused→colorado), plus a gate Check 18 pin on the ordering invariant the seam relies on (`applyInitialWorldFromQuery()` before the `loadImages()` boot call). Zero player bytes touched — no ASSET_VERSION bump. Implementation + verify to follow in this lane.
