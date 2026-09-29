@@ -102,8 +102,10 @@ global.window = {
   clearTimeout: clearTimeout.bind(globalThis),
 };
 global.Image = class {
-  set src(v) { this._src = v; setImmediate(() => { if (this.onload) this.onload(); }); }
+  set src(v) { this._src = v; (globalThis.__loadedSrcs = globalThis.__loadedSrcs || []).push(v); setImmediate(() => { if (this.onload) this.onload(); }); }
 };
+const drain = async (n = 8) => { for (let i = 0; i < n; i++) await new Promise((r) => setImmediate(r)); };
+let interactDone = false;
 let frames = 0;
 let preFrames = 0;
 const MAX_FRAMES = 90;
@@ -115,12 +117,17 @@ global.requestAnimationFrame = (cb) => {
     if (++preFrames > 500) { failures.push("boot never completed (loadStatus stuck)"); setImmediate(finish); return 0; }
     if (elsById["loadStatus"] && elsById["loadStatus"].hidden) {
       didInteract = true;
-      try { interact(); } catch (e) { failures.push(`interaction exception: ${String(e && e.stack || e).split("\n").slice(0, 3).join(" | ")}`); }
+      try {
+        Promise.resolve(interact()).then(() => { interactDone = true; }).catch((e) => {
+          failures.push(`interaction exception: ${String(e && e.stack || e).split("\n").slice(0, 3).join(" | ")}`);
+          interactDone = true;
+        });
+      } catch (e) { failures.push(`interaction exception: ${String(e && e.stack || e).split("\n").slice(0, 3).join(" | ")}`); interactDone = true; }
     }
     setImmediate(() => { try { cb(performance.now()); } catch (e) { failures.push(`loop exception: ${String(e && e.stack || e).split("\n").slice(0, 3).join(" | ")}`); setImmediate(finish); } });
     return 0;
   }
-  if (++frames > MAX_FRAMES) { setImmediate(finish); return 0; }
+  if (++frames > MAX_FRAMES && interactDone) { setImmediate(finish); return 0; }
   setImmediate(() => { try { cb(performance.now()); } catch (e) { failures.push(`loop exception: ${String(e && e.stack || e).split("\n").slice(0, 3).join(" | ")}`); setImmediate(finish); } });
   return frames;
 };
@@ -133,26 +140,44 @@ try {
   process.exit(1);
 }
 
-function interact() {
+async function interact() {
     const byId = (id) => elsById[id];
+    const srcs = () => globalThis.__loadedSrcs || [];
     assert(byId("loadStatus").hidden === true, "loadStatus hidden after boot");
     assert(byId("levelName").textContent.length > 0, `levelName set (${byId("levelName").textContent})`);
+    // RT-PERF-1: boot is lazy (non-selected world set + sheets not fetched)
+    const bootSrcs = srcs();
+    assert(bootSrcs.length > 0 && bootSrcs.length < 129, `boot fetched subset (${bootSrcs.length}/129)`);
+    assert(!bootSrcs.some((s) => s.includes("bg-juarez-colonia-morelos")), "juarez bg not fetched at boot");
+    assert(!bootSrcs.some((s) => s.includes("nana-sheet-corrected-transparent")), "nana sheet not fetched at boot");
     // difficulty select
     const diffs = queryCache[".difficulty-choice"];
     fire(diffs[2], "click"); // hard
     assert(byId("difficultyRules").textContent.includes("2 vidas"), `rules update on select (${byId("difficultyRules").textContent.slice(0, 40)}…)`);
     assert(diffs[2]._attrs["aria-pressed"] === "true", "aria-pressed syncs on difficulty");
-    // world select
+    // world select (lazy top-up) + switch again for cached/repeat path
     const worlds = queryCache[".world-choice"];
     const juarez = worlds.find((b) => b.dataset.world === "juarez");
     fire(juarez, "click");
+    await drain();
+    assert(byId("loadStatus").hidden === true, "loadStatus settled after world top-up");
+    assert(byId("startButton").disabled === false, "start re-enabled after world top-up");
+    assert(srcs().some((s) => s.includes("bg-juarez-colonia-morelos")), "juarez bg fetched on select");
+    const elpaso = worlds.find((b) => b.dataset.world === "elpaso");
+    fire(elpaso, "click");
+    await drain();
+    fire(juarez, "click");
+    await drain();
+    assert(byId("loadStatus").hidden === true, "loadStatus settled after repeat world switch");
     // character select
     const chars = queryCache[".character-choice"];
     const hero = chars.find((b) => b.dataset.role === "hero" && b.dataset.character === "nana");
     fire(hero, "click");
     assert(hero._attrs["aria-pressed"] === "true", "aria-pressed syncs on character");
-    // start game
+    // start game (async start bundle)
     fire(byId("startButton"), "click");
+    await drain(12);
+    assert(srcs().some((s) => s.includes("nana-sheet-corrected-transparent")), "hero sheet fetched in start bundle");
     assert(!byId("introScreen").classList.contains("hidden"), "intro shows on start");
     fire(byId("skipIntroButton"), "click");
     assert(byId("introScreen").classList.contains("hidden"), "intro closes on skip");
@@ -176,6 +201,7 @@ function interact() {
     assert(byId("hud").getAttribute("inert") === null, "inert lifted after help closes");
     // Escape cascade branch 2: start-flow intro closes via Escape (restarts stage)
     fire(byId("startButton"), "click");
+    await drain(12);
     assert(!byId("introScreen").classList.contains("hidden"), "intro reopens on start");
     assert(byId("hud").getAttribute("inert") === "", "hud inert while intro open");
     fireKey("Escape");

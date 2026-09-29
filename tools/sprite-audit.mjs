@@ -112,6 +112,38 @@ const roster = new Set([...html.matchAll(/data-character="([A-Za-z0-9_]+)"/g)].m
 for (const c of roster) if (!defs[c]) failures.push(`roster button with no def: ${c}`);
 ok(`${roster.size} roster buttons resolve`);
 
+// 7. RT-PERF-1 boot budget: eager set (fronts + default-world set + misc)
+// must stay under 25MB on fresh cache. Mirrors bootAssetKeys() in game.js.
+{
+  const villainTableSrc = (src.match(/const VILLAIN_KEYS_BY_WORLD = \{[^}]*\}/s) || [""])[0];
+  const tableVillains = (world) => [...(villainTableSrc.match(new RegExp(`${world}: \\[([^\\]]*)\\]`)) || ["", ""])[1].matchAll(/"([A-Za-z0-9_]+)"/g)].map((m) => m[1]);
+  const worldBgs = (world) => {
+    const m = stagesBlock.match(new RegExp(`${world}:\\s*\\[(.*?)\\],\\s*\\n    [a-z]+:`, "s")) || stagesBlock.match(new RegExp(`${world}:\\s*\\[(.*)\\]`, "s"));
+    return m ? [...m[1].matchAll(/bg: "([A-Za-z0-9_]+)"/g)].map((b) => b[1]) : [];
+  };
+  const allSheets = new Set(Object.values(defs).map((d) => d.sheet).filter(Boolean));
+  const defaultSet = new Set([...worldBgs("colorado"), ...tableVillains("colorado")]);
+  const lazyWorldKeys = new Set();
+  for (const m of stagesBlock.matchAll(/^    ([a-z]+): \[$/gm)) {
+    if (m[1] === "colorado") continue;
+    for (const k of [...worldBgs(m[1]), ...tableVillains(m[1])]) lazyWorldKeys.add(k);
+  }
+  const bootKeys = Object.keys(sources).filter((k) => {
+    if (allSheets.has(k)) return false; // lazy: start bundle
+    if (["jesus", "stMary"].includes(k)) return false; // lazy: final cast
+    if (lazyWorldKeys.has(k) && !defaultSet.has(k)) return false; // lazy: other worlds
+    return true;
+  });
+  let bytes = 0;
+  for (const k of bootKeys) {
+    try { bytes += fs.statSync(path.join(ROOT, sources[k])).size; } catch { failures.push(`boot key file missing: ${k}`); }
+  }
+  const BUDGET = 25 * 1000 * 1000;
+  console.log(`boot set: ${bootKeys.length}/${Object.keys(sources).length} keys, ${(bytes / 1e6).toFixed(1)}MB / 25.0MB budget`);
+  if (bytes > BUDGET) failures.push(`boot asset set ${(bytes / 1e6).toFixed(1)}MB exceeds 25MB budget`);
+  else ok("boot set within 25MB budget");
+}
+
 console.log(failures.length ? `\nFAIL (${failures.length}):` : "\nALL PASS");
 for (const f of failures) console.log(" -", f);
 process.exit(failures.length ? 1 : 0);
