@@ -108,7 +108,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "126";
+  const ASSET_VERSION = "127";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -1903,6 +1903,8 @@
     passedWorlds: new Set(),
   };
 
+  // Declared before the query-driven selectWorld: it reads this flag pre-boot.
+  let bootSettled = false;
   hydrateUnlockedRedeemed();
   hydrateWorldProgress();
   decorateCharacterChoices();
@@ -1928,7 +1930,6 @@
   };
   const CHEERING_HELPERS = ["elayitas", "angie", "ttitin", "abba", "nana", "mrsFavi", "mrChuy", "timmy", "guardian", "michael", "daroe", "mamel"];
   const LATE_KEYS = new Set(["jesus", "stMary"]); // final-cast only (also fetched via URL)
-  let bootSettled = false;
 
   function worldAssetKeys(world) {
     const keys = new Set(VILLAIN_KEYS_BY_WORLD[world] || []);
