@@ -106,7 +106,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "113";
+  const ASSET_VERSION = "114";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -822,7 +822,7 @@
     ],
     juarez: [
       {
-        name: "Juarez 1 - Colonia Morelos",
+        name: "Juárez 1 - Colonia Morelos",
         bg: "bgJuarezCasa",
         start: { x: 150, y: 530 },
         helper: "angel",
@@ -840,7 +840,7 @@
         ],
       },
       {
-        name: "Juarez 2 - Parque El Chamizal",
+        name: "Juárez 2 - Parque El Chamizal",
         bg: "bgJuarezChamizal",
         start: { x: 145, y: 525 },
         helper: "michael",
@@ -859,7 +859,7 @@
         ],
       },
       {
-        name: "Juarez 3 - Plaza Mall",
+        name: "Juárez 3 - Plaza Mall",
         bg: "bgJuarezMercado",
         start: { x: 150, y: 535 },
         helper: "both",
@@ -878,7 +878,7 @@
         ],
       },
       {
-        name: "Juarez 4 - Dunas de Samalayuca",
+        name: "Juárez 4 - Dunas de Samalayuca",
         bg: "bgJuarezDunas",
         start: { x: 140, y: 535 },
         helper: "angel",
@@ -897,7 +897,7 @@
         ],
       },
       {
-        name: "Juarez 5 - Catedral y Plaza de Armas",
+        name: "Juárez 5 - Catedral y Plaza de Armas",
         bg: "bgJuarezIglesia",
         start: { x: 155, y: 545 },
         helper: "both",
@@ -1280,14 +1280,14 @@
     ],
     mexicocity: [
       {
-        name: "Mexico City 1 - Zocalo Cathedral",
+        name: "Mexico City 1 - Zócalo Cathedral",
         bg: "bgMexicoCity1",
         start: { x: 145, y: 535 },
         helper: "angel",
         enemy: { x: 1085, y: 510, minX: 830, maxX: 1190, speed: 94, chaseAfter: 4 },
         crossCount: 6,
         message: "Restore the silver Crux Sacras by the cathedral. Restaura las Crux Sacras de plata junto a la catedral.",
-        complete: "Zocalo level passed / Nivel Zocalo superado",
+        complete: "Zócalo level passed / Nivel Zócalo superado",
         crosses: [
           { x: 260, y: 470 },
           { x: 420, y: 525 },
@@ -1336,14 +1336,14 @@
         ],
       },
       {
-        name: "Mexico City 4 - Basilica de Guadalupe",
+        name: "Mexico City 4 - Basílica de Guadalupe",
         bg: "bgMexicoCity4",
         start: { x: 140, y: 535 },
         helper: "angel",
         enemy: { x: 1110, y: 505, minX: 680, maxX: 1190, speed: 134, chaseAfter: 2 },
         crossCount: 8,
         message: "Keep the Crux Sacra bright by the Basilica. Mantén la Crux Sacra brillante junto a la Basílica.",
-        complete: "Basilica level passed / Nivel Basilica superado",
+        complete: "Basílica level passed / Nivel Basílica superado",
         crosses: [
           { x: 250, y: 455 },
           { x: 400, y: 525 },
@@ -1355,14 +1355,14 @@
         ],
       },
       {
-        name: "Mexico City 5 - Coyoacan Night",
+        name: "Mexico City 5 - Coyoacán Night",
         bg: "bgMexicoCity5",
         start: { x: 155, y: 545 },
         helper: "both",
         enemy: { x: 1115, y: 505, minX: 760, maxX: 1190, speed: 138, chaseAfter: 2 },
         crossCount: 9,
         message: "Stay together through the night streets. Sigan juntos por las calles de noche.",
-        complete: "Coyoacan level passed / Nivel Coyoacan superado",
+        complete: "Coyoacán level passed / Nivel Coyoacán superado",
         crosses: [
           { x: 235, y: 500 },
           { x: 365, y: 420 },
@@ -1439,7 +1439,7 @@
         enemy: { x: 1100, y: 505, minX: 715, maxX: 1190, speed: 132, chaseAfter: 2 },
         crossCount: 8,
         message: "Save the Crux Sacras in the compact Juárez room. Salva las Crux Sacras en el cuarto compacto de Juárez.",
-        complete: "Juarez room passed / Cuarto de Juarez superado",
+        complete: "Juárez room passed / Cuarto de Juárez superado",
         crosses: [
           { x: 245, y: 455 },
           { x: 395, y: 525 },
@@ -1514,7 +1514,7 @@
         enemy: { x: 1120, y: 510, minX: 690, maxX: 1190, speed: 164, chaseAfter: 2 },
         crossCount: 9,
         message: "City lights shine while El Coco hides in the shadows. Las luces de la ciudad brillan mientras El Coco se esconde en las sombras.",
-        complete: "Mexico City room passed / Cuarto de Mexico superado",
+        complete: "Mexico City room passed / Cuarto de México superado",
         crosses: [
           { x: 235, y: 500 },
           { x: 365, y: 420 },
@@ -2517,26 +2517,26 @@
   };
 
   const projectileNames = {
-    rat: "A rat hit the hero!",
-    roach: "A cockroach hit the hero!",
-    cactusThorn: "Cactus thorns from El Cucuy!",
-    sandSkull: "A desert sand skull hit the hero!",
-    mosquito: "A mosquito swarm from the swamp!",
-    swampBubble: "A swamp bubble burst on the hero!",
-    clawSlash: "El Chupacabras sent a claw slash!",
-    shriekWave: "A purple shriek wave hit the hero!",
-    horseshoe: "A cursed horseshoe from El Charro Negro!",
-    lassoRing: "A black lasso ring caught the hero!",
-    tearDrop: "La Llorona sent a ghostly tear!",
-    ghostHand: "A ghost hand reached the hero!",
-    darkChain: "A dark chain struck the hero!",
-    temptationFlame: "A temptation flame hit the hero!",
-    ghostMarble: "The Prairie Boy threw a ghost marble!",
-    strawDart: "A scarecrow straw dart hit the hero!",
-    dustRibbon: "La Aparecida sent a road dust ribbon!",
-    roadLantern: "A phantom road lantern hit the hero!",
-    shadowSock: "El Coco threw a shadow sock!",
-    closetWhisper: "A closet whisper hit the hero!",
+    rat: "A rat hit the hero! ¡Una rata golpeó al héroe!",
+    roach: "A cockroach hit the hero! ¡Una cucaracha golpeó al héroe!",
+    cactusThorn: "Cactus thorns from El Cucuy! ¡Espinas de cactus de El Cucuy!",
+    sandSkull: "A desert sand skull hit the hero! ¡Una calavera de arena golpeó al héroe!",
+    mosquito: "A mosquito swarm from the swamp! ¡Un enjambre de mosquitos del pantano!",
+    swampBubble: "A swamp bubble burst on the hero! ¡Una burbuja del pantano golpeó al héroe!",
+    clawSlash: "El Chupacabras sent a claw slash! ¡El Chupacabras lanzó un zarpazo!",
+    shriekWave: "A purple shriek wave hit the hero! ¡Una onda de chillido golpeó al héroe!",
+    horseshoe: "A cursed horseshoe from El Charro Negro! ¡Una herradura maldita de El Charro Negro!",
+    lassoRing: "A black lasso ring caught the hero! ¡Un lazo negro atrapó al héroe!",
+    tearDrop: "La Llorona sent a ghostly tear! ¡La Llorona lanzó una lágrima fantasmal!",
+    ghostHand: "A ghost hand reached the hero! ¡Una mano fantasma alcanzó al héroe!",
+    darkChain: "A dark chain struck the hero! ¡Una cadena oscura golpeó al héroe!",
+    temptationFlame: "A temptation flame hit the hero! ¡Una llama de tentación golpeó al héroe!",
+    ghostMarble: "The Prairie Boy threw a ghost marble! ¡The Prairie Boy lanzó una canica fantasma!",
+    strawDart: "A scarecrow straw dart hit the hero! ¡Un dardo de paja golpeó al héroe!",
+    dustRibbon: "La Aparecida sent a road dust ribbon! ¡La Aparecida lanzó una cinta de polvo del camino!",
+    roadLantern: "A phantom road lantern hit the hero! ¡Una linterna fantasma del camino golpeó al héroe!",
+    shadowSock: "El Coco threw a shadow sock! ¡El Coco lanzó un calcetín de sombra!",
+    closetWhisper: "A closet whisper hit the hero! ¡Un susurro del clóset golpeó al héroe!",
   };
 
   function hazardForWorld(world = game.world) {
@@ -2621,7 +2621,7 @@
     } else {
       playDanger();
     }
-    endTitle.textContent = win ? "Game Complete / Juego Completo" : "Try Again / Intenta Otra Vez";
+    endTitle.textContent = win ? "Game Complete / Juego Completo" : "Try Again / Intenta otra vez";
     if (win) {
       const rKey = redeemedKeyForHero();
       endCopy.textContent = redeemedCharacterKeys.has(rKey)
@@ -2662,7 +2662,7 @@
     helpScreen.classList.add("hidden");
     creditsScreen.classList.add("hidden");
     endScreen.classList.add("hidden");
-    game.message = "Choose hero and companion. Elige heroe y compania.";
+    game.message = "Choose hero and companion. Elige héroe y compañía.";
     startButton.focus();
   }
 
@@ -2867,7 +2867,7 @@
     burst(game.player.x, game.player.y - 78, 46, "#fff4a8");
     playRosary();
     game.message = cleared > 0
-      ? "Pater Noster cleared hazards! / Padre Nuestro limpio peligros!"
+      ? "Pater Noster cleared hazards! / ¡Padre Nuestro limpió los peligros!"
       : "Pater Noster, qui es in caelis";
     updateHud();
   }
@@ -3084,7 +3084,7 @@
       hazard.spin += dt * hazard.spinSpeed;
       hazard.life -= dt;
       if (Math.hypot(hazard.x - p.x, hazard.y - (p.y - 55)) < hazard.r + 30) {
-        game.message = projectileNames[hazard.kind] || "A projectile hit the hero!";
+        game.message = projectileNames[hazard.kind] || "A projectile hit the hero! ¡Algo golpeó al héroe!";
         playDanger();
         finishAfter(false, 0.55, hazard.kind);
         return false;
@@ -3096,7 +3096,7 @@
       fire.life -= dt;
       fire.phase += dt * 8;
       if (Math.hypot(fire.x - p.x, fire.y - (p.y - 25)) < fire.r + 22) {
-        game.message = "Careful with the fire! Cuidado con el fuego!";
+        game.message = "Careful with the fire! ¡Cuidado con el fuego!";
         burst(fire.x, fire.y, 24, "#ff9d36");
         playDanger();
         finishAfter(false, 0.55, "fire");
@@ -3223,7 +3223,7 @@
       if (cross.danger >= 1) {
         explosion(cross.x, cross.y);
         game.shake = 0.65;
-        game.message = "A cross exploded / Una cruz exploto";
+        game.message = "A cross exploded / Una cruz explotó";
         playExplosion();
         finishAfter(false, 1.25, "cross");
         return;
@@ -3439,7 +3439,7 @@
       ctx.fillText("Next World / Siguiente Mundo", W / 2, 124);
       ctx.font = "700 20px Arial, Helvetica, sans-serif";
       ctx.fillStyle = "rgba(255, 248, 211, 0.82)";
-      ctx.fillText("A new adventure opens ahead", W / 2, 344);
+      ctx.fillText("A new adventure opens ahead. Una nueva aventura te espera.", W / 2, 344);
     } else {
       ctx.fillStyle = "rgba(8, 14, 24, 0.68)";
       ctx.strokeStyle = "rgba(248, 220, 113, 0.5)";
@@ -4645,17 +4645,44 @@
     }
   }
 
+  const messageFont = "700 24px Arial, Helvetica, sans-serif";
+
+  // Bilingual strings are too long for one line: wrap into the plaque.
+  function wrapMessage(text) {
+    ctx.font = messageFont;
+    const words = String(text).split(" ");
+    const lines = [];
+    let line = "";
+    for (const word of words) {
+      const trial = line ? `${line} ${word}` : word;
+      if (line && lines.length < 4 && ctx.measureText(trial).width > 606) {
+        lines.push(line);
+        line = word;
+      } else {
+        line = trial;
+      }
+    }
+    if (line) lines.push(line);
+    return lines;
+  }
+
   function drawMessage() {
+    const lines = wrapMessage(game.message);
+    const lineHeight = 30;
+    const boxHeight = lines.length * lineHeight + 24;
+    const boxY = 656 - boxHeight;
     ctx.save();
     ctx.fillStyle = "rgba(8, 14, 24, 0.74)";
     ctx.strokeStyle = "rgba(246, 220, 117, 0.42)";
     ctx.lineWidth = 2;
-    roundRect(34, 594, 650, 62, 8);
+    roundRect(34, boxY, 650, boxHeight, 8);
     ctx.fill();
     ctx.stroke();
     ctx.fillStyle = "#fff8d3";
-    ctx.font = "700 24px Arial, Helvetica, sans-serif";
-    ctx.fillText(game.message, 56, 632);
+    ctx.font = messageFont;
+    lines.forEach((text, index) => {
+      ctx.fillText(text, 56, boxY + 34 + index * lineHeight);
+    });
     ctx.restore();
   }
 
@@ -4667,9 +4694,9 @@
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.font = "700 64px Arial, Helvetica, sans-serif";
-    ctx.fillText("Paused", W / 2, H / 2 - 24);
+    ctx.fillText("Paused. Pausado.", W / 2, H / 2 - 24);
     ctx.font = "700 25px Arial, Helvetica, sans-serif";
-    ctx.fillText("P to resume / Q to quit", W / 2, H / 2 + 42);
+    ctx.fillText("P to resume · Q to quit. P seguir · Q salir.", W / 2, H / 2 + 42);
     ctx.restore();
   }
 

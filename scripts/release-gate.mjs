@@ -11,6 +11,9 @@
  * 5. RT-A11Y-2: overlays expose role=dialog; #srStatus live region exists and
  *    is wired in game.js; select buttons sync aria-pressed; compact button
  *    targets are >= 44px (HUD readout chips excluded).
+ * 6. RT-I18N-1: player-facing stage/defeat/projectile/canvas strings carry an
+ *    ES half ("EN / ES" or "EN. ES." convention; Latin lines exempt), and the
+ *    message plaque wraps (wrapMessage).
  *
  * Exits 0 on PASS, 1 on FAIL.
  */
@@ -132,6 +135,73 @@ for (const retired of retiredCompactHeights) {
   if (styleCss.includes(retired)) {
     failures.push(`game/style.css still contains sub-44px compact button target '${retired}'`);
   }
+}
+
+// Check 6: RT-I18N-1 bilingual player strings ("EN / ES" or "EN. ES." halves;
+// Latin liturgical lines exempt) + plaque word-wrap for long bilingual lines.
+function sliceBlock(startMarker, endMarker) {
+  const start = gameJs.indexOf(startMarker);
+  const end = gameJs.indexOf(endMarker, start + startMarker.length);
+  return start === -1 || end === -1 ? null : gameJs.slice(start, end);
+}
+function hasEsHalf(s) {
+  return s.includes("/") || s.includes(". ") || s.includes("! ") || s.includes("? ");
+}
+const LATIN_EXEMPT = new Set(["Crux Sacra Sit Mihi Lux", "Pater Noster, qui es in caelis"]);
+
+const stagesBlock = sliceBlock("const worldStages =", "const defeatMessages =");
+if (!stagesBlock) {
+  failures.push("game/game.js worldStages block not found for i18n audit");
+} else {
+  for (const m of stagesBlock.matchAll(/message: "([^"]*)"/g)) {
+    if (!hasEsHalf(m[1])) failures.push(`EN-only stage intro: "${m[1]}"`);
+  }
+  for (const m of stagesBlock.matchAll(/complete: "([^"]*)"/g)) {
+    if (!hasEsHalf(m[1]) && !LATIN_EXEMPT.has(m[1])) failures.push(`EN-only stage complete: "${m[1]}"`);
+  }
+}
+
+const defeatBlock = sliceBlock("const defeatMessages =", "const projectileNames =");
+if (!defeatBlock) {
+  failures.push("game/game.js defeatMessages block not found for i18n audit");
+} else {
+  for (const m of defeatBlock.matchAll(/: "([^"]*)"/g)) {
+    if (!hasEsHalf(m[1])) failures.push(`EN-only defeat message: "${m[1]}"`);
+  }
+}
+
+const projectileBlock = sliceBlock("const projectileNames =", "function hazardForWorld");
+if (!projectileBlock) {
+  failures.push("game/game.js projectileNames block not found for i18n audit");
+} else {
+  for (const m of projectileBlock.matchAll(/: "([^"]*)"/g)) {
+    if (!hasEsHalf(m[1])) failures.push(`EN-only projectile message: "${m[1]}"`);
+  }
+}
+
+if (!gameJs.includes("Vidas restantes")) {
+  failures.push('game/game.js "Lives left" counter is missing its ES half ("Vidas restantes")');
+}
+const easyLabel = gameJs.match(/easy: \{ label: "([^"]*)"/);
+const hardLabel = gameJs.match(/hard: \{ label: "([^"]*)"/);
+const regularLabel = gameJs.match(/regular: \{ label: "([^"]*)"/);
+if (!easyLabel || !hasEsHalf(easyLabel[1])) failures.push("game/game.js easy difficulty label is missing its ES half");
+if (!hardLabel || !hasEsHalf(hardLabel[1])) failures.push("game/game.js hard difficulty label is missing its ES half");
+if (!regularLabel || !hasEsHalf(regularLabel[1])) failures.push("game/game.js regular difficulty label is missing its ES half");
+if (!gameJs.includes('fillText("Paused. Pausado."')) {
+  failures.push('game/game.js pause overlay title is missing its ES half ("Paused. Pausado.")');
+}
+if (!gameJs.includes("P seguir")) {
+  failures.push("game/game.js pause key hints are missing their ES half");
+}
+if (!gameJs.includes("Una nueva aventura te espera")) {
+  failures.push('game/game.js travel banner line "A new adventure opens ahead" is missing its ES half');
+}
+if (!hasEsHalf((gameJs.match(/"A projectile hit the hero![^"]*"/) || [""])[0].slice(1, -1))) {
+  failures.push('game/game.js projectile fallback "A projectile hit the hero!" is missing its ES half');
+}
+if (!gameJs.includes("function wrapMessage(")) {
+  failures.push("game/game.js is missing wrapMessage (bilingual strings need plaque word-wrap)");
 }
 
 if (failures.length > 0) {
