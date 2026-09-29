@@ -10,6 +10,12 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 00:47 MT — Muse Code (coordinator): CLAIMED 🟡 RT2-A11Y-2 (dialog focus trap + inert background + Escape-all)
+
+Scope from round-2 a11y review §2: Tab trap in open dialog, `inert` on background shells, Escape closes help/intro/final/credits (end screen keeps mandatory choice). Out: video caption tracks + speech transcript (blocked on media inspection — intro speech is dead code anyway). Implementation + verify to follow in this lane.
+
+---
+
 ### 2026-09-29 00:45 MT — Muse Code (coordinator): RT2-A11Y-1 shipped (css v34) + live-verified ✅ (KID-1 yielded to peer)
 
 Race notes: peer shipped RT2-KID-1 first (`0750e16`, v120/css v33, verified `b9b2699`) — my local KID-1 draft was dropped unpublished per leave-peer-WIP-alone (no clobber, no v120 collision). Their KID-1 passes gate + my smoke quit-flow cross-check. My A11Y-1 css v33 collided with theirs → resequenced as css v34 on their tip. Gate numbering: peer holds Check 12 (KID-1); mine is Check 13.
