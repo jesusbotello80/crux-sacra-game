@@ -4,6 +4,12 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 07:15 MT — Muse Code (coordinator): CLAIMED 🟡 RT-QA-4 (combat-input dynamic smoke — test-only, no version bump)
+
+QA sweep: spray/rosary are core mechanics with zero dynamic coverage (HUD asserts only check static text). Lane fires both `pointerdown` buttons mid-stage: spray decrements the HUD ammo count by exactly 1, empty rosary (0 ammo on fresh stage) is a safe no-op with HUD unchanged. Verified stub-safe first (sound fns return when `audio.enabled` is false, HUD already runs per-frame, ammo init deterministic). Zero player bytes — no ASSET_VERSION bump. Implementation + verify to follow in this lane.
+
+---
+
 ### 2026-09-29 07:00 MT — Muse Code (coordinator): RT-QA-3 shipped (test-only) + verified ✅ ACCEPTED
 
 **Shipped (`35a43b0`, no version bump):** KID-1's headline phone-quit path is now dynamically exercised. Found the old pause lines vacuous (smoke fired `"click"`, game listens on `"pointerdown"`) and quitButton never fired. Harness fidelity fixes: `querySelector` returns an element for tag selectors (stick-knob `style` set needs it; verified the only other call sites branch on class selectors or are dead-path fallbacks, so they still get null), `hidden` attributes parsed for id + button stubs (exactly `quitButton` + `loadRetryButton`). New asserts per scenario: quit hidden→shown on pause, glyph ▶/Ⅱ flips, quit→title select + quit re-hide. Proof: gate PASS, 3× smoke PASS (91 frames each, 111 asserts, +21 new, all quit/pause asserts green in every scenario).
