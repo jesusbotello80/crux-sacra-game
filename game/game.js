@@ -106,7 +106,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "112";
+  const ASSET_VERSION = "113";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -2623,8 +2623,10 @@
     }
     endTitle.textContent = win ? "Game Complete / Juego Completo" : "Try Again / Intenta Otra Vez";
     if (win) {
-      const redeemedName = redeemedNameForHero();
-      endCopy.textContent = redemptionMessage(redeemedName);
+      const rKey = redeemedKeyForHero();
+      endCopy.textContent = redeemedCharacterKeys.has(rKey)
+        ? redemptionMessage(redeemedNameForHero())
+        : "The light triumphed in this world. / La luz triunfó en este mundo.";
     } else {
       endCopy.textContent = defeatMessages[reason] || defeatMessages.tacalache;
     }
@@ -5211,7 +5213,9 @@
     const redeemedName = redeemedNameForHero();
     finalCaption.textContent = game.world === bonusWorldKey
       ? "St. Mary, Mother of Jesus, joins the Saints bonus world. The next adventure begins soon."
-      : redemptionMessage(redeemedName);
+      : (redeemedCharacterKeys.has(redeemedKey)
+        ? redemptionMessage(redeemedName)
+        : "The light triumphed in this world. / La luz triunfó en este mundo.");
     if (!finalVideo.src.endsWith(nextFinalVideo)) {
       finalVideo.src = nextFinalVideo;
       finalVideo.load();
@@ -5224,6 +5228,7 @@
   }
 
   function closeFinalSequence() {
+    if (finalScreen.classList.contains("hidden")) return;
     finalVideo.pause();
     finalScreen.classList.add("hidden");
     const completedWorld = game.world;

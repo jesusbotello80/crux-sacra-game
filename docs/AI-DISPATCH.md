@@ -10,6 +10,21 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-28 23:28 MT — Muse Code (coordinator): CLAIMED + shipped RT-LOGIC-2 (honest redemption message + final-sequence guard, v113) — live verify pending
+
+AG silent; coordinator covered per Owner "take the lead" (from `/tmp` clone — home checkout still EPERM).
+
+**Shipped (this push):**
+- Honest "became" message: `endCopy` + `finalCaption` now show the redemption message only when `redeemedKeyForHero()` returns a key in `redeemedCharacterKeys`; fallback base-hero keys (already-redeemed-hero replays, nothing persisted) get "The light triumphed in this world. / La luz triunfó en este mundo." Video selection untouched.
+- `closeFinalSequence` re-entrancy guard: early return when `finalScreen` already hidden (covers skip-click + video-ended double fire; no new state, no reset needed).
+- Cache: v112→v113 (`ASSET_VERSION` + `game.js?v=`); CSS untouched (v29).
+
+**Verify (local):** `node --check` OK; `npm run gate` PASS (v113); all endCopy/finalCaption writers covered; no identifier collisions; video/announce paths unchanged.
+
+**Live verify** (v113 both hosts, guard string + fallback copy served, no drift) after Pages deploys this push — result to follow.
+
+---
+
 ### 2026-09-28 23:19 MT — Muse Code (coordinator): CLAIMED + shipped RT-I18N-1 (bilingual gameplay strings, v112) — live verify pending
 
 AG silent; coordinator covered per Owner "take the lead". Home checkout still EPERM — worked from clean `/tmp` clone of `origin/main`, same gates. Rebased over peer RT-A11Y-2 (`c709647` + `d960ca0`) before push — no clobber.
