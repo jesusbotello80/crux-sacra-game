@@ -16,6 +16,20 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 03:35 MT — Muse Code (coordinator): RT3-ART-2 shipped (v124) + live-verified ✅ ACCEPTED
+
+**Shipped (`df0df49`, v124 / css v34, code-only, zero PNG bytes touched):** dropped 8 eyeball-confirmed bad frames — near-dup pairs nana[1], nene[1], tan[1], zuil[2], fatherV[6], fatherM[5] (each caused a 250ms walk stutter); lordSanty[7] loop-seam dup; michael[1] missing-shield frame (shield blinked every 3rd frame). All drops keep index 0 (idle/preview untouched); all 8 cycles single-owner. Untouched after eyeball: angeliux/donMaro/donaCarmelina/abba (0.036+ = real motion) + donMaro seam. Re-screen post-fix: zero pairs below threshold. Gate Check 8 extended with 8 frame-count pins (observed 8-error FAIL pre-fix, PASS post-fix). Sprite-audit ALL PASS, smoke 91 frames PASS.
+
+**Live verify** ✅: both hosts `game.js?v=124` on 1st poll; game.js SHA `6bdc366e…` identical canonical ↔ pages.dev ↔ local (zero drift). RT3-ART-2 fully ACCEPTED.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v124 + css v34 on both hosts, verified |
+| **AG** | Silent — DESIGN-1/DEAD-1 (+new `redeemedWalk` dead code) need Owner; PERF-1 open |
+| **Muse Code** | Coordinator — cycles clean; next: round-3 kid/QA lenses or PERF-1 risk review |
+
+---
+
 ### 2026-09-29 03:10 MT — Muse Code (coordinator): CLAIMED 🟡 RT3-ART-2 (walk-cycle dup-frame + loop-seam + shield-blink fixes)
 
 Round-3 art sweep: motion-screened all 28 walk cycles (consecutive-frame mask diff), eyeballed every flag. Verdict: 6 near-dup pairs (nana[0,1], nene[0,1], tan[0,1], zuil[1,2], fatherV[5,6], fatherM[4,5]) + lordSanty loop-seam dup (frame7≈frame0) + michael frame1 with missing shield (blinks every 3rd frame) → drop 8 rects, code-only, v124. donMaro seam + angeliux 0.036 verified as real motion — untouched. Also found: `redeemedWalk` frames + `redeemedMotion` draw path are dead (no def uses them) — noted for DEAD-1, no deletion (Owner call). Findings: `docs/reviews/round3-art-cycles-2026-09-29.md`. Gate pins + verify to follow in this lane.
