@@ -17,6 +17,10 @@
  * 7. RT-I18N-2/LOGIC-1-tail: El Rancho button ships pre-locked in HTML (no
  *    selectable flash before JS), and the difficulty menu shows bilingual
  *    per-tier rules (difficultyRules caption wired in JS).
+ * 8. Sprite refs: every sources file exists; every characterDefs animated /
+ *    sheet / front key resolves; idle/preview indexes in range; redemption
+ *    maps and roster buttons resolve to defs. (Rect-vs-sheet bounds live in
+ *    tools/sprite-audit.mjs, which needs sips.)
  *
  * Exits 0 on PASS, 1 on FAIL.
  */
@@ -224,6 +228,56 @@ if (!indexHtml.includes('id="difficultyRules"')) {
 }
 if (!gameJs.includes("difficultyRules")) {
   failures.push("game/game.js does not wire the #difficultyRules caption");
+}
+
+// Check 8: sprite reference integrity (portable subset of tools/sprite-audit)
+{
+  const sourcesBlock = sliceBlock("const sources =", "const worldSketches =");
+  const framesBlock = sliceBlock("const frames =", "const characterDefs =");
+  const defsBlock = sliceBlock("const characterDefs =", "const difficultySettings =");
+  if (!sourcesBlock || !framesBlock || !defsBlock) {
+    failures.push("game/game.js asset blocks not found for sprite audit");
+  } else {
+    const sources = Object.fromEntries(
+      [...sourcesBlock.matchAll(/^\s*([A-Za-z0-9_]+): "([^"]+)",?\s*$/gm)].map((m) => [m[1], m[2]])
+    );
+    for (const [key, rel] of Object.entries(sources)) {
+      if (!fs.existsSync(path.join(repoRoot, rel))) {
+        failures.push(`sprite asset file missing: sources.${key} -> ${rel}`);
+      }
+    }
+    const frames = {};
+    for (const m of framesBlock.matchAll(/^    ([A-Za-z0-9_]+): \[$/gm)) {
+      const start = m.index + m[0].length;
+      const end = framesBlock.indexOf("\n    ],", start);
+      frames[m[1]] = [...framesBlock.slice(start, end).matchAll(/\[\d+,\s*\d+,\s*\d+,\s*\d+\]/g)].length;
+    }
+    const defs = new Set();
+    const getProp = (body, prop) => (body.match(new RegExp(`${prop}: "?([A-Za-z0-9_]+)"?`)) || [])[1];
+    for (const m of defsBlock.matchAll(/^    ([A-Za-z0-9_]+): \{([^}]*)\}/gm)) {
+      defs.add(m[1]);
+      const animated = getProp(m[2], "animated");
+      const sheet = getProp(m[2], "sheet");
+      const front = getProp(m[2], "front");
+      if (!frames[animated]) failures.push(`${m[1]}: animated key missing from frames: ${animated}`);
+      if (!sources[sheet]) failures.push(`${m[1]}: sheet key missing from sources: ${sheet}`);
+      if (!sources[front]) failures.push(`${m[1]}: front key missing from sources: ${front}`);
+      const idle = Number((m[2].match(/idleFrame: (\d+)/) || [])[1] ?? 0);
+      const preview = Number((m[2].match(/previewFrame: (\d+)/) || [])[1] ?? 0);
+      const count = frames[animated] || 0;
+      if (idle >= count) failures.push(`${m[1]}: idleFrame ${idle} out of range (0..${count - 1})`);
+      if (preview >= count) failures.push(`${m[1]}: previewFrame ${preview} out of range (0..${count - 1})`);
+    }
+    const redeemedMap = gameJs.match(/const redeemedCharacterByHero = \{[^}]*\}/s);
+    if (redeemedMap) {
+      for (const m of redeemedMap[0].matchAll(/: "([A-Za-z0-9_]+)"/g)) {
+        if (!defs.has(m[1])) failures.push(`redeemedCharacterByHero value is not a def: ${m[1]}`);
+      }
+    }
+    for (const m of indexHtml.matchAll(/data-character="([A-Za-z0-9_]+)"/g)) {
+      if (!defs.has(m[1])) failures.push(`roster button with no character def: ${m[1]}`);
+    }
+  }
 }
 
 if (failures.length > 0) {
