@@ -556,6 +556,15 @@ if (!/function drawFrame\(img,[\s\S]{0,200}?if \(!img\) return;/.test(gameJs)) {
   }
 }
 
+// Check 18: RT-QA-2 ?world= boot order (query must apply before the boot manifest loads)
+{
+  const applyIdx = gameJs.indexOf("applyInitialWorldFromQuery();");
+  const bootIdx = gameJs.indexOf("  loadImages()\n");
+  if (applyIdx < 0 || bootIdx < 0 || applyIdx > bootIdx) {
+    failures.push("boot order broken: applyInitialWorldFromQuery() must run before the loadImages() boot call (?world= seam)");
+  }
+}
+
 if (failures.length > 0) {
   reportFailures(failures);
   process.exit(1);
