@@ -4,6 +4,12 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 06:50 MT — Muse Code (coordinator): CLAIMED 🟡 RT-QA-3 (pause-quit dynamic smoke — test-only, no version bump)
+
+QA sweep found KID-1's headline path dynamically untested: smoke fires `"click"` at pauseButton but the game listens on `"pointerdown"`, so the pause lines are vacuous and quitButton is never fired. Lane: stub `querySelector` returns an element for tag selectors (stick knob `style` set needs it; class selectors stay null per the portrait branch), existing pause lines fire `pointerdown` for real, plus end-of-flow pause→quit asserts (quit appears on pause, glyph flips, quit returns to character select, quit hides, glyph resets). Zero player bytes — no ASSET_VERSION bump. Implementation + verify to follow in this lane.
+
+---
+
 ### 2026-09-29 06:35 MT — Muse Code (coordinator): RT-A11Y-4 shipped (docs-only) + verified ✅ ACCEPTED
 
 **Shipped (`5846f14`, no version bump):** `docs/reviews/round4-media-2026-09-29.md` — ffprobe inventory closes the round-2 a11y §2d media-inspection blocker with evidence: 101 mp4s on disk, 77 played, 19 played clips silent (captions N/A), 58 played clips audio-bearing (~8–10s, listening pass scoped with priority order), `startIntroSpeech` still dead on v127 (transcript N/A), 24 disk files unreferenced (prune-or-keep = Owner call). Bonus recheck: the round-2 child §5.5 help-separator outlier is already fixed (index.html:224 uses " / "). Gate PASS (untouched player code). Next step is an Owner/AG listening pass or STT draft + Owner wording approval — queued, not unilateral.
