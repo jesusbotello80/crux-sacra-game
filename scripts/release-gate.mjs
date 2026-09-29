@@ -36,6 +36,8 @@
  *    overlay carries the tap resume/quit lines.
  * 13. RT2-A11Y-1: manifest orientation "any", display "standalone", a 192x192
  *    icon, and purpose + ?v= on every icon.
+ * 14. RT2-A11Y-2: dialog focus trap (trapTabInModal) + background inert sync
+ *    (syncModalInert) + Escape cascade past help (intro/final/credits).
  *
  * Exits 0 on PASS, 1 on FAIL.
  */
@@ -469,6 +471,18 @@ for (const line of ["Toca ▶ abajo para seguir", "Toca ✕ para salir"]) {
       if (!icon.src.includes("?v=")) failures.push(`manifest icon ${icon.sizes} is missing ?v=`);
     }
   }
+}
+
+// Check 14: RT2-A11Y-2 focus trap + inert + Escape cascade
+if (!gameJs.includes("function trapTabInModal(")) {
+  failures.push("game/game.js is missing trapTabInModal (dialog focus trap)");
+}
+if (!gameJs.includes("function syncModalInert(") || !gameJs.includes('"inert"')) {
+  failures.push("game/game.js is missing syncModalInert (background inert sync)");
+}
+const escapeBlock = gameJs.match(/event\.code === "Escape"[\s\S]{0,800}?closeCreditsSequence\(\)/);
+if (!escapeBlock || !escapeBlock[0].includes("closeIntro()") || !escapeBlock[0].includes("closeFinalSequence()")) {
+  failures.push("game/game.js Escape handler does not cascade past help (intro/final/credits)");
 }
 
 if (failures.length > 0) {

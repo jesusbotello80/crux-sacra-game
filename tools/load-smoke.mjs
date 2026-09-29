@@ -160,8 +160,26 @@ function interact() {
     // pause + resume
     fire(byId("pauseButton"), "click");
     fire(byId("pauseButton"), "click");
-    // help open/close
-    if (byId("helpButton")) { fire(byId("helpButton"), "click"); fire(byId("helpCloseButton"), "click"); }
+    // help open/close + inert + Escape cascade (RT2-A11Y-2)
+    const fireKey = (code, extra = {}) => {
+      for (const fn of global.windowListeners["keydown"] || []) fn({ code, key: code, shiftKey: false, preventDefault: () => {}, ...extra });
+    };
+    fire(byId("helpButton"), "click");
+    assert(!byId("helpScreen").classList.contains("hidden"), "help opens");
+    assert(byId("hud").getAttribute("inert") === "", "hud inert while help open");
+    assert(byId("game").getAttribute("inert") === "", "canvas inert while help open");
+    assert(byId("helpScreen").getAttribute("inert") === null, "topmost dialog not inert");
+    fireKey("Tab");
+    assert(!byId("helpScreen").classList.contains("hidden"), "Tab trap runs without closing help");
+    fireKey("Escape");
+    assert(byId("helpScreen").classList.contains("hidden"), "Escape closes help");
+    assert(byId("hud").getAttribute("inert") === null, "inert lifted after help closes");
+    // Escape cascade branch 2: start-flow intro closes via Escape (restarts stage)
+    fire(byId("startButton"), "click");
+    assert(!byId("introScreen").classList.contains("hidden"), "intro reopens on start");
+    assert(byId("hud").getAttribute("inert") === "", "hud inert while intro open");
+    fireKey("Escape");
+    assert(byId("introScreen").classList.contains("hidden"), "Escape closes intro");
 }
 
 function finish() {
