@@ -108,7 +108,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "120";
+  const ASSET_VERSION = "121";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -2356,6 +2356,7 @@
     finalScreen.classList.add("hidden");
     helpScreen.classList.add("hidden");
     creditsScreen.classList.add("hidden");
+    syncModalInert();
   }
 
   function startStage(index) {
@@ -2646,6 +2647,7 @@
     endScreen.classList.remove("hidden");
     againButton.focus();
     announceStatus(`${endTitle.textContent}. ${endCopy.textContent}`);
+    syncModalInert();
   }
 
   function finishAfter(win, delay, reason = "tacalache") {
@@ -2677,6 +2679,7 @@
     endScreen.classList.add("hidden");
     game.message = "Choose hero and companion. Elige héroe y compañía.";
     startButton.focus();
+    syncModalInert();
   }
 
   function inputVector() {
@@ -4918,6 +4921,56 @@
     return null;
   }
 
+  const hud = document.getElementById("hud");
+  const mobileControls = document.getElementById("mobileControls");
+
+  // Topmost visible dialog (help can stack over others). Null during gameplay.
+  function currentModal() {
+    if (!helpScreen.classList.contains("hidden")) return helpScreen;
+    if (!introScreen.classList.contains("hidden")) return introScreen;
+    if (!finalScreen.classList.contains("hidden")) return finalScreen;
+    if (!creditsScreen.classList.contains("hidden")) return creditsScreen;
+    if (!endScreen.classList.contains("hidden")) return endScreen;
+    if (!titleScreen.classList.contains("hidden")) return titleScreen;
+    return null;
+  }
+
+  function syncModalInert() {
+    const top = currentModal();
+    const shells = [titleScreen, helpScreen, introScreen, finalScreen, creditsScreen, endScreen, hud, mobileControls, canvas];
+    for (const shell of shells) {
+      if (!shell) continue;
+      if (top && shell !== top) shell.setAttribute("inert", "");
+      else shell.removeAttribute("inert");
+    }
+  }
+
+  function trapTabInModal(event) {
+    if (event.code !== "Tab") return false;
+    const top = currentModal();
+    if (!top) return false;
+    const items = [...top.querySelectorAll("button, [href], input, select, textarea, [tabindex]")]
+      .filter((el) => !el.disabled && el.getAttribute("tabindex") !== "-1");
+    if (items.length === 0) {
+      event.preventDefault();
+      return true;
+    }
+    const first = items[0];
+    const last = items[items.length - 1];
+    const active = document.activeElement;
+    if (event.shiftKey && (active === first || !items.includes(active))) {
+      event.preventDefault();
+      last.focus();
+      return true;
+    }
+    if (!event.shiftKey && (active === last || !items.includes(active))) {
+      event.preventDefault();
+      first.focus();
+      return true;
+    }
+    return false;
+  }
+
   function activateFocusedOverlayButton(event) {
     if (event.code !== "Space" && event.code !== "Enter") return false;
     const defaultButton = overlayDefaultButton();
@@ -4930,6 +4983,7 @@
   }
 
   window.addEventListener("keydown", (event) => {
+    if (trapTabInModal(event)) return;
     if (activateFocusedOverlayButton(event)) return;
     keys.add(event.code);
     if (event.code === "Space") {
@@ -4956,9 +5010,20 @@
       event.preventDefault();
       showHelp();
     }
-    if (event.code === "Escape" && !helpScreen.classList.contains("hidden")) {
-      event.preventDefault();
-      closeHelp();
+    if (event.code === "Escape") {
+      if (!helpScreen.classList.contains("hidden")) {
+        event.preventDefault();
+        closeHelp();
+      } else if (!introScreen.classList.contains("hidden")) {
+        event.preventDefault();
+        closeIntro();
+      } else if (!finalScreen.classList.contains("hidden")) {
+        event.preventDefault();
+        closeFinalSequence();
+      } else if (!creditsScreen.classList.contains("hidden")) {
+        event.preventDefault();
+        closeCreditsSequence();
+      }
     }
   });
 
@@ -5125,12 +5190,14 @@
   function showHelp() {
     helpScreen.classList.remove("hidden");
     helpCloseButton.focus();
+    syncModalInert();
   }
 
   function closeHelp() {
     helpScreen.classList.add("hidden");
     if (!titleScreen.classList.contains("hidden")) helpButton.focus();
     else canvas.focus();
+    syncModalInert();
   }
 
   if (helpButton) helpButton.addEventListener("click", showHelp);
@@ -5163,6 +5230,7 @@
     }
     updateIntroCast();
     introScreen.classList.remove("hidden");
+    syncModalInert();
     skipIntroButton.focus();
     introVideo.currentTime = 0;
     introVideo.play().catch(() => {});
@@ -5176,6 +5244,7 @@
       introStartsGame = false;
       reset();
     }
+    syncModalInert();
   }
   skipIntroButton.addEventListener("click", closeIntro);
   introVideo.addEventListener("ended", closeIntro);
@@ -5288,6 +5357,7 @@
     }
     updateFinalCast();
     finalScreen.classList.remove("hidden");
+    syncModalInert();
     skipFinalButton.focus();
     finalVideo.currentTime = 0;
     finalVideo.play().catch(() => {});
@@ -5306,6 +5376,7 @@
     if (completedWorld === finalWorldKey) {
       creditsScreen.classList.remove("hidden");
       creditsContinueButton.focus();
+      syncModalInert();
       return;
     }
     finish(true);
@@ -5385,6 +5456,7 @@
     if ("speechSynthesis" in window) window.speechSynthesis.cancel();
   }
 
+  syncModalInert();
   loadImages()
     .then(() => {
       if (loadStatus) loadStatus.hidden = true;
