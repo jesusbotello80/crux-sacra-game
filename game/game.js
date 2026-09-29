@@ -110,7 +110,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "128";
+  const ASSET_VERSION = "129";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -126,7 +126,8 @@
     stage: -1,
     world: "",
   };
-  let introSpeechTimers = [];
+  let sessionPlaySeconds = 0;
+  let breakRemindedAt = 0;
   let introStartsGame = false;
 
   const sources = {
@@ -3046,6 +3047,14 @@
   function update(dt) {
     if (game.mode === "paused") return;
     if (game.mode !== "playing" && game.mode !== "ending" && game.mode !== "travel") return;
+    if (game.mode === "playing") {
+      sessionPlaySeconds += dt;
+      if (sessionPlaySeconds - breakRemindedAt >= 1500) {
+        breakRemindedAt = sessionPlaySeconds;
+        game.message = "Take a break, champion! Stretch and pray with family. / ¡Toma un descanso, campeón! Estírate y reza en familia.";
+        announceStatus(game.message);
+      }
+    }
     game.time += dt;
     game.prayer = Math.max(0, game.prayer - dt);
     game.shake = Math.max(0, game.shake - dt);
@@ -5362,7 +5371,6 @@
   }
 
   function closeIntro() {
-    stopIntroSpeech();
     introVideo.pause();
     introScreen.classList.add("hidden");
     if (introStartsGame) {
@@ -5550,36 +5558,6 @@
   skipFinalButton.addEventListener("click", closeFinalSequence);
   finalVideo.addEventListener("ended", closeFinalSequence);
   creditsContinueButton.addEventListener("click", closeCreditsSequence);
-
-  function speakLine(text, lang = "es-MX", rate = 0.92, pitch = 1) {
-    if (!("speechSynthesis" in window)) return;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang;
-    utterance.rate = rate;
-    utterance.pitch = pitch;
-    const voices = window.speechSynthesis.getVoices();
-    const preferred = voices.find((voice) => voice.lang === lang) || voices.find((voice) => voice.lang.startsWith(lang.slice(0, 2)));
-    if (preferred) utterance.voice = preferred;
-    window.speechSynthesis.speak(utterance);
-  }
-
-  function startIntroSpeech() {
-    stopIntroSpeech();
-    const lines = [
-      { at: 2700, text: "Yo soy el Tacalache, y me llevo a los niños traviesos. Plam, plam, plam, plam, plam.", rate: 0.85, pitch: 0.65 },
-      { at: 5200, text: "Crux Sacra Sit Mihi Lux. Non Draco Sit Mihi Dux.", rate: 0.88, pitch: 1.18 },
-      { at: 8000, text: "¿Quién como Dios? La Crux Sacra protege a los niños.", rate: 0.9, pitch: 0.9 },
-    ];
-    for (const line of lines) {
-      introSpeechTimers.push(window.setTimeout(() => speakLine(line.text, "es-MX", line.rate, line.pitch), line.at));
-    }
-  }
-
-  function stopIntroSpeech() {
-    for (const timer of introSpeechTimers) window.clearTimeout(timer);
-    introSpeechTimers = [];
-    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
-  }
 
   syncModalInert();
   loadImages()
