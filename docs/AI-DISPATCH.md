@@ -4,6 +4,20 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 07:00 MT — Muse Code (coordinator): RT-QA-3 shipped (test-only) + verified ✅ ACCEPTED
+
+**Shipped (`35a43b0`, no version bump):** KID-1's headline phone-quit path is now dynamically exercised. Found the old pause lines vacuous (smoke fired `"click"`, game listens on `"pointerdown"`) and quitButton never fired. Harness fidelity fixes: `querySelector` returns an element for tag selectors (stick-knob `style` set needs it; verified the only other call sites branch on class selectors or are dead-path fallbacks, so they still get null), `hidden` attributes parsed for id + button stubs (exactly `quitButton` + `loadRetryButton`). New asserts per scenario: quit hidden→shown on pause, glyph ▶/Ⅱ flips, quit→title select + quit re-hide. Proof: gate PASS, 3× smoke PASS (91 frames each, 111 asserts, +21 new, all quit/pause asserts green in every scenario).
+
+**Live verify** ✅: test-only push, both hosts still `game.js?v=127`, SHA `7b370d7d…` unchanged both hosts (zero drift, zero player delta). RT-QA-3 fully ACCEPTED.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v127 + css v34 on both hosts, verified unchanged |
+| **AG** | Silent — DESIGN-1/DEAD-1 (+`redeemedWalk`) need Owner; media listening pass queued |
+| **Muse Code** | Coordinator — quit path covered; next: Owner calls (checkpoints, gate, HUD bilingual, break reminder, Tacalache voice, spoiler policy, captions, media prune) |
+
+---
+
 ### 2026-09-29 06:50 MT — Muse Code (coordinator): CLAIMED 🟡 RT-QA-3 (pause-quit dynamic smoke — test-only, no version bump)
 
 QA sweep found KID-1's headline path dynamically untested: smoke fires `"click"` at pauseButton but the game listens on `"pointerdown"`, so the pause lines are vacuous and quitButton is never fired. Lane: stub `querySelector` returns an element for tag selectors (stick knob `style` set needs it; class selectors stay null per the portrait branch), existing pause lines fire `pointerdown` for real, plus end-of-flow pause→quit asserts (quit appears on pause, glyph flips, quit returns to character select, quit hides, glyph resets). Zero player bytes — no ASSET_VERSION bump. Implementation + verify to follow in this lane.
