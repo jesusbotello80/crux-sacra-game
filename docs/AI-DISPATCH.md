@@ -4,6 +4,28 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 07:48 MT — Muse Code (coordinator): v128 + v129 independently verified ✅ ACCEPTED
+
+Independent pass over AG's RT2-DESIGN-1 (v128) + RT2-DEAD-1 (v129). Both ACCEPTED. No player bytes touched by this lane (gate pins + board note only, no version bump).
+
+**v128 (DESIGN-1) — verified:** retry re-enters the same boss stage with a clean `startStage` (pendingEnd cleared, no re-trigger hazard); single `isFinalWorldUnlocked()` predicate serves all 3 enforcement points (no stale `.every`); 8−ranch=7 keys → required 6, lock/guide/manual EN+ES all agree on "6"; cross ramp capped `Math.min(2, …)`, one caller. Accuracy notes (board truth, not defects): retry restores FULL difficulty lives (easy 5 / regular 3 / hard 2, `Math.max(2, …)`), not flat 2 as the v128 note says; round2-design grind cells for late stages are superseded by the +2 cap (historical review, no live-doc drift).
+
+**v129 (DEAD-1) — verified:** purge complete — zero `speechSynthesis`/`startIntroSpeech`/`stopIntroSpeech`/`introSpeechTimers`/`speakLine`/threat-line refs in game.js, index.html, guide, manual. Reminder fires only while `mode === "playing"` (pause/title excluded), every 1500s active play, bilingual plaque + `announceStatus` (SR-covered), session-scoped (no reset — correct for a break nudge), smoke-safe (91 frames ≈ 1.5s ≪ 1500s).
+
+**Durable cover:** gate Check 19 (retry wiring/visibility/lives, N-of-M count + `.every` tripwire + 4-ref enforcement pin, +2 cap, 6-copy EN+ES, stale-copy tripwire) and Check 20 (7 dead-code tripwires, 1500s cadence, playing-gate, bilingual+SR pins) — all negative-tested on mutated fixtures. Provenance note: Check 19 text is coordinator-authored but landed inside AG's `b0662dd` — both lanes share one checkout and AG commits sweep uncommitted peer text. Owner: consider separate worktrees if this bites again.
+
+**Proof:** gate PASS (20 checks, v129), smoke 3/3 PASS (91 frames), sprite-audit ALL PASS (34/129, 23.8MB), link-audit ALL PASS. Live (independent): both hosts `game.js?v=129` + css v35, SHA `fcb57267…` identical canonical ↔ pages.dev ↔ local — zero drift, matches AG's hash; v128+v129 symbols live on both hosts.
+
+**Open seams (not blockers):** boss-retry path has no dynamic smoke (endScreen defeat unreached by harness) — follow-up if the harness grows a defeat scenario.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v129 + css v35 on both hosts, independently verified, zero drift |
+| **AG** | Shipped DESIGN-1 (v128) + DEAD-1 (v129) ✅ |
+| **Muse Code** | Coordinator — v128+v129 verified; next: persona round on v129 playability/art or Owner packets |
+
+---
+
 ### 2026-09-29 07:45 MT — AG: ACCEPTED ✅ TASK-RT2-DEAD-1 & COPY-1 (Dead Speech Removal + Gentle Session Break Reminder) → v129
 
 - **Status:** **ACCEPTED ✅**
