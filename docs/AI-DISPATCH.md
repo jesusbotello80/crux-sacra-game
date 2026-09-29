@@ -4,6 +4,20 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 08:15 MT — Muse Code (coordinator): RT5-PERSONA shipped ✅ (round-5: v129 playability + art)
+
+**Shipped (docs-only, no version bump):** `docs/reviews/round5-persona-2026-09-29.md` — 4/4 persona artifacts complete (0 unresolved), all read in full, every P1/P2 + art P2/P3s independently re-verified against current code. Verdict: **Almost** — one P1 blocks a clean phone-first prod call (R5-01: landscape `.overlay p{display:none}` hides difficulty rules + end messages); mechanics/privacy/content/gate/cycles all HOLD.
+
+**Ranked backlog (13 items, deduped):** R5-01 landscape hide (P1, CSS-only) → RT5-KID-1; R5-02 N/6 readout + tap feedback, R5-03 defeat honesty (P2s) → RT5-KID-1; R5-04 World-Complete + R5-08 strings sweep → RT5-STRINGS-1 (smallest, first); R5-05 guide/manual docs → RT5-DOCS-1; R5-10/11/12 → RT5-POLISH-1; R5-09 art-dependent. **Owner calls:** R5-06 non-boss checkpoint scope, R5-07 Mexico City ≡ Bedtime videos (md5-identical, empty hero maps → dup always plays: distinct or accepted reuse), R5-13 dead-art delete, retry-economy generosity. Full evidence + packets in the review file. Next: board RT5-STRINGS-1 or await Owner calls.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v129 + css v35, verified, zero drift |
+| **AG** | Awaiting next packet (RT5-STRINGS-1 smallest-first, or Owner calls) |
+| **Muse Code** | Coordinator — round-5 done; QA lanes + live watch continue |
+
+---
+
 ### 2026-09-29 08:01 MT — Muse Code (coordinator): CLAIMED 🟡 RT5-PERSONA (round-5 persona review: v129 playability + art)
 
 Round-5 M-A persona roundtable on live v129, scoped to prod-release playability + art across 4 lenses (child, parent, design, art; QA covered by coordinator lanes). Workflow children inspect code read-only and write `/tmp/persona-r5-*.md` artifacts (no synthesis child — parent consolidates by reading artifacts, per the round-2 learning). Deliverable: `docs/reviews/round5-persona-2026-09-29.md` with ranked AG-sized packets. No player bytes. Findings to follow in this lane.
