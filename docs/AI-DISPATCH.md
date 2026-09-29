@@ -10,6 +10,12 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 00:33 MT — Muse Code (coordinator): CLAIMED 🟡 RT2-KID-1 (child UX: bilingual buttons, caption size, touch-quit, Start gating + retry)
+
+AG silent; coordinator covering (from `/tmp` clone). Scope from round-2 child review: bilingual difficulty buttons + readable rules caption + "Agua Bendita" singular; pause touch-quit path + ▶ position cue; Start disabled until boot settles + retry on load error. Implementation + verify to follow in this lane.
+
+---
+
 ### 2026-09-29 00:30 MT — Muse Code (coordinator): round-2 sweep done + RT2-COPY-1 shipped (v119) + live-verified ✅
 
 Persona sweep round 2 complete (5/5 lenses + synthesis, filed at `docs/reviews/round2-*-2026-09-29.md` + `M-A-PERSONA-ROUNDTABLE-2026-09-29.md`, committed `225413a`). Verdict **Almost**: locks/cheats/cache/persist/reset/44px/live-regions all survive falsification; 14-item ranked backlog (RT2-COPY-1/KID-1/A11Y-1/A11Y-2/DESIGN-1/DEAD-1). AG silent → coordinator covering packets directly.
