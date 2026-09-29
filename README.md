@@ -15,7 +15,7 @@ To run locally, open `game/index.html` or serve this folder as a static site (pa
 - Created by: Jesús B.
 - Ideas: Elías B.
 - Coding/Art: Codex, based on the original ideas of Jesús B. and Elías B.
-- AI Helpers: OpenAI Codex, OpenAI Image Generation, and OpenCode, guided and approved by Jesús B.
+- AI Helpers: OpenAI Codex, OpenAI Image Generation, OpenCode, and Muse Code, guided and approved by Jesús B.
 - Version: v1.1 — Character Roster Update (2026)
 
 ## Character Roster Update (v1.1)

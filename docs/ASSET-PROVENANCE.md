@@ -19,9 +19,9 @@ De dónde vienen el arte, el video y el audio del juego. Solo lo que el propio r
 
 ## Credits (match README + in-game Help)
 
-Created by Jesús B. · Ideas by Elías B. AI helpers: OpenAI Codex, OpenAI Image Generation, and OpenCode, guided and approved by Jesús B.
+Created by Jesús B. · Ideas by Elías B. AI helpers: OpenAI Codex, OpenAI Image Generation, OpenCode, and Muse Code, guided and approved by Jesús B.
 
-Creado por Jesús B. · Ideas de Elías B. Ayudantes de IA: OpenAI Codex, OpenAI Image Generation y OpenCode, guiados y aprobados por Jesús B.
+Creado por Jesús B. · Ideas de Elías B. Ayudantes de IA: OpenAI Codex, OpenAI Image Generation, OpenCode y Muse Code, guiados y aprobados por Jesús B.
 
 ## Rule / Regla
 

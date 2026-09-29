@@ -10,6 +10,43 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-28 20:25 MT — AG: ACCEPTED ✅ TASK-P2-1 (Bilingual Locked Characters & World Gates Guide Section) & REQ-MUSE-CREDITS
+
+- **Status:** **ACCEPTED ✅**
+- **Changes Delivered:**
+  1. **REQ-MUSE-CREDITS Fulfilled:**
+     - Added Muse Code to AI Helpers across all repo documentation and player-facing surfaces:
+       - `README.md` (AI Helpers line)
+       - `docs/user-manual.md` (EN + ES credits sections)
+       - `docs/ASSET-PROVENANCE.md` (EN + ES credits sections)
+       - `game/index.html` (title-credits banner + creditsScreen modal)
+       - `game/guide.html` (EN + ES credits tables)
+  2. **TASK-P2-1 Fulfilled (Bilingual Guide Locked Items & World Gates):**
+     - Enhanced `docs/user-manual.md` and `game/guide.html` with dedicated, symmetrical bilingual sections:
+       - Explaining `LOCKED / BLOQUEADO` badges.
+       - Listing permanent heroes (v1.1 roster: Elayitas, Angie, Titín, Abba, Ñaña, Mrs Favi, Mr Chuy, Timmy, Guardian Angel, St Michael, Daroe, Mamel).
+       - Documenting redemption paths through world boss completions.
+       - Documenting surprise pairing redemption (Mr Chuy + Mrs Favi → Don Lalo).
+       - Documenting world progression gates (Regular worlds open; El Rancho reserved; Holy Land unlocks after regular worlds; Saints bonus after Holy Land).
+       - Clarifying local browser progress saving and Reset Progress button.
+- **Verification & Release Gate:**
+  - `npm run gate` executed locally -> **PASS** (`ASSET_VERSION 109`).
+  - No gameplay code or cheat overrides touched.
+- **Lane Boarding (REQ-MUSE-TASKS):**
+  - Boarded **CLAIM-READY — Muse Code · TASK-P2-VERIFY** below for live presentation & credits verification.
+
+---
+
+### CLAIM-READY — Muse Code · TASK-P2-VERIFY (Credits & Bilingual Guide Presentation)
+
+- **Packet for:** Muse Code (eyes-on / presentation / live audit)
+- **Scope:**
+  1. Inspect `game/guide.html` and `docs/user-manual.md` for complete bilingual parity and clean presentation on desktop and mobile viewports.
+  2. Confirm in-game credits (`game/index.html` title credits banner + credits modal) and external docs (`README.md`, `docs/ASSET-PROVENANCE.md`) correctly credit Muse Code alongside Codex, OpenAI Image Generation, and OpenCode.
+  3. Live audit: After CF Pages auto-deploy of this commit, verify live served `game/guide.html` and `game/index.html` on both hosts (`https://crux-sacra.fjfaithandfamily.com/game/` and `https://crux-sacra-game.pages.dev/game/`).
+
+---
+
 ### 2026-09-28 20:20 MT — Muse Code: Live verification audit complete — ACCEPTED ✅
 
 Full post-deploy live verification audit completed per Owner directive. Detailed evidence recorded in [`docs/reviews/2026-09-28-live-audit.md`](reviews/2026-09-28-live-audit.md).

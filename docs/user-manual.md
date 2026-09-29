@@ -24,7 +24,7 @@ Also available via Cloudflare Pages (`https://crux-sacra-game.pages.dev/`) and G
 ### Credits
 
 Created by Jesús B. · Ideas by Elías B.<br />
-AI helpers: OpenAI Codex, OpenAI Image Generation, and OpenCode, guided and approved by Jesús B.
+AI helpers: OpenAI Codex, OpenAI Image Generation, OpenCode, and Muse Code, guided and approved by Jesús B.
 
 ### Purpose and family play
 
@@ -54,7 +54,20 @@ Collect every glowing **Crux Sacra** before the level’s challenge reaches one.
 ### Locked items and progression badges
 
 - **Locked badges (`LOCKED / BLOQUEADO`):** Characters and worlds that are visible but not yet accessible display a bilingual badge. They cannot be chosen until their unlock conditions are met through gameplay.
-- **Surprise redeemed characters:** New redeemed companions and heroes appear on the selection menu with a locked badge. They are unlocked by discovering in-game redemption endings (playing specific hero/companion combinations and finishing world boss encounters).
+- **Character roster & permanent heroes (v1.1):** Permanent selectable heroes include Elayitas, Angie, Titín, Abba, Ñaña, Mrs Favi, Mr Chuy, Timmy, Guardian Angel, St Michael, Daroe, and Mamel.
+- **Redeemed character unlocks:** Other heroes and companions on the menu appear with a locked badge. They are redeemed and unlocked through play by finishing world boss encounters with specific heroes:
+  - Elayitas unlocks Tío Abuelo Original
+  - Mrs Favi unlocks GaspaRaspa
+  - Abba unlocks Tío Abuelo Cuate
+  - Daroe unlocks Tía More
+  - Mamel unlocks Tío Viktorock
+  - Angie unlocks Doña Carmelina
+  - Ñaña unlocks Tío Tan
+  - Titín unlocks Mr Zuil
+  - Timmy unlocks Mr Tío
+  - Guardian Angel unlocks Father V
+  - St Michael unlocks Father M
+- **Surprise pairing redemption:** Selecting Mr Chuy and Mrs Favi together in either order unlocks Don Lalo.
 - **World progression gates:**
   - Regular campaign worlds (Colorado Springs, Juárez, US East, El Paso, Guadalajara, Mexico City, Bedtime Rooms) are open from the start.
   - **El Rancho** is currently reserved and displays a locked status until ready for public release.
@@ -96,7 +109,7 @@ También disponible en Cloudflare Pages (`https://crux-sacra-game.pages.dev/`) y
 ### Créditos
 
 Creado por Jesús B. · Ideas por Elías B.<br />
-Ayudantes de IA: OpenAI Codex, OpenAI Image Generation y OpenCode, guiados y aprobados por Jesús B.
+Ayudantes de IA: OpenAI Codex, OpenAI Image Generation, OpenCode y Muse Code, guiados y aprobados por Jesús B.
 
 ### Propósito y juego en familia
 
@@ -126,7 +139,20 @@ Reúne cada **Crux Sacra** brillante antes de que el reto del nivel alcance una.
 ### Elementos bloqueados e insignias de progreso
 
 - **Insignias de bloqueo (`LOCKED / BLOQUEADO`):** Los personajes y mundos que están visibles pero aún no disponibles muestran una insignia bilingüe. No se pueden seleccionar hasta cumplir sus condiciones jugando.
-- **Personajes redimidos sorpresa:** Nuevos compañeros y héroes redimidos aparecen en el menú de selección con insignia de bloqueado. Se desbloquean descubriendo los finales de redención dentro del juego (jugando con combinaciones específicas de héroe y compañero y superando los encuentros de jefe).
+- **Reparto de personajes y héroes permanentes (v1.1):** Los héroes seleccionables permanentes incluyen a Elayitas, Angie, Titín, Abba, Ñaña, Mrs Favi, Mr Chuy, Timmy, Ángel de la Guarda, San Miguel, Daroe y Mamel.
+- **Desbloqueo de personajes redimidos:** Otros héroes y compañeros en el menú aparecen con insignia de bloqueado. Se redimen y desbloquean superando encuentros contra jefes de mundo con héroes específicos:
+  - Elayitas desbloquea a Tío Abuelo Original
+  - Mrs Favi desbloquea a GaspaRaspa
+  - Abba desbloquea a Tío Abuelo Cuate
+  - Daroe desbloquea a Tía More
+  - Mamel desbloquea a Tío Viktorock
+  - Angie desbloquea a Doña Carmelina
+  - Ñaña desbloquea a Tío Tan
+  - Titín desbloquea a Mr Zuil
+  - Timmy desbloquea a Mr Tío
+  - Ángel de la Guarda desbloquea a Father V
+  - San Miguel desbloquea a Father M
+- **Redención sorpresa en pareja:** Seleccionar a Mr Chuy y Mrs Favi juntos (en cualquier orden) desbloquea a Don Lalo.
 - **Puertas de progreso de mundos:**
   - Los mundos regulares de la campaña (Colorado Springs, Juárez, US East, El Paso, Guadalajara, Ciudad de México, Habitaciones de Noche) están abiertos desde el inicio.
   - **El Rancho** se encuentra reservado y muestra estado bloqueado hasta que esté listo para el público.
