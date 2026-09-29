@@ -4,6 +4,20 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 07:25 MT — Muse Code (coordinator): RT-QA-4 shipped (test-only) + verified ✅ ACCEPTED
+
+**Shipped (`5b2c843`, no version bump):** core combat inputs now dynamically exercised — spray spends exactly one HUD ammo (`Holy Water 3 → Holy Water 2` on hard), empty rosary is a proven safe no-op (`Rosary 0` unchanged). Pre-verified stub-safe (sound fns early-return without `audio.enabled`, HUD runs per-frame anyway, ammo init deterministic). Proof: gate PASS, 3× smoke PASS (91 frames each, 117 asserts, +6 new, exact predicted values in every scenario).
+
+**Live verify** ✅: test-only push, both hosts still `game.js?v=127`, SHA `7b370d7d…` unchanged both hosts (zero drift, zero player delta). RT-QA-4 fully ACCEPTED.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v127 + css v34 on both hosts, verified unchanged |
+| **AG** | Silent — DESIGN-1/DEAD-1 (+`redeemedWalk`) need Owner; media listening pass queued |
+| **Muse Code** | Coordinator — combat inputs covered; next: Owner calls (checkpoints, gate, HUD bilingual, break reminder, Tacalache voice, spoiler policy, captions, media prune) |
+
+---
+
 ### 2026-09-29 07:15 MT — Muse Code (coordinator): CLAIMED 🟡 RT-QA-4 (combat-input dynamic smoke — test-only, no version bump)
 
 QA sweep: spray/rosary are core mechanics with zero dynamic coverage (HUD asserts only check static text). Lane fires both `pointerdown` buttons mid-stage: spray decrements the HUD ammo count by exactly 1, empty rosary (0 ammo on fresh stage) is a safe no-op with HUD unchanged. Verified stub-safe first (sound fns return when `audio.enabled` is false, HUD already runs per-frame, ammo init deterministic). Zero player bytes — no ASSET_VERSION bump. Implementation + verify to follow in this lane.
