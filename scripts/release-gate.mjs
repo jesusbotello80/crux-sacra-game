@@ -303,6 +303,21 @@ if (!gameJs.includes("difficultyRules")) {
       if (frames[name] !== 2) failures.push(`${name} must be the 2-frame no-sprint walk, found ${frames[name] ?? 0} rects`);
     }
     if (frames.grid1774Walk !== 3) failures.push(`grid1774Walk must stay 3-frame for tia-more/viktorock, found ${frames.grid1774Walk} rects`);
+    // Redemption reachability pin: every unlock path needs code + UI button (audited 2026-09-29, all 17 reachable)
+    const redeemFn = gameJs.match(/function redeemedKeyForHero\(\) \{[\s\S]*?\n  \}/);
+    const redeemBody = redeemFn ? redeemFn[0] : "";
+    for (const [key, why] of [["donLalo", "mrChuy+mrsFavi pair"], ["angeliux", "nana+nana pair"], ["srJoe", "mrTio chain"], ["lordSanty", "donaCarmelina chain"], ["donaNene", "tan chain"]]) {
+      if (!redeemBody.includes(`"${key}"`)) failures.push(`redemption path missing for ${key} (${why})`);
+    }
+    const heroBtns = new Set([...indexHtml.matchAll(/data-role="hero" data-character="([A-Za-z0-9_]+)"/g)].map((m) => m[1]));
+    const compBtns = new Set([...indexHtml.matchAll(/data-role="companion" data-character="([A-Za-z0-9_]+)"/g)].map((m) => m[1]));
+    const mapHeroes = [...(gameJs.match(/const redeemedCharacterByHero = \{[^}]*\}/s) || [""])[0].matchAll(/([A-Za-z0-9_]+): "/g)].map((m) => m[1]);
+    for (const hero of mapHeroes) {
+      if (!heroBtns.has(hero)) failures.push(`redemption hero has no hero button: ${hero}`);
+    }
+    for (const comp of ["nana", "mrChuy", "mrsFavi"]) {
+      if (!compBtns.has(comp)) failures.push(`pair-path companion button missing: ${comp}`);
+    }
   }
 }
 
