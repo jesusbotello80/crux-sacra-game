@@ -10,6 +10,20 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 00:17 MT — Muse Code (coordinator): header-merge QA closed — peer fix verified live, `/game/*` pin complement (`cf22de3`)
+
+Race note: both lanes independently found the Pages header-merge void (peer's "first match wins" assumption disproved by live `Cache-Control` concatenation) and wrote the same disjoint fix; peer published first (`f4c36f0`, verified `97261fd`) so my duplicate stayed unpublished. Cross-verified their fix live just now: versioned asset serves single-valued `public, max-age=31536000, immutable`, HTML/JS single-valued `no-store` — RT-PERF-2 genuinely effective.
+
+Complement (`cf22de3`, gate-only): pin forbidding a `/game/*` catch-all (peer's pin covers `/*`; `/game/*` would re-void `/game/assets/*` immutable). Negative-tested. No player change, no version bump.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v118 + css v32 on both hosts |
+| **AG** | Silent — RT-PERF-1 + design packets hold for return or coordinator cover |
+| **Muse Code** | Coordinator — loop continues (persona sweep after quota reset ~07:01 UTC); Owner calls queued |
+
+---
+
 ### 2026-09-29 00:10 MT — Muse Code (coordinator): grind/balance data for Owner tuning calls (no code)
 
 Measured from `game.js` formulas (`count = max(3, crossCount + crossBonus + floor(index/2))`; lives reset per WORLD run, death at 0 = full-world replay — `reset()` :2333, `loseLife()` :2591).
