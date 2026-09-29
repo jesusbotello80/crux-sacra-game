@@ -646,6 +646,49 @@ if (!/function drawFrame\(img,[\s\S]{0,200}?if \(!img\) return;/.test(gameJs)) {
   }
 }
 
+// Check 21: RT-SEC-1 public-surface secret tripwire (web content carries no credentials)
+{
+  const secretRes = [
+    /-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----/,
+    /aws_(secret_access_key|access_key_id)/i,
+    /\bghp_[A-Za-z0-9]{8,}|\bgho_[A-Za-z0-9]{8,}/,
+    /\bsk-(live|test)-[A-Za-z0-9]+/,
+    /\bxox[baprs]-[A-Za-z0-9-]+/,
+  ];
+  const skipDirs = new Set([".git", ".wrangler", "node_modules"]);
+  const skipExt = new Set([".mp4", ".png", ".jpg", ".jpeg", ".mp3", ".wav", ".pdf", ".ico", ".icns", ".webp"]);
+  const secretFileRe = /(\.env(\..*)?$|\.pem$|credential|secret.*\.(json|txt)$|\.p12$|\.pfx$|\.key$)/i;
+  const stack = [repoRoot];
+  while (stack.length > 0) {
+    const dir = stack.pop();
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (entry.name.startsWith(".") && entry.isDirectory()) continue;
+      if (skipDirs.has(entry.name)) continue;
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        stack.push(full);
+        continue;
+      }
+      const rel = path.relative(repoRoot, full);
+      if (secretFileRe.test(entry.name)) {
+        failures.push(`secret-shaped file present in web repo: ${rel} (remove before ship)`);
+        continue;
+      }
+      if (skipExt.has(path.extname(entry.name).toLowerCase())) continue;
+      let text = "";
+      try {
+        text = fs.readFileSync(full, "utf8");
+      } catch {
+        continue;
+      }
+      if (text.includes("\0")) continue;
+      for (const re of secretRes) {
+        if (re.test(text)) failures.push(`possible secret (${re}) in ${rel} (public web surface)`);
+      }
+    }
+  }
+}
+
 if (failures.length > 0) {
   reportFailures(failures);
   process.exit(1);
