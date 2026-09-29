@@ -10,7 +10,7 @@
     <link rel="icon" href="./icon.svg?v=118" />
     <link rel="apple-touch-icon" href="./icon-512.png?v=118" />
     <link rel="manifest" href="./manifest.webmanifest?v=118" />
-    <link rel="stylesheet" href="./style.css?v=32" />
+    <link rel="stylesheet" href="./style.css?v=33" />
   </head>
   <body>
     <main id="gameShell" aria-label="CRUX SACRA game">
@@ -26,6 +26,7 @@
         <p>Una aventura familiar de fe</p>
         <p class="title-credits">v1.1 · Character Roster Update · Created by Jesús B. · Ideas by Elías B. · AI Helpers: Codex, Image Generation, OpenCode, Muse Code — guided and approved by Jesús B.</p>
         <p id="loadStatus" class="load-status" aria-live="polite">Loading… / Cargando…</p>
+        <button id="loadRetryButton" type="button" hidden>Retry / Reintentar</button>
         <div id="worldSelect" class="select-panel" aria-label="Choose world">
           <h2>World / Mundo</h2>
           <div class="difficulty-grid">
@@ -76,15 +77,15 @@
           <div class="difficulty-grid">
             <button class="difficulty-choice selected" type="button" data-difficulty="easy">
               <span class="difficulty-icon" aria-hidden="true">👶</span>
-              <span>Baby / Easy</span>
+              <span>Easy / Fácil</span>
             </button>
             <button class="difficulty-choice" type="button" data-difficulty="regular">
               <span class="difficulty-icon" aria-hidden="true">🧒</span>
-              <span>Young / Regular</span>
+              <span>Regular / Normal</span>
             </button>
             <button class="difficulty-choice" type="button" data-difficulty="hard">
               <span class="difficulty-icon" aria-hidden="true">🏆</span>
-              <span>Expert / Hard</span>
+              <span>Hard / Difícil</span>
             </button>
           </div>
           <p id="difficultyRules" class="difficulty-rules" aria-live="polite"></p>
@@ -160,7 +161,7 @@
           </div>
         </div>
         <div class="title-actions">
-          <button id="startButton" type="button">Start / Iniciar</button>
+          <button id="startButton" type="button" disabled>Start / Iniciar</button>
           <button id="helpButton" class="secondary-action" type="button">Help / Ayuda</button>
           <a class="secondary-action guide-action" href="./guide.html">Player Guide / Guía</a>
           <button id="resetProgressButton" class="secondary-action" type="button">Reset Progress / Reiniciar Progreso</button>
@@ -296,12 +297,13 @@
         <div id="stick"><i></i></div>
         <div class="action-buttons">
           <button id="pauseButton" type="button" aria-label="Pause">Ⅱ</button>
+          <button id="quitButton" type="button" aria-label="Quit to select / Salir a elegir" hidden>✕</button>
           <button id="sprayButton" type="button" aria-label="Holy Water power">★</button>
           <button id="rosaryButton" type="button" aria-label="Rosary power">○</button>
           <button id="prayButton" type="button" aria-label="Crux Sacra prayer">✚</button>
         </div>
       </div>
     </main>
-    <script src="./game.js?v=119"></script>
+    <script src="./game.js?v=120"></script>
   </body>
 </html>

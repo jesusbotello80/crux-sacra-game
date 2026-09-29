@@ -658,9 +658,14 @@ button:focus-visible {
 
 .difficulty-rules {
   margin: 6px 2px 0;
-  font-size: 12px;
+  font-size: 15px;
   color: #f6dc75;
   text-align: center;
+}
+
+#startButton:disabled {
+  opacity: 0.55;
+  cursor: wait;
 }
 
 .load-status {
@@ -835,7 +840,8 @@ button:focus-visible {
 #prayButton,
 #sprayButton,
 #rosaryButton,
-#pauseButton {
+#pauseButton,
+#quitButton {
   pointer-events: auto;
   touch-action: none;
 }
@@ -871,7 +877,8 @@ button:focus-visible {
 #prayButton,
 #sprayButton,
 #rosaryButton,
-#pauseButton {
+#pauseButton,
+#quitButton {
   width: 86px;
   height: 86px;
   min-height: 86px;
@@ -897,7 +904,8 @@ button:focus-visible {
   background: #fff4a8;
 }
 
-#pauseButton {
+#pauseButton,
+#quitButton {
   width: 62px;
   height: 62px;
   min-height: 62px;
@@ -1064,7 +1072,8 @@ button:focus-visible {
     font-size: 27px;
   }
 
-  #pauseButton {
+  #pauseButton,
+  #quitButton {
     width: 48px;
     height: 48px;
     min-height: 48px;
@@ -1268,7 +1277,8 @@ button:focus-visible {
     font-size: 21px;
   }
 
-  #pauseButton {
+  #pauseButton,
+  #quitButton {
     width: 44px;
     height: 44px;
     min-height: 44px;

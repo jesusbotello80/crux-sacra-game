@@ -19,6 +19,8 @@
   const skipFinalButton = document.getElementById("skipFinalButton");
   const endScreen = document.getElementById("endScreen");
   const startButton = document.getElementById("startButton");
+  const loadRetryButton = document.getElementById("loadRetryButton");
+  const quitButton = document.getElementById("quitButton");
   const resetProgressButton = document.getElementById("resetProgressButton");
   const progressStatus = document.getElementById("progressStatus");
   const againButton = document.getElementById("againButton");
@@ -106,7 +108,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "119";
+  const ASSET_VERSION = "120";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -4708,7 +4710,8 @@
     ctx.fillText("Paused. Pausado.", W / 2, H / 2 - 24);
     ctx.font = "700 25px Arial, Helvetica, sans-serif";
     ctx.fillText("P to resume · Q to quit. Pulsa P para seguir · Q para salir.", W / 2, H / 2 + 42);
-    ctx.fillText("Tap ▶ to resume / Toca ▶ para seguir.", W / 2, H / 2 + 78);
+    ctx.fillText("Tap ▶ below to resume · Toca ▶ abajo para seguir.", W / 2, H / 2 + 78);
+    ctx.fillText("Tap ✕ to quit · Toca ✕ para salir.", W / 2, H / 2 + 114);
     ctx.restore();
   }
 
@@ -4722,6 +4725,7 @@
       touchMove.active = false;
       stickKnob.style.transform = "translate(0, 0)";
       pauseButton.textContent = "▶";
+      if (quitButton) quitButton.hidden = false;
       announceStatus("Paused / Pausado");
       return;
     }
@@ -4729,6 +4733,7 @@
       game.mode = "playing";
       game.last = performance.now();
       pauseButton.textContent = "Ⅱ";
+      if (quitButton) quitButton.hidden = true;
       announceStatus("Resumed / Continúa");
     }
   }
@@ -4738,6 +4743,7 @@
     keys.clear();
     showCharacterSelect();
     pauseButton.textContent = "Ⅱ";
+    if (quitButton) quitButton.hidden = true;
   }
 
   function currentVillain() {
@@ -5109,6 +5115,12 @@
   startButton.addEventListener("click", () => {
     playIntroSequence(true);
   });
+  if (quitButton) quitButton.addEventListener("click", () => {
+    quitToSelection();
+  });
+  if (loadRetryButton) loadRetryButton.addEventListener("click", () => {
+    window.location.reload();
+  });
   if (resetProgressButton) resetProgressButton.addEventListener("click", resetSavedProgress);
   function showHelp() {
     helpScreen.classList.remove("hidden");
@@ -5376,6 +5388,7 @@
   loadImages()
     .then(() => {
       if (loadStatus) loadStatus.hidden = true;
+      if (startButton) startButton.disabled = false;
       refreshCharacterChoicePortraits();
       draw();
       requestAnimationFrame((now) => {
@@ -5389,5 +5402,6 @@
         target.hidden = false;
         target.textContent = `${error.message} / No se pudo cargar el juego. Revisa tu conexión y recarga.`;
       }
+      if (loadRetryButton) loadRetryButton.hidden = false;
     });
 })();

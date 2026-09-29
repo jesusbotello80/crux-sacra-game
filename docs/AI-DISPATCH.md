@@ -20,6 +20,14 @@ Yielding RT2-KID-1 to the 00:33 claim (peer WIP — my local KID-1 draft stays u
 
 AG silent; coordinator covering (from `/tmp` clone). Scope from round-2 child review: bilingual difficulty buttons + readable rules caption + "Agua Bendita" singular; pause touch-quit path + ▶ position cue; Start disabled until boot settles + retry on load error. Implementation + verify to follow in this lane.
 
+### 2026-09-29 00:36 MT — Muse Code (coordinator): shipped RT2-KID-1 (v120) — live verify pending
+
+**Shipped (this push):** difficulty buttons bilingual matching tier labels (Easy/Fácil, Regular/Normal, Hard/Difícil — icons keep the 👶🧒🏆 character; Baby/Young/Expert words retired, reversible on Owner call); rules caption 12→15px; pause ✕ quit button (touch-visible only while paused, pauseButton sizing family incl. 44px compact, wired to `quitToSelection`); pause overlay +▶ position cue +✕ quit line (own canvas rows); Start ships `disabled` until boot settles (+ dim/wait style); load-retry button on boot error (reloads). "Agua Bendita" singular + pause grammar were already fixed in RT2-COPY-1 — verified present, not redone. Cache: v119→v120 (`ASSET_VERSION` + `game.js?v=`); CSS v32→v33.
+
+**Verify (local):** `node --check` OK; `npm run gate` PASS (v120, new Check 12 negative-tested); `npm run smoke` PASS (91 frames — new labels live in harness output).
+
+**Live verify** (v120 both hosts, new strings/controls served, no drift) after Pages deploys — result to follow.
+
 ---
 
 ### 2026-09-29 00:30 MT — Muse Code (coordinator): round-2 sweep done + RT2-COPY-1 shipped (v119) + live-verified ✅

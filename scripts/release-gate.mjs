@@ -30,6 +30,10 @@
  *    webmanifest icons carries ?v= (page navigations exempt); game.js never
  *    assigns a raw `ASSET + sources[` URL without ?v=${ASSET_VERSION}; the
  *    _headers immutable stanzas cover the versioned asset paths.
+ * 12. RT2-KID-1: difficulty buttons bilingual; rules caption 15px; pause
+ *    quit button (hidden until paused, wired to quitToSelection); Start
+ *    ships disabled until boot settles; load-retry path wired; pause
+ *    overlay carries the tap resume/quit lines.
  *
  * Exits 0 on PASS, 1 on FAIL.
  */
@@ -401,6 +405,43 @@ for (const entry of ["/", "/index.html", "/game/", "/game/index.html", "/game/gu
 for (const match of gameJs.matchAll(/["']([a-zA-Z0-9_./-]*video-intro[^"']*\.mp4[^"']*)["']/g)) {
   if (!match[1].includes("?v=")) {
     failures.push(`game/game.js video literal is unversioned: ${match[1]}`);
+  }
+}
+
+// Check 12: RT2-KID-1 child-UX contracts
+const difficultyButtons = [...indexHtml.matchAll(/<button[^>]*class="difficulty-choice[^"]*"[^>]*>([\s\S]*?)<\/button>/g)];
+if (difficultyButtons.length !== 3) {
+  failures.push(`expected 3 difficulty buttons, found ${difficultyButtons.length}`);
+}
+for (const button of difficultyButtons) {
+  const text = button[1].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  if (!text.includes("/")) {
+    failures.push(`difficulty button is not bilingual: ${text}`);
+  }
+}
+const rulesCss = styleCss.match(/\.difficulty-rules\s*\{[^}]*\}/s);
+if (!rulesCss || !/font-size:\s*1[5-9]px|font-size:\s*[2-9][0-9]px/.test(rulesCss[0])) {
+  failures.push(".difficulty-rules caption is below readable size (want >= 15px)");
+}
+if (!indexHtml.includes('id="quitButton"') || !/id="quitButton"[^>]*hidden/.test(indexHtml)) {
+  failures.push('game/index.html is missing the hidden-until-paused #quitButton');
+}
+for (const snippet of ["quitButton) quitButton.hidden = false", "quitButton) quitButton.hidden = true", "quitToSelection()"]) {
+  if (!gameJs.includes(snippet)) {
+    failures.push(`game/game.js is missing quit-flow wiring: ${snippet}`);
+  }
+}
+if (!/id="startButton"[^>]*disabled/.test(indexHtml)) {
+  failures.push("game/index.html #startButton must ship disabled until boot settles");
+}
+for (const snippet of ["startButton.disabled = false", "loadRetryButton", "location.reload()"]) {
+  if (!gameJs.includes(snippet)) {
+    failures.push(`game/game.js is missing boot-gating wiring: ${snippet}`);
+  }
+}
+for (const line of ["Toca ▶ abajo para seguir", "Toca ✕ para salir"]) {
+  if (!gameJs.includes(line)) {
+    failures.push(`game/game.js pause overlay is missing bilingual tap line: ${line}`);
   }
 }
 
