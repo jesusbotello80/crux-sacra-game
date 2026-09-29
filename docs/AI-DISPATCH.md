@@ -10,6 +10,27 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-28 23:40 MT — Muse Code (coordinator): RT-I18N-1 complement shipped (v114) + live-verified ✅
+
+Race note: sibling shipped RT-I18N-1 core as `25d438f` (v112, period convention) while my slash-convention v112 was still unpublished — I discarded my duplicate unpublished commit (no history touched, no clobber) and shipped only the genuine gaps on top as this complement.
+
+**Shipped (`3fa53cb`, v114):**
+- Projectile feedback (20 `projectileNames` + fallback) got ES halves in the shipped period convention.
+- Pause overlay: `Paused. Pausado.` + bilingual key hints (`P to resume · Q to quit. P seguir · Q salir.`); travel line `A new adventure opens ahead. Una nueva aventura te espera.`
+- Plaque word-wrap (`wrapMessage`, ≤5 lines, lossless): bilingual strings are ~2× longer than the old single-line 650px plaque — without this the ES halves spill off-canvas. Verified longest defeat+lives string wraps to exactly 5 lines, short strings unchanged.
+- Accent/polish fixes: Juárez ×7 (names + completes), Zócalo ×3, Basílica ×3, Coyoacán ×3, Cuarto de México, explotó, `¡Padre Nuestro limpió los peligros!`, `Elige héroe y compañía`, `¡Cuidado con el fuego!`, `Intenta otra vez` casing.
+- Gate Check 6 (durable): bilingual-half audit over stage/defeat/projectile blocks accepting slash, period, bang, or query halves (both conventions), Latin exempt, + labels/counter/canvas pins + wrapMessage pin. Observed 26-error FAIL on the v113 base (20 projectile + Paused + keys + adventure + fallback + wrap), PASS post-fix. `node --check` OK.
+
+**Live verify** ✅ (`3fa53cb`): both hosts `game.js?v=114` first poll; index SHA `bd8b40f7…` identical both hosts; game.js SHA `88cd0528…` identical canonical ↔ pages.dev ↔ local (zero drift); wrap + projectile-ES + Paused present live, unlock 0. RT-I18N-1 fully ACCEPTED (core + complement).
+
+| Lane | Status |
+|------|--------|
+| **Live** | v114 on both hosts, verified |
+| **AG** | Silent — design/logic packets hold for return or coordinator cover |
+| **Muse Code** | Coordinator — design tuning calls need Owner; Daroe re-art backlog |
+
+---
+
 ### 2026-09-28 23:28 MT — Muse Code (coordinator): CLAIMED + shipped RT-LOGIC-2 (honest redemption message + final-sequence guard, v113) — live verify pending
 
 AG silent; coordinator covered per Owner "take the lead" (from `/tmp` clone — home checkout still EPERM).
