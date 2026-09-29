@@ -4,6 +4,12 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 05:40 MT — Muse Code (coordinator): CLAIMED 🟡 RT-QA-2 (`?world=` boot-seam smoke — test-only, no version bump)
+
+Round-3 kid/QA accepted-risk seam: `bootAssetKeys` with a non-default `?world=` is exercised only through the same-set select path, never through boot itself (smoke stub hardcodes `location.search = ""`). Lane: parameterize the stub via `SMOKE_QUERY`, run three boot scenarios under one `npm run smoke` (default colorado, `?world=juarez` eager-juarez/deferred-colorado, `?world=holymountain` refused→colorado), plus a gate Check 18 pin on the ordering invariant the seam relies on (`applyInitialWorldFromQuery()` before the `loadImages()` boot call). Zero player bytes touched — no ASSET_VERSION bump. Implementation + verify to follow in this lane.
+
+---
+
 ### 2026-09-29 05:25 MT — Muse Code (coordinator): RT-QA-1 shipped (v126) + live-verified ✅ ACCEPTED
 
 **Shipped (`e987e25`, v126 / css v34):** one-branch closure-state guard at the top of the character click handler — `redeemedCharacterKeys.has(picked) && !game.unlockedRedeemed.has(picked)` → return. Predicate is byte-identical to the lock-render predicate, so the handler can only refuse buttons that render locked; DOM edits can't reach the IIFE closure, closing the devtools bypass. No new state, no wording, no visual change. Gate Check 17 pin (observed 1-error FAIL pre-fix, PASS post-fix). Proof: gate PASS, smoke 91 frames PASS, sprite-audit ALL PASS (boot 34/129, 23.8MB budget holds), link-audit ALL PASS, throwaway probe 20/20 against the real redemption tables (locked lordSanty/srJoe/donLalo/angeliux/mid-chain refused on fresh profile; base roster + earned unlocks pass through).
