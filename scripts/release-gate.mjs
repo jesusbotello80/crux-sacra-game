@@ -383,6 +383,23 @@ for (const assetPath of ["/character-sprites/*", "/video-demo/*", "/video-intro/
     break;
   }
 }
+// Pages MERGES all matching _headers rules: a /* no-store catch-all would
+// concatenate with (and defeat) the immutable stanzas. Forbid it.
+if (/^\s*\/\*\s*$/m.test(headersFile)) {
+  failures.push("_headers must not contain a /* catch-all (it merges with immutable stanzas)");
+}
+for (const entry of ["/", "/index.html", "/game/", "/game/index.html", "/game/guide.html", "/game/game.js", "/game/style.css", "/game/manifest.webmanifest", "/game/icon-512.png", "/game/icon.svg"]) {
+  if (!headersFile.includes(entry)) {
+    failures.push(`_headers is missing an enumerated no-store rule for ${entry}`);
+  }
+}
+// Every video-intro literal referenced by game.js must carry its own ?v=
+// (frozen URL = frozen bytes under immutable; bump the number on re-render).
+for (const match of gameJs.matchAll(/["']([a-zA-Z0-9_./-]*video-intro[^"']*\.mp4[^"']*)["']/g)) {
+  if (!match[1].includes("?v=")) {
+    failures.push(`game/game.js video literal is unversioned: ${match[1]}`);
+  }
+}
 
 if (failures.length > 0) {
   reportFailures(failures);

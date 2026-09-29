@@ -1,20 +1,13 @@
-# Cache policy (RT-PERF-2): HTML/JS/CSS entry points stay no-store so version
+# Cache policy (RT-PERF-2): Cloudflare Pages MERGES every matching _headers
+# rule, so there is intentionally NO /* catch-all here — a catch-all no-store
+# would concatenate with (and defeat) the immutable stanzas below.
+# Entry points (HTML/JS/CSS/manifest/icons) are enumerated no-store so version
 # bumps propagate instantly. Fingerprinted asset bytes (?v= on EVERY ref,
 # enforced by gate Check 11) are immutable for a year. If you change an asset
 # file's bytes, you MUST bump its ?v= or clients will keep the old bytes.
-# Specific rules first (first match wins on Cloudflare Pages).
+# If you add a new HTML/JS entry point, add it to the no-store list.
 /game/assets/*
   Cache-Control: public, max-age=31536000, immutable
-
-/game/*
-  Cache-Control: no-cache, no-store, must-revalidate
-  Pragma: no-cache
-  Expires: 0
-
-/*
-  Cache-Control: no-cache, no-store, must-revalidate
-  Pragma: no-cache
-  Expires: 0
 
 /video-demo/*
   Cache-Control: public, max-age=31536000, immutable
@@ -27,3 +20,53 @@
 
 /audio/*
   Cache-Control: public, max-age=31536000, immutable
+
+/
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+/index.html
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+/game/
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+/game/index.html
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+/game/guide.html
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+/game/game.js
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+/game/style.css
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+/game/manifest.webmanifest
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+/game/icon-512.png
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+/game/icon.svg
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0

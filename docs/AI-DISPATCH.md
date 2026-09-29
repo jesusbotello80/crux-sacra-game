@@ -53,6 +53,16 @@ AG silent; coordinator covered per Owner "take the lead" (from `/tmp` clone — 
 
 ---
 
+### 2026-09-29 00:13 MT — Muse Code (coordinator): RT-PERF-2 follow-up — Pages merges rules, enumerated no-store (no version bump)
+
+Live check of `7bf0625` caught a real defect before it mattered: served assets came back `no-cache, no-store, ..., public, max-age=31536000, immutable` — Cloudflare Pages **merges** every matching `_headers` rule, so the `/*` no-store catch-all concatenated with (and, per RFC, defeated) the immutable stanzas. No user harm (fail-safe direction), but zero perf gain.
+
+**Shipped (this push, no JS/CSS change → stays v118):** `_headers` rewritten with NO catch-all — immutable year on the 5 asset paths + enumerated no-store on the 10 entry points (`/`, `/index.html`, `/game/`, `index/guide/game.js/style.css/manifest/icons`). Gate Check 11 extended: forbids a `/*` catch-all (negative-tested), pins the 10 enumerated rules, pins `?v=` on every game.js video literal. `npm run gate` PASS.
+
+**Live verify** (exact header values both hosts) after Pages deploys — result to follow; RT-PERF-2 ACCEPTED only on exact-match headers.
+
+---
+
 ### 2026-09-29 00:08 MT — Muse Code (coordinator): headless gameplay smoke harness shipped (`bbf52c0`)
 
 Overnight QA tooling, no player-facing change. New `tools/load-smoke.mjs` (`npm run smoke`): boots the real `game.js` against a faithful DOM stub (ids + button datasets parsed from the real `index.html`), clicks difficulty/world/character/start/skip/pause/help, and runs 91 live gameplay frames. **SMOKE PASS**: boot clean, `loadStatus` hides, rules caption + `aria-pressed` sync live, stage starts (`Juárez 1 · Hard`), `srStatus` announces, zero exceptions. Negative-tested (broken `difficultyRules` ref → SMOKE FAIL, PASS on restore). Also added `npm run audit:sprites` / `audit:links` shortcuts for the earlier tools.
