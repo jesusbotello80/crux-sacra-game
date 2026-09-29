@@ -106,7 +106,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "117";
+  const ASSET_VERSION = "118";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -1974,12 +1974,12 @@
   function characterPreviewSrc(def, frameIndex = 0) {
     if (!def) return "";
     if (!def.animated || !def.sheet || !images[def.sheet]) {
-      return ASSET + sources[def.front];
+      return `${ASSET}${sources[def.front]}?v=${ASSET_VERSION}`;
     }
     const cycle = frames[def.animated];
     const preferredFrame = def.previewFrame ?? frameIndex;
     const frame = cycle && cycle.length ? cycle[Math.min(preferredFrame, cycle.length - 1)] : null;
-    if (!frame) return ASSET + sources[def.front];
+    if (!frame) return `${ASSET}${sources[def.front]}?v=${ASSET_VERSION}`;
 
     const img = images[def.sheet];
     const [sx, sy, sw, sh] = frame;
@@ -4760,7 +4760,7 @@
     if (item.jesus) card.classList.add("jesus-card");
     const img = document.createElement("img");
     img.alt = "";
-    img.src = ASSET + sources[characterDefs[item.key]?.front || item.key];
+    img.src = `${ASSET}${sources[characterDefs[item.key]?.front || item.key]}?v=${ASSET_VERSION}`;
     card.append(img);
     const span = document.createElement("span");
     span.textContent = item.label;
@@ -5133,7 +5133,7 @@
     initAudio();
     resumeAudio();
     const introVideoByWorld = {
-      colorado: "../video-intro/crux-sacra-game-intro-sora-audio-2-clean-fill.mp4",
+      colorado: "../video-intro/crux-sacra-game-intro-sora-audio-2-clean-fill.mp4?v=1",
       juarez: "../video-intro/world2/crux-sacra-juarez-intro-placeholder.mp4?v=2",
       useast: "../video-intro/world3/crux-sacra-us-east-intro-humanoid-swamp-shadow.mp4?v=1",
       elpaso: "../video-intro/world4/crux-sacra-el-paso-intro-placeholder.mp4?v=7",

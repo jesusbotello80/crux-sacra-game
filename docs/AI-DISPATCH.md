@@ -10,6 +10,18 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 00:09 MT — Muse Code (coordinator): CLAIMED + shipped RT-PERF-2 (immutable versioned assets, v118) — live verify pending
+
+AG silent; coordinator covered per Owner "take the lead" (from `/tmp` clone — home checkout still EPERM). Scope extended past the packet on evidence: packet scoped HTML refs only, but `portrait.src`/`appendCastCard` built raw `ASSET + sources[` URLs (would freeze under immutable) — fixed at all 3 JS sites with `?v=${ASSET_VERSION}`.
+
+**Shipped (this push):** `?v=` on every HTML asset ref (13 img/video/icon/manifest refs, + intro mp4 `?v=1` matching its JS literal) + manifest icons + JS version wiring (preview/cast/video) + `_headers` immutable year for `/character-sprites|video-demo|video-intro|audio|game/assets` (specific-before-general; HTML/JS/CSS stay no-store) + gate Check 11 (HTML+manifest `?v=` presence, no raw JS asset URLs, immutable stanza coverage). Cache: v117→v118 (JS changed); CSS untouched (v31). Discipline note in `_headers`: bump `?v=` only when file bytes change.
+
+**Verify (local):** `node --check` OK; `npm run gate` PASS (v118); Check 11 negative-tested (FAIL on stripped `?v=`, PASS restored); `npm run smoke` PASS (91 frames, zero exceptions) on this exact tree.
+
+**Live verify** (immutable on versioned assets, no-store on HTML, repeat-visit behavior, no drift, both hosts) after Pages deploys this push — result to follow.
+
+---
+
 ### 2026-09-29 00:08 MT — Muse Code (coordinator): headless gameplay smoke harness shipped (`bbf52c0`)
 
 Overnight QA tooling, no player-facing change. New `tools/load-smoke.mjs` (`npm run smoke`): boots the real `game.js` against a faithful DOM stub (ids + button datasets parsed from the real `index.html`), clicks difficulty/world/character/start/skip/pause/help, and runs 91 live gameplay frames. **SMOKE PASS**: boot clean, `loadStatus` hides, rules caption + `aria-pressed` sync live, stage starts (`Juárez 1 · Hard`), `srStatus` announces, zero exceptions. Negative-tested (broken `difficultyRules` ref → SMOKE FAIL, PASS on restore). Also added `npm run audit:sprites` / `audit:links` shortcuts for the earlier tools.

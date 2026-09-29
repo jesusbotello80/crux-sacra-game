@@ -26,6 +26,10 @@
  *    referenced by game.js exists on disk. (Full report: tools/link-audit.)
  * 10. Load feedback: title screen shows a bilingual #loadStatus line while
  *    the 129 boot images load, updated with counts and hidden on success.
+ * 11. RT-PERF-2: every local asset ref in the HTML entry points and the
+ *    webmanifest icons carries ?v= (page navigations exempt); game.js never
+ *    assigns a raw `ASSET + sources[` URL without ?v=${ASSET_VERSION}; the
+ *    _headers immutable stanzas cover the versioned asset paths.
  *
  * Exits 0 on PASS, 1 on FAIL.
  */
@@ -330,6 +334,49 @@ if (!indexHtml.includes('id="loadStatus"')) {
 }
 if (!gameJs.includes("loadStatus")) {
   failures.push("game/game.js does not update #loadStatus during boot");
+}
+
+// Check 11: versioned asset refs + immutable header coverage (RT-PERF-2)
+const htmlEntryPoints = [
+  ["index.html", path.join(repoRoot, "index.html")],
+  ["game/index.html", indexHtmlPath],
+  ["game/guide.html", path.join(repoRoot, "game", "guide.html")],
+];
+const isPageNavigation = (ref) =>
+  ref === "./" || ref === "./game/" || ref === "guide.html" ||
+  ref.startsWith("#") || ref.startsWith("http") || ref.startsWith("data:") ||
+  /\.html?$/.test(ref.split("?")[0]);
+for (const [name, filePath] of htmlEntryPoints) {
+  const html = fs.readFileSync(filePath, "utf8");
+  const refs = [...html.matchAll(/(?:src|href|poster)="([^"]+)"/g)].map((m) => m[1]);
+  for (const ref of refs) {
+    if (isPageNavigation(ref)) continue;
+    if (!ref.includes("?v=")) {
+      failures.push(`${name} has an unversioned asset ref: ${ref}`);
+    }
+  }
+}
+try {
+  const manifest = JSON.parse(fs.readFileSync(path.join(repoRoot, "game", "manifest.webmanifest"), "utf8"));
+  for (const icon of manifest.icons || []) {
+    if (!String(icon.src || "").includes("?v=")) {
+      failures.push(`game/manifest.webmanifest icon is unversioned: ${icon.src}`);
+    }
+  }
+} catch (err) {
+  failures.push(`game/manifest.webmanifest is unreadable: ${err.message}`);
+}
+for (const line of gameJs.split("\n")) {
+  if (line.includes("ASSET + sources[") && !line.includes("ASSET_VERSION")) {
+    failures.push(`game/game.js assigns a raw ASSET + sources[] URL without ?v=: ${line.trim().slice(0, 80)}`);
+  }
+}
+const headersFile = fs.readFileSync(path.join(repoRoot, "_headers"), "utf8");
+for (const assetPath of ["/character-sprites/*", "/video-demo/*", "/video-intro/*", "/audio/*", "/game/assets/*"]) {
+  if (!headersFile.includes(assetPath) || !headersFile.includes("immutable")) {
+    failures.push(`_headers is missing immutable coverage for ${assetPath}`);
+    break;
+  }
 }
 
 if (failures.length > 0) {
