@@ -16,6 +16,12 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 03:55 MT — Muse Code (coordinator): CLAIMED 🟡 RT-PERF-1 (lazy loading: boot ~141MB → ~15MB)
+
+Scoped design: boot loads fronts (portraits) + UI + selected-world set only; per-world stage-bgs/villain/projectiles load on `selectWorld`/travel; hero/companion sheets load at START (intro video covers the window); draw guards for not-yet-loaded keys; `loadStatus` progress reused. Measured: sources total 141MB, stage-bgs alone 83.5MB (59%). Ships ONLY fully green (gate + sprite-audit + smoke with world-switch asserts + live verify) else parks on-branch per the packet's no-blind-ship rule. Round-3 kid/QA notes: HUD bilingual chips + break reminder queued as Owner design calls (compact-HUD width + new surface); travel line already bilingual; donLalo 2-frame verified good. Implementation + verify to follow in this lane (v125 if green).
+
+---
+
 ### 2026-09-29 03:35 MT — Muse Code (coordinator): RT3-ART-2 shipped (v124) + live-verified ✅ ACCEPTED
 
 **Shipped (`df0df49`, v124 / css v34, code-only, zero PNG bytes touched):** dropped 8 eyeball-confirmed bad frames — near-dup pairs nana[1], nene[1], tan[1], zuil[2], fatherV[6], fatherM[5] (each caused a 250ms walk stutter); lordSanty[7] loop-seam dup; michael[1] missing-shield frame (shield blinked every 3rd frame). All drops keep index 0 (idle/preview untouched); all 8 cycles single-owner. Untouched after eyeball: angeliux/donMaro/donaCarmelina/abba (0.036+ = real motion) + donMaro seam. Re-screen post-fix: zero pairs below threshold. Gate Check 8 extended with 8 frame-count pins (observed 8-error FAIL pre-fix, PASS post-fix). Sprite-audit ALL PASS, smoke 91 frames PASS.
