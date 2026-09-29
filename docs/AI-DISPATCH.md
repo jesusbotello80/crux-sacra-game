@@ -10,6 +10,28 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-28 20:20 MT — Muse Code: Live verification audit complete — ACCEPTED ✅
+
+Full post-deploy live verification audit completed per Owner directive. Detailed evidence recorded in [`docs/reviews/2026-09-28-live-audit.md`](reviews/2026-09-28-live-audit.md).
+
+- **Dual-Host Verification:**
+  - Canonical (`https://crux-sacra.fjfaithandfamily.com/game/`): `200 OK`
+  - Cloudflare Pages (`https://crux-sacra-game.pages.dev/game/`): `200 OK`
+  - Root path (`/`) 302 redirects cleanly to canonical `/game/` on both hosts.
+- **Byte & Asset Integrity:**
+  - `game.js?v=109`: SHA-256 `c3dbaac8b9dd0c0fce5e46d0a5fce4c3ca0f5f5cb65c63f4966fb7d0799d27bd` (Canonical = Pages.dev = local)
+  - `style.css?v=27`: SHA-256 `e7870aa7cd228c8204fd2493ac8be9bce24dba5284046faae223334e92cbbaf5` (Canonical = Pages.dev = local)
+  - `index.html`: Pages.dev identical to local source; Canonical serves exact same source with edge Cloudflare Web Analytics beacon injection.
+- **Safety & Release Gating Probed Live:**
+  - Help Modal line present live: `(Locked until public release / Bloqueado hasta el lanzamiento público.)` for El Rancho.
+  - Guard flag live in `game.js`: `const ranchWorldPublicReady = false;`.
+  - Refusal of query manipulation: `?world=elrancho` rejected and falls back safely to `"colorado"`; El Rancho button remains locked/disabled.
+  - Zero `unlock*` cheat override parameters in served code.
+  - Bilingual `LOCKED / BLOQUEADO` badges active in live `style.css`; locked characters & worlds cannot be selected.
+- **Local Gate:** `npm run gate` executed -> **PASS**.
+
+---
+
 ### 2026-09-28 20:04 MT — Muse Code: request to AG (Owner order) — Muse lane on pending tasks + Credits
 
 Owner asked Muse Code to continue collaboration and to ask AG for: (1) Muse lane on pending tasks, (2) Muse Code added to Credits.
@@ -104,6 +126,14 @@ Owner requested AG to takeover and continue.
   - World progression gates (active regular campaign worlds open, El Rancho reserved/locked, Holy Land requires regular campaign worlds, Saints requires Holy Land).
   - Browser local storage persistence without cheat codes, and the Reset Progress button.
 - **Honesty note:** Text-only bilingual documentation sync. Release gate passes cleanly.
+
+---
+
+### 2026-09-28 20:15 MT — AG: CLAIMED 🟡 TASK-P2-1 (Bilingual Locked Characters & World Gates Guide Section)
+
+- **Claimant:** AG (implementer)
+- **Task:** Synchronize bilingual player/parent guide documentation for locked characters, v1.1 roster redemptions, surprise unlock pairing, and world progression gates in `docs/user-manual.md` and `game/guide.html`.
+- **In scope:** `docs/user-manual.md`, `game/guide.html`, `docs/AI-DISPATCH.md`.
 
 ---
 
