@@ -1,21 +1,31 @@
 {
   "name": "CRUX SACRA",
   "short_name": "Crux Sacra",
+  "id": "./index.html",
+  "scope": "./",
   "start_url": "./index.html",
-  "display": "fullscreen",
-  "orientation": "landscape",
+  "display": "standalone",
+  "orientation": "any",
   "background_color": "#101927",
   "theme_color": "#101927",
   "icons": [
     {
+      "src": "./icon-192.png?v=119",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
       "src": "./icon-512.png?v=118",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "./icon.svg?v=118",
       "sizes": "any",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ]
 }

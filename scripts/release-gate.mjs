@@ -34,6 +34,8 @@
  *    quit button (hidden until paused, wired to quitToSelection); Start
  *    ships disabled until boot settles; load-retry path wired; pause
  *    overlay carries the tap resume/quit lines.
+ * 13. RT2-A11Y-1: manifest orientation "any", display "standalone", a 192x192
+ *    icon, and purpose + ?v= on every icon.
  *
  * Exits 0 on PASS, 1 on FAIL.
  */
@@ -395,7 +397,7 @@ if (/^\s*\/\*\s*$/m.test(headersFile)) {
 if (/^\s*\/game\/\*\s*$/m.test(headersFile)) {
   failures.push("_headers must not contain a /game/* catch-all (it overlaps /game/assets/* immutable)");
 }
-for (const entry of ["/", "/index.html", "/game/", "/game/index.html", "/game/guide.html", "/game/game.js", "/game/style.css", "/game/manifest.webmanifest", "/game/icon-512.png", "/game/icon.svg"]) {
+for (const entry of ["/", "/index.html", "/game/", "/game/index.html", "/game/guide.html", "/game/game.js", "/game/style.css", "/game/manifest.webmanifest", "/game/icon-512.png", "/game/icon-192.png", "/game/icon.svg"]) {
   if (!headersFile.includes(entry)) {
     failures.push(`_headers is missing an enumerated no-store rule for ${entry}`);
   }
@@ -442,6 +444,30 @@ for (const snippet of ["startButton.disabled = false", "loadRetryButton", "locat
 for (const line of ["Toca ▶ abajo para seguir", "Toca ✕ para salir"]) {
   if (!gameJs.includes(line)) {
     failures.push(`game/game.js pause overlay is missing bilingual tap line: ${line}`);
+  }
+}
+
+// Check 13: RT2-A11Y-1 installable PWA baseline (orientation/display/icons)
+{
+  const manifestPath = path.join(repoRoot, "game", "manifest.webmanifest");
+  if (!fs.existsSync(manifestPath)) {
+    failures.push("game/manifest.webmanifest is missing");
+  } else {
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+    if (manifest.orientation !== "any") {
+      failures.push('manifest orientation must be "any" (landscape lock fails WCAG 1.3.4)');
+    }
+    if (manifest.display !== "standalone") {
+      failures.push('manifest display must be "standalone" (fullscreen hides a11y chrome)');
+    }
+    const sizes = (manifest.icons || []).map((icon) => icon.sizes);
+    if (!sizes.includes("192x192")) {
+      failures.push("manifest is missing a 192x192 icon");
+    }
+    for (const icon of manifest.icons || []) {
+      if (!icon.purpose) failures.push(`manifest icon ${icon.sizes} is missing purpose`);
+      if (!icon.src.includes("?v=")) failures.push(`manifest icon ${icon.sizes} is missing ?v=`);
+    }
   }
 }
 
