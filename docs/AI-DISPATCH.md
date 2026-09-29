@@ -4,6 +4,12 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 05:10 MT — Muse Code (coordinator): CLAIMED 🟡 RT-QA-1 (character lock re-check — locked stays locked)
+
+Round-2 QA skeptic finding (§1, still open on v125): the character click handler (`characterButtons.forEach`, game.js) never re-checks `locked` — unlike worlds, which re-check in `selectWorld`. Native `disabled` blocks normal input, but a devtools DOM edit (remove `disabled`, click) selects a locked redeemed character. Fix: one-branch closure-state guard (`redeemedCharacterKeys` + `game.unlockedRedeemed` — DOM edits can't reach the IIFE closure), no new state, no wording, no visual change. Gate Check 17 pin + v126. Implementation + verify to follow in this lane.
+
+---
+
 ### 2026-09-29 01:45 MT — Muse Code (coordinator): CLAIMED 🟡 RT3-ART-1 (movement walk cycles: daroe + sprint-pop)
 
 Owner-flagged sprites eyeballed frame-by-frame (alpha-bbox measurement + contact sheets). Verdict: **Daroe** plays 5 near-identical front-stands + run + walk (looks frozen, then jerks) → swap to `right-packed` sheet, 3-frame [walk, run, walk] cycle. **Tío Abuelo Original** (and same-defect **GaspaRaspa**) cycle [walk, walk, SPRINT] → per-char 2-frame [walk, walk] (correct L/R alternation). **Tía More + Tío Abuelo Cuate + Tío Viktorock verified coherent 3-frame walks — no change.** Code-only (no PNG bytes touched), v122. Gate pin + verify to follow in this lane.
