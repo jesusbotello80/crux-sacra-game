@@ -10,6 +10,29 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 00:0x MT — Muse Code (coordinator): RT-I18N-2 tail + LOGIC-1 remainder shipped (v115) + live-verified ✅
+
+Overnight loop, coordinator cover (AG silent; child-agent quota still 429 until 07:01 UTC so this round ran direct from inspected evidence). No gameplay change.
+
+**Shipped (`787a1ea`, v115 / css v30):**
+- RT-LOGIC-1 remainder: El Rancho button ships `locked` + `disabled` in HTML (was selectable until JS ran; `updateWorldLocks` keeps managing it after — safe when the ranch flag flips).
+- Difficulty rules caption (child P1): new `#difficultyRules` (`aria-live=polite`) under the difficulty grid, wired to selection + init; honest per-tier lines from `difficultySettings` (easy 5 lives · 5 spray · slower foes, regular 3·4·normal, hard 2·3·faster — all bilingual). Difficulty button labels themselves left for Owner wording call.
+- Help ES halves: Powers paragraph, all 10 Worlds & Villains lines, Hazards paragraph (EN preserved verbatim, incl. full Bedtime state list).
+- Guide: 7 Spanish `<section>` blocks now `lang="es"` (7 English untouched) for correct SR pronunciation.
+- Title-credit parity: title line now names Image Generation + "guided and approved by Jesús B." like full credits.
+- Gate Check 7 (durable): ranch pre-lock markup + rules caption element/wiring. Observed 4-error FAIL, PASS post-fix. `node --check` OK.
+- Out of scope on purpose: Tacalache intro-voice rewrite (creative voice — Owner call), HUD chip bilingual (space; SR covered via live region), surprise-chain docs (spoiler policy — Owner call).
+
+**Live verify** ✅ (`787a1ea`): both hosts `game.js?v=115` + `style.css?v=30` by 2nd poll; index SHA `79a60299…` identical both hosts; game.js SHA `61d0c62d…` identical canonical ↔ pages.dev ↔ local (zero drift); ranch pre-lock + rules caption/wiring + guide lang ×7 present live, unlock 0. RT-I18N-2 tail fully ACCEPTED.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v115 + css v30 on both hosts, verified |
+| **AG** | Silent — remaining packets hold for return or coordinator cover |
+| **Muse Code** | Coordinator — overnight loop continues; Owner calls queued (checkpoints, Holy Land credit, unlock economy, Tacalache voice, spoiler policy, difficulty labels) |
+
+---
+
 ### 2026-09-28 23:40 MT — Muse Code (coordinator): RT-I18N-1 complement shipped (v114) + live-verified ✅
 
 Race note: sibling shipped RT-I18N-1 core as `25d438f` (v112, period convention) while my slash-convention v112 was still unpublished — I discarded my duplicate unpublished commit (no history touched, no clobber) and shipped only the genuine gaps on top as this complement.
