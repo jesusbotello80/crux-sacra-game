@@ -30,6 +30,7 @@
   const livesText = document.getElementById("livesText");
   const sprayText = document.getElementById("sprayText");
   const rosaryText = document.getElementById("rosaryText");
+  const srStatus = document.getElementById("srStatus");
   const characterButtons = Array.from(document.querySelectorAll(".character-choice"));
   const difficultyButtons = Array.from(document.querySelectorAll(".difficulty-choice"));
   const worldButtons = Array.from(document.querySelectorAll(".world-choice"));
@@ -105,7 +106,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "110";
+  const ASSET_VERSION = "111";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -2000,6 +2001,7 @@
         button.classList.remove("selected");
       }
     }
+    syncSelectPressed();
   }
 
   function hydrateUnlockedRedeemed() {
@@ -2103,6 +2105,7 @@
             ? "Locked until El Rancho is ready / Bloqueado hasta que El Rancho este listo"
           : "";
     }
+    syncSelectPressed();
   }
 
   function selectWorld(worldKey) {
@@ -2369,7 +2372,10 @@
     game.nextLightningAt = game.time + nextLightningDelay(stage, difficulty, ramp, true);
     seedFires(Math.max(1, (stage.boss ? 4 : 2 + index) + difficulty.fireBonus));
     levelName.textContent = `${stage.name} · ${difficulty.label}`;
+    announcedHud.collected = game.collected;
+    announcedHud.lives = game.lives;
     updateHud();
+    announceStatus(`${stage.name} · ${difficulty.label}. Collect ${game.crosses.length} Crux Sacra / Junta ${game.crosses.length} Crux Sacras.`);
     startMusic(index);
   }
 
@@ -2624,6 +2630,7 @@
     }
     endScreen.classList.remove("hidden");
     againButton.focus();
+    announceStatus(`${endTitle.textContent}. ${endCopy.textContent}`);
   }
 
   function finishAfter(win, delay, reason = "tacalache") {
@@ -2737,12 +2744,39 @@
     return { x, y, got: false, phase: Math.random() * Math.PI * 2 };
   }
 
+  // Screen-reader announcements (RT-A11Y-2): polite, bilingual, only on change.
+  const announcedHud = { collected: -1, lives: -1 };
+  function announceStatus(message) {
+    if (!srStatus || !message) return;
+    srStatus.textContent = "";
+    window.setTimeout(() => {
+      srStatus.textContent = message;
+    }, 30);
+  }
+
+  function syncSelectPressed() {
+    for (const button of worldButtons) {
+      button.setAttribute("aria-pressed", button.classList.contains("selected") ? "true" : "false");
+    }
+    for (const button of difficultyButtons) {
+      button.setAttribute("aria-pressed", button.classList.contains("selected") ? "true" : "false");
+    }
+    for (const button of characterButtons) {
+      button.setAttribute("aria-pressed", button.classList.contains("selected") ? "true" : "false");
+    }
+  }
+
   function updateHud() {
     lightFill.style.width = `${game.lux}%`;
     scoreText.textContent = `Crux ${game.collected} / ${game.crosses.length}`;
     livesText.textContent = `Lives ${game.lives}`;
     sprayText.textContent = `Holy Water ${game.sprayAmmo}`;
     rosaryText.textContent = `Rosary ${game.rosaryAmmo}`;
+    if (game.mode === "playing" && (game.collected !== announcedHud.collected || game.lives !== announcedHud.lives)) {
+      announcedHud.collected = game.collected;
+      announcedHud.lives = game.lives;
+      announceStatus(`Crux ${game.collected} of ${game.crosses.length}. Lives ${game.lives}. / Crux ${game.collected} de ${game.crosses.length}. Vidas ${game.lives}.`);
+    }
   }
 
   function pray() {
@@ -4647,12 +4681,14 @@
       touchMove.active = false;
       stickKnob.style.transform = "translate(0, 0)";
       pauseButton.textContent = "▶";
+      announceStatus("Paused / Pausado");
       return;
     }
     if (game.mode === "paused") {
       game.mode = "playing";
       game.last = performance.now();
       pauseButton.textContent = "Ⅱ";
+      announceStatus("Resumed / Continúa");
     }
   }
 
@@ -4994,6 +5030,7 @@
           choice.classList.toggle("selected", choice === button);
         }
       }
+      syncSelectPressed();
     });
   });
 
@@ -5003,6 +5040,7 @@
       for (const choice of difficultyButtons) {
         choice.classList.toggle("selected", choice === button);
       }
+      syncSelectPressed();
     });
   });
 

@@ -20,6 +20,20 @@ body {
   user-select: none;
 }
 
+/* Visually hidden but AT-readable (live-region announcements). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Reading surfaces stay selectable (a11y); game shell keeps none. */
 #helpScreen,
 #helpScreen p,
@@ -946,7 +960,7 @@ button:focus-visible {
   }
 
   .difficulty-choice {
-    min-height: 38px;
+    min-height: 44px;
     padding: 0 6px;
     font-size: 12px;
   }
@@ -1096,13 +1110,13 @@ button:focus-visible {
   }
 
   .character-choice {
-    min-height: 34px;
+    min-height: 44px;
     gap: 4px;
     font-size: 10px;
   }
 
   .difficulty-choice {
-    min-height: 32px;
+    min-height: 44px;
     font-size: 11px;
   }
 
@@ -1128,7 +1142,7 @@ button:focus-visible {
   #skipFinalButton,
   #creditsContinueButton,
   #helpCloseButton {
-    min-height: 34px;
+    min-height: 44px;
     padding-inline: 14px;
     font-size: 12px;
   }
@@ -1232,16 +1246,16 @@ button:focus-visible {
   #prayButton,
   #sprayButton,
   #rosaryButton {
-    width: 42px;
-    height: 42px;
-    min-height: 42px;
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
     font-size: 21px;
   }
 
   #pauseButton {
-    width: 36px;
-    height: 36px;
-    min-height: 36px;
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
     font-size: 18px;
   }
 }

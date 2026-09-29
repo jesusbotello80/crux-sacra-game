@@ -8,6 +8,9 @@
  * 2. game/game.js contains ranchWorldPublicReady
  * 3. game/game.js does not contain unlockFinal / unlockBonus / unlockRanch query override helpers
  * 4. game/style.css contains LOCKED / BLOQUEADO
+ * 5. RT-A11Y-2: overlays expose role=dialog; #srStatus live region exists and
+ *    is wired in game.js; select buttons sync aria-pressed; compact button
+ *    targets are >= 44px (HUD readout chips excluded).
  *
  * Exits 0 on PASS, 1 on FAIL.
  */
@@ -85,6 +88,50 @@ for (const token of forbiddenCheatTokens) {
 // Check 4: Bilingual LOCKED / BLOQUEADO badge
 if (!styleCss.includes("LOCKED / BLOQUEADO")) {
   failures.push("game/style.css does not contain bilingual badge text 'LOCKED / BLOQUEADO'");
+}
+
+// Check 5: RT-A11Y-2 dialog roles + live region + pressed semantics + 44px targets
+const overlayIds = ["titleScreen", "helpScreen", "introScreen", "finalScreen", "creditsScreen", "endScreen"];
+for (const id of overlayIds) {
+  const tagMatch = indexHtml.match(new RegExp(`<section[^>]*id="${id}"[^>]*>`, "s"));
+  if (!tagMatch) {
+    failures.push(`game/index.html is missing overlay section '#${id}'`);
+  } else if (!tagMatch[0].includes('role="dialog"')) {
+    failures.push(`game/index.html overlay '#${id}' does not expose role="dialog"`);
+  }
+}
+
+const srStatusMatch = indexHtml.match(/<[^>]*id="srStatus"[^>]*>/s);
+if (!srStatusMatch) {
+  failures.push('game/index.html is missing the #srStatus live-region element');
+} else {
+  if (!srStatusMatch[0].includes('aria-live="polite"')) {
+    failures.push('game/index.html #srStatus does not set aria-live="polite"');
+  }
+  if (!srStatusMatch[0].includes('role="status"')) {
+    failures.push('game/index.html #srStatus does not set role="status"');
+  }
+}
+if (!styleCss.includes(".sr-only")) {
+  failures.push("game/style.css is missing the .sr-only visually-hidden helper");
+}
+if (!gameJs.includes("srStatus")) {
+  failures.push("game/game.js does not wire announcements to #srStatus");
+}
+if (!gameJs.includes("aria-pressed")) {
+  failures.push("game/game.js does not sync aria-pressed on select buttons");
+}
+if (!indexHtml.includes('tabindex="-1"')) {
+  failures.push('game/index.html canvas is missing tabindex="-1" for overlay focus management');
+}
+// Compact button targets must be >= 44px. These exact sub-44px values were the
+// old button heights in the two compact media queries; HUD readout chips use
+// 30px/25px and are display-only, so they stay allowed.
+const retiredCompactHeights = ["min-height: 38px", "min-height: 34px", "min-height: 32px", "min-height: 42px", "min-height: 36px"];
+for (const retired of retiredCompactHeights) {
+  if (styleCss.includes(retired)) {
+    failures.push(`game/style.css still contains sub-44px compact button target '${retired}'`);
+  }
 }
 
 if (failures.length > 0) {

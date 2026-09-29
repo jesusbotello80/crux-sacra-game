@@ -10,17 +10,18 @@
     <link rel="icon" href="./icon.svg" />
     <link rel="apple-touch-icon" href="./icon-512.png" />
     <link rel="manifest" href="./manifest.webmanifest" />
-    <link rel="stylesheet" href="./style.css?v=28" />
+    <link rel="stylesheet" href="./style.css?v=29" />
   </head>
   <body>
     <main id="gameShell" aria-label="CRUX SACRA game">
-      <canvas id="game" width="1280" height="720"></canvas>
-      <section id="titleScreen" class="overlay">
+      <canvas id="game" width="1280" height="720" tabindex="-1" aria-label="CRUX SACRA playfield"></canvas>
+      <p id="srStatus" class="sr-only" role="status" aria-live="polite"></p>
+      <section id="titleScreen" class="overlay" role="dialog" aria-modal="true" aria-labelledby="titleHeading">
         <div class="brand-lockup" aria-label="FJ Botello Faith and Family">
           <img src="./assets/brand/fj-botello-faith-family-logo.png" alt="FJ Botello Faith and Family" />
         </div>
         <div class="title-mark">✚</div>
-        <h1>CRUX SACRA</h1>
+        <h1 id="titleHeading">CRUX SACRA</h1>
         <p>A Family Adventure of Faith</p>
         <p>Una aventura familiar de fe</p>
         <p class="title-credits">v1.1 · Character Roster Update · Created by Jesús B. · Ideas by Elías B. · AI Helpers: Codex, OpenCode, Muse Code</p>
@@ -164,12 +165,12 @@
         </div>
         <p id="progressStatus" class="progress-status" aria-live="polite"></p>
       </section>
-      <section id="helpScreen" class="overlay hidden" aria-label="CRUX SACRA help">
+      <section id="helpScreen" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="helpHeading">
         <div class="brand-lockup brand-lockup-small" aria-label="FJ Botello Faith and Family">
           <img src="./assets/brand/fj-botello-faith-family-logo.png" alt="FJ Botello Faith and Family" />
         </div>
         <div class="title-mark">✚</div>
-        <h2>Help / Ayuda</h2>
+        <h2 id="helpHeading">Help / Ayuda</h2>
         <div class="help-card">
           <section>
             <h3>Goal / Objetivo</h3>
@@ -234,14 +235,14 @@
         </div>
         <button id="helpCloseButton" type="button">Back / Regresar</button>
       </section>
-      <section id="introScreen" class="video-overlay hidden" aria-label="CRUX SACRA introduction">
+      <section id="introScreen" class="video-overlay hidden" role="dialog" aria-modal="true" aria-label="CRUX SACRA introduction">
         <div class="video-frame">
           <video id="introVideo" playsinline controls preload="metadata" src="../video-intro/crux-sacra-game-intro-sora-audio-2-clean-fill.mp4"></video>
           <div id="introCast" class="intro-cast" aria-label="Intro characters"></div>
         </div>
         <button id="skipIntroButton" type="button">Close / Cerrar</button>
       </section>
-      <section id="finalScreen" class="video-overlay hidden" aria-label="CRUX SACRA final redemption">
+      <section id="finalScreen" class="video-overlay hidden" role="dialog" aria-modal="true" aria-label="CRUX SACRA final redemption">
         <div class="video-frame">
           <video id="finalVideo" playsinline controls preload="metadata" src="../video-intro/crux-sacra-final-redemption.mp4?v=3"></video>
           <div id="finalCast" class="intro-cast final-cast" aria-label="Ending characters"></div>
@@ -249,12 +250,12 @@
         <p id="finalCaption" class="video-caption"></p>
         <button id="skipFinalButton" type="button">Continue / Continuar</button>
       </section>
-      <section id="creditsScreen" class="overlay hidden" aria-label="CRUX SACRA credits">
+      <section id="creditsScreen" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="creditsHeading">
         <div class="brand-lockup" aria-label="FJ Botello Faith and Family">
           <img src="./assets/brand/fj-botello-faith-family-logo.png" alt="FJ Botello Faith and Family" />
         </div>
         <div class="title-mark">✚</div>
-        <h2>Credits / Créditos</h2>
+        <h2 id="creditsHeading">Credits / Créditos</h2>
         <div class="credits-card">
           <p><strong>Created by / Creado por</strong><span>Jesús B.</span></p>
           <p><strong>Ideas / Ideas</strong><span>Elías B.</span></p>
@@ -267,7 +268,7 @@
         </div>
         <button id="creditsContinueButton" type="button">Finish / Finalizar</button>
       </section>
-      <section id="endScreen" class="overlay hidden">
+      <section id="endScreen" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="endTitle">
         <div class="title-mark">✚</div>
         <h2 id="endTitle">Level Complete</h2>
         <p id="endCopy">La luz protegió a los niños.</p>
@@ -297,6 +298,6 @@
         </div>
       </div>
     </main>
-    <script src="./game.js?v=110"></script>
+    <script src="./game.js?v=111"></script>
   </body>
 </html>
