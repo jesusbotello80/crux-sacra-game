@@ -108,7 +108,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "124";
+  const ASSET_VERSION = "125";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -1911,29 +1911,103 @@
 
   const loadStatus = document.getElementById("loadStatus");
 
-  function loadImages() {
-    const entries = Object.entries(sources);
-    const total = entries.length;
+  // RT-PERF-1: lazy asset sets. Boot loads fronts (portraits) + the selected
+  // world's set only (~24MB vs 141MB). Sheets load with the start bundle,
+  // other worlds on selection. Draw sites guard not-yet-loaded keys.
+  const VILLAIN_KEYS_BY_WORLD = {
+    colorado: ["tacalache"],
+    juarez: ["elCucuy"],
+    useast: ["swampShadow"],
+    elpaso: ["elChupacabras"],
+    guadalajara: ["elCharroNegro"],
+    mexicocity: ["laLlorona"],
+    elcoco: ["elCoco", "elCocoBoss", "elCocoWalk1", "elCocoWalk2"],
+    holymountain: ["theDevil"],
+    saints: ["prairieBoy"],
+    elrancho: ["laAparecidaCarretera"],
+  };
+  const CHEERING_HELPERS = ["elayitas", "angie", "ttitin", "abba", "nana", "mrsFavi", "mrChuy", "timmy", "guardian", "michael", "daroe", "mamel"];
+  const LATE_KEYS = new Set(["jesus", "stMary"]); // final-cast only (also fetched via URL)
+  let bootSettled = false;
+
+  function worldAssetKeys(world) {
+    const keys = new Set(VILLAIN_KEYS_BY_WORLD[world] || []);
+    for (const stage of (worldStages[world] || [])) {
+      if (stage.bg) keys.add(stage.bg);
+    }
+    return [...keys].filter((key) => sources[key]);
+  }
+
+  function sheetKeysFor(chars) {
+    const keys = [];
+    for (const char of chars) {
+      const sheet = characterDefs[char]?.sheet;
+      if (sheet && sources[sheet] && !keys.includes(sheet)) keys.push(sheet);
+    }
+    return keys;
+  }
+
+  const pendingKeys = new Set();
+  function loadKeys(keys) {
+    const missing = keys.filter((key) => !images[key] && !pendingKeys.has(key) && sources[key]);
+    if (missing.length === 0) return Promise.resolve();
+    const total = missing.length;
     let loaded = 0;
     const reportLoad = () => {
-      if (loadStatus) loadStatus.textContent = `Loading ${loaded}/${total} / Cargando ${loaded}/${total}`;
+      if (loadStatus) {
+        loadStatus.hidden = false;
+        loadStatus.textContent = `Loading ${loaded}/${total} / Cargando ${loaded}/${total}`;
+      }
     };
     reportLoad();
     return Promise.all(
-      entries.map(([key, path]) => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.onload = () => {
-            images[key] = img;
-            loaded += 1;
-            reportLoad();
-            resolve();
-          };
-          img.onerror = () => reject(new Error(`Could not load ${path}`));
-          img.src = `${ASSET}${path}?v=${ASSET_VERSION}`;
-        });
-      }),
+      missing.map((key) => new Promise((resolve, reject) => {
+        pendingKeys.add(key);
+        const img = new Image();
+        img.onload = () => {
+          images[key] = img;
+          pendingKeys.delete(key);
+          loaded += 1;
+          reportLoad();
+          resolve();
+        };
+        img.onerror = () => {
+          pendingKeys.delete(key);
+          reject(new Error(`Could not load ${sources[key]}`));
+        };
+        img.src = `${ASSET}${sources[key]}?v=${ASSET_VERSION}`;
+      })),
     );
+  }
+
+  function bootAssetKeys() {
+    const lazyWorldKeys = new Set();
+    for (const world of Object.keys(worldSketches)) {
+      if (world === game.world) continue;
+      for (const key of worldAssetKeys(world)) lazyWorldKeys.add(key);
+    }
+    const allSheets = new Set(Object.values(characterDefs).map((def) => def.sheet).filter(Boolean));
+    return Object.keys(sources).filter((key) => !lazyWorldKeys.has(key) && !allSheets.has(key) && !LATE_KEYS.has(key));
+  }
+
+  function loadImages() {
+    return loadKeys(bootAssetKeys());
+  }
+
+  function ensureWorldSet(world) {
+    return loadKeys(worldAssetKeys(world));
+  }
+
+  function ensureStartBundle() {
+    return loadKeys([...sheetKeysFor([game.selectedHero, game.selectedCompanion, ...CHEERING_HELPERS]), ...LATE_KEYS]);
+  }
+
+  function reportTopUpError(error, worldLabel) {
+    if (loadStatus) {
+      loadStatus.hidden = false;
+      loadStatus.textContent = `${error.message} / No se pudo cargar ${worldLabel}. Revisa tu conexión y recarga.`;
+    }
+    if (loadRetryButton) loadRetryButton.hidden = false;
   }
 
   function decorateCharacterChoices() {
@@ -2135,6 +2209,16 @@
     }
     levelName.textContent = worldSketches[game.world]?.label || "Colorado Springs";
     updateWorldLocks();
+    if (bootSettled) {
+      if (startButton) startButton.disabled = true;
+      ensureWorldSet(game.world).then(() => {
+        if (loadStatus) loadStatus.hidden = true;
+        if (startButton) startButton.disabled = false;
+      }).catch((error) => {
+        reportTopUpError(error, "el mundo");
+        if (startButton) startButton.disabled = false;
+      });
+    }
     return true;
   }
 
@@ -3266,7 +3350,9 @@
 
   function drawBackground() {
     const stage = stages[game.stageIndex] || stages[0];
-    ctx.drawImage(images[stage.bg], 0, 0, W, H);
+    const bgImg = images[stage.bg];
+    if (!bgImg) return;
+    ctx.drawImage(bgImg, 0, 0, W, H);
     const grad = ctx.createLinearGradient(0, 0, 0, H);
     grad.addColorStop(0, "rgba(12, 20, 34, 0.08)");
     grad.addColorStop(0.68, "rgba(12, 20, 34, 0.00)");
@@ -3279,7 +3365,7 @@
   }
 
   function drawCheeringHelpers(stage) {
-    const helpers = ["elayitas", "angie", "ttitin", "abba", "nana", "mrsFavi", "mrChuy", "timmy", "guardian", "michael", "daroe", "mamel"];
+    const helpers = CHEERING_HELPERS;
     const spotsByStage = [
       [[88, 342], [176, 333], [1090, 345], [1180, 330]],
       [[90, 365], [182, 356], [1025, 348], [1132, 360]],
@@ -4458,6 +4544,7 @@
   }
 
   function drawFrame(img, frame, x, groundY, targetH, face = 1, walkPhase = null) {
+    if (!img) return;
     const [sx, sy, sw, sh] = frame;
     const targetW = (sw / sh) * targetH;
     ctx.save();
@@ -5172,7 +5259,18 @@
   });
 
   startButton.addEventListener("click", () => {
-    playIntroSequence(true);
+    startButton.disabled = true;
+    ensureWorldSet(game.world)
+      .then(() => ensureStartBundle())
+      .then(() => {
+        if (loadStatus) loadStatus.hidden = true;
+        startButton.disabled = false;
+        playIntroSequence(true);
+      })
+      .catch((error) => {
+        reportTopUpError(error, "el juego");
+        startButton.disabled = false;
+      });
   });
   if (quitButton) quitButton.addEventListener("click", () => {
     quitToSelection();
@@ -5453,6 +5551,7 @@
   syncModalInert();
   loadImages()
     .then(() => {
+      bootSettled = true;
       if (loadStatus) loadStatus.hidden = true;
       if (startButton) startButton.disabled = false;
       refreshCharacterChoicePortraits();
