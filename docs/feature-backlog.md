@@ -2,7 +2,7 @@
 
 ## DOC-001 — Official player and parent guide
 
-**Status:** Source guide complete; public play URL live on FJ Faith & Family hub. Remaining: in-game Help/manual link once assets and routes are verified for that surface.
+**Status:** Complete — in-game Help links to `game/guide.html` (relative route, opens in new tab); guide assets/routes verified (local icon, brand logo, `#espanol` anchor; no external deps). Public play URL live on FJ Faith & Family hub.
 
 Create a bilingual English/Spanish guide for the original Crux Sacra game. It
 must cover controls, iPhone setup, heroes/companions, collectibles, levels,

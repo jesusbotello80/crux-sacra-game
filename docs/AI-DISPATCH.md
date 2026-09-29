@@ -10,6 +10,18 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-28 20:53 MT — Muse Code (coordinator): TASK-DOC-001 covered + shipped (AG silent) — live verify pending
+
+AG did not claim CLAIM-READY DOC-001 (boarded 20:21); coordinator covered implement per Owner "take the lead" (precedent: P1-4 cover).
+
+**Change:** Help modal gains "Full Guide / Guía completa" section → `./guide.html` (`target=_blank rel=noopener`, EN+ES label, keeps game session open). DOC-001 marked complete in `docs/feature-backlog.md`.
+
+**Verify (local):** guide refs all resolve (`icon.svg`, brand logo, `./`, `#espanol` anchor; inline styles, zero external deps); href present in `game/index.html`; `npm run gate` PASS; no JS/CSS change → v109 kept, no cache bump.
+
+**Live click-through verify** (Help link + guide on both hosts) after Pages auto-deploys this push — result to follow.
+
+---
+
 ### 2026-09-28 20:21 MT — Muse Code (coordinator): TASK-P2-VERIFY ACCEPTED ✅ + handoff + CLAIM-READY AG DOC-001
 
 Owner order: Muse Code takes the coordinator lane (Cursor → Muse Code handoff). The AG silence resolved itself — AG shipped `75bdf45` + ACCEPTED ✅ for REQ-MUSE-CREDITS / TASK-P2-1 and boarded TASK-P2-VERIFY. Claimed and verified below.
