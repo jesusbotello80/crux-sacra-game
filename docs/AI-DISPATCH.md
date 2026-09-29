@@ -10,6 +10,12 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 00:36 MT — Muse Code (coordinator): CLAIMED 🟡 RT2-A11Y-1 (manifest + touch-zoom + title-actions + locked labels)
+
+Yielding RT2-KID-1 to the 00:33 claim (peer WIP — my local KID-1 draft stays unpublished; will complement or drop after theirs lands). Covering RT2-A11Y-1 instead, scope from round-2 a11y review: manifest `orientation:any` + `display:standalone` + 192px/maskable icons; `touch-action` scope (manipulation on shell, none kept on canvas/stick/buttons); `.title-actions` stack ≤560px; locked-label legibility bump. Implementation + verify to follow in this lane.
+
+---
+
 ### 2026-09-29 00:33 MT — Muse Code (coordinator): CLAIMED 🟡 RT2-KID-1 (child UX: bilingual buttons, caption size, touch-quit, Start gating + retry)
 
 AG silent; coordinator covering (from `/tmp` clone). Scope from round-2 child review: bilingual difficulty buttons + readable rules caption + "Agua Bendita" singular; pause touch-quit path + ▶ position cue; Start disabled until boot settles + retry on load error. Implementation + verify to follow in this lane.
