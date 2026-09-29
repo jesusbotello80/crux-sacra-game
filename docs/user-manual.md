@@ -69,7 +69,7 @@ Crux Sacra connects game mechanics directly to authentic Catholic tradition and 
   - Daroe unlocks Tía More
   - Mamel unlocks Tío Viktorock
   - Nangie unlocks Doña Carmelina
-  - Mr Chuy unlocks Don Maro
+  - Mr Chuy unlocks Don Maro (with any companion except Mrs Favi — pairing Mr Chuy with Mrs Favi unlocks Don Lalo instead)
   - Ñaña unlocks Tío Tan
   - Titín unlocks Mr Zuil
   - Timmy unlocks Mr Tío
@@ -90,7 +90,7 @@ Crux Sacra connects game mechanics directly to authentic Catholic tradition and 
 
 The game includes intro and ending videos, audio, keyboard play, touch play, pause, and English/Spanish labels. Reduce device volume or use the system mute control if sound is uncomfortable. Play in short sessions, take breaks, and let a parent choose an appropriate difficulty for the child.
 
-Crux Sacra is intended as family-safe imaginative play. The goal is to protect, rescue, and redeem. Parents can use the Help screen to review controls before a child starts.
+Crux Sacra is intended as family-safe imaginative play. The goal is to protect, rescue, and redeem. Parents can use the Help screen to review controls before a child starts. Content note (also shown in-game): villains include spooky figures (ghosts, El Coco, the Devil in Holy Land) and mild menace, never to frighten; Bedtime Rooms are set in children's bedrooms, so preview them first for small children. No ads, no chat, no purchases; progress stays on the device.
 
 ### Troubleshooting and support
 
@@ -165,7 +165,7 @@ Crux Sacra une la aventura con la auténtica tradición y sacramentales de la Ig
   - Daroe desbloquea a Tía More
   - Mamel desbloquea a Tío Viktorock
   - Nangie desbloquea a Doña Carmelina
-  - Mr Chuy desbloquea a Don Maro
+  - Mr Chuy desbloquea a Don Maro (con cualquier compañero excepto Mrs Favi — emparejar a Mr Chuy con Mrs Favi desbloquea a Don Lalo)
   - Ñaña desbloquea a Tío Tan
   - Titín desbloquea a Mr Zuil
   - Timmy desbloquea a Mr Tío
@@ -186,7 +186,7 @@ Crux Sacra une la aventura con la auténtica tradición y sacramentales de la Ig
 
 El juego incluye videos de introducción y final, audio, teclado, controles táctiles, pausa y etiquetas en inglés/español. Baja el volumen del dispositivo o usa el silencio del sistema si el sonido incomoda. Juega sesiones cortas, toma descansos y permite que un adulto elija una dificultad adecuada.
 
-Crux Sacra está pensado como juego imaginativo seguro para familias. La meta es proteger, rescatar y redimir. Los padres pueden usar la pantalla de Ayuda para revisar los controles antes de que un niño comience.
+Crux Sacra está pensado como juego imaginativo seguro para familias. La meta es proteger, rescatar y redimir. Los padres pueden usar la pantalla de Ayuda para revisar los controles antes de que un niño comience. Nota de contenido (también en el juego): los villanos incluyen figuras inquietantes (fantasmas, El Coco, el Diablo en Tierra Santa) y amenaza leve, nunca para asustar; los cuartos de noche están en dormitorios de niños, conviene verlos antes con los pequeños. Sin anuncios, sin chat, sin compras; el progreso queda en el dispositivo.
 
 ### Solución de problemas y ayuda
 
