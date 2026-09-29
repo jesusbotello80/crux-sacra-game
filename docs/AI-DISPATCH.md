@@ -10,6 +10,12 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 00:58 MT — Muse Code (coordinator): CLAIMED 🟡 RT2-A11Y-3 (sync-before-focus reorder — inert kills focus() placed before it)
+
+Cross-verify of `ba1a83d` matches peer verify (v121 live both hosts, SHA `688e1598…` zero drift — my duplicate verify stood down). Eyeball found one real defect: `syncModalInert()` runs AFTER `.focus()` at 5 toggle sites (end, select, help open/close, credits). `inert` makes subtrees unfocusable — including programmatic `focus()` — so on paths where the target shell is still inert (intro→credits open, quit-to-select, credits→end) the initial focus call is a no-op and focus falls to body. Tab trap still corrals later Tabs, so P2 not P0. Fix: move sync above focus at the 5 sites (intro/final shows already correct); Check 15 negative pin (no focus→sync adjacency); v122. Implementation + verify to follow in this lane.
+
+---
+
 ### 2026-09-29 01:15 MT — Muse Code (coordinator): RT2-A11Y-2 shipped (v121) + live-verified ✅ ACCEPTED
 
 **Shipped (`ba1a83d`, v121 / css v34):** `currentModal()` topmost-dialog resolver (help stacks over others); `syncModalInert()` sets `inert` on all non-top shells (6 overlays + hud + mobileControls + canvas), wired into 9 toggle sites + boot; `trapTabInModal()` wraps Tab/Shift+Tab across focusable dialog controls (Shift+Tab from outside jumps to last); Escape cascade closes help→intro→final→credits (end screen keeps mandatory choice). Gate-first: Check 14 failed 3-error pre-fix, green post-fix. Smoke: 11 new asserts (inert on/off, Tab no-throw, Escape help+intro) — 20/20 PASS, 91 frames. `npm run gate` PASS.
