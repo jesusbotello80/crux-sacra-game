@@ -689,30 +689,7 @@ if (!/function drawFrame\(img,[\s\S]{0,200}?if \(!img\) return;/.test(gameJs)) {
   }
 }
 
-// Check 22: RT5-SCENE-1 embedded finale (scene staged, video backup retained)
-{
-  if (!gameJs.includes('finalScreen.classList.add("scene-finale")')) {
-    failures.push("finale does not stage scene-finale (embedded ending missing)");
-  }
-  if (!gameJs.includes("stopFinaleScene();")) {
-    failures.push("finale teardown missing (stopFinaleScene never called)");
-  }
-  if (!/finaleTimer = window\.setTimeout\([\s\S]{0,200}?closeFinalSequence\(\);/.test(gameJs)) {
-    failures.push("finale does not auto-advance to closeFinalSequence (scene strands without skip)");
-  }
-  if (!gameJs.includes("new Audio(") || !gameJs.includes("audio/finale/")) {
-    failures.push("finale music hook missing (new Audio + audio/finale/ path)");
-  }
-  if (!gameJs.includes("crux-sacra-final-redemption-dona-carmelina")) {
-    failures.push("finale video backup maps removed (Owner requires mp4s + maps retained)");
-  }
-  if (!styleCss.includes(".video-overlay.scene-finale #finalVideo") || !styleCss.includes("@keyframes finale-villain-fade")) {
-    failures.push("style.css finale staging missing (scene-finale video hide / villain-fade keyframes)");
-  }
-  if (!gameJs.includes('card.classList.add("converting")')) {
-    failures.push("cast renderer does not mark converting cards (villain fade has no hook)");
-  }
-}
+// Check 22 retired: RT5-SCENE-1 reverted per Owner playtest (videos restored as the finale).
 
 if (failures.length > 0) {
   reportFailures(failures);

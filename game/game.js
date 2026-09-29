@@ -110,7 +110,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "133";
+  const ASSET_VERSION = "134";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -129,8 +129,6 @@
   let sessionPlaySeconds = 0;
   let breakRemindedAt = 0;
   let breakReminderUnseen = false;
-  let finaleTimer = null;
-  let finaleMusic = null;
   let introStartsGame = false;
 
   const sources = {
@@ -4899,7 +4897,6 @@
     card.className = item.villain ? "intro-cast-card villain" : "intro-cast-card";
     if (item.featured) card.classList.add("featured");
     if (item.jesus) card.classList.add("jesus-card");
-    if (item.converting) card.classList.add("converting");
     const img = document.createElement("img");
     img.alt = "";
     img.src = `${ASSET}${sources[characterDefs[item.key]?.front || item.key]}?v=${ASSET_VERSION}`;
@@ -5500,79 +5497,21 @@
       : (redeemedCharacterKeys.has(redeemedKey)
         ? redemptionMessage(redeemedName)
         : "The light triumphed in this world. / La luz triunfó en este mundo.");
-    // RT5-SCENE-1: embedded finale. Video maps above + mp4s on disk stay as
-    // the backup (Owner: restore = git revert this hunk + drop scene-finale).
-    startFinaleScene();
+    if (!finalVideo.src.endsWith(nextFinalVideo)) {
+      finalVideo.src = nextFinalVideo;
+      finalVideo.load();
+    }
+    updateFinalCast();
     finalScreen.classList.remove("hidden");
     syncModalInert();
     skipFinalButton.focus();
-  }
-
-  function startFinaleScene() {
-    stopFinaleScene();
-    renderFinaleCast();
-    finalScreen.classList.add("scene-finale");
-    playFinaleMusic();
-    announceStatus(finalCaption.textContent);
-    finaleTimer = window.setTimeout(() => {
-      finaleTimer = null;
-      closeFinalSequence();
-    }, 8000);
-  }
-
-  function stopFinaleScene() {
-    if (finaleTimer) {
-      window.clearTimeout(finaleTimer);
-      finaleTimer = null;
-    }
-    stopFinaleMusic();
-    if (finalScreen) finalScreen.classList.remove("scene-finale");
-  }
-
-  function renderFinaleCast() {
-    if (!finalCast) return;
-    if (game.world === finalWorldKey) {
-      updateFinalCast();
-      return;
-    }
-    finalCast.classList.remove("hidden", "edition-finale");
-    const villain = villainCastItem();
-    const redeemed = game.world === bonusWorldKey
-      ? { key: "stMary", label: "St. Mary, Mother of Jesus", featured: true }
-      : { key: redeemedKeyForHero(), label: redeemedNameForHero(), featured: true };
-    renderCast(finalCast, [
-      { ...villain, converting: true },
-      redeemed,
-    ]);
-  }
-
-  function playFinaleMusic() {
-    stopFinaleMusic();
-    try {
-      finaleMusic = new Audio(`../audio/finale/${game.world}.mp3?v=1`);
-      finaleMusic.addEventListener("error", () => { finaleMusic = null; }, { once: true });
-      const played = finaleMusic.play();
-      if (played && played.catch) played.catch(() => { finaleMusic = null; });
-    } catch (err) {
-      finaleMusic = null;
-    }
-  }
-
-  function stopFinaleMusic() {
-    if (finaleMusic) {
-      try {
-        finaleMusic.pause();
-      } catch (err) {
-        finaleMusic = null;
-      }
-      finaleMusic = null;
-    }
+    finalVideo.currentTime = 0;
+    finalVideo.play().catch(() => {});
   }
 
   function closeFinalSequence() {
     if (finalScreen.classList.contains("hidden")) return;
     finalVideo.pause();
-    stopFinaleScene();
     finalScreen.classList.add("hidden");
     const completedWorld = game.world;
     game.passedWorlds.add(completedWorld);

@@ -828,47 +828,7 @@ button:focus-visible {
   z-index: 4;
 }
 
-/* RT5-SCENE-1: embedded finale staging (video element dormant, mp4s retained). */
-.video-overlay.scene-finale #finalVideo {
-  display: none;
-}
-.video-overlay.scene-finale .video-frame {
-  display: grid;
-  place-items: center;
-}
-.video-overlay.scene-finale .final-cast {
-  position: static;
-}
-.scene-finale .final-cast .intro-cast-card {
-  transform: scale(1.35);
-}
-.scene-finale .final-cast .intro-cast-card.villain.converting {
-  animation: finale-villain-fade 2s ease-in 1s forwards;
-}
-.scene-finale .final-cast .intro-cast-card.featured {
-  animation: finale-redeemed-glow 1.8s ease-in-out 2.4s infinite alternate;
-}
-.scene-finale .video-frame::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(circle, rgba(255, 244, 200, 0.9), rgba(255, 244, 200, 0));
-  opacity: 0;
-  animation: finale-flash 1.4s ease-out 1.8s forwards;
-}
-@keyframes finale-villain-fade {
-  to { opacity: 0.25; filter: grayscale(1); transform: scale(1); }
-}
-@keyframes finale-redeemed-glow {
-  from { box-shadow: 0 0 0 rgba(255, 244, 168, 0); }
-  to { box-shadow: 0 0 42px rgba(255, 244, 168, 0.85); }
-}
-@keyframes finale-flash {
-  0% { opacity: 0; }
-  35% { opacity: 0.85; }
-  100% { opacity: 0; }
-}
+/* RT5-SCENE-1 reverted per Owner playtest (videos restored as the finale). */
 
 #mobileControls {
   position: absolute;

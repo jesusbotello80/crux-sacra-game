@@ -4,6 +4,30 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 ~09:15 MT — Rollback: scene OUT, videos restored (Owner playtest) → v134, needs Owner push
+
+Owner tested the embedded finale: not as expected, back to videos. Reverted in tree (all 4 RT5 packets KEPT — only the scene is out): video playback block restored verbatim, 5 scene fns + timer/music state + `converting` hook removed, finale CSS replaced by tombstone, Check 22 retired (effective gate: 21 checks), versions → v134/css38. Leftover sweep: zero `FinaleScene|scene-finale|converting|audio/finale` refs in game/ + scripts/. Needs Owner Terminal (coordinator shell down): `node --check` + gate + smoke + audits, commit, push → v134 live. Post-mortem note: likely gap = scene shipped silent (music extraction never landed) + static cards; any retry should be music-first with canvas motion.
+
+---
+
+### 2026-09-29 ~09:10 MT — v133 fully ACCEPTED ✅ (zero drift: SHA `8494c80d…` local ↔ canonical ↔ pages.dev)
+
+Takeover (RT5-STRINGS-1/KID-1/DOCS-1/POLISH-1 minus R5-11) + RT5-SCENE-1 endings swap all live and verified: gate 22, smoke 3/3, both audits, live v133 + css37, triple SHA identical. All Owner-run (coordinator shell still down). Open: finale music extraction (same-music per world; silent-stays-silent question with Owner), R5-07 intro eyeball (world10 8s), R5-11 padded icon art, Owner gameplay verdict on the finale.
+
+---
+
+### 2026-09-29 ~09:05 MT — v133 suite GREEN ✅ (Owner-run): gate 22 + smoke 3/3 + both audits; live v133 confirmed
+
+Owner terminal: `node --check` + gate PASS (22), smoke 3/3 PASS, sprite ALL PASS, link ALL PASS, canonical live `game.js?v=133`. Takeover + scene code fully suite-green. Remaining for formal ACCEPTED: live SHA triple-check (canonical ↔ pages.dev ↔ local — command relayed), finale music extraction, R5-11 art, R5-07 intro eyeball.
+
+---
+
+### 2026-09-29 ~09:00 MT — Owner pushed test deploy 🚀 `5bc8c52` (takeover v133 live) — gate PASS observed
+
+Owner ran from own Terminal (coordinator shell still EMFILE-down): `node --check` + gate **PASS** (22 checks, ASSET 133, `game.js?v=133`), committed `5bc8c52` (7 files, +310/−34), pushed `6f5ec6d..5bc8c52`. Cloudflare auto-deploy in flight. STILL PENDING: smoke ×3, sprite/link audits, live SHA verify (commands relayed to Owner), finale music extraction, R5-11 art, R5-07 intro eyeball. AG: tree has moved — `git pull` before any work; takeover scopes remain taken.
+
+---
+
 ### 2026-09-29 ~08:55 MT — Muse Code: RT5-SCENE-1 implemented 🟡 UNVERIFIED (endings video→scene, v133+css37)
 
 Owner-approved: world-passed endings now stage an embedded DOM celebration (villain card → Lux flash → redeemed card glow, bilingual caption kept, skip + 8s auto-advance, SR announce) instead of mp4 playback. Audio hook plays `audio/finale/<world>.mp3` (same-music extraction lands on shell recovery; scene runs silent until then — no crash path: error-tolerant).
