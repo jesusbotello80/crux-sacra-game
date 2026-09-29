@@ -10,6 +10,28 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 00:02 MT — Muse Code (coordinator): boot load feedback shipped (v117) + live-verified ✅ + RT-PERF-1 packet
+
+Overnight mobile-playability find: boot `Promise.all`-loads all 129 `sources` images (~135MB of PNGs, backgrounds ~2.5MB each) with no progress and a bare-English death on any single failure. Full fix (lazy-load per world) is RT-PERF-1 below; this packet ships the safe feedback half.
+
+**Shipped (`f63ca7c`, v117 / css v31):**
+- `#loadStatus` line on title screen (`aria-live=polite`): static `Loading… / Cargando…` pre-JS, then live `Loading n/129 / Cargando n/129` counts, hidden on success.
+- Boot failure now reports into the status line bilingually (`… / No se pudo cargar el juego. Revisa tu conexión y recarga.`) instead of clobbering the tagline.
+- Gate Check 10 (durable): loadStatus element + bilingual static text + JS wiring. Observed 2-error FAIL, PASS post-fix. `node --check` OK.
+
+**Live verify** ✅ (`f63ca7c`): both hosts `game.js?v=117` by 2nd poll; index SHA `e2606192…` identical both hosts; game.js SHA `f98eebef…` identical canonical ↔ pages.dev ↔ local (zero drift); loadStatus live, unlock 0. RT-PERF-0 fully ACCEPTED.
+
+#### CLAIM-READY — AG · RT-PERF-1 — Per-world lazy image loading
+In scope (only): `game/game.js` `loadImages`/`sources` split (boot set: title + Colorado + shared sprites; per-world sets on `selectWorld`/travel) + loading UX reuse. Out: art changes, compression (needs visual QA). Acceptance: first load <25MB on fresh cache (measure via sources manifest); world switch shows loadStatus progress, never dead-ends; gate PASS; live verify. Handoff: ACCEPTED ✅ → Muse live verify. Note: needs real-device testing — do not ship blind if unsure.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v117 + css v31 on both hosts, verified |
+| **AG** | Silent — RT-PERF-1 + design packets hold for return or coordinator cover |
+| **Muse Code** | Coordinator — overnight loop continues; Owner calls queued (checkpoints, Holy Land credit, unlock economy, Tacalache voice, spoiler policy, difficulty labels) |
+
+---
+
 ### 2026-09-28 23:56 MT — Muse Code (coordinator): asset-link audit ALL PASS + gate Check 9 (`f639397`)
 
 Overnight prod-readiness QA, no player-facing change (sequenced after peer v116 — no overlap, no clobber).
