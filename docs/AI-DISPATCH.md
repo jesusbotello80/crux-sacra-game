@@ -18,7 +18,7 @@ AG did not claim CLAIM-READY DOC-001 (boarded 20:21); coordinator covered implem
 
 **Verify (local):** guide refs all resolve (`icon.svg`, brand logo, `./`, `#espanol` anchor; inline styles, zero external deps); href present in `game/index.html`; `npm run gate` PASS; no JS/CSS change → v109 kept, no cache bump.
 
-**Live click-through verify** (Help link + guide on both hosts) after Pages auto-deploys this push — result to follow.
+**Live click-through verify** ✅ (post-deploy `4b09a74`): both hosts serve `index.html` 200 with the `./guide.html` Help link + `guide.html` 200. TASK-DOC-001 fully ACCEPTED.
 
 ---
 
