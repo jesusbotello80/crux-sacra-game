@@ -621,6 +621,31 @@ if (!/function drawFrame\(img,[\s\S]{0,200}?if \(!img\) return;/.test(gameJs)) {
   }
 }
 
+// Check 20: RT2-DEAD-1 dead speech purge + gentle break reminder (v129)
+{
+  for (const dead of ["speechSynthesis", "SpeechSynthesisUtterance", "startIntroSpeech", "stopIntroSpeech", "introSpeechTimers", "speakLine(", "me llevo a los ni"]) {
+    if (gameJs.includes(dead)) failures.push(`dead speech code survives in game.js: ${dead} (RT2-DEAD-1 purge broken)`);
+  }
+  if (!gameJs.includes("sessionPlaySeconds") || !gameJs.includes("breakRemindedAt")) {
+    failures.push("break reminder state missing (sessionPlaySeconds/breakRemindedAt)");
+  }
+  if (!gameJs.includes("Take a break, champion!") || !gameJs.includes("¡Toma un descanso, campeón!")) {
+    failures.push("break reminder message must stay bilingual (EN + ES)");
+  }
+  const remindIdx = gameJs.indexOf("sessionPlaySeconds - breakRemindedAt >= 1500");
+  if (remindIdx < 0) {
+    failures.push("break reminder 25-minute cadence missing (>= 1500s of active play)");
+  } else {
+    const context = gameJs.slice(Math.max(0, remindIdx - 300), remindIdx + 500);
+    if (!context.includes('game.mode === "playing"')) {
+      failures.push("break reminder not gated on active play (fires on pause/title)");
+    }
+    if (!context.includes("announceStatus(game.message)")) {
+      failures.push("break reminder does not announce via announceStatus (screen-reader users miss it)");
+    }
+  }
+}
+
 if (failures.length > 0) {
   reportFailures(failures);
   process.exit(1);
