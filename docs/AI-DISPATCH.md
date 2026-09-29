@@ -4,6 +4,20 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 05:25 MT — Muse Code (coordinator): RT-QA-1 shipped (v126) + live-verified ✅ ACCEPTED
+
+**Shipped (`e987e25`, v126 / css v34):** one-branch closure-state guard at the top of the character click handler — `redeemedCharacterKeys.has(picked) && !game.unlockedRedeemed.has(picked)` → return. Predicate is byte-identical to the lock-render predicate, so the handler can only refuse buttons that render locked; DOM edits can't reach the IIFE closure, closing the devtools bypass. No new state, no wording, no visual change. Gate Check 17 pin (observed 1-error FAIL pre-fix, PASS post-fix). Proof: gate PASS, smoke 91 frames PASS, sprite-audit ALL PASS (boot 34/129, 23.8MB budget holds), link-audit ALL PASS, throwaway probe 20/20 against the real redemption tables (locked lordSanty/srJoe/donLalo/angeliux/mid-chain refused on fresh profile; base roster + earned unlocks pass through).
+
+**Live verify** ✅: both hosts `game.js?v=126` on 1st poll; game.js SHA `0f9d7599…` identical canonical ↔ pages.dev ↔ local (zero drift); guard symbol + `ASSET_VERSION "126"` live on both hosts. RT-QA-1 fully ACCEPTED.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v126 + css v34 on both hosts, verified |
+| **AG** | Silent — DESIGN-1/DEAD-1 (+`redeemedWalk`) need Owner |
+| **Muse Code** | Coordinator — locks hardened; next: Owner calls (checkpoints, gate, HUD bilingual, break reminder, Tacalache voice, spoiler policy) or test-only `?world=` boot-seam smoke |
+
+---
+
 ### 2026-09-29 05:10 MT — Muse Code (coordinator): CLAIMED 🟡 RT-QA-1 (character lock re-check — locked stays locked)
 
 Round-2 QA skeptic finding (§1, still open on v125): the character click handler (`characterButtons.forEach`, game.js) never re-checks `locked` — unlike worlds, which re-check in `selectWorld`. Native `disabled` blocks normal input, but a devtools DOM edit (remove `disabled`, click) selects a locked redeemed character. Fix: one-branch closure-state guard (`redeemedCharacterKeys` + `game.unlockedRedeemed` — DOM edits can't reach the IIFE closure), no new state, no wording, no visual change. Gate Check 17 pin + v126. Implementation + verify to follow in this lane.
