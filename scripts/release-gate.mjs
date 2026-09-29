@@ -14,6 +14,9 @@
  * 6. RT-I18N-1: player-facing stage/defeat/projectile/canvas strings carry an
  *    ES half ("EN / ES" or "EN. ES." convention; Latin lines exempt), and the
  *    message plaque wraps (wrapMessage).
+ * 7. RT-I18N-2/LOGIC-1-tail: El Rancho button ships pre-locked in HTML (no
+ *    selectable flash before JS), and the difficulty menu shows bilingual
+ *    per-tier rules (difficultyRules caption wired in JS).
  *
  * Exits 0 on PASS, 1 on FAIL.
  */
@@ -202,6 +205,25 @@ if (!hasEsHalf((gameJs.match(/"A projectile hit the hero![^"]*"/) || [""])[0].sl
 }
 if (!gameJs.includes("function wrapMessage(")) {
   failures.push("game/game.js is missing wrapMessage (bilingual strings need plaque word-wrap)");
+}
+
+// Check 7: RT-I18N-2 / RT-LOGIC-1-tail: ranch pre-JS lock + difficulty rules
+const ranchButtonMatch = indexHtml.match(/<button[^>]*data-world="elrancho"[^>]*>/s);
+if (!ranchButtonMatch) {
+  failures.push('game/index.html is missing the El Rancho world button');
+} else {
+  if (!ranchButtonMatch[0].includes("locked")) {
+    failures.push("game/index.html El Rancho button ships without pre-JS 'locked' class (selectable flash)");
+  }
+  if (!ranchButtonMatch[0].includes("disabled")) {
+    failures.push("game/index.html El Rancho button ships without pre-JS 'disabled' (selectable flash)");
+  }
+}
+if (!indexHtml.includes('id="difficultyRules"')) {
+  failures.push('game/index.html is missing the #difficultyRules caption element');
+}
+if (!gameJs.includes("difficultyRules")) {
+  failures.push("game/game.js does not wire the #difficultyRules caption");
 }
 
 if (failures.length > 0) {

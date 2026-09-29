@@ -10,7 +10,7 @@
     <link rel="icon" href="./icon.svg" />
     <link rel="apple-touch-icon" href="./icon-512.png" />
     <link rel="manifest" href="./manifest.webmanifest" />
-    <link rel="stylesheet" href="./style.css?v=29" />
+    <link rel="stylesheet" href="./style.css?v=30" />
   </head>
   <body>
     <main id="gameShell" aria-label="CRUX SACRA game">
@@ -24,7 +24,7 @@
         <h1 id="titleHeading">CRUX SACRA</h1>
         <p>A Family Adventure of Faith</p>
         <p>Una aventura familiar de fe</p>
-        <p class="title-credits">v1.1 · Character Roster Update · Created by Jesús B. · Ideas by Elías B. · AI Helpers: Codex, OpenCode, Muse Code</p>
+        <p class="title-credits">v1.1 · Character Roster Update · Created by Jesús B. · Ideas by Elías B. · AI Helpers: Codex, Image Generation, OpenCode, Muse Code — guided and approved by Jesús B.</p>
         <div id="worldSelect" class="select-panel" aria-label="Choose world">
           <h2>World / Mundo</h2>
           <div class="difficulty-grid">
@@ -48,7 +48,7 @@
               <img src="../video-demo/backgrounds/guadalajara/playable/bg-guadalajara-level-1.png" alt="" />
               <span>5 Guadalajara, MX</span>
             </button>
-            <button class="world-choice" type="button" data-world="elrancho">
+            <button class="world-choice locked" type="button" data-world="elrancho" disabled>
               <img src="../video-demo/backgrounds/el-rancho/playable/bg-el-rancho-level-1-ejido.png" alt="" />
               <span>6 El Rancho</span>
             </button>
@@ -86,6 +86,7 @@
               <span>Expert / Hard</span>
             </button>
           </div>
+          <p id="difficultyRules" class="difficulty-rules" aria-live="polite"></p>
         </div>
         <div id="characterSelect" aria-label="Choose hero and companion">
           <div class="select-panel">
@@ -208,25 +209,27 @@
           <section>
             <h3>Powers / Poderes</h3>
             <p><strong>Crux Sacra:</strong> pushes the villain back and protects glowing crosses. <strong>Holy Water:</strong> stops projectiles and fire, but has limited uses. <strong>Rosary:</strong> rare power that clears enemies from the level. <strong>Stars:</strong> add one Holy Water use.</p>
+            <p><strong>Crux Sacra:</strong> aleja al villano y protege las cruces brillantes. <strong>Agua Bendita:</strong> detiene proyectiles y fuego, pero tiene usos limitados. <strong>Rosario:</strong> poder raro que limpia el nivel de enemigos. <strong>Estrellas:</strong> agregan un uso de Agua Bendita.</p>
           </section>
           <section>
             <h3>Worlds & Villains / Mundos y Villanos</h3>
             <ul class="world-help-list">
-              <li><strong>Colorado Springs:</strong> El Tacalache throws rats and cockroaches.</li>
-              <li><strong>Juárez:</strong> El Cucuy del Desierto throws cactus thorns and sand skulls.</li>
-              <li><strong>US East:</strong> The Swamp Shadow sends mosquito swarms and swamp bubbles.</li>
-              <li><strong>El Paso:</strong> El Chupacabras attacks with claw slashes and shriek waves.</li>
-              <li><strong>Guadalajara:</strong> El Charro Negro throws cursed horseshoes and black lasso rings.</li>
-              <li><strong>El Rancho:</strong> La Aparecida de la Carretera sends road dust ribbons and phantom lanterns. (Locked until public release / Bloqueado hasta el lanzamiento público.)</li>
-              <li><strong>Mexico City:</strong> La Llorona sends ghostly tears and ghost hands.</li>
-              <li><strong>Bedtime Rooms:</strong> El Coco throws shadow socks and closet whispers from Colorado, Alabama, Juárez, El Paso, Guadalajara, and Mexico City bedrooms with crucifixes, beds, roperos, and nightlights.</li>
-              <li><strong>Holy Land:</strong> The Devil throws dark chains and temptation flames. This world unlocks after the regular worlds.</li>
-              <li><strong>Saints Bonus:</strong> a preview world after the final world.</li>
+              <li><strong>Colorado Springs:</strong> El Tacalache throws rats and cockroaches. / El Tacalache lanza ratas y cucarachas.</li>
+              <li><strong>Juárez:</strong> El Cucuy del Desierto throws cactus thorns and sand skulls. / El Cucuy del Desierto lanza espinas de cactus y calaveras de arena.</li>
+              <li><strong>US East:</strong> The Swamp Shadow sends mosquito swarms and swamp bubbles. / The Swamp Shadow manda enjambres de mosquitos y burbujas del pantano.</li>
+              <li><strong>El Paso:</strong> El Chupacabras attacks with claw slashes and shriek waves. / El Chupacabras ataca con zarpazos y ondas de chillido.</li>
+              <li><strong>Guadalajara:</strong> El Charro Negro throws cursed horseshoes and black lasso rings. / El Charro Negro lanza herraduras malditas y lazos negros.</li>
+              <li><strong>El Rancho:</strong> La Aparecida de la Carretera sends road dust ribbons and phantom lanterns. La Aparecida de la Carretera manda cintas de polvo y linternas fantasma. (Locked until public release / Bloqueado hasta el lanzamiento público.)</li>
+              <li><strong>Mexico City:</strong> La Llorona sends ghostly tears and ghost hands. / La Llorona manda lágrimas fantasmales y manos fantasma.</li>
+              <li><strong>Bedtime Rooms:</strong> El Coco throws shadow socks and closet whispers from Colorado, Alabama, Juárez, El Paso, Guadalajara, and Mexico City bedrooms with crucifixes, beds, roperos, and nightlights. / El Coco lanza calcetines de sombra y susurros del clóset desde los cuartos de Colorado, Alabama, Juárez, El Paso, Guadalajara y la Ciudad de México, con crucifijos, camas, roperos y lamparitas de noche.</li>
+              <li><strong>Holy Land:</strong> The Devil throws dark chains and temptation flames. This world unlocks after the regular worlds. / The Devil lanza cadenas oscuras y llamas de tentación. Este mundo se desbloquea después de los mundos regulares.</li>
+              <li><strong>Saints Bonus:</strong> a preview world after the final world. / un mundo de avance después del mundo final.</li>
             </ul>
           </section>
           <section>
             <h3>Hazards / Peligros</h3>
             <p>The villain can make a Crux Sacra glow red. Save it before it explodes. Fire can be removed with Holy Water. Thunder changes by world and cannot be stopped by Holy Water or Rosary, so move away when the warning rings appear.</p>
+            <p>El villano puede hacer que una Crux Sacra brille en rojo. Sálvala antes de que explote. El fuego se apaga con Agua Bendita. El trueno cambia por mundo y no lo detienen ni el Agua Bendita ni el Rosario, así que aléjate cuando aparezcan los anillos de aviso.</p>
           </section>
           <section>
             <h3>Full Guide / Guía completa</h3>
@@ -298,6 +301,6 @@
         </div>
       </div>
     </main>
-    <script src="./game.js?v=114"></script>
+    <script src="./game.js?v=115"></script>
   </body>
 </html>

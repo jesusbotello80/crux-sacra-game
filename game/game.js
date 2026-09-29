@@ -106,7 +106,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "114";
+  const ASSET_VERSION = "115";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -5063,6 +5063,19 @@
     });
   });
 
+  const difficultyRules = document.getElementById("difficultyRules");
+  const difficultyRuleLines = {
+    easy: "5 lives · 5 Holy Water · slower foes / 5 vidas · 5 aguas benditas · enemigos más lentos",
+    regular: "3 lives · 4 Holy Water · normal foes / 3 vidas · 4 aguas benditas · enemigos normales",
+    hard: "2 lives · 3 Holy Water · faster foes / 2 vidas · 3 aguas benditas · enemigos más rápidos",
+  };
+  function updateDifficultyRules() {
+    if (!difficultyRules) return;
+    const settings = difficultySettings[game.difficulty] || difficultySettings.regular;
+    difficultyRules.textContent = difficultyRuleLines[game.difficulty]
+      || `Lives ${settings.lives} · Holy Water ${settings.spray} / Vidas ${settings.lives} · Agua bendita ${settings.spray}`;
+  }
+
   difficultyButtons.forEach((button) => {
     button.addEventListener("click", () => {
       game.difficulty = button.dataset.difficulty || "regular";
@@ -5070,8 +5083,10 @@
         choice.classList.toggle("selected", choice === button);
       }
       syncSelectPressed();
+      updateDifficultyRules();
     });
   });
+  updateDifficultyRules();
 
   worldButtons.forEach((button) => {
     button.addEventListener("click", () => {
