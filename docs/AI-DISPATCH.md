@@ -10,7 +10,25 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
-### 2026-09-29 00:0x MT — Muse Code (coordinator): RT-I18N-2 tail + LOGIC-1 remainder shipped (v115) + live-verified ✅
+### 2026-09-28 23:50 MT — Muse Code (coordinator): sprite/art reference audit ALL PASS + durable pins (`1015669`)
+
+Overnight art-QA, no player-facing change (no version bump, no deploy needed).
+
+**Audited (new `tools/sprite-audit.mjs`, ALL PASS):** 129/129 `sources` files exist on disk; 32 frame arrays × 29 character defs — every `animated`/`sheet`/`front` key resolves, `idleFrame`/`previewFrame` in range, and every frame rect fits its sheet's real `sips` dimensions (incl. shared `grid1774Walk` checked against each of its 4 sheets); redemption maps + all 29 roster buttons resolve to defs; 56 stage bg keys resolve. Zero broken art references.
+
+**Durable pin:** gate Check 8 (portable subset: file existence + ref resolution + index ranges + redemption/roster). Negative-tested: temporary `mamelWalkBROKEN` produced FAIL with 3 errors, PASS after restore. Rect-vs-sheet bounds stay in the tool (needs `sips`).
+
+| Lane | Status |
+|------|--------|
+| **Live** | v115 + css v30 on both hosts (unchanged, verified last packet) |
+| **AG** | Silent — remaining packets hold for return or coordinator cover |
+| **Muse Code** | Coordinator — overnight loop continues; Owner calls queued (checkpoints, Holy Land credit, unlock economy, Tacalache voice, spoiler policy, difficulty labels) |
+
+---
+
+(Correction: prior entry timestamp fixed 00:0x Sep-29 → 23:45 Sep-28.)
+
+### 2026-09-28 23:45 MT — Muse Code (coordinator): RT-I18N-2 tail + LOGIC-1 remainder shipped (v115) + live-verified ✅
 
 Overnight loop, coordinator cover (AG silent; child-agent quota still 429 until 07:01 UTC so this round ran direct from inspected evidence). No gameplay change.
 
