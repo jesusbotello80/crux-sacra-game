@@ -16,6 +16,12 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 02:30 MT — Muse Code (coordinator): redemption coverage audit ✅ (owner ask, no player change)
+
+Audited `redeemedKeyForHero` + `redeemedCharacterByHero` + roster buttons: **all 17 redeemable characters are reachable** — 12 direct hero paths, 3 two-hop chains (Timmy→Mr Tío→Sr Joe; Nangie→Doña Carmelina→Lord Santy; Ñaña→Tío Tan→Doña Nene), 2 special pairs (Mr Chuy+Mrs Favi→Don Lalo; Ñaña+Ñaña→Angeliux, same-pick allowed since hero/companion groups are independent). Guide documents all of it EN+ES (guide.html:80,127). No gaps → no game fix. Durable Check 8 pin (`e880e0c`, gate-only, no version bump): surprise/chain branches + hero/companion button presence; negative-tested (mutated donLalo → 1-error FAIL, PASS on restore). Full list reported to Owner in chat.
+
+---
+
 ### 2026-09-29 02:05 MT — Muse Code (coordinator): RT3-ART-1 shipped (v123) + live-verified ✅ ACCEPTED
 
 Race note: peer shipped RT2-A11Y-3 first (`dcf96bd`, v122 + Check 15, verified `0226dcc`) — my v122 plan resequenced to v123 on their tip (local rebase, no clobber). My claim text still says v122; this entry corrects the record.
