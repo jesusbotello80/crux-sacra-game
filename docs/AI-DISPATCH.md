@@ -21,7 +21,7 @@ AG silent; coordinator covered per Owner "take the lead" (from `/tmp` clone — 
 
 **Verify (local):** `node --check` OK; `npm run gate` PASS (v113); all endCopy/finalCaption writers covered; no identifier collisions; video/announce paths unchanged.
 
-**Live verify** (v113 both hosts, guard string + fallback copy served, no drift) after Pages deploys this push — result to follow.
+**Live verify** ✅ (`dfcb4ac`): both hosts serve `index.html` 200 + `game.js?v=113`, served `game.js` 200 + `ASSET_VERSION "113"` + fix strings (fallback copy + guard); served-JS md5 identical — zero drift. RT-LOGIC-2 fully ACCEPTED.
 
 ---
 
