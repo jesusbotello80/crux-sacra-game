@@ -59,7 +59,7 @@ Live check of `7bf0625` caught a real defect before it mattered: served assets c
 
 **Shipped (this push, no JS/CSS change → stays v118):** `_headers` rewritten with NO catch-all — immutable year on the 5 asset paths + enumerated no-store on the 10 entry points (`/`, `/index.html`, `/game/`, `index/guide/game.js/style.css/manifest/icons`). Gate Check 11 extended: forbids a `/*` catch-all (negative-tested), pins the 10 enumerated rules, pins `?v=` on every game.js video literal. `npm run gate` PASS.
 
-**Live verify** (exact header values both hosts) after Pages deploys — result to follow; RT-PERF-2 ACCEPTED only on exact-match headers.
+**Live verify** ✅ (`f4c36f0`): both hosts serve versioned sprite/logo/video with exactly `public, max-age=31536000, immutable`, and HTML entries with exactly `no-cache, no-store, must-revalidate` (duplicated identically by the edge — same semantics, freshness intact). RT-PERF-2 fully ACCEPTED.
 
 ---
 
