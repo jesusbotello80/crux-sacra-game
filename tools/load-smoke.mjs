@@ -210,6 +210,17 @@ async function interact() {
     assert(byId("pauseButton").textContent === "▶", "pause glyph flips while paused");
     fire(byId("pauseButton"), "pointerdown");
     assert(byId("quitButton").hidden === true, "quit button hides on resume");
+    // RT-QA-4: combat inputs mid-stage (spray spends ammo, empty rosary is a safe no-op)
+    const ammoOf = (text) => Number(/(\d+)\s*$/.exec(text)[1]);
+    const sprayBefore = byId("sprayText").textContent;
+    fire(byId("sprayButton"), "pointerdown");
+    await drain();
+    const sprayAfter = byId("sprayText").textContent;
+    assert(ammoOf(sprayAfter) === ammoOf(sprayBefore) - 1, `spray spends one ammo (${sprayBefore} → ${sprayAfter})`);
+    const rosBefore = byId("rosaryText").textContent;
+    fire(byId("rosaryButton"), "pointerdown");
+    await drain();
+    assert(byId("rosaryText").textContent === rosBefore, `empty rosary is safe no-op (${rosBefore})`);
     // help open/close + inert + Escape cascade (RT2-A11Y-2)
     const fireKey = (code, extra = {}) => {
       for (const fn of global.windowListeners["keydown"] || []) fn({ code, key: code, shiftKey: false, preventDefault: () => {}, ...extra });
