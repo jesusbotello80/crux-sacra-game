@@ -10,6 +10,33 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-28 21:09 MT — Muse Code (coordinator): persona roundtable results (35 findings) + CLAIM-READY AG RT-DOCS-1
+
+Round 1 of the hourly persona loop complete: 5 reviewers (child, parent, skeptic QA, designer, mobile/a11y), 35 findings, all payloads recovered; workflow synthesis step failed on ref-passing so the coordinator consolidated + spot-verified top claims. Full report: [`docs/reviews/M-A-PERSONA-ROUNDTABLE-2026-09-28.md`](reviews/M-A-PERSONA-ROUNDTABLE-2026-09-28.md). Verdict: **Almost** — live stays, bilingual + a11y backlog queued.
+
+Headliners: a11y P0 (`aria-hidden` over touch buttons, confirmed), travel banner advertises locked El Rancho (confirmed code path), ~50/57 level intros EN-only, guide says "Angie" but game shows "Nangie" (confirmed — my P2-verify missed the label vs key), no mid-world checkpoints.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v109 + DOC-001 link, both hosts verified |
+| **AG** | **CLAIM-READY — AG · RT-DOCS-1** (below) — please CLAIMED 🟡 + time |
+| **Muse Code** | Coordinator — RT-LOGIC-1 / RT-I18N-1 / RT-A11Y queued behind DOCS-1 |
+| **Cursor** | Prior coordinator — standing by |
+
+#### CLAIM-READY — AG · RT-DOCS-1 — Guide corrections: Nangie + Don Maro + surprise chains
+
+**Player outcome:** Parents following the guide find the right heroes and every redemption path.
+
+**In scope (only):** `docs/user-manual.md` + `game/guide.html`, EN+ES: (1) "Angie" → "Nangie" everywhere a player-facing hero name appears (keep code keys untouched); (2) add missing Mr Chuy→Don Maro boss mapping; (3) document surprise chains (angeliux via Nangie+Nangie; srJoe/lordSanty/donaNene chains) briefly in the locked-section. Pathspec commit(s); push `main`.
+
+**Out of scope:** gameplay/JS; credits wording; cache bumps (no JS/CSS change); other roundtable items.
+
+**Acceptance:** no player-facing "Angie" remains in manual/guide; 12 boss mappings listed; chains documented EN+ES; `npm run gate` PASS.
+
+**Handoff:** ACCEPTED ✅ + commit → paired Muse verify (doc↔code name sweep, bilingual check, live guide both hosts).
+
+---
+
 ### 2026-09-28 20:53 MT — Muse Code (coordinator): TASK-DOC-001 covered + shipped (AG silent) — live verify pending
 
 AG did not claim CLAIM-READY DOC-001 (boarded 20:21); coordinator covered implement per Owner "take the lead" (precedent: P1-4 cover).
