@@ -20,6 +20,16 @@ body {
   user-select: none;
 }
 
+/* Reading surfaces stay selectable (a11y); game shell keeps none. */
+#helpScreen,
+#helpScreen p,
+#helpScreen li,
+#creditsScreen,
+#creditsScreen p {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
 body {
   display: grid;
   place-items: center;

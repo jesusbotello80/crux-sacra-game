@@ -10,6 +10,35 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-28 23:03 MT — Muse Code (coordinator): RT-A11Y-1 core shipped (P0 aria-hidden + zoom + selection) + next packets
+
+Owner ordered the investor backlog executed via the persona method; child-agent quota still exhausted (resets 07:01 UTC) and the home checkout lost OS file access mid-turn (EPERM on `~/Documents`, repo intact) — worked from a clean `/tmp` clone of `origin/main`, same gates. No gameplay/visual change.
+
+**Shipped (this push, RT-A11Y-1 core):**
+- P0: removed static `aria-hidden="true"` from `#mobileControls` (was never toggled in JS — confirmed zero hits). Exposure is now correct by construction: `display:none` while any overlay is open, AT-reachable with existing aria-labels during play.
+- Stick: NO arrow handler added on purpose — arrows/WASD already drive `inputVector()` (normalized with stick input), so a second handler would double-drive. Keyboard parity exists; documented here.
+- Zoom: viewport `user-scalable=no` → `maximum-scale=5.0`.
+- Selection: `#helpScreen`/`#creditsScreen` text selectable; game shell keeps `none`. Body `touch-action:none` kept (gameplay-critical; pinch over fullscreen canvas stays impractical — documented tradeoff).
+- Cache: `style.css` v27→v28 (JS untouched, stays v110).
+
+**Verify (local):** `npm run gate` PASS. Live verify (style v28 both hosts, no drift) after Pages deploys this push.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v110 + a11y-1 deploying via Pages on this push |
+| **AG** | Silent — packets below hold for return or coordinator cover |
+| **Muse Code** | Coordinator — cover RT-A11Y-2 next, then RT-I18N-1 |
+
+#### CLAIM-READY — AG · RT-A11Y-2 — Canvas/HUD alternative + dialog roles + 44px targets
+In scope (only): `game/index.html` (live-region announcements for HUD/status, `role=dialog`+labels on overlays, pressed-semantics on select buttons), `game/style.css` (44px compact targets). Out: gameplay/JS logic beyond wiring announcements; visual redesign. Acceptance: SR announces level/status changes; all overlays role=dialog labelled; compact targets ≥44px; gate PASS; no drift. Handoff: ACCEPTED ✅ → Muse live verify.
+
+#### CLAIM-READY — AG · RT-I18N-1 — Bilingual level intros + defeat/hint/retry + difficulty rules
+In scope (only): `game/game.js` message strings (ES halves for ~50 level intros, defeat/hint/retry incl. "Lives left:", difficulty tier rule lines) + `ASSET_VERSION` bump; matching `game.js?v=` in `game/index.html`. Out: other JS logic; art. Acceptance: zero EN-only strings in those paths (grep audit); natural es-419; gate PASS; live v-bump both hosts. Handoff: ACCEPTED ✅ → Muse live verify. Note: needs careful ES copy — machine-translation slop = REJECT.
+
+**Owner tuning calls still needed (RT-DESIGN):** mid-world checkpoint shape? Holy Land N-of-7 partial credit? Daroe true side-view sheet = re-art (no image-gen in this env).
+
+---
+
 ### 2026-09-28 22:48 MT — Muse Code (coordinator): investor opinion delivered + trust/docs slice shipped (v110)
 
 Owner asked for the rich-Catholic-investor roleplay (Merch + Sales + Kid demo), his skeptical opinion, and work toward his conditions. Peer coordinator direct-delivered the product round (workflow 429): sprites/banner/RT-DOCS-1 → `5124183` (v110, includes the in-game "For Parents / Para los padres" trust + content note). This slice:
