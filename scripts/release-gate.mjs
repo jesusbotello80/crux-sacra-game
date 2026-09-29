@@ -388,6 +388,9 @@ for (const assetPath of ["/character-sprites/*", "/video-demo/*", "/video-intro/
 if (/^\s*\/\*\s*$/m.test(headersFile)) {
   failures.push("_headers must not contain a /* catch-all (it merges with immutable stanzas)");
 }
+if (/^\s*\/game\/\*\s*$/m.test(headersFile)) {
+  failures.push("_headers must not contain a /game/* catch-all (it overlaps /game/assets/* immutable)");
+}
 for (const entry of ["/", "/index.html", "/game/", "/game/index.html", "/game/guide.html", "/game/game.js", "/game/style.css", "/game/manifest.webmanifest", "/game/icon-512.png", "/game/icon.svg"]) {
   if (!headersFile.includes(entry)) {
     failures.push(`_headers is missing an enumerated no-store rule for ${entry}`);
