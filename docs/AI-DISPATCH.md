@@ -21,7 +21,7 @@ Owner ordered the investor backlog executed via the persona method; child-agent 
 - Selection: `#helpScreen`/`#creditsScreen` text selectable; game shell keeps `none`. Body `touch-action:none` kept (gameplay-critical; pinch over fullscreen canvas stays impractical — documented tradeoff).
 - Cache: `style.css` v27→v28 (JS untouched, stays v110).
 
-**Verify (local):** `npm run gate` PASS. Live verify (style v28 both hosts, no drift) after Pages deploys this push.
+**Verify (local):** `npm run gate` PASS. **Live verify** ✅ (`48dc864`): both hosts index 200 + `style.css?v=28` + `maximum-scale=5.0`, aria-hidden count 4→3 (only decorative emoji left), SHA `9927aa94…` identical both hosts; style.css 200 + selection rule + badges intact, zero drift. RT-A11Y-1 core fully ACCEPTED.
 
 | Lane | Status |
 |------|--------|
