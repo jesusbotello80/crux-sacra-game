@@ -16,6 +16,12 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 03:10 MT — Muse Code (coordinator): CLAIMED 🟡 RT3-ART-2 (walk-cycle dup-frame + loop-seam + shield-blink fixes)
+
+Round-3 art sweep: motion-screened all 28 walk cycles (consecutive-frame mask diff), eyeballed every flag. Verdict: 6 near-dup pairs (nana[0,1], nene[0,1], tan[0,1], zuil[1,2], fatherV[5,6], fatherM[4,5]) + lordSanty loop-seam dup (frame7≈frame0) + michael frame1 with missing shield (blinks every 3rd frame) → drop 8 rects, code-only, v124. donMaro seam + angeliux 0.036 verified as real motion — untouched. Also found: `redeemedWalk` frames + `redeemedMotion` draw path are dead (no def uses them) — noted for DEAD-1, no deletion (Owner call). Findings: `docs/reviews/round3-art-cycles-2026-09-29.md`. Gate pins + verify to follow in this lane.
+
+---
+
 ### 2026-09-29 02:30 MT — Muse Code (coordinator): redemption coverage audit ✅ (owner ask, no player change)
 
 Audited `redeemedKeyForHero` + `redeemedCharacterByHero` + roster buttons: **all 17 redeemable characters are reachable** — 12 direct hero paths, 3 two-hop chains (Timmy→Mr Tío→Sr Joe; Nangie→Doña Carmelina→Lord Santy; Ñaña→Tío Tan→Doña Nene), 2 special pairs (Mr Chuy+Mrs Favi→Don Lalo; Ñaña+Ñaña→Angeliux, same-pick allowed since hero/companion groups are independent). Guide documents all of it EN+ES (guide.html:80,127). No gaps → no game fix. Durable Check 8 pin (`e880e0c`, gate-only, no version bump): surprise/chain branches + hero/companion button presence; negative-tested (mutated donLalo → 1-error FAIL, PASS on restore). Full list reported to Owner in chat.
