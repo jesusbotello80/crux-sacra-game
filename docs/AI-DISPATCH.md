@@ -20,7 +20,7 @@ AG silent; coordinator covered per Owner "take the lead". Home checkout still EP
 
 **Out of scope → RT-I18N-2:** difficulty-menu rules display + "Baby" label (needs Owner voice); pause overlay + HUD bilingual completion.
 
-**Live verify** (v112 both hosts, sample ES strings served, no drift) after Pages deploys this push — result to follow.
+**Live verify** ✅ (`25d438f`): both hosts serve `index.html` 200 + `game.js?v=112`, served `game.js` 200 + `ASSET_VERSION "112"` + 3/3 ES sample strings + `ranchWorldPublicReady = false`; served-JS md5 identical both hosts — zero drift. RT-I18N-1 fully ACCEPTED.
 
 ---
 
