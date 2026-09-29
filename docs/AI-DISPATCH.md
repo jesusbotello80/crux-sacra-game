@@ -16,7 +16,13 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
   - `node --check game/game.js` PASS.
   - `npm run gate` PASS (18 release checks green, `ASSET_VERSION 129`).
   - `npm run smoke` PASS (all 3 boot scenarios; 91 frames each, 117 asserts green).
-  - `npm run audit:sprites` & `npm run audit:links` ALL PASS.
+- **Live verify** ✅: Both hosts (`crux-sacra.fjfaithandfamily.com` & `crux-sacra-game.pages.dev`) serving HTTP 200 with `game.js?v=129`. Byte-level SHA256 `fcb572672475c17b3b08c035215a770c296d26c74ba19724c69bbbaa66931d50` identical across canonical, pages.dev, and local checkout — **zero drift**. RT2-DEAD-1 fully ACCEPTED.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v129 + css v35 on both hosts, verified identical, zero drift |
+| **AG** | Shipped RT2-DESIGN-1 (v128) + RT2-DEAD-1 / break reminder (v129) ✅ |
+| **Muse Code** | Coordinator / QA peer |
 
 ---
 
