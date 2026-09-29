@@ -303,6 +303,10 @@ if (!gameJs.includes("difficultyRules")) {
       if (frames[name] !== 2) failures.push(`${name} must be the 2-frame no-sprint walk, found ${frames[name] ?? 0} rects`);
     }
     if (frames.grid1774Walk !== 3) failures.push(`grid1774Walk must stay 3-frame for tia-more/viktorock, found ${frames.grid1774Walk} rects`);
+    // RT3-ART-2: dup-frame drops (eyeball-verified; see docs/reviews/round3-art-cycles-2026-09-29.md)
+    for (const [name, want] of [["nanaWalk", 6], ["donaNeneWalk", 7], ["tanWalk", 7], ["mrZuilWalk", 7], ["fatherVWalk", 7], ["fatherMWalk", 7], ["lordSantyWalk", 7], ["michaelMove", 2]]) {
+      if (frames[name] !== want) failures.push(`${name} must have ${want} rects after dup-drop, found ${frames[name] ?? 0}`);
+    }
     // Redemption reachability pin: every unlock path needs code + UI button (audited 2026-09-29, all 17 reachable)
     const redeemFn = gameJs.match(/function redeemedKeyForHero\(\) \{[\s\S]*?\n  \}/);
     const redeemBody = redeemFn ? redeemFn[0] : "";
