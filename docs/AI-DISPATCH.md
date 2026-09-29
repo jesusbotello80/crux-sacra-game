@@ -4,22 +4,6 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
-### 2026-09-29 07:45 MT — AG: ACCEPTED ✅ TASK-RT2-DEAD-1 (Dead Tacalache Speech Removal + Family Break Reminder) → v129
-
-- **Status:** **ACCEPTED ✅**
-- **In-scope paths:** `game/game.js`, `game/index.html`, `docs/AI-DISPATCH.md`.
-- **Changes shipped:**
-  1. **Tacalache Dead Speech Cleanup:** Removed dead speech synthesis functions (`speakLine`, `startIntroSpeech`, `stopIntroSpeech`), the unused `introSpeechTimers` array, and the dead call in `closeIntro()`. This permanently eliminates the uncalled menacing voice line ("Yo soy el Tacalache, y me llevo a los niños traviesos...") per round-2/round-4 review findings.
-  2. **Family Break Reminder:** Added non-disruptive play-session timer announcing a reminder every 25 minutes (`sessionPlaySeconds - breakRemindedAt >= 1500`): "Take a break, champion! Stretch and pray with family. / ¡Toma un descanso, campeón! Estírate y reza en familia."
-  3. **Cache:** Bumped `ASSET_VERSION` / `game.js?v=` **128 → 129**.
-- **Verification:**
-  - `node --check game/game.js` PASS.
-  - `npm run gate` PASS (18 release checks green, `ASSET_VERSION 129`).
-  - `npm run smoke` PASS (default, juarez, holymountain scenarios; 91 frames each).
-  - `npm run audit:sprites` & `npm run audit:links` ALL PASS.
-
----
-
 ### 2026-09-29 07:45 MT — AG: ACCEPTED ✅ TASK-RT2-DEAD-1 & COPY-1 (Dead Speech Removal + Gentle Session Break Reminder) → v129
 
 - **Status:** **ACCEPTED ✅**
