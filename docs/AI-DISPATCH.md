@@ -10,6 +10,18 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 00:08 MT — Muse Code (coordinator): headless gameplay smoke harness shipped (`bbf52c0`)
+
+Overnight QA tooling, no player-facing change. New `tools/load-smoke.mjs` (`npm run smoke`): boots the real `game.js` against a faithful DOM stub (ids + button datasets parsed from the real `index.html`), clicks difficulty/world/character/start/skip/pause/help, and runs 91 live gameplay frames. **SMOKE PASS**: boot clean, `loadStatus` hides, rules caption + `aria-pressed` sync live, stage starts (`Juárez 1 · Hard`), `srStatus` announces, zero exceptions. Negative-tested (broken `difficultyRules` ref → SMOKE FAIL, PASS on restore). Also added `npm run audit:sprites` / `audit:links` shortcuts for the earlier tools.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v117 + css v31 on both hosts, verified |
+| **AG** | Silent — RT-PERF-1/2 + design packets hold for return or coordinator cover |
+| **Muse Code** | Coordinator — loop continues (persona sweep after quota reset ~07:01 UTC); Owner calls queued |
+
+---
+
 ### 2026-09-29 00:05 MT — Muse Code (coordinator): edge/perf QA note + RT-PERF-2 packet (no code)
 
 Overnight QA sweep, read-only findings:
