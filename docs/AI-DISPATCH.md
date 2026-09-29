@@ -32,7 +32,7 @@ Investor-theater workflow died on API quota (429, resets 2026-09-29 07:01 UTC) �
 - RT-DOCS-1 covered: ES manual Nangie ×2 + Don Maro line + chains section; guide EN+ES roster + chains; game/README ×2. **Correction:** angeliux = Ñaña+Ñaña per `game.js:5230` — EN manual + this board's RT-DOCS-1 packet text said Nangie+Nangie (wrong), fixed in manual, packet text superseded here.
 - Cache: v109→v110 (`ASSET_VERSION` + `game.js?v=`).
 
-**Verify (local):** `node --check` OK; `npm run gate` PASS (v110); player-facing "Angie" sweep clean (code keys untouched). Live v110 verify (both hosts, Help link, drift) after Pages deploys this push.
+**Verify (local):** `node --check` OK; `npm run gate` PASS (v110); player-facing "Angie" sweep clean (code keys untouched). **Live v110 verify** ✅ (`5124183`): both hosts index 200 + `game.js?v=110` + Help→guide link; game.js 200 + `ASSET_VERSION "110"` + ranch false + unlock 0, SHA `0af0dc39…` identical canonical ↔ pages.dev ↔ local (zero drift); served JS has lock-aware banner call, 2-frame donLalo cycle, old left-facing grid row gone; guide 200 + Nangie ×2 + stale-Angie 0. v110 fully ACCEPTED.
 
 **Next:** RT-A11Y-1 (P0 aria-hidden) + RT-I18N-1 next packets; RT-DESIGN items need Owner tuning calls; Daroe true side-view sheet = re-art backlog. Sibling merch plan (`docs/BUSINESS-AND-MERCHANDISE-PLAN.md`, untracked) in flight — untouched.
 
