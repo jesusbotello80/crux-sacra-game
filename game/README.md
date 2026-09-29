@@ -45,7 +45,7 @@ Choose any available hero and companion before starting.
 Available heroes include:
 
 - Elayitas
-- Angie
+- Nangie
 - Titín
 - Abba
 - Ñaña
@@ -59,7 +59,7 @@ Available heroes include:
 
 Available companions include:
 
-- Angie
+- Nangie
 - Elayitas
 - Ñaña
 - Timmy

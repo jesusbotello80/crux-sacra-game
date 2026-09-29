@@ -105,7 +105,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "109";
+  const ASSET_VERSION = "110";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -600,16 +600,13 @@
       [1920, 0, 320, 560],
     ],
     grid1774Walk: [
-      [0, 0, 444, 444], [444, 0, 443, 444], [887, 0, 443, 444], [1330, 0, 444, 444],
-      [0, 444, 444, 443], [444, 444, 443, 443], [887, 444, 443, 443], [1330, 444, 444, 443],
+      [444, 0, 443, 444], [887, 0, 443, 444], [1330, 0, 444, 444],
     ],
     tioAbueloCuateWalk: [
-      [0, 0, 314, 627], [314, 0, 313, 627], [627, 0, 313, 627], [940, 0, 314, 627],
-      [0, 627, 314, 627], [314, 627, 313, 627], [627, 627, 313, 627], [940, 627, 314, 627],
+      [314, 0, 313, 627], [627, 0, 313, 627], [940, 0, 314, 627],
     ],
     donLaloWalk: [
-      [0, 0, 384, 512], [384, 0, 384, 512], [768, 0, 384, 512], [1152, 0, 384, 512],
-      [0, 512, 384, 512], [384, 512, 384, 512], [768, 512, 384, 512], [1152, 512, 384, 512],
+      [384, 0, 384, 512], [768, 0, 384, 512],
     ],
   };
 
@@ -695,7 +692,7 @@
     tiaMore: { label: "Tía More", animated: "grid1774Walk", sheet: "tiaMoreSheet", front: "tiaMore", height: 142 },
     donLalo: { label: "Don Lalo", animated: "donLaloWalk", sheet: "donLaloSheet", front: "donLalo", height: 142 },
     tioViktorock: { label: "Tío Viktorock", animated: "grid1774Walk", sheet: "tioViktorockSheet", front: "tioViktorock", height: 142 },
-    daroe: { label: "Daroe", animated: "daroeWalk", sheet: "daroeSheet", front: "daroe", height: 118, idleFrame: 6, previewFrame: 6 },
+    daroe: { label: "Daroe", animated: "daroeWalk", sheet: "daroeSheet", front: "daroe", height: 118, idleFrame: 0, previewFrame: 0 },
     mamel: { label: "Mamel", animated: "mamelWalk", sheet: "mamelSheet", front: "mamel", height: 108 },
   };
 
@@ -2440,10 +2437,8 @@
   }
 
   function nextWorldSketch() {
-    const keys = Object.keys(worldSketches);
-    const index = keys.indexOf(game.world);
-    if (index < 0 || index >= keys.length - 1) return null;
-    return worldSketches[keys[index + 1]];
+    const nextKey = nextWorldKeyAfter(game.world);
+    return nextKey ? worldSketches[nextKey] : null;
   }
 
   function nextWorldKeyAfter(worldKey) {

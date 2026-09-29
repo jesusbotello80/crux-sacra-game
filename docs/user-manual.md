@@ -49,25 +49,36 @@ On an iPhone, begin in landscape when possible, tap the game once if controls do
 
 You may choose any available hero and companion before a level. The campaign includes Colorado Springs, Juárez, US East, El Paso, Guadalajara, El Rancho, Mexico City, Bedtime Rooms, Holy Land, and a Saints bonus preview. Unlocks and surprise redemption paths are part of the game’s progression.
 
-Collect every glowing **Crux Sacra** before the level’s challenge reaches one. Prayer light protects crosses, Holy Water has limited uses, Rosary power is rare and clears active enemies from the level, and stars grant an additional Holy Water use.
+### Sacramentals & spiritual weapons
+
+Crux Sacra connects game mechanics directly to authentic Catholic tradition and sacramentals:
+
+- **The Saint Benedict Medal (Crux Sacra):** The ancient Latin prayer carved on the Jubilee Medal reads *Crux Sacra Sit Mihi Lux / Non Draco Sit Mihi Dux* ("May the Holy Cross be my light / Let not the dragon be my guide"). In the game, collecting these crosses fills the Lux meter, releasing a radiant prayer wave that repels darkness.
+- **Holy Water (Agua Bendita):** A sacramental recalling our Baptism, used by the faithful to bless, protect, and extinguish spiritual and physical hazards.
+- **The Holy Rosary (El Santo Rosario):** The ultimate spiritual weapon, calling upon Our Lady's maternal intercession to clear active enemies from the level.
+- **Redemption over Destruction:** Grounded in Divine Mercy, the hero does not destroy opponents. When a world boss is reached with the light of the Cross, Jesus heals and redeems them into beloved family members and protectors.
 
 ### Locked items and progression badges
 
 - **Locked badges (`LOCKED / BLOQUEADO`):** Characters and worlds that are visible but not yet accessible display a bilingual badge. They cannot be chosen until their unlock conditions are met through gameplay.
-- **Character roster & permanent heroes (v1.1):** Permanent selectable heroes include Elayitas, Angie, Titín, Abba, Ñaña, Mrs Favi, Mr Chuy, Timmy, Guardian Angel, St Michael, Daroe, and Mamel.
+- **Character roster & permanent heroes (v1.1):** Permanent selectable heroes include Elayitas, Nangie, Titín, Abba, Ñaña, Mrs Favi, Mr Chuy, Timmy, Guardian Angel, St Michael, Daroe, and Mamel.
 - **Redeemed character unlocks:** Other heroes and companions on the menu appear with a locked badge. They are redeemed and unlocked through play by finishing world boss encounters with specific heroes:
   - Elayitas unlocks Tío Abuelo Original
   - Mrs Favi unlocks GaspaRaspa
   - Abba unlocks Tío Abuelo Cuate
   - Daroe unlocks Tía More
   - Mamel unlocks Tío Viktorock
-  - Angie unlocks Doña Carmelina
+  - Nangie unlocks Doña Carmelina
+  - Mr Chuy unlocks Don Maro
   - Ñaña unlocks Tío Tan
   - Titín unlocks Mr Zuil
   - Timmy unlocks Mr Tío
   - Guardian Angel unlocks Father V
   - St Michael unlocks Father M
-- **Surprise pairing redemption:** Selecting Mr Chuy and Mrs Favi together in either order unlocks Don Lalo.
+- **Surprise pairings & deep chains:**
+  - Selecting Mr Chuy and Mrs Favi together in either order unlocks Don Lalo.
+  - Selecting Ñaña as both hero and companion unlocks Angeliux.
+  - Deeper family chains: Winning with redeemed heroes unlocks further family members: Mr Tío unlocks Sr Joe; Doña Carmelina unlocks Lord Santy; Tío Tan unlocks Doña Nene.
 - **World progression gates:**
   - Regular campaign worlds (Colorado Springs, Juárez, US East, El Paso, Guadalajara, Mexico City, Bedtime Rooms) are open from the start.
   - **El Rancho** is currently reserved and displays a locked status until ready for public release.
@@ -134,25 +145,36 @@ En iPhone, comienza en horizontal cuando sea posible, toca el juego una vez si l
 
 Puedes elegir cualquier héroe y compañero disponible antes de un nivel. La campaña incluye Colorado Springs, Juárez, US East, El Paso, Guadalajara, El Rancho, Ciudad de México, Habitaciones de Noche, Tierra Santa y una vista previa de Santos. Los desbloqueos y caminos sorpresa de redención forman parte del progreso.
 
-Reúne cada **Crux Sacra** brillante antes de que el reto del nivel alcance una. La luz de oración protege las cruces, el Agua Bendita tiene usos limitados, el Rosario es poco común y limpia a los enemigos activos del nivel, y las estrellas dan un uso adicional de Agua Bendita.
+### Sacramentales y armas espirituales
+
+Crux Sacra une la aventura con la auténtica tradición y sacramentales de la Iglesia Católica:
+
+- **La Medalla de San Benito (Crux Sacra):** La antigua oración en latín de la Medalla Jubilar proclama: *Crux Sacra Sit Mihi Lux / Non Draco Sit Mihi Dux* ("La Santa Cruz sea mi luz / No sea el dragón mi guía"). Reunir las cruces llena el medidor Lux para desatar la onda protectora de oración.
+- **Agua Bendita:** Sacramental que nos recuerda nuestro Bautismo, purificando el camino y disipando plagas y peligros.
+- **El Santo Rosario:** La gran arma espiritual, invocando la intercesión de la Santísima Virgen María para despejar el campo de toda sombra enemiga.
+- **Redención en lugar de destrucción:** Inspirado en la Divina Misericordia, el héroe no destruye a sus contrincantes. Al alcanzarlos con la luz de la Cruz, Jesús los sana y los transforma en protectores y familiares redimidos.
 
 ### Elementos bloqueados e insignias de progreso
 
 - **Insignias de bloqueo (`LOCKED / BLOQUEADO`):** Los personajes y mundos que están visibles pero aún no disponibles muestran una insignia bilingüe. No se pueden seleccionar hasta cumplir sus condiciones jugando.
-- **Reparto de personajes y héroes permanentes (v1.1):** Los héroes seleccionables permanentes incluyen a Elayitas, Angie, Titín, Abba, Ñaña, Mrs Favi, Mr Chuy, Timmy, Ángel de la Guarda, San Miguel, Daroe y Mamel.
+- **Reparto de personajes y héroes permanentes (v1.1):** Los héroes seleccionables permanentes incluyen a Elayitas, Nangie, Titín, Abba, Ñaña, Mrs Favi, Mr Chuy, Timmy, Ángel de la Guarda, San Miguel, Daroe y Mamel.
 - **Desbloqueo de personajes redimidos:** Otros héroes y compañeros en el menú aparecen con insignia de bloqueado. Se redimen y desbloquean superando encuentros contra jefes de mundo con héroes específicos:
   - Elayitas desbloquea a Tío Abuelo Original
   - Mrs Favi desbloquea a GaspaRaspa
   - Abba desbloquea a Tío Abuelo Cuate
   - Daroe desbloquea a Tía More
   - Mamel desbloquea a Tío Viktorock
-  - Angie desbloquea a Doña Carmelina
+  - Nangie desbloquea a Doña Carmelina
+  - Mr Chuy desbloquea a Don Maro
   - Ñaña desbloquea a Tío Tan
   - Titín desbloquea a Mr Zuil
   - Timmy desbloquea a Mr Tío
   - Ángel de la Guarda desbloquea a Father V
   - San Miguel desbloquea a Father M
-- **Redención sorpresa en pareja:** Seleccionar a Mr Chuy y Mrs Favi juntos (en cualquier orden) desbloquea a Don Lalo.
+- **Parejas sorpresa y cadenas profundas:**
+  - Seleccionar a Mr Chuy y Mrs Favi juntos (en cualquier orden) desbloquea a Don Lalo.
+  - Seleccionar a Ñaña como héroe y compañero desbloquea a Angeliux.
+  - Cadenas familiares profundas: ganar con héroes redimidos desbloquea a más familia: Mr Tío desbloquea a Sr Joe; Doña Carmelina desbloquea a Lord Santy; Tío Tan desbloquea a Doña Nene.
 - **Puertas de progreso de mundos:**
   - Los mundos regulares de la campaña (Colorado Springs, Juárez, US East, El Paso, Guadalajara, Ciudad de México, Habitaciones de Noche) están abiertos desde el inicio.
   - **El Rancho** se encuentra reservado y muestra estado bloqueado hasta que esté listo para el público.

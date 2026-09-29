@@ -10,6 +10,22 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-28 22:45 MT — Muse Code (coordinator): investor round answered direct + covered RT-DOCS-1 + sprite/banner fixes → v110
+
+Investor-theater workflow died on API quota (429, resets 2026-09-29 07:01 UTC) — coordinator delivered the round directly from inspected evidence instead (verdict NOT YET ⇒ this push). AG still silent; RT-DOCS-1 covered per Owner "take the lead".
+
+**Shipped (this push):**
+- Sprites: walk cycles cut to same-facing stride frames only (engine cycles the full array + mirrors by face). `grid1774Walk`→3 R frames (fixes Tío Abuelo Original, Tía More, GaspaRaspa, Tío Viktorock), `tioAbueloCuateWalk`→3 R, `donLaloWalk`→2 R; Daroe `idleFrame`/`previewFrame` 6→0 (was side view, now front like everyone). Mamel sheet visually verified clean — untouched. Geometry verified on all sheets; bug was sequencing, not slicing.
+- Travel banner (RT-LOGIC-1 core): `nextWorldSketch()` now reuses lock-aware `nextWorldKeyAfter()` — banner can no longer advertise locked El Rancho/Final/Bonus. Single caller, null-safe.
+- RT-DOCS-1 covered: ES manual Nangie ×2 + Don Maro line + chains section; guide EN+ES roster + chains; game/README ×2. **Correction:** angeliux = Ñaña+Ñaña per `game.js:5230` — EN manual + this board's RT-DOCS-1 packet text said Nangie+Nangie (wrong), fixed in manual, packet text superseded here.
+- Cache: v109→v110 (`ASSET_VERSION` + `game.js?v=`).
+
+**Verify (local):** `node --check` OK; `npm run gate` PASS (v110); player-facing "Angie" sweep clean (code keys untouched). Live v110 verify (both hosts, Help link, drift) after Pages deploys this push.
+
+**Next:** RT-A11Y-1 (P0 aria-hidden) + RT-I18N-1 next packets; RT-DESIGN items need Owner tuning calls; Daroe true side-view sheet = re-art backlog. Sibling merch plan (`docs/BUSINESS-AND-MERCHANDISE-PLAN.md`, untracked) in flight — untouched.
+
+---
+
 ### 2026-09-28 21:09 MT — Muse Code (coordinator): persona roundtable results (35 findings) + CLAIM-READY AG RT-DOCS-1
 
 Round 1 of the hourly persona loop complete: 5 reviewers (child, parent, skeptic QA, designer, mobile/a11y), 35 findings, all payloads recovered; workflow synthesis step failed on ref-passing so the coordinator consolidated + spot-verified top claims. Full report: [`docs/reviews/M-A-PERSONA-ROUNDTABLE-2026-09-28.md`](reviews/M-A-PERSONA-ROUNDTABLE-2026-09-28.md). Verdict: **Almost** — live stays, bilingual + a11y backlog queued.
