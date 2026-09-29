@@ -21,6 +21,9 @@
  *    sheet / front key resolves; idle/preview indexes in range; redemption
  *    maps and roster buttons resolve to defs. (Rect-vs-sheet bounds live in
  *    tools/sprite-audit.mjs, which needs sips.)
+ * 9. Asset links: every local src/href in game/index.html, game/guide.html,
+ *    root index.html, the webmanifest icons, and every video-intro .mp4
+ *    referenced by game.js exists on disk. (Full report: tools/link-audit.)
  *
  * Exits 0 on PASS, 1 on FAIL.
  */
@@ -276,6 +279,40 @@ if (!gameJs.includes("difficultyRules")) {
     }
     for (const m of indexHtml.matchAll(/data-character="([A-Za-z0-9_]+)"/g)) {
       if (!defs.has(m[1])) failures.push(`roster button with no character def: ${m[1]}`);
+    }
+  }
+}
+
+// Check 9: asset-link integrity (summary of tools/link-audit.mjs)
+{
+  const guideHtmlPath = path.join(repoRoot, "game", "guide.html");
+  const rootIndexPath = path.join(repoRoot, "index.html");
+  const manifestPath = path.join(repoRoot, "game", "manifest.webmanifest");
+  const pages = [
+    [indexHtml, path.join(repoRoot, "game"), "game/index.html"],
+    [fs.existsSync(guideHtmlPath) ? fs.readFileSync(guideHtmlPath, "utf8") : "", path.join(repoRoot, "game"), "game/guide.html"],
+    [fs.existsSync(rootIndexPath) ? fs.readFileSync(rootIndexPath, "utf8") : "", repoRoot, "index.html"],
+  ];
+  for (const [html, base, label] of pages) {
+    for (const m of html.matchAll(/(?:src|href|poster)="([^"#]+)(?:#[^"]*)?"/g)) {
+      const ref = m[1];
+      if (/^(https?:|data:|mailto:)/.test(ref)) continue;
+      if (!fs.existsSync(path.normalize(path.join(base, ref.split("?")[0])))) {
+        failures.push(`broken asset link in ${label}: ${ref}`);
+      }
+    }
+  }
+  if (fs.existsSync(manifestPath)) {
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+    for (const icon of manifest.icons || []) {
+      if (!fs.existsSync(path.normalize(path.join(repoRoot, "game", icon.src.split("?")[0])))) {
+        failures.push(`broken manifest icon: ${icon.src}`);
+      }
+    }
+  }
+  for (const m of new Set([...gameJs.matchAll(/\.\.\/video-intro\/[^"']+\.mp4/g)].map((x) => x[0]))) {
+    if (!fs.existsSync(path.normalize(path.join(repoRoot, "game", m.split("?")[0])))) {
+      failures.push(`missing video referenced by game.js: ${m}`);
     }
   }
 }
