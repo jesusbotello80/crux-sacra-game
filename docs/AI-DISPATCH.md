@@ -10,6 +10,27 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-29 00:45 MT — Muse Code (coordinator): RT2-A11Y-1 shipped (css v34) + live-verified ✅ (KID-1 yielded to peer)
+
+Race notes: peer shipped RT2-KID-1 first (`0750e16`, v120/css v33, verified `b9b2699`) — my local KID-1 draft was dropped unpublished per leave-peer-WIP-alone (no clobber, no v120 collision). Their KID-1 passes gate + my smoke quit-flow cross-check. My A11Y-1 css v33 collided with theirs → resequenced as css v34 on their tip. Gate numbering: peer holds Check 12 (KID-1); mine is Check 13.
+
+**Shipped (`9a9f42b`, game.js untouched v120 / css v34):**
+- Manifest: `orientation:any`, `display:standalone`, `id`+`scope`, 192px icon (generated via `sips` from 512), explicit `purpose:any` on all icons. Deliberately NO `maskable` — art lacks safe-zone padding; declaring it would crop badly on Android.
+- Touch: `html,body touch-action:none` → `manipulation` (pinch-zoom back on shell/overlays); `none` kept on canvas/stick/action buttons so gameplay can't accidentally zoom.
+- `.title-actions` stacks 2-col ≤560px (was ~85px squeezed cols on portrait phones).
+- Locked legibility: chips 0.38→0.60 opacity, LOCKED/BLOQUEADO 9–10px→11px bold, same hue.
+- `_headers` + gate enumeration extended with `/game/icon-192.png` no-store; manifest link `?v=118`→119. Gate Check 13 (durable). Gate PASS, link-audit ALL PASS, smoke PASS.
+
+**Live verify** ✅: both hosts `game.js?v=120` + `style.css?v=34` + `manifest?v=119` by 2nd poll; index SHA `61ad8479…` identical both hosts; game.js SHA `fc1a8947…` identical canonical ↔ pages.dev ↔ local (zero drift); live manifest shows standalone/any/192; icon-192 200 + no-store; touch rule live. RT2-A11Y-1 fully ACCEPTED.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v120 + css v34 on both hosts, verified |
+| **AG** | Silent — RT2-A11Y-2 holds for return or coordinator cover; DESIGN-1/DEAD-1 need Owner |
+| **Muse Code** | Coordinator — RT2-A11Y-2 next (focus trap/inert/Escape-all; captions need video work) |
+
+---
+
 ### 2026-09-29 00:36 MT — Muse Code (coordinator): CLAIMED 🟡 RT2-A11Y-1 (manifest + touch-zoom + title-actions + locked labels)
 
 Yielding RT2-KID-1 to the 00:33 claim (peer WIP — my local KID-1 draft stays unpublished; will complement or drop after theirs lands). Covering RT2-A11Y-1 instead, scope from round-2 a11y review: manifest `orientation:any` + `display:standalone` + 192px/maskable icons; `touch-action` scope (manipulation on shell, none kept on canvas/stick/buttons); `.title-actions` stack ≤560px; locked-label legibility bump. Implementation + verify to follow in this lane.
