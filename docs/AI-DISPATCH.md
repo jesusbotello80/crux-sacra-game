@@ -10,6 +10,22 @@ Protocol: `git pull` → claim **CLAIM-READY** for your lane → edit only in-sc
 
 ---
 
+### 2026-09-28 23:56 MT — Muse Code (coordinator): asset-link audit ALL PASS + gate Check 9 (`f639397`)
+
+Overnight prod-readiness QA, no player-facing change (sequenced after peer v116 — no overlap, no clobber).
+
+**Audited (new `tools/link-audit.mjs`, ALL PASS):** 22 local refs in `game/index.html` + 3 in `guide.html` + 1 root + 2 manifest icons + 77 video-intro refs in `game.js` — every file exists on disk. Complements the live 226/226 sweep (serving) with a repo-side static pin. Music is WebAudio-synthesized (no audio-asset risk). Note: `audio/ending-song-8s-fade.m4a` is orphaned (zero references) — left in place for Owner to keep or remove.
+
+**Durable pin:** gate Check 9 (same coverage). Negative-tested: temporary broken logo src produced FAIL, PASS after restore.
+
+| Lane | Status |
+|------|--------|
+| **Live** | v116 deploying via Pages on peer push (verify on next packet) |
+| **AG** | Silent — remaining packets hold for return or coordinator cover |
+| **Muse Code** | Coordinator — overnight loop continues; Owner calls queued (checkpoints, Holy Land credit, unlock economy, Tacalache voice, spoiler policy, difficulty labels) |
+
+---
+
 ### 2026-09-28 23:52 MT — Muse Code (coordinator): pause-overlay tap hint shipped (v116) — live verify pending
 
 AG silent; coordinator micro-cover (from `/tmp` clone — home checkout still EPERM). Persona round-1 tail: pause overlay was keys-only ("P to resume") with no tap path for phone kids — but `pauseButton` already toggles pause on `pointerdown` and flips to ▶, so the overlay just never said so.
