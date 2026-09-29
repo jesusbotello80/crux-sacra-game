@@ -569,6 +569,58 @@ if (!/function drawFrame\(img,[\s\S]{0,200}?if \(!img\) return;/.test(gameJs)) {
   }
 }
 
+// Check 19: RT2-DESIGN-1 boss checkpoint + Holy Land N-of-M gate + cross cap (v128)
+{
+  const retryTag = indexHtml.match(/<button[^>]*id="retryBossButton"[^>]*>([^<]*)</s);
+  if (!retryTag) {
+    failures.push("index.html is missing #retryBossButton (boss checkpoint)");
+  } else {
+    if (!/hidden/.test(retryTag[0])) failures.push("#retryBossButton must ship hidden (boss checkpoint)");
+    if (!retryTag[1].includes("Retry Boss") || !retryTag[1].includes("Reintentar Jefe")) {
+      failures.push("#retryBossButton label must stay bilingual (Retry Boss / Reintentar Jefe)");
+    }
+  }
+  if (!styleCss.includes("#retryBossButton")) {
+    failures.push("style.css does not style #retryBossButton (boss checkpoint unstyled)");
+  }
+  if (!gameJs.includes('retryBossButton.addEventListener("click", retryBossStage)')) {
+    failures.push("game.js does not wire #retryBossButton to retryBossStage (boss checkpoint dead)");
+  }
+  const retryBody = (gameJs.match(/function retryBossStage\(\) \{[\s\S]*?\n  \}/) || [""])[0];
+  if (!retryBody.includes("startStage(game.stageIndex)")) {
+    failures.push("retryBossStage does not re-enter the same stage (boss checkpoint)");
+  }
+  if (!/game\.lives = Math\.max\(2,/.test(retryBody)) {
+    failures.push("retryBossStage does not restore at least 2 lives (boss checkpoint)");
+  }
+  if (!gameJs.includes("retryBossButton.hidden = !showRetry")) {
+    failures.push("endScreen does not gate #retryBossButton visibility on boss-stage defeat");
+  }
+  if (!gameJs.includes("finalWorldRequiredKeys.length - 1")) {
+    failures.push("Holy Land gate lost its N-of-M count (finalWorldRequiredKeys.length - 1)");
+  }
+  if (/finalWorldRequiredKeys\.every\(/.test(gameJs)) {
+    failures.push("Holy Land gate regressed to .every (all-worlds lock, N-of-M broken)");
+  }
+  const unlockRefs = (gameJs.match(/isFinalWorldUnlocked\(\)/g) || []).length;
+  if (unlockRefs < 4) {
+    failures.push(`isFinalWorldUnlocked has ${unlockRefs} references, expected >= 4 (def + updateWorldLocks + selectWorld + nextWorldKeyAfter)`);
+  }
+  if (!gameJs.includes("Math.min(2, Math.floor(index / 2))")) {
+    failures.push("generateCrosses lost its +2 ramp cap (hard boss cross spikes return)");
+  }
+  const guideHtml19 = fs.readFileSync(path.join(repoRoot, "game", "guide.html"), "utf8");
+  const manualMd19 = fs.readFileSync(path.join(repoRoot, "docs", "user-manual.md"), "utf8");
+  for (const [name, text] of [["game/guide.html", guideHtml19], ["docs/user-manual.md", manualMd19]]) {
+    if (!text.includes("6 regular") || !text.includes("6 mundos")) {
+      failures.push(`${name} Holy Land copy no longer states the 6-world gate (EN + ES)`);
+    }
+  }
+  if (/all active regular campaign worlds|los mundos regulares activos/.test(guideHtml19 + manualMd19 + gameJs)) {
+    failures.push("stale all-worlds Holy Land copy survives (gate copy drift)");
+  }
+}
+
 if (failures.length > 0) {
   reportFailures(failures);
   process.exit(1);
