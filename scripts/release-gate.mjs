@@ -761,6 +761,42 @@ if (!/function drawFrame\(img,[\s\S]{0,200}?if \(!img\) return;/.test(gameJs)) {
   }
 }
 
+// Check 25: VX-PERKS-1 hero perk trio (v138) — every hero tagged, effects wired,
+// hero-grid glyph tags bilingual
+{
+  const defsBlock25 = sliceBlock("const characterDefs =", "const difficultySettings =");
+  const perksBlock = (gameJs.match(/const heroPerks = \{[\s\S]*?\n  \};/) || [""])[0];
+  if (!perksBlock) {
+    failures.push("heroPerks mapping table missing (every hero needs swift/bright/sturdy)");
+  } else if (defsBlock25) {
+    for (const m of defsBlock25.matchAll(/^    ([A-Za-z0-9_]+): \{/gm)) {
+      const tag = perksBlock.match(new RegExp(`^    ${m[1]}: "(swift|bright|sturdy)",?\\s*$`, "m"));
+      if (!tag) failures.push(`hero ${m[1]} has no valid perk tag (want swift/bright/sturdy)`);
+    }
+  }
+  for (const effect of ['selectedHeroPerk() === "swift"', 'selectedHeroPerk() === "bright"', 'selectedHeroPerk() === "sturdy"']) {
+    if (!gameJs.includes(effect)) failures.push(`perk effect unwired: ${effect}`);
+  }
+  if (!gameJs.includes("245 * (selectedHeroPerk()")) {
+    failures.push("swift perk lost its move-speed effect (245 * …)");
+  }
+  if (!gameJs.includes("difficulty.spray + (selectedHeroPerk()")) {
+    failures.push("sturdy perk lost its +1 Holy Water effect (difficulty.spray + …)");
+  }
+  for (const name of ["Swift / Veloz", "Bright / Radiante", "Sturdy / Firme"]) {
+    if (!gameJs.includes(name)) failures.push(`perk name missing its bilingual label: ${name}`);
+  }
+  const decorateBody = (gameJs.match(/function decorateHeroPerks\(\) \{[\s\S]*?\n  \}/) || [""])[0];
+  if (!decorateBody) {
+    failures.push("decorateHeroPerks missing (hero grid needs perk glyph tags)");
+  } else if (!decorateBody.includes("dataset.role") || !decorateBody.includes('"hero"')) {
+    failures.push("perk tags leak onto companion buttons (must be hero-grid only)");
+  }
+  if (!gameJs.includes("perk-tag") || !styleCss.includes(".perk-tag")) {
+    failures.push("perk-tag styling missing in game.js or style.css (glyph tags unstyled)");
+  }
+}
+
 if (failures.length > 0) {
   reportFailures(failures);
   process.exit(1);

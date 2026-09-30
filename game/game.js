@@ -112,7 +112,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "137";
+  const ASSET_VERSION = "139";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -704,6 +704,68 @@
     regular: { label: "Regular / Normal", lives: 3, spray: 4, speed: 1, hazards: 1, lightning: 0.86, lightningWarning: 1.55, fireBonus: 0, danger: 1, crossBonus: 0 },
     hard: { label: "Hard / Difícil", lives: 2, spray: 3, speed: 1.24, hazards: 0.72, lightning: 0.58, lightningWarning: 1.18, fireBonus: 1, danger: 1.32, crossBonus: 1 },
   };
+
+  // VX-PERKS-1: one gameplay perk per hero (re-tag freely; gate Check 25 pins
+  // coverage). Companion picks stay cosmetic. Kept outside the
+  // characterDefs/difficultySettings span so the Check 8 def parser stays pure.
+  const heroPerks = {
+    elayitas: "swift",
+    angie: "swift",
+    ttitin: "swift",
+    abba: "swift",
+    nana: "bright",
+    mrsFavi: "sturdy",
+    mrChuy: "sturdy",
+    timmy: "swift",
+    guardian: "swift",
+    michael: "swift",
+    tan: "sturdy",
+    donMaro: "bright",
+    donaCarmelina: "bright",
+    mrZuil: "sturdy",
+    mrTio: "sturdy",
+    fatherV: "bright",
+    fatherM: "bright",
+    angeliux: "bright",
+    srJoe: "sturdy",
+    lordSanty: "sturdy",
+    donaNene: "sturdy",
+    gaspaRaspa: "swift",
+    tioAbueloOriginal: "bright",
+    tioAbueloCuate: "bright",
+    tiaMore: "bright",
+    donLalo: "sturdy",
+    tioViktorock: "sturdy",
+    daroe: "swift",
+    mamel: "swift",
+  };
+
+  const PERK_META = {
+    swift: { glyph: "⚡", name: "Swift / Veloz" },
+    bright: { glyph: "✦", name: "Bright / Radiante" },
+    sturdy: { glyph: "🛡", name: "Sturdy / Firme" },
+  };
+
+  function selectedHeroPerk() {
+    return heroPerks[game.selectedHero];
+  }
+
+  function decorateHeroPerks() {
+    for (const button of characterButtons) {
+      if (button.dataset.role !== "hero") continue;
+      if (button.querySelector(".perk-tag")) continue;
+      const meta = PERK_META[heroPerks[button.dataset.character]];
+      if (!meta) continue;
+      const tag = document.createElement("span");
+      tag.className = "perk-tag";
+      tag.textContent = meta.glyph;
+      const sr = document.createElement("span");
+      sr.className = "sr-only";
+      sr.textContent = meta.name;
+      tag.appendChild(sr);
+      button.appendChild(tag);
+    }
+  }
 
   const worldHazards = {
     colorado: {
@@ -2085,11 +2147,13 @@
       button.disabled = locked;
       button.classList.toggle("locked", locked);
       button.setAttribute("aria-disabled", locked ? "true" : "false");
-      button.title = locked ? "Locked until redeemed / Bloqueado hasta redimirlo" : "";
+      const perkName = button.dataset.role === "hero" ? (PERK_META[heroPerks[key]] || {}).name || "" : "";
+      button.title = locked ? "Locked until redeemed / Bloqueado hasta redimirlo" : perkName;
       if (locked && button.classList.contains("selected")) {
         button.classList.remove("selected");
       }
     }
+    decorateHeroPerks();
     syncSelectPressed();
   }
 
@@ -2514,7 +2578,7 @@
     game.lightnings = [];
     game.stars = [];
     game.rosaries = [];
-    game.sprayAmmo = difficulty.spray;
+    game.sprayAmmo = difficulty.spray + (selectedHeroPerk() === "sturdy" ? 1 : 0);
     game.rosaryAmmo = 0;
     game.sprayCooldown = 0;
     game.rosaryCooldown = 0;
@@ -2534,6 +2598,17 @@
   function startStage(index) {
     initAudio();
     resumeAudio();
+    game.mode = "playing";
+    game.last = performance.now();
+    keys.clear();
+    joy.active = false;
+    joy.id = null;
+    touchMove.active = false;
+    touchMove.id = null;
+    game.prayer = 0;
+    game.shake = 0;
+    game.sprayCooldown = 0;
+    game.rosaryCooldown = 0;
     const stage = stages[index];
     const difficulty = difficultySettings[game.difficulty] || difficultySettings.regular;
     const ramp = 1 + index * 0.09;
@@ -2553,6 +2628,7 @@
     game.stars = [makeStar(stage)];
     game.rosaries = [makeRosary(stage)];
     game.effects = [];
+    game.particles = [];
     game.pendingEnd = null;
     game.nextSpitAt = game.time + 2.5 / ramp;
     game.nextFireAt = game.time + 3.2 / ramp;
@@ -2850,7 +2926,10 @@
   function retryBossStage() {
     endScreen.classList.add("hidden");
     syncModalInert();
-    game.lives = Math.max(2, difficultySettings[game.difficulty]?.lives || 2);
+    const difficulty = difficultySettings[game.difficulty] || difficultySettings.regular;
+    game.mode = "playing";
+    game.lives = Math.max(2, difficulty?.lives || 2);
+    game.sprayAmmo = Math.max(game.sprayAmmo, difficulty.spray);
     startStage(game.stageIndex);
     announceStatus(`Restarting boss stage with ${game.lives} lives. / Reiniciando etapa del jefe con ${game.lives} vidas.`);
   }
@@ -2858,7 +2937,10 @@
   function retryStage() {
     endScreen.classList.add("hidden");
     syncModalInert();
-    game.lives = Math.max(2, difficultySettings[game.difficulty]?.lives || 2);
+    const difficulty = difficultySettings[game.difficulty] || difficultySettings.regular;
+    game.mode = "playing";
+    game.lives = Math.max(2, difficulty?.lives || 2);
+    game.sprayAmmo = Math.max(game.sprayAmmo, difficulty.spray);
     startStage(game.stageIndex);
     announceStatus(`Restarting stage with ${game.lives} lives. / Reiniciando el nivel con ${game.lives} vidas.`);
   }
@@ -3233,7 +3315,7 @@
 
     const p = game.player;
     const v = inputVector();
-    const speed = 245;
+    const speed = 245 * (selectedHeroPerk() === "swift" ? 1.12 : 1);
     p.vx = v.x * speed;
     p.vy = v.y * speed * 0.72;
     if (Math.abs(v.x) > 0.05) p.face = v.x > 0 ? 1 : -1;
@@ -3266,7 +3348,7 @@
         cross.got = true;
         cross.danger = 0;
         game.collected += 1;
-        game.lux = Math.min(100, game.lux + 22);
+        game.lux = Math.min(100, game.lux + (selectedHeroPerk() === "bright" ? 33 : 22));
         playPickup();
         game.message = game.collected < game.crosses.length
           ? "Lux collected / Luz encontrada"

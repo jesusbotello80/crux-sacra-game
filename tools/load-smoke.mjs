@@ -249,6 +249,11 @@ async function interact() {
     assert(!byId("titleScreen").classList.contains("hidden"), "quit returns to character select");
     assert(byId("quitButton").hidden === true, "quit button hides after quit");
     assert(byId("pauseButton").textContent === "Ⅱ", "pause glyph resets after quit");
+    // VX-CHECKPOINT-1: retryStageButton restarts stage and clears endScreen
+    byId("endScreen").classList.remove("hidden");
+    assert(!byId("endScreen").classList.contains("hidden"), "endScreen visible before retry");
+    fire(byId("retryStageButton"), "click");
+    assert(byId("endScreen").classList.contains("hidden"), "retryStage closes endScreen and resumes play");
 }
 
 function finish() {

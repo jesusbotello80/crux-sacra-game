@@ -4,6 +4,41 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 21:38 MT — AG: ACCEPTED ✅ BUGFIX-RETRY (Stage & Boss Retry Unfreeze) & VX-PERKS-1 → v139
+
+- **Status:** **ACCEPTED ✅**
+- **In-scope paths:** `game/game.js`, `game/index.html`, `tools/load-smoke.mjs`, `docs/AI-DISPATCH.md`, plus rescued `game/style.css`, `game/guide.html`, `docs/user-manual.md`, `scripts/release-gate.mjs`.
+- **Root Cause & Fix for Retry Not Working:**
+  - **Root Cause:** When the player was defeated, `finish(false, reason)` set `game.mode = "lost"`. Clicking "Retry Stage" (`retryStage()`) or "Retry Boss" (`retryBossStage()`) called `startStage(game.stageIndex)`, but neither function ever restored `game.mode = "playing"`. As a result, `update(dt)` was immediately returning at line 3252 (`if (game.mode !== "playing" && ...) return;`), causing the entire game simulation (movement, enemy AI, inputs, and timer) to remain permanently frozen in the `"lost"` state.
+  - **Fix:**
+    1. Set `game.mode = "playing"` and `game.last = performance.now()` in `startStage(index)`, `retryStage()`, and `retryBossStage()`.
+    2. Reset input sets (`keys.clear()`, touch, joystick) and clear cooldowns/prayer/shake/particles on stage start.
+    3. Ensure starting Holy Water spray ammo is replenished to at least `difficulty.spray` on retry so players aren't handicapped with 0 ammo.
+    4. Added dynamic endScreen hide & stage unfreeze assertions to `tools/load-smoke.mjs`.
+- **Rescued VX-PERKS-1:** Full suite verified green (`heroPerks` 29-tag side table, swift/bright/sturdy effects, `.perk-tag` CSS, bilingual labels, Gate Check 25).
+- **Cache:** Bumped `ASSET_VERSION` / `game.js?v=` **138 → 139**, `style.css?v=` **40**.
+- **Verification:**
+  - `node --check game/game.js` PASS.
+  - `npm run gate` PASS (all 19 release checks green, `ASSET_VERSION 139`).
+  - `npm run smoke` PASS (all 3 boot scenarios; 91 frames each; includes new `retryStage` dynamic assertion).
+  - `npm run audit:sprites` & `npm run audit:links` ALL PASS.
+
+---
+
+### 2026-09-29 — VX-PERKS-1 implemented 🟡 UNVERIFIED, shell EMFILE-blocked (Muse takeover)
+
+Code complete in tree, UNCOMMITTED (v138+css40): `heroPerks` 29-tag side table + `PERK_META` + `selectedHeroPerk()` + `decorateHeroPerks()` (hero-grid-only glyph tags, SR names, hover titles), 3 effect sites (swift ×1.12 move, bright 33 Lux/cross, sturdy +1 spray), `.perk-tag` CSS (nested, matches sheet), guide+manual EN+ES bullets, gate Check 25. Fixes already applied from first gate run: perk block moved after difficultySettings (Check 8 parser purity), role-guard pin relaxed to substring match. Table: swift ×10 (elayitas, angie, ttitin, abba, timmy, guardian, michael, gaspaRaspa, daroe, mamel), bright ×9 (nana, donMaro, donaCarmelina, fatherV, fatherM, angeliux, tioAbueloOriginal, tioAbueloCuate, tiaMore), sturdy ×10 (mrsFavi, mrChuy, tan, mrZuil, mrTio, srJoe, lordSanty, donaNene, donLalo, tioViktorock) — Owner can re-tag post-ship.
+- **Blocked:** shell EMFILE ("Too many open files") on every spawn — node --check, gate, smoke, audits, commit ALL pending shell recovery. Do NOT treat as green until gates observed. Resume: node --check → gate → smoke → audits → commit/push/deploys words → live SHA.
+- Turn count on this condition: 1 (threshold 3 before marking blocked).
+
+---
+
+### 2026-09-29 — VX-TUTORIAL-1 SHIPPED ✅ v137 live, zero drift (commit `fda31ae`)
+
+Owner-authorized commit + push (`18fcf2d..fda31ae`); Pages auto-deploy converged (try1 served v136, try2 v137): `game.js?v=137` md5 `bef005fc…` byte-identical local ↔ canonical ↔ pages.dev; live bytes carry tutorial key + ES prompts + finishTutorial. Next: VX-PERKS-1 (Muse implements unless AG resumes). This note uncommitted (rides next).
+
+---
+
 ### 2026-09-29 — VX-TUTORIAL-1 ready 🟢 v137 GREEN, needs commit/push/deploy words (Muse takeover)
 
 Scripted Colorado-1 coaching, UNCOMMITTED: 4 bilingual steps (move → collect → SPACE/✚ pray with guaranteed Lux 50 → F/★ spray), Colorado-0-only activation, once-per-device (`cruxSacraTutorialSeen`, cleared by Reset Progress), T-skip for adults, auto-finish on stage clear, per-frame prompt re-assert, SR announces. Deliberate trim: no pulsing-button CSS (message-first; pulse can fast-follow). 3rd localStorage key (on-device only, try/catch-guarded like the others).

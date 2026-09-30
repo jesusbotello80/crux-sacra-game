@@ -627,6 +627,12 @@ button:focus-visible {
   display: flex;
   align-items: center;
   gap: 8px;
+  .perk-tag {
+    margin-left: auto;
+    font-size: 14px;
+    line-height: 1;
+    color: #f8dc71;
+  }
   background: rgba(9, 15, 25, 0.76);
   color: #fff9dc;
   font-size: 13px;
