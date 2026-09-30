@@ -25,6 +25,7 @@
   const progressStatus = document.getElementById("progressStatus");
   const againButton = document.getElementById("againButton");
   const retryBossButton = document.getElementById("retryBossButton");
+  const retryStageButton = document.getElementById("retryStageButton");
   const endTitle = document.getElementById("endTitle");
   const endCopy = document.getElementById("endCopy");
   const lightFill = document.getElementById("lightFill");
@@ -110,7 +111,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "135";
+  const ASSET_VERSION = "136";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -2760,10 +2761,17 @@
       retryBossButton.hidden = !showRetry;
       retryBossButton.classList.toggle("hidden", !showRetry);
     }
+    if (retryStageButton) {
+      const showRetryStage = !win && !isBossStage;
+      retryStageButton.hidden = !showRetryStage;
+      retryStageButton.classList.toggle("hidden", !showRetryStage);
+    }
     endScreen.classList.remove("hidden");
     syncModalInert();
     if (!win && isBossStage && retryBossButton && !retryBossButton.hidden) {
       retryBossButton.focus();
+    } else if (!win && !isBossStage && retryStageButton && !retryStageButton.hidden) {
+      retryStageButton.focus();
     } else {
       againButton.focus();
     }
@@ -2778,6 +2786,14 @@
     announceStatus(`Restarting boss stage with ${game.lives} lives. / Reiniciando etapa del jefe con ${game.lives} vidas.`);
   }
 
+  function retryStage() {
+    endScreen.classList.add("hidden");
+    syncModalInert();
+    game.lives = Math.max(2, difficultySettings[game.difficulty]?.lives || 2);
+    startStage(game.stageIndex);
+    announceStatus(`Restarting stage with ${game.lives} lives. / Reiniciando el nivel con ${game.lives} vidas.`);
+  }
+
   function finishAfter(win, delay, reason = "tacalache") {
     game.mode = "ending";
     game.pendingEnd = { win, timer: delay, reason };
@@ -2787,6 +2803,10 @@
     if (retryBossButton) {
       retryBossButton.hidden = true;
       retryBossButton.classList.add("hidden");
+    }
+    if (retryStageButton) {
+      retryStageButton.hidden = true;
+      retryStageButton.classList.add("hidden");
     }
     game.mode = "title";
     game.stageClearTimer = 0;
@@ -5108,6 +5128,7 @@
     if (!helpScreen.classList.contains("hidden")) return helpCloseButton;
     if (!endScreen.classList.contains("hidden")) {
       if (retryBossButton && !retryBossButton.hidden && !retryBossButton.classList.contains("hidden")) return retryBossButton;
+      if (retryStageButton && !retryStageButton.hidden && !retryStageButton.classList.contains("hidden")) return retryStageButton;
       return againButton;
     }
     if (!titleScreen.classList.contains("hidden")) return startButton;
@@ -5410,6 +5431,7 @@
   if (helpCloseButton) helpCloseButton.addEventListener("click", closeHelp);
   againButton.addEventListener("click", showCharacterSelect);
   if (retryBossButton) retryBossButton.addEventListener("click", retryBossStage);
+  if (retryStageButton) retryStageButton.addEventListener("click", retryStage);
   if (introButton) introButton.addEventListener("click", () => {
     playIntroSequence(false);
   });

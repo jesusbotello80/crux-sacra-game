@@ -691,6 +691,47 @@ if (!/function drawFrame\(img,[\s\S]{0,200}?if \(!img\) return;/.test(gameJs)) {
 
 // Check 22 retired: RT5-SCENE-1 reverted per Owner playtest (videos restored as the finale).
 
+// Check 23: VX-FEEL-1 denied feedback + i-frames (v135) and VX-CHECKPOINT-1
+// non-boss stage retry (v136, free infinite per Owner 2026-09-29)
+{
+  for (const literal of ["Need Lux! / ¡Necesita Lux!", "Empty! / ¡Vacío!"]) {
+    if (!gameJs.includes(literal)) {
+      failures.push(`denied-button feedback lost its bilingual line: ${literal}`);
+    }
+  }
+  if (!gameJs.includes("game.invulnUntil = game.time + 1.0")) {
+    failures.push("villain-contact i-frames missing (game.invulnUntil = game.time + 1.0)");
+  }
+  if (!gameJs.includes("game.time >= (game.invulnUntil || 0)")) {
+    failures.push("villain-contact guard lost its invuln check (unfair instant re-hit)");
+  }
+  const retryTag = indexHtml.match(/<button[^>]*id="retryStageButton"[^>]*>([^<]*)</s);
+  if (!retryTag) {
+    failures.push("index.html is missing #retryStageButton (non-boss checkpoint)");
+  } else {
+    if (!/hidden/.test(retryTag[0])) failures.push("#retryStageButton must ship hidden (non-boss checkpoint)");
+    if (!retryTag[1].includes("Retry Stage") || !retryTag[1].includes("Reintentar nivel")) {
+      failures.push("#retryStageButton label must stay bilingual (Retry Stage / Reintentar nivel)");
+    }
+  }
+  if (!styleCss.includes("#retryStageButton")) {
+    failures.push("style.css does not style #retryStageButton (compact 44px target missing)");
+  }
+  if (!gameJs.includes('retryStageButton.addEventListener("click", retryStage)')) {
+    failures.push("game.js does not wire #retryStageButton to retryStage (non-boss checkpoint dead)");
+  }
+  const retryBody = (gameJs.match(/function retryStage\(\) \{[\s\S]*?\n  \}/) || [""])[0];
+  if (!retryBody.includes("startStage(game.stageIndex)")) {
+    failures.push("retryStage does not re-enter the same stage (non-boss checkpoint)");
+  }
+  if (!/game\.lives = Math\.max\(2,/.test(retryBody)) {
+    failures.push("retryStage does not restore at least 2 lives (non-boss checkpoint)");
+  }
+  if (!gameJs.includes("retryStageButton.hidden = !showRetryStage")) {
+    failures.push("endScreen does not gate #retryStageButton visibility on non-boss defeat");
+  }
+}
+
 if (failures.length > 0) {
   reportFailures(failures);
   process.exit(1);

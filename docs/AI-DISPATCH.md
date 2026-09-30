@@ -4,6 +4,15 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 — Muse Code: TAKEOVER 🟢 (AG paused per Owner) — VX-CHECKPOINT-1 implemented, v136 GREEN, needs commit/push/deploy words
+
+Owner paused AG; Muse owns implement + QA until AG resumes. FEEL-1 QA closed by Muse: node --check + gate + smoke 3/3 + both audits PASS on v135; live re-confirm curl timed out in sandbox (exit 28, proxy flake) — AG's live zero-drift SHA `982b5306…` (matches local) stands as live evidence.
+- **VX-CHECKPOINT-1 in tree, UNCOMMITTED (v136+css39):** `retryStageButton` (hidden, "Retry Stage / Reintentar nivel") mirrors boss-retry exactly — decl, `finish()` visibility (`!win && !isBossStage`), focus branch, `retryStage()` (hide endScreen, full difficulty lives via `Math.max(2,…)`, `startStage(game.stageIndex)`, bilingual announce), `showCharacterSelect` hide, `overlayDefaultButton`, click wiring; compact-44px CSS selector extended; guide + manual EN+ES stage-retry bullets; gate Check 23 (FEEL-1 pins + checkpoint pins, fail-before/pass-after observed).
+- **Verify observed:** node --check PASS, gate PASS (ASSET 136), smoke 3/3 (91 frames), sprite ALL PASS, link ALL PASS, diff --check clean. 7 files, +80/−7.
+- **Needs Owner words:** commit + push + deploy v136 (per-packet), then live SHA triple-check. Next after ship: VX-TUTORIAL-1 (Muse implements unless AG resumes).
+
+---
+
 ### 2026-09-29 19:47 MT — AG: ACCEPTED ✅ TASK-VX-FEEL-1 (Silent-Button Feedback + Knockback & i-Frames) → v135
 
 - **Status:** **ACCEPTED ✅**
@@ -32,9 +41,9 @@ Owner approved the video-game-expert improvement plan (`go`). 6 packets, queue o
 | 1 | VX-FEEL-1 silent-button feedback + knockback/i-frames | none — START HERE | ✅ ACCEPTED (v135) |
 | 2 | VX-CHECKPOINT-1 retry current stage | ✅ Owner: FREE infinite | 📋 claim-ready |
 | 3 | VX-TUTORIAL-1 scripted Colorado-1 | none (ES eyeball at QA) | 📋 claim-ready |
-| 4 | VX-PERKS-1 hero perk trio | ❌ Owner: SKIP — heroes stay cosmetic | cancelled, do not build |
-| 5 | VX-STARS-1 stars + sticker album | album placement — asked, pending | 📋 claim-ready |
-| 6 | VX-AUDIO-1 music/SFX upgrade | asset direction — asked, pending | ⏸ blocked until assets land |
+| 4 | VX-PERKS-1 hero perk trio | ✅ Owner: BUILD (revived) | 📋 claim-ready |
+| 5 | VX-STARS-1 stars + end-screen strip | ✅ Owner: stars in world buttons + end-screen strip; NO album page | 📋 claim-ready |
+| 6 | VX-AUDIO-1 music/SFX upgrade | ⏸ Owner: SKIP for now | deferred, do not build |
 
 **VX-FEEL-1 (game.js ONLY, no HTML/CSS):** (a) pray denied (:2917 `lux<28` silent return) → set `game.message` "Need Lux! / ¡Necesita Lux!" + short blip via existing tone fn (no new audio assets); (b) spray denied (:2937) → "Empty! / ¡Vacío!" + click; rosary denied (:2980) → same pattern; (c) villain contact (:3178 `danger<76`, life loss :3177-3180) → knock hero back ~60px from enemy + 1s invuln (new `game.invulnUntil` timestamp checked at :3178; blink hero while invuln using existing draw alpha if trivial, else skip blink). Bilingual literals; no new buttons. Accept: node --check, gate PASS, smoke 3/3, Owner phone check (Space at 0 Lux talks back; corner-touch feels fair).
 
@@ -42,7 +51,11 @@ Owner approved the video-game-expert improvement plan (`go`). 6 packets, queue o
 
 **VX-TUTORIAL-1 (game.js + index.html; style.css ONLY if prompt highlight needs it):** scripted beats on first Colorado stage only (`game.world==="colorado"`, stages idx 0; :1872,:2445): move-to-arrow → collect 1 cross → pulsing "Press SPACE! / ¡Pulsa ESPACIO!" (guaranteed Lux so prayer succeeds) → villain approach → spray prompt → done. Once-per-device via new localStorage key (document it; privacy: on-device only). Reuse `game.message` + existing buttons; skip control for replaying adults. Accept: gate + smoke + Owner cold-start phone observation (a 7yo gets the verbs with zero Help).
 
-**VX-PERKS-1: ❌ CANCELLED per Owner 2026-09-29** (heroes stay cosmetic-only; roster-as-wallpaper accepted). AG: do not build. Queue order now: FEEL-1 → CHECKPOINT-1 → TUTORIAL-1 → STARS-1 → AUDIO-1. Deploys: per-packet (Owner-confirmed). Checkpoint: free infinite (Owner-confirmed).
+**VX-PERKS-1: ✅ REVIVED per Owner 2026-09-29 — BUILD.** `characterDefs` gains `perk: "swift"|"bright"|"sturdy"` per hero (AG proposes the 29-tag mapping in the claim note; Owner can re-tag): swift +12% move, bright +Lux per cross, sturdy +1 Holy Water at stage start. Perk glyph + EN/ES name on hero select buttons. No enemy rebalance. Queue restored: FEEL-1 → CHECKPOINT-1 → TUTORIAL-1 → PERKS-1 → STARS-1. Deploys: per-packet. Checkpoint: free infinite.
+
+**VX-STARS-1 scope LOCKED per Owner:** (a) star rating (`★★☆`-style) rendered INSIDE each `world-choice` button under its label — no new screens; (b) earned-sticker strip on the END screen (`#endScreen`) post-victory. NO separate album/gallery page, NO title-screen album strip. New localStorage keys documented (on-device only).
+
+**VX-AUDIO-1: ⏸ DEFERRED per Owner 2026-09-29** (skip for now; WebAudio score stays). AG: do not build. Revisit as a future round.
 
 **VX-STARS-1 (game.js + index.html):** track hits-taken + clear-time per stage; 3-star rating on world pass; star row on world select + sticker (villain-face) album on title screen. New localStorage keys documented. Placement proposal: stars under each world button, album as a title-screen strip — Owner confirms or redirects at claim time. Accept: gate + smoke + Owner parent-night check (kid has something to show tonight).
 

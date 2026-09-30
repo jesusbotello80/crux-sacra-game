@@ -85,6 +85,7 @@ Crux Sacra connects game mechanics directly to authentic Catholic tradition and 
   - **Holy Land (Tierra Santa)** unlocks after completing 6 regular campaign worlds.
   - **Saints (Santos)** bonus preview unlocks after completing Holy Land.
 - **Boss retry:** Losing to a world boss offers Retry Boss, which restarts that boss stage with full difficulty lives (Easy 5 / Regular 3 / Hard 2) — the world run is kept.
+- **Stage retry:** Losing on a regular stage offers Retry Stage, which restarts that same stage with full difficulty lives — free, as many times as needed.
 - **Saving progress:** All earned character unlocks and completed worlds are automatically saved to your browser's local device storage. There are no shortcut cheat codes; to start fresh, use the **Reset Progress / Reiniciar Progreso** button on the title screen.
 
 ### Audio, accessibility, and care
@@ -182,6 +183,7 @@ Crux Sacra une la aventura con la auténtica tradición y sacramentales de la Ig
   - **Tierra Santa (Holy Land)** se desbloquea tras superar 6 mundos regulares de la campaña.
   - La vista previa de **Santos (Saints)** se desbloquea tras superar Tierra Santa.
 - **Reintento del jefe:** Perder ante un jefe de mundo ofrece Reintentar el jefe, que reinicia esa etapa con todas las vidas de la dificultad (Fácil 5 / Normal 3 / Difícil 2); el avance del mundo se conserva.
+- **Reintento de nivel:** Perder en un nivel regular ofrece Reintentar nivel, que reinicia ese mismo nivel con todas las vidas de la dificultad — gratis, las veces que necesites.
 - **Guardado de progreso:** Todos los personajes desbloqueados y mundos superados se guardan automáticamente en la memoria local de tu navegador. No hay códigos trampa; para reiniciar desde cero, usa el botón **Reset Progress / Reiniciar Progreso** en la pantalla inicial.
 
 ### Audio, accesibilidad y cuidado
