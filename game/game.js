@@ -110,7 +110,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "134";
+  const ASSET_VERSION = "135";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -1903,6 +1903,7 @@
     travel: null,
     warningSoundAt: 0,
     finalSequencePlayed: false,
+    invulnUntil: 0,
     unlockedRedeemed: new Set(),
     passedWorlds: new Set(),
   };
@@ -2414,6 +2415,19 @@
     tone(130.81, now, 1.1, "triangle", 0.12, audio.sfx);
   }
 
+  function playBlip() {
+    if (!audio.enabled) return;
+    const now = audio.ctx.currentTime;
+    tone(260.0, now, 0.08, "square", 0.15, audio.sfx);
+    tone(196.0, now + 0.04, 0.08, "square", 0.12, audio.sfx);
+  }
+
+  function playClick() {
+    if (!audio.enabled) return;
+    const now = audio.ctx.currentTime;
+    tone(320.0, now, 0.03, "sine", 0.14, audio.sfx);
+  }
+
   function reset() {
     initAudio();
     resumeAudio();
@@ -2442,6 +2456,7 @@
     game.pendingEnd = null;
     game.travel = null;
     game.finalSequencePlayed = false;
+    game.invulnUntil = 0;
     startStage(0);
     titleScreen.classList.add("hidden");
     endScreen.classList.add("hidden");
@@ -2461,6 +2476,7 @@
     game.stageClearTimer = 0;
     game.travel = null;
     game.collected = 0;
+    game.invulnUntil = 0;
     game.message = stage.message;
     game.player = { x: stage.start.x, y: stage.start.y, vx: 0, vy: 0, w: 78, h: 128, face: 1 };
     game.companion = { x: stage.start.x - 95, y: stage.start.y + 16, face: 1 };
@@ -2696,6 +2712,7 @@
     game.travel = null;
     game.prayer = 0;
     game.shake = 0;
+    game.invulnUntil = game.time + 1.0;
     game.projectiles = [];
     game.fires = [];
     game.lightnings = [];
@@ -2914,8 +2931,15 @@
   }
 
   function pray() {
-    if (game.mode !== "playing" || game.lux < 28) return;
+    if (game.mode !== "playing") return;
     initAudio();
+    resumeAudio();
+    if (game.lux < 28) {
+      game.message = "Need Lux! / ¡Necesita Lux!";
+      announceStatus(game.message);
+      playBlip();
+      return;
+    }
     const stage = stages[game.stageIndex];
     game.prayer = 1.15;
     game.lux = Math.max(0, game.lux - 28);
@@ -2934,9 +2958,16 @@
   }
 
   function useSpray() {
-    if (game.mode !== "playing" || game.sprayAmmo <= 0 || game.sprayCooldown > 0) return;
+    if (game.mode !== "playing") return;
     initAudio();
     resumeAudio();
+    if (game.sprayAmmo <= 0) {
+      game.message = "Empty! / ¡Vacío!";
+      announceStatus(game.message);
+      playClick();
+      return;
+    }
+    if (game.sprayCooldown > 0) return;
     game.sprayAmmo -= 1;
     game.sprayCooldown = 0.42;
     const p = game.player;
@@ -2977,9 +3008,16 @@
   }
 
   function useRosary() {
-    if (game.mode !== "playing" || game.rosaryAmmo <= 0 || game.rosaryCooldown > 0) return;
+    if (game.mode !== "playing") return;
     initAudio();
     resumeAudio();
+    if (game.rosaryAmmo <= 0) {
+      game.message = "Empty! / ¡Vacío!";
+      announceStatus(game.message);
+      playClick();
+      return;
+    }
+    if (game.rosaryCooldown > 0) return;
     game.rosaryAmmo -= 1;
     game.rosaryCooldown = 1.25;
     game.prayer = 1.85;
@@ -3175,8 +3213,22 @@
     }
 
     const danger = Math.hypot(e.x - p.x, e.y - p.y);
-    if (danger < 76 && game.prayer <= 0 && e.stun <= 0) {
-      loseLife("tacalache");
+    if (danger < 76 && game.prayer <= 0 && e.stun <= 0 && game.time >= (game.invulnUntil || 0)) {
+      game.lives -= 1;
+      if (game.lives <= 0) {
+        finish(false, "tacalache");
+      } else {
+        game.invulnUntil = game.time + 1.0;
+        const angle = Math.atan2(p.y - e.y, p.x - e.x);
+        const knockX = Math.abs(Math.cos(angle)) > 0.1 ? Math.sign(Math.cos(angle)) : (p.x < e.x ? -1 : 1);
+        p.x = clamp(p.x + knockX * 60, 80, 1190);
+        p.y = clamp(p.y + Math.sin(angle) * 35, 340, 620);
+        playDanger();
+        game.shake = 0.25;
+        game.message = `${defeatMessages.tacalache || "Watch out for the villain! / ¡Cuidado con el villano!"} Lives left / Vidas restantes: ${game.lives}`;
+        announceStatus(game.message);
+        updateHud();
+      }
     }
 
     updateMusic();
@@ -3507,7 +3559,15 @@
     const moving = game.mode === "travel" || Math.hypot(p.vx, p.vy) > 8;
     const hero = characterDefs[game.selectedHero];
     const companion = characterDefs[game.selectedCompanion];
-    drawCharacter(hero, p.x, p.y, p.face, moving, false);
+    const invuln = game.invulnUntil && game.time < game.invulnUntil;
+    if (invuln && Math.floor(game.time * 10) % 2 === 0) {
+      ctx.save();
+      ctx.globalAlpha = 0.35;
+      drawCharacter(hero, p.x, p.y, p.face, moving, false);
+      ctx.restore();
+    } else {
+      drawCharacter(hero, p.x, p.y, p.face, moving, false);
+    }
     if (game.selectedCompanion !== game.selectedHero) {
       drawCharacter(companion, game.companion.x, game.companion.y, game.companion.face, moving, true);
     }

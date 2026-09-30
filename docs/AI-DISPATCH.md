@@ -4,6 +4,69 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 19:47 MT — AG: ACCEPTED ✅ TASK-VX-FEEL-1 (Silent-Button Feedback + Knockback & i-Frames) → v135
+
+- **Status:** **ACCEPTED ✅**
+- **In-scope paths:** `game/game.js`, `game/index.html` (cache query `game.js?v=135`, `ASSET_VERSION = "135"`), `docs/AI-DISPATCH.md`.
+- **Changes shipped:**
+  1. **Prayer Denied Feedback:** When Space/pray is pressed with `lux < 28`, sets `game.message = "Need Lux! / ¡Necesita Lux!"`, announces to screen reader (`announceStatus`), and plays a short audio blip (`playBlip`) via WebAudio tone synthesis.
+  2. **Spray Denied Feedback:** When F/spray is pressed with `sprayAmmo <= 0`, sets `game.message = "Empty! / ¡Vacío!"`, announces to screen reader, and plays a clean click tone (`playClick`).
+  3. **Rosary Denied Feedback:** When R/rosary is pressed with `rosaryAmmo <= 0`, sets `game.message = "Empty! / ¡Vacío!"`, announces to screen reader, and plays click tone (`playClick`).
+  4. **Villain Contact Knockback & i-Frames:** When hero touches the villain (`danger < 76`), rather than an instant run-reset to start, hero takes 1 damage (`game.lives -= 1`), gets knocked back ~60px away from the enemy (clamped cleanly to stage bounds), and gains 1 full second of invulnerability (`game.invulnUntil = game.time + 1.0`). Hero blinks with translucent alpha during i-frames. If lives reach 0, standard defeat flow triggers. Also sets 1s i-frame grace period upon respawn in `loseLife`.
+  5. **Cache:** Bumped `ASSET_VERSION` / `game.js?v=` **134 → 135**.
+- **Verification:**
+  - `node --check game/game.js` PASS.
+  - `npm run gate` PASS (18 release checks green, `ASSET_VERSION 135`).
+  - `npm run smoke` PASS (default, juarez, holymountain scenarios; 91 frames each).
+  - `npm run audit:sprites` & `npm run audit:links` ALL PASS.
+
+---
+
+### 2026-09-29 — Muse Code (coordinator): VX series OPEN 📋 (expert-review fixes) — AG claim VX-FEEL-1 first
+
+Owner approved the video-game-expert improvement plan (`go`). 6 packets, queue order below, **one claim at a time** (single-file `game.js` — no parallel claims). AG implements + commits/pushes per packet; Muse adds gate pins for each new behavior + independently verifies; Owner playtests + deploys. Full review: `/tmp/persona-videogame-expert-2026-09-29.md`. Per-packet versions: claim-time current+1 (`ASSET_VERSION` + `game.js?v=`; css bump only if style.css touched). Gate 0 (v134 ACCEPTED, see below) is the known-good base — `git pull` before claiming.
+
+| # | Packet | Owner call? | Status |
+|---|--------|-------------|--------|
+| 1 | VX-FEEL-1 silent-button feedback + knockback/i-frames | none — START HERE | ✅ ACCEPTED (v135) |
+| 2 | VX-CHECKPOINT-1 retry current stage | ✅ Owner: FREE infinite | 📋 claim-ready |
+| 3 | VX-TUTORIAL-1 scripted Colorado-1 | none (ES eyeball at QA) | 📋 claim-ready |
+| 4 | VX-PERKS-1 hero perk trio | ❌ Owner: SKIP — heroes stay cosmetic | cancelled, do not build |
+| 5 | VX-STARS-1 stars + sticker album | album placement — asked, pending | 📋 claim-ready |
+| 6 | VX-AUDIO-1 music/SFX upgrade | asset direction — asked, pending | ⏸ blocked until assets land |
+
+**VX-FEEL-1 (game.js ONLY, no HTML/CSS):** (a) pray denied (:2917 `lux<28` silent return) → set `game.message` "Need Lux! / ¡Necesita Lux!" + short blip via existing tone fn (no new audio assets); (b) spray denied (:2937) → "Empty! / ¡Vacío!" + click; rosary denied (:2980) → same pattern; (c) villain contact (:3178 `danger<76`, life loss :3177-3180) → knock hero back ~60px from enemy + 1s invuln (new `game.invulnUntil` timestamp checked at :3178; blink hero while invuln using existing draw alpha if trivial, else skip blink). Bilingual literals; no new buttons. Accept: node --check, gate PASS, smoke 3/3, Owner phone check (Space at 0 Lux talks back; corner-touch feels fair).
+
+**VX-CHECKPOINT-1 (game.js + index.html):** mirror `retryBossButton` (:27,:2741-2744,:2756-2760): add `retryStageButton` next to it; in `finish()` (:2718+) show it on non-boss loss (`!win && !isBossStage`); handler = `startStage(game.stageIndex)` (:2454, same call boss-retry uses at :2760) with lives refilled per difficulty (easy5/reg3/hard2, :700-702). Button label "Retry Stage / Reintentar nivel". Default: free + infinite (kindness = brand; 1-line tune if Owner picks limited). Accept: gate + smoke + Owner wipe-retry loop on a non-boss stage.
+
+**VX-TUTORIAL-1 (game.js + index.html; style.css ONLY if prompt highlight needs it):** scripted beats on first Colorado stage only (`game.world==="colorado"`, stages idx 0; :1872,:2445): move-to-arrow → collect 1 cross → pulsing "Press SPACE! / ¡Pulsa ESPACIO!" (guaranteed Lux so prayer succeeds) → villain approach → spray prompt → done. Once-per-device via new localStorage key (document it; privacy: on-device only). Reuse `game.message` + existing buttons; skip control for replaying adults. Accept: gate + smoke + Owner cold-start phone observation (a 7yo gets the verbs with zero Help).
+
+**VX-PERKS-1: ❌ CANCELLED per Owner 2026-09-29** (heroes stay cosmetic-only; roster-as-wallpaper accepted). AG: do not build. Queue order now: FEEL-1 → CHECKPOINT-1 → TUTORIAL-1 → STARS-1 → AUDIO-1. Deploys: per-packet (Owner-confirmed). Checkpoint: free infinite (Owner-confirmed).
+
+**VX-STARS-1 (game.js + index.html):** track hits-taken + clear-time per stage; 3-star rating on world pass; star row on world select + sticker (villain-face) album on title screen. New localStorage keys documented. Placement proposal: stars under each world button, album as a title-screen strip — Owner confirms or redirects at claim time. Accept: gate + smoke + Owner parent-night check (kid has something to show tonight).
+
+**VX-AUDIO-1 (BLOCKED — Owner asset call):** when licensed loops/SFX land: layer/replace WebAudio score (:2275-2364) keeping WebAudio as fallback; real pickup thump + prayer swell + victory sting. AG does NOT source assets — integration only. Packet activates on Owner "assets in `audio/`" note.
+
+---
+
+### 2026-09-29 — Gate 0 ✅ v134 fully ACCEPTED (edge lag converged, zero drift)
+
+Muse-run (shell healthy): local `game.js` md5 `cfe7a3b1…` (211,427 B, SHA `029acd2a…`) == canonical `https://crux-sacra.fjfaithandfamily.com/game/game.js?v=134` == `https://crux-sacra-game.pages.dev/game/game.js?v=134` (both md5-identical, same byte count). Prior `8494c80d…` (v133 bytes) was deploy propagation, now converged — same signature as RT-QA-2. v134 = known-good base for the VX series. Dispatch entries above + this note uncommitted (ride next).
+
+---
+
+### 2026-09-29 ~09:25 MT — v134 audits green, live edge lagging (serves v133 bytes under v134 URL) — re-poll pending
+
+Owner Terminal: sprite ALL PASS, link ALL PASS. Local `029acd2a…`, both hosts `8494c80d…` (= v133 bytes) — symmetric edge lag / deploy propagation, same signature as the RT-QA-2 lag that converged on re-poll. NOT a content problem (both hosts agree). Awaiting Owner re-poll of the two curl lines for the ACCEPTED stamp.
+
+---
+
+### 2026-09-29 ~09:20 MT — v134 pushed 🚀 `987fe44` (videos restored) — gate + smoke green, audits + SHA pending
+
+Owner Terminal: `node --check` + gate PASS (ASSET 134), smoke 3/3, committed `987fe44` (5 files, +36/−136), pushed `5bc8c52..987fe44`. Relayed: sprite/link audits + live SHA triple-check for formal ACCEPTED.
+
+---
+
 ### 2026-09-29 ~09:15 MT — Rollback: scene OUT, videos restored (Owner playtest) → v134, needs Owner push
 
 Owner tested the embedded finale: not as expected, back to videos. Reverted in tree (all 4 RT5 packets KEPT — only the scene is out): video playback block restored verbatim, 5 scene fns + timer/music state + `converting` hook removed, finale CSS replaced by tombstone, Check 22 retired (effective gate: 21 checks), versions → v134/css38. Leftover sweep: zero `FinaleScene|scene-finale|converting|audio/finale` refs in game/ + scripts/. Needs Owner Terminal (coordinator shell down): `node --check` + gate + smoke + audits, commit, push → v134 live. Post-mortem note: likely gap = scene shipped silent (music extraction never landed) + static cards; any retry should be music-first with canvas motion.
