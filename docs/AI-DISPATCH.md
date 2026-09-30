@@ -22,6 +22,7 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
   - `npm run gate` PASS (all 19 release checks green, `ASSET_VERSION 139`).
   - `npm run smoke` PASS (all 3 boot scenarios; 91 frames each; includes new `retryStage` dynamic assertion).
   - `npm run audit:sprites` & `npm run audit:links` ALL PASS.
+- **Live verify** ✅: Both hosts (`crux-sacra.fjfaithandfamily.com` & `crux-sacra-game.pages.dev`) serving HTTP 200 with `game.js?v=139` and `style.css?v=40`. SHA256 `64d5e4bc7b7e26474b757685d5809344025535e42a95956710e6627d26f364b0` (JS) and `5b8531880e565c36bec9bc05564b9cf0a96250c40dbcca98ef98edcd73480329` (CSS) identical canonical ↔ pages.dev ↔ local checkout — **zero drift**. Retry unfreeze and perks fully ACCEPTED.
 
 ---
 
