@@ -19,6 +19,7 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
   - `npm run gate` PASS (18 release checks green, `ASSET_VERSION 135`).
   - `npm run smoke` PASS (default, juarez, holymountain scenarios; 91 frames each).
   - `npm run audit:sprites` & `npm run audit:links` ALL PASS.
+- **Live verify** ✅: Both hosts (`crux-sacra.fjfaithandfamily.com` & `crux-sacra-game.pages.dev`) serving HTTP 200 with `game.js?v=135`. SHA256 `982b530669ad304611137b604c24f60451579b6c4ca70375c6de251485bc78c6` identical canonical ↔ pages.dev ↔ local checkout — **zero drift**. VX-FEEL-1 fully ACCEPTED.
 
 ---
 
