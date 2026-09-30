@@ -94,6 +94,7 @@
   ];
   const unlockedStorageKey = "cruxSacraUnlockedRedeemed";
   const worldProgressStorageKey = "cruxSacraWorldsPassed";
+  const tutorialStorageKey = "cruxSacraTutorialSeen";
   const finalWorldKey = "holymountain";
   const bonusWorldKey = "saints";
   const ranchWorldKey = "elrancho";
@@ -111,7 +112,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "136";
+  const ASSET_VERSION = "137";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -2130,12 +2131,75 @@
     }
   }
 
+  const TUTORIAL_STEPS = [
+    "Move with arrows or stick! / ¡Muévete con las flechas o el joystick! (T = skip / saltar)",
+    "Touch a glowing cross! / ¡Toca una cruz brillante!",
+    "Press SPACE or ✚ to pray! / ¡Pulsa ESPACIO o ✚ para orar!",
+    "Press F or ★ for Holy Water! / ¡Pulsa F o ★ para el Agua Bendita!",
+  ];
+
+  function tutorialSeen() {
+    try {
+      return window.localStorage.getItem(tutorialStorageKey) === "1";
+    } catch {
+      return false;
+    }
+  }
+
+  function markTutorialSeen() {
+    try {
+      window.localStorage.setItem(tutorialStorageKey, "1");
+    } catch {
+      // Local storage is optional; gameplay still works for this session.
+    }
+  }
+
+  function startTutorialIfNeeded(index) {
+    if (game.world === "colorado" && index === 0 && !tutorialSeen()) {
+      game.tutorial = { step: 0, startX: game.player.x, startY: game.player.y };
+      game.message = TUTORIAL_STEPS[0];
+      announceStatus(game.message);
+    } else {
+      game.tutorial = null;
+    }
+  }
+
+  function advanceTutorial() {
+    if (!game.tutorial) return;
+    game.tutorial.step += 1;
+    if (game.tutorial.step === 2) {
+      game.lux = Math.max(game.lux, 50);
+    }
+    game.message = TUTORIAL_STEPS[game.tutorial.step];
+    announceStatus(game.message);
+  }
+
+  function finishTutorial() {
+    if (!game.tutorial) return;
+    game.tutorial = null;
+    markTutorialSeen();
+    game.message = stages[game.stageIndex].message;
+    announceStatus("Tutorial complete! Collect all crosses! / ¡Tutorial completo! ¡Junta todas las cruces!");
+  }
+
+  function updateTutorial() {
+    const tutor = game.tutorial;
+    if (!tutor) return;
+    if (tutor.step === 0 && Math.hypot(game.player.x - tutor.startX, game.player.y - tutor.startY) > 60) {
+      advanceTutorial();
+    } else if (tutor.step === 1 && game.collected >= 1) {
+      advanceTutorial();
+    }
+    game.message = TUTORIAL_STEPS[tutor.step];
+  }
+
   function resetSavedProgress() {
     const ok = window.confirm("Reset all unlocked worlds and redeemed characters on this device? / ¿Reiniciar mundos desbloqueados y personajes redimidos en este dispositivo?");
     if (!ok) return;
     try {
       window.localStorage.removeItem(unlockedStorageKey);
       window.localStorage.removeItem(worldProgressStorageKey);
+      window.localStorage.removeItem(tutorialStorageKey);
     } catch {
       // Local storage is optional; still reset the in-memory session.
     }
@@ -2500,10 +2564,15 @@
     updateHud();
     announceStatus(`${stage.name} · ${difficulty.label}. Collect ${game.crosses.length} Crux Sacra / Junta ${game.crosses.length} Crux Sacras.`);
     startMusic(index);
+    startTutorialIfNeeded(index);
   }
 
   function completeStage() {
     if (game.stageClearTimer > 0) return;
+    if (game.tutorial) {
+      markTutorialSeen();
+      game.tutorial = null;
+    }
     const stage = stages[game.stageIndex];
     game.stageClearTimer = stage.boss ? 3.2 : 2.0;
     game.message = stage.complete;
@@ -2975,6 +3044,7 @@
     if (stage.boss && game.collected === game.crosses.length && enemyDistance < 430) {
       completeStage();
     }
+    if (game.tutorial && game.tutorial.step === 2) advanceTutorial();
   }
 
   function useSpray() {
@@ -3025,6 +3095,7 @@
     game.message = cleared > 0
       ? "Holy Water protected the family! / El Agua Bendita protegió a la familia!"
       : "Holy Water ready / Agua Bendita lista";
+    if (game.tutorial && game.tutorial.step === 3) finishTutorial();
   }
 
   function useRosary() {
@@ -3158,6 +3229,7 @@
       updateHud();
       return;
     }
+    updateTutorial();
 
     const p = game.player;
     const v = inputVector();
@@ -5223,6 +5295,10 @@
     if (event.code === "KeyH") {
       event.preventDefault();
       showHelp();
+    }
+    if (event.code === "KeyT" && game.tutorial) {
+      event.preventDefault();
+      finishTutorial();
     }
     if (event.code === "Escape") {
       if (!helpScreen.classList.contains("hidden")) {

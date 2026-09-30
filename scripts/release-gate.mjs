@@ -732,6 +732,35 @@ if (!/function drawFrame\(img,[\s\S]{0,200}?if \(!img\) return;/.test(gameJs)) {
   }
 }
 
+// Check 24: VX-TUTORIAL-1 scripted first-stage coaching (v137, Colorado-1 only,
+// once per device, free skip via T)
+{
+  if (!gameJs.includes('"cruxSacraTutorialSeen"')) {
+    failures.push("tutorial once-per-device key missing (cruxSacraTutorialSeen)");
+  }
+  for (const half of ["Muévete con las flechas", "¡Toca una cruz brillante!", "¡Pulsa ESPACIO o ✚", "¡Pulsa F o ★"]) {
+    if (!gameJs.includes(half)) {
+      failures.push(`tutorial step lost its ES prompt: ${half}`);
+    }
+  }
+  if (!gameJs.includes('game.world === "colorado" && index === 0')) {
+    failures.push("tutorial fires outside Colorado stage 1 (must be colorado + index 0 only)");
+  }
+  if (!gameJs.includes("game.lux = Math.max(game.lux, 50)")) {
+    failures.push("tutorial does not guarantee prayer Lux before the pray step (silent-button regression)");
+  }
+  if (!gameJs.includes("game.tutorial.step === 2") || !gameJs.includes("game.tutorial.step === 3")) {
+    failures.push("tutorial verb hooks missing (pray must advance step 2, spray must finish step 3)");
+  }
+  if (!gameJs.includes('event.code === "KeyT"') || !gameJs.includes("function finishTutorial(")) {
+    failures.push("tutorial skip missing (KeyT must finish the tutorial for replaying adults)");
+  }
+  const completeBody = (gameJs.match(/function completeStage\(\) \{[\s\S]*?\n  \}/) || [""])[0];
+  if (!completeBody.includes("markTutorialSeen()")) {
+    failures.push("completeStage does not auto-finish the tutorial (speedrun leaves prompts stale)");
+  }
+}
+
 if (failures.length > 0) {
   reportFailures(failures);
   process.exit(1);

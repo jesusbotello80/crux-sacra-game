@@ -4,6 +4,20 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-09-29 — VX-TUTORIAL-1 ready 🟢 v137 GREEN, needs commit/push/deploy words (Muse takeover)
+
+Scripted Colorado-1 coaching, UNCOMMITTED: 4 bilingual steps (move → collect → SPACE/✚ pray with guaranteed Lux 50 → F/★ spray), Colorado-0-only activation, once-per-device (`cruxSacraTutorialSeen`, cleared by Reset Progress), T-skip for adults, auto-finish on stage clear, per-frame prompt re-assert, SR announces. Deliberate trim: no pulsing-button CSS (message-first; pulse can fast-follow). 3rd localStorage key (on-device only, try/catch-guarded like the others).
+- **Verify observed:** node --check PASS, gate PASS (ASSET 137, Check 24 fail-before/pass-after), smoke 3/3 (91 frames), both audits PASS, diff --check clean. Files: game.js, index.html (?v=137), release-gate.mjs (+ this board).
+- **Needs Owner words:** commit + push + deploy v137, then live SHA check + cold-start phone observation (fresh device: 4 prompts in order, first prayer succeeds, T skips). Next after ship: VX-PERKS-1.
+
+---
+
+### 2026-09-29 — VX-CHECKPOINT-1 SHIPPED ✅ v136 live, zero drift (commit `18fcf2d`)
+
+Owner-authorized commit + push (`72763fb..18fcf2d`); Pages auto-deploy converged: `game.js?v=136` md5 `b478ab03…` byte-identical local ↔ canonical ↔ pages.dev; live index carries `retryStageButton` + `Retry Stage / Reintentar nivel` + css39; live guide carries stage-retry EN+ES. Next: VX-TUTORIAL-1 (Muse implements unless AG resumes). This note uncommitted (rides next).
+
+---
+
 ### 2026-09-29 — Muse Code: TAKEOVER 🟢 (AG paused per Owner) — VX-CHECKPOINT-1 implemented, v136 GREEN, needs commit/push/deploy words
 
 Owner paused AG; Muse owns implement + QA until AG resumes. FEEL-1 QA closed by Muse: node --check + gate + smoke 3/3 + both audits PASS on v135; live re-confirm curl timed out in sandbox (exit 28, proxy flake) — AG's live zero-drift SHA `982b5306…` (matches local) stands as live evidence.
