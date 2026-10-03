@@ -832,6 +832,27 @@ if (!/function drawFrame\(img,[\s\S]{0,200}?if \(!img\) return;/.test(gameJs)) {
   }
 }
 
+
+// Check 27: TRUST-ES-1 always-on HUD counters and phone-button labels (v141).
+{
+  const hud = [
+    "Lives ${game.lives} / Vidas ${game.lives}",
+    "Holy Water ${game.sprayAmmo} / Agua bendita ${game.sprayAmmo}",
+    "Rosary ${game.rosaryAmmo} / Rosario ${game.rosaryAmmo}",
+  ];
+  for (const pin of hud) {
+    if (!gameJs.includes(pin)) failures.push(`HUD counter missing bilingual pin: ${pin}`);
+  }
+  for (const pin of [
+    'aria-label="Pause / Pausa"',
+    'aria-label="Holy Water power / Poder de agua bendita"',
+    'aria-label="Rosary power / Poder del rosario"',
+    'aria-label="Crux Sacra prayer / Oración de la Crux Sacra"',
+  ]) {
+    if (!indexHtml.includes(pin)) failures.push(`phone control label missing bilingual pin: ${pin}`);
+  }
+}
+
 if (failures.length > 0) {
   reportFailures(failures);
   process.exit(1);

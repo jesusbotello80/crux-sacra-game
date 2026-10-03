@@ -115,7 +115,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "140";
+  const ASSET_VERSION = "141";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -3216,9 +3216,9 @@
   function updateHud() {
     lightFill.style.width = `${game.lux}%`;
     scoreText.textContent = `Crux ${game.collected} / ${game.crosses.length}`;
-    livesText.textContent = `Lives ${game.lives}`;
-    sprayText.textContent = `Holy Water ${game.sprayAmmo}`;
-    rosaryText.textContent = `Rosary ${game.rosaryAmmo}`;
+    livesText.textContent = `Lives ${game.lives} / Vidas ${game.lives}`;
+    sprayText.textContent = `Holy Water ${game.sprayAmmo} / Agua bendita ${game.sprayAmmo}`;
+    rosaryText.textContent = `Rosary ${game.rosaryAmmo} / Rosario ${game.rosaryAmmo}`;
     if (game.mode === "playing" && (game.collected !== announcedHud.collected || game.lives !== announcedHud.lives)) {
       announcedHud.collected = game.collected;
       announcedHud.lives = game.lives;
