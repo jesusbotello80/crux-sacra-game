@@ -4,7 +4,7 @@ Updated 2026-10-02. Replaces the v110 draft. Figures below are status, not a for
 
 **Product:** Free bilingual (EN/ES) Catholic family game. Kids play heroes who rescue glowing Crux Sacras and redeem companions across the worlds, then Holy Land. No ads, no chat, no purchases. Progress stays on the device.
 **Play:** https://crux-sacra.fjfaithandfamily.com/game/ (same build on https://crux-sacra-game.pages.dev/game/)
-**Live:** `game.js?v=139`, `style.css?v=40`, git `202043c` (board tip `4d6ff82` is docs only). Checked 2026-10-02.
+**Live:** `game.js?v=140`, `style.css?v=41`, git `ae1783f`. Checked 2026-10-02 evening. Stars show inside world buttons. A sticker strip appears only on a victory screen. No album page.
 **Longer merch draft:** `docs/BUSINESS-AND-MERCHANDISE-PLAN.md`. Treat its market tables and the $250,000 use-of-funds as a sketch, not this ask.
 
 ## Why it can win
@@ -16,7 +16,7 @@ Updated 2026-10-02. Replaces the v110 draft. Figures below are status, not a for
 ## Honest status
 
 - **Players and revenue:** zero measured revenue. No store, no donations, no parish license. One public URL. Session counts are not yet a number we can show. Trackers stay banned.
-- **Shipped since the old brief:** silent-button feedback and knockback (v135), free infinite stage retry (v136), a once-per-device Colorado tutorial (v137), hero perks plus a retry-unfreeze fix (v139). Bilingual `LOCKED / BLOQUEADO` badges.
+- **Shipped since the old brief:** silent-button feedback and knockback (v135), free infinite stage retry (v136), a once-per-device Colorado tutorial (v137), hero perks plus a retry-unfreeze fix (v139), world stars and a victory sticker strip (v140). Bilingual `LOCKED / BLOQUEADO` badges.
 - **Still closed on purpose:** El Rancho (`ranchWorldPublicReady` is false). Music upgrade is deferred.
 - **Not re-audited for this page:** full Spanish on every line a child reads, and touch play on a phone. The 2026-09-28 review called both out. Do not tell an investor they are done.
 - **Team:** one owner plus AI lanes (AG implements, Muse checks). Docs and the gate reduce bus risk. They are not a second person who can run a parish night.
