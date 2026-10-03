@@ -3,7 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "gate": "node scripts/release-gate.mjs",
+    "gate": "node scripts/release-gate.mjs && node scripts/region-audio-gate.mjs && node scripts/region-mechanic-gate.mjs",
+    "gate:audio": "node scripts/region-audio-gate.mjs",
+    "gate:env": "node scripts/region-mechanic-gate.mjs",
     "smoke": "for q in \"\" \"?world=juarez\" \"?world=holymountain\"; do SMOKE_QUERY=\"$q\" node tools/load-smoke.mjs || exit 1; done",
     "audit:sprites": "node tools/sprite-audit.mjs",
     "audit:links": "node tools/link-audit.mjs"

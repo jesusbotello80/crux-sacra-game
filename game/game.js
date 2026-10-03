@@ -115,7 +115,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "141";
+  const ASSET_VERSION = "142";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -2490,8 +2490,178 @@
     }
   }
 
+  /* Region audio (2-saints Phase 3 treatment port): motif-seeded file audio.
+     Region loops + SFX samples + world-1 narration ship as .m4a under
+     audio/ (see docs/audio-provenance.md); the oscillator stage bed and
+     tone() SFX stay as the fallbacks. File and fallback NEVER play
+     together: each file path returns early on success and only falls
+     through when the file is missing or errors. Narration has NO live
+     voice-synth fallback: the v129 dead-speech purge stays in force (gate
+     Check 20 pins it), so the on-screen bilingual plaque text is the
+     narration fallback. Levels are blind-calibrated bed < sfx < voice:
+     loop .12, sfx .15, narration 1.0. Owner ear-check pending. */
+  const REGION_FOR_WORLD = {colorado: 1, juarez: 1, useast: 1, elpaso: 1, guadalajara: 2, elrancho: 2, mexicocity: 2, elcoco: 2, holymountain: 3, saints: 3};
+  function regionForWorld(worldId) { return REGION_FOR_WORLD[worldId || game.world] || 1; }
+  function audioUrl(file) { return ASSET + "audio/" + file + "?v=" + ASSET_VERSION; }
+  function makeAudioEl(volume) {
+    if (typeof Audio === "undefined") return null;
+    try {
+      const el = new Audio();
+      el.preload = "auto";
+      el.volume = volume;
+      return el;
+    } catch {
+      return null;
+    }
+  }
+  let regionLoopAudio = null;
+  let regionLoopOn = false;
+  let regionLoopWorld = "";
+  let regionLoopWanted = false;
+  function stopRegionLoop() {
+    regionLoopWanted = false;
+    regionLoopOn = false;
+    regionLoopWorld = "";
+    try { if (regionLoopAudio) regionLoopAudio.pause(); } catch { /* silent */ }
+  }
+  function syncRegionLoopAudible() {
+    if (!regionLoopOn || !regionLoopAudio) return;
+    if (game.mode === "playing") {
+      if (regionLoopAudio.paused) {
+        const play = regionLoopAudio.play();
+        if (play && play.catch) play.catch(() => {});
+      }
+    } else if (!regionLoopAudio.paused) {
+      try { regionLoopAudio.pause(); } catch { /* silent */ }
+    }
+  }
+  function tryStartRegionLoop() {
+    if (!audio.enabled) return false;
+    if (regionLoopOn && regionLoopWorld === game.world) { syncRegionLoopAudible(); return true; }
+    stopRegionLoop();
+    regionLoopWanted = true;
+    regionLoopOn = true;
+    regionLoopWorld = game.world;
+    try {
+      if (!regionLoopAudio) {
+        regionLoopAudio = makeAudioEl(0.12);
+        if (!regionLoopAudio) { stopRegionLoop(); return false; }
+        regionLoopAudio.loop = true;
+        regionLoopAudio.addEventListener("error", () => { if (regionLoopWanted) stopRegionLoop(); });
+      }
+      regionLoopAudio.src = audioUrl("region-" + regionForWorld(game.world) + "-loop.m4a");
+      const play = regionLoopAudio.play();
+      if (play && play.catch) play.catch(() => { if (regionLoopWanted) stopRegionLoop(); });
+    } catch { stopRegionLoop(); return false; }
+    return true;
+  }
+  const SFX_FILES = {jump: "sfx-jump.m4a", land: "sfx-land.m4a", pickup: "sfx-pickup.m4a", hurt: "sfx-hurt.m4a", rescue: "sfx-rescue.m4a", celebration: "sfx-celebration.m4a"};
+  const sfxEls = {};
+  const sfxDead = {};
+  function playSfxFile(kind) {
+    if (!audio.enabled) return false;
+    const file = SFX_FILES[kind];
+    if (!file || sfxDead[kind]) return false;
+    try {
+      let el = sfxEls[kind];
+      if (!el) {
+        el = makeAudioEl(0.15);
+        if (!el) return false;
+        el.addEventListener("error", () => { sfxDead[kind] = true; });
+        el.src = audioUrl(file);
+        sfxEls[kind] = el;
+      }
+      el.currentTime = 0;
+      const play = el.play();
+      if (play && play.catch) play.catch(() => {});
+      return true;
+    } catch { return false; }
+  }
+  const NARRATION_FILES = {colorado: ["park", "snow", "church", "boss"]};
+  let narrationAudio = null;
+  let narrationToken = 0;
+  function narrationLocale() {
+    try {
+      const lang = (typeof navigator !== "undefined" && navigator.language) || "en";
+      return String(lang).toLowerCase().startsWith("es") ? "es" : "en";
+    } catch { return "en"; }
+  }
+  function stopNarrationFile() {
+    narrationToken += 1;
+    try { if (narrationAudio) narrationAudio.pause(); } catch { /* silent */ }
+    if (narrationAudio) { narrationAudio.onended = null; narrationAudio.onerror = null; }
+  }
+  function tryStageNarration(index) {
+    stopNarrationFile();
+    if (!audio.enabled || game.world !== "colorado") return false;
+    const slug = (NARRATION_FILES.colorado || [])[index];
+    if (!slug) return false;
+    const token = narrationToken + 1;
+    narrationToken = token;
+    try {
+      if (!narrationAudio) {
+        narrationAudio = makeAudioEl(1.0);
+        if (!narrationAudio) return false;
+      }
+      narrationAudio.src = audioUrl("narr-colorado-" + slug + "-" + narrationLocale() + ".m4a");
+      narrationAudio.onended = () => { if (token === narrationToken) stopNarrationFile(); };
+      narrationAudio.onerror = () => { if (token === narrationToken) stopNarrationFile(); };
+      narrationAudio.currentTime = 0;
+      const play = narrationAudio.play();
+      if (play && play.catch) play.catch(() => { if (token === narrationToken) stopNarrationFile(); });
+      return true;
+    } catch { return false; }
+  }
+
+  /* Lantern pilot (2-saints Phase 5 treatment port): ONE 4-world block
+     (audio region 2: Guadalajara/El Rancho/Mexico City/Bedtime Rooms) plays
+     under dusk darkness. Cross danger fills faster, the villain chases
+     faster while the hero's Lux is empty, and the canvas renders a lantern
+     radius around the hero (ungot crosses re-stamp bright as beacons).
+     Everything keys off REGION_MECHANIC by region number — no per-world
+     engine branches; other regions read null and play exactly as before.
+     Tunables are pilot estimates for the owner/Family fun judgment. */
+  const REGION_MECHANIC = {2: "lantern"};
+  const LANTERN_TUNABLES = {dangerMul: 1.5, chaseMul: 1.12, radiusLit: 290, radiusDark: 150, edgeAlpha: 0.82};
+  function regionMechanic(worldId) { return REGION_MECHANIC[regionForWorld(worldId || game.world)] || null; }
+  function lanternDangerMul() { return regionMechanic() === "lantern" ? LANTERN_TUNABLES.dangerMul : 1; }
+  function lanternChaseMul() { return regionMechanic() === "lantern" && game.lux <= 0 ? LANTERN_TUNABLES.chaseMul : 1; }
+  function lanternRadius() { return (game.lux > 0 ? LANTERN_TUNABLES.radiusLit : LANTERN_TUNABLES.radiusDark) + Math.sin(game.time * 3.3) * 6; }
+  function drawLanternDarkness() {
+    if (regionMechanic() !== "lantern") { game.lanternDarkAnnounced = false; return; }
+    if (game.mode !== "playing" && game.mode !== "ending" && game.mode !== "travel" && game.mode !== "paused") { game.lanternDarkAnnounced = false; return; }
+    const p = game.player;
+    const r = lanternRadius();
+    ctx.save();
+    const dark = ctx.createRadialGradient(p.x, p.y - 70, r * 0.55, p.x, p.y - 70, Math.max(W, H) * 0.75);
+    dark.addColorStop(0, "rgba(8, 10, 24, 0)");
+    dark.addColorStop(1, "rgba(8, 10, 24, " + LANTERN_TUNABLES.edgeAlpha + ")");
+    ctx.fillStyle = dark;
+    ctx.fillRect(0, 0, W, H);
+    ctx.restore();
+    for (const cross of game.crosses) {
+      if (cross.got) continue;
+      drawCross(cross.x, cross.y, 0.7 + Math.sin(game.time * 4 + cross.x) * 0.05, cross.danger || 0);
+    }
+    if (game.lux <= 0) {
+      ctx.save();
+      ctx.fillStyle = "#fff8d3";
+      ctx.font = messageFont;
+      ctx.textAlign = "center";
+      ctx.fillText("Stay near the light! / ¡Quédate cerca de la luz!", W / 2, 120);
+      ctx.restore();
+      if (game.mode === "playing" && !game.lanternDarkAnnounced) {
+        game.lanternDarkAnnounced = true;
+        announceStatus("Stay near the light! / ¡Quédate cerca de la luz!");
+      }
+    } else {
+      game.lanternDarkAnnounced = false;
+    }
+  }
+
   function startMusic(stageIndex) {
     if (!audio.enabled) return;
+    tryStartRegionLoop();
     audio.stage = stageIndex;
     audio.world = game.world;
     audio.step = 0;
@@ -2500,6 +2670,8 @@
 
   function updateMusic() {
     if (!audio.enabled || game.mode !== "playing") return;
+    syncRegionLoopAudible();
+    if (regionLoopOn) return;
     const now = audio.ctx.currentTime;
     if (audio.stage !== game.stageIndex || audio.world !== game.world) startMusic(game.stageIndex);
     while (audio.nextNoteAt < now + 0.18) {
@@ -2556,6 +2728,7 @@
 
   function playPickup() {
     if (!audio.enabled) return;
+    if (playSfxFile("pickup")) return;
     const now = audio.ctx.currentTime;
     tone(659.25, now, 0.12, "sine", 0.38, audio.sfx);
     tone(987.77, now + 0.06, 0.18, "sine", 0.30, audio.sfx);
@@ -2563,6 +2736,7 @@
 
   function playPrayer() {
     if (!audio.enabled) return;
+    if (playSfxFile("rescue")) return;
     const now = audio.ctx.currentTime;
     [392.0, 523.25, 659.25, 783.99].forEach((freq, idx) => {
       tone(freq, now + idx * 0.08, 0.45, "triangle", 0.28, audio.sfx);
@@ -2571,6 +2745,7 @@
 
   function playStageClear(boss = false) {
     if (!audio.enabled) return;
+    if (playSfxFile("celebration")) return;
     const now = audio.ctx.currentTime;
     const notes = boss ? [392, 523.25, 659.25, 783.99, 1046.5] : [523.25, 659.25, 783.99];
     notes.forEach((freq, idx) => tone(freq, now + idx * 0.09, 0.38, "triangle", 0.32, audio.sfx));
@@ -2578,12 +2753,14 @@
 
   function playVictory() {
     if (!audio.enabled) return;
+    if (playSfxFile("celebration")) return;
     const now = audio.ctx.currentTime;
     [523.25, 659.25, 783.99, 1046.5].forEach((freq, idx) => tone(freq, now + idx * 0.12, 0.55, "sine", 0.34, audio.sfx));
   }
 
   function playDanger() {
     if (!audio.enabled) return;
+    if (playSfxFile("hurt")) return;
     const now = audio.ctx.currentTime;
     tone(98.0, now, 0.65, "sawtooth", 0.36, audio.sfx);
     tone(146.83, now + 0.08, 0.48, "sawtooth", 0.22, audio.sfx);
@@ -2598,6 +2775,7 @@
 
   function playExplosion() {
     if (!audio.enabled) return;
+    if (playSfxFile("hurt")) return;
     const now = audio.ctx.currentTime;
     tone(82.41, now, 0.75, "sawtooth", 0.42, audio.sfx);
     tone(55.0, now + 0.05, 0.85, "square", 0.20, audio.sfx);
@@ -2633,6 +2811,7 @@
 
   function playRosary() {
     if (!audio.enabled) return;
+    if (playSfxFile("rescue")) return;
     const now = audio.ctx.currentTime;
     [261.63, 329.63, 392.0, 523.25, 659.25, 783.99, 1046.5].forEach((freq, idx) => {
       tone(freq, now + idx * 0.07, 0.58, "sine", 0.26, audio.sfx);
@@ -2651,6 +2830,21 @@
     if (!audio.enabled) return;
     const now = audio.ctx.currentTime;
     tone(320.0, now, 0.03, "sine", 0.14, audio.sfx);
+  }
+
+  function playJump() {
+    if (!audio.enabled) return;
+    if (playSfxFile("jump")) return;
+    const now = audio.ctx.currentTime;
+    tone(380.0, now, 0.1, "sine", 0.2, audio.sfx);
+    tone(740.0, now + 0.07, 0.12, "sine", 0.16, audio.sfx);
+  }
+
+  function playLand() {
+    if (!audio.enabled) return;
+    if (playSfxFile("land")) return;
+    const now = audio.ctx.currentTime;
+    tone(120.0, now, 0.14, "sine", 0.2, audio.sfx);
   }
 
   function reset() {
@@ -2749,6 +2943,8 @@
     updateHud();
     announceStatus(`${stage.name} · ${difficulty.label}. Collect ${game.crosses.length} Crux Sacra / Junta ${game.crosses.length} Crux Sacras.`);
     startMusic(index);
+    playLand();
+    tryStageNarration(index);
     startTutorialIfNeeded(index);
   }
 
@@ -2817,6 +3013,7 @@
     game.message = worldDone
       ? `Traveling to ${game.travel.toLabel} / Viajando: ${game.travel.toLabel}`
       : "Walking to the next level / Caminando al siguiente nivel";
+    playJump();
   }
 
   function nextWorldSketch() {
@@ -2989,6 +3186,8 @@
   }
 
   function finish(win, reason = "tacalache") {
+    stopRegionLoop();
+    stopNarrationFile();
     game.mode = win ? "won" : "lost";
     if (win) {
       playVictory();
@@ -3076,6 +3275,8 @@
   }
 
   function showCharacterSelect() {
+    stopRegionLoop();
+    stopNarrationFile();
     if (retryBossButton) {
       retryBossButton.hidden = true;
       retryBossButton.classList.add("hidden");
@@ -3460,7 +3661,7 @@
       e.stun -= dt;
     } else {
       const chase = game.collected >= stage.enemy.chaseAfter ? Math.sign(p.x - e.x) : e.dir;
-      e.x += chase * (stage.enemy.speed + game.collected * 7) * dt;
+      e.x += chase * (stage.enemy.speed + game.collected * 7) * lanternChaseMul() * dt;
       if (e.x < stage.enemy.minX) e.dir = 1;
       if (e.x > stage.enemy.maxX) e.dir = -1;
       e.y += Math.sin(game.time * 1.7) * 7 * dt;
@@ -3704,7 +3905,7 @@
       const distance = Math.hypot(cross.x - e.x, cross.y - (e.y - 95));
       const near = distance < (stage.boss ? 170 : 145) && e.stun <= 0;
       if (near) {
-        cross.danger = Math.min(1, cross.danger + dt * (stage.boss ? 0.115 : 0.095) * difficulty.danger * ramp);
+        cross.danger = Math.min(1, cross.danger + dt * (stage.boss ? 0.115 : 0.095) * difficulty.danger * ramp * lanternDangerMul());
         game.message = "Save the Crux Sacra / Rescata la Crux Sacra";
         if (game.time > game.warningSoundAt) {
           playWarning();
@@ -3741,6 +3942,7 @@
     drawCharacters();
     drawEffects();
     drawParticles();
+    drawLanternDarkness();
     if (game.mode === "travel") drawTravelOverlay();
     drawMessage();
     if (game.mode === "paused") drawPauseOverlay();
@@ -5219,6 +5421,8 @@
       pauseButton.textContent = "▶";
       if (quitButton) quitButton.hidden = false;
       announceStatus("Paused / Pausa");
+      syncRegionLoopAudible();
+      stopNarrationFile();
       return;
     }
     if (game.mode === "paused") {
@@ -5228,6 +5432,7 @@
       if (quitButton) quitButton.hidden = true;
       breakReminderUnseen = false;
       announceStatus("Resumed / Juego reanudado");
+      syncRegionLoopAudible();
     }
   }
 
