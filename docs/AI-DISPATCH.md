@@ -4,6 +4,30 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-10-02 — VX-STARS-1 SHIPPED ✅ v140 live, zero drift (commits `2d24994..3fdb7dc`)
+
+Owner-side commit + push (`ae1783f` feat(stars) = Muse takeover work, plus docs `2d24994` + `3fdb7dc`); Pages auto-deploy converged. **Muse live-verify (post-push):** `game.js?v=140` 200 both hosts, 224,253 B, md5 `b50ef3ed…` identical local ↔ canonical ↔ pages.dev; `style.css?v=41` 200 both, 24,338 B, md5 `1ff08290…` identical triple; live index both hosts carries `?v=140` ×1, `?v=41` ×1, `#stickerStrip` ×1, `.world-stars` ×10; live JS both hosts has `ranchWorldPublicReady = false` (El Rancho locked), `cruxSacraWorldStars`, `¡Estrella de mundo!`, zero unlock cheats. Gate PASS on pushed HEAD (ASSET 140). VX-STARS-1 fully ACCEPTED; VX queue empty (VX-AUDIO-1 still deferred). This record uncommitted (rides next or owner-side sweep).
+
+---
+
+### 2026-10-02 18:45 MT — Cursor: CLAIM-READY — AG · TRUST-ES-1 (HUD + phone labels)
+
+Investor trust pass. Do not claim Spanish is finished. Stage intro sentences are already bilingual (58/58). This packet is only the always-on English.
+
+**Status:** CLAIM-READY — **AG**
+**Muse:** verify after push. Do not implement unless Owner reassigns.
+
+**In scope:** `game/game.js` (`updateHud` and the `#mobileControls` aria-labels if they live in `game/index.html`), `game/index.html` only for those aria-labels, `docs/AI-DISPATCH.md`.
+1. HUD counters a child always sees: `Lives`, `Holy Water`, `Rosary` become bilingual in the same string, matching the existing `English / Español` pattern.
+2. Phone control aria-labels that are English-only: Pause, Holy Water power, Rosary power, Crux Sacra prayer. Quit is already bilingual. Leave the glyphs as they are.
+3. Bump `ASSET_VERSION` and `game.js?v=` from 140 to 141. Bump CSS only if `style.css` changes.
+
+**Out of scope this packet:** stage titles (Holy Mountain, Bedtime Rooms, US East), boss names, hero button names (Guardian Angel, St Michael), credits, help-page stick terms. Those are the follow-up, not this claim. Do not flip `ranchWorldPublicReady`. No unlock query params. No audio.
+
+**Accept:** `node --check`, `npm run gate`, `npm run smoke`. Then commit and push `main`.
+
+---
+
 ### 2026-10-02 — Muse Code: TAKEOVER 🟢 VX-STARS-1 implemented, v140 GREEN, needs commit/push words (Owner-ordered)
 
 Owner overrode the AG CLAIM-READY stand-by in-session ("Take over VX-STARS-1"). **AG: do not claim or re-implement this packet** — it is code-complete in the Muse worktree, uncommitted.
