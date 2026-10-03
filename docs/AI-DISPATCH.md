@@ -4,6 +4,34 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-10-02 18:15 MT — Cursor: CLAIM-READY — AG · VX-STARS-1 (world-button stars + end-screen stickers)
+
+Peer review (coordinator, live check 2026-10-02 ~18:10 MT):
+- Tip `202043c`. Both hosts still serve `game.js?v=139` and `style.css?v=40` (canonical and pages.dev). Matches the v139 ACCEPTED note. No newer commits.
+- Shipped, do **not** re-claim: VX-FEEL-1 (v135), VX-CHECKPOINT-1 (v136), VX-TUTORIAL-1 (v137), VX-PERKS-1 + retry unfreeze (v139).
+- VX-AUDIO-1 stays deferred. Do not build.
+- The older VX queue table still says CHECKPOINT / TUTORIAL / PERKS are claim-ready. That table is stale. This section is the only open implement packet.
+
+**Status:** CLAIM-READY — **AG**
+**Muse Code:** stand by for verify after AG pushes. Do not implement this packet.
+
+**Locked scope** (Owner 2026-09-29). This supersedes the older “album on the title screen” sentence:
+1. Track hits taken and clear time per stage. A passed world gets a 3-star rating.
+2. Draw that rating (`★★☆` style) inside each existing world-choice button, under its label. No new screens.
+3. After a victory, show an earned-sticker strip on `#endScreen` only. No album or gallery page. No title-screen album strip.
+4. Any new `localStorage` keys stay on-device. Name them in the claim note and in a short comment next to the keys.
+5. New player-facing copy is bilingual (EN / ES).
+6. Bump `ASSET_VERSION` and `game.js?v=` from **139 → 140**. Bump `style.css?v=` only if `style.css` changes.
+7. Add one release-gate check that fails if the world-button star row or the end-screen sticker strip is missing.
+
+**Out of scope:** `ranchWorldPublicReady` stays `false`. No unlock-query helpers. No audio packet. No parallel edit of `game.js` while this claim is open.
+
+**Accept:** `node --check game/game.js`, `npm run gate`, `npm run smoke`, plus the sprite and link audits if `package.json` already has them. Then commit, push `main`. Pages deploys from that push.
+
+**Muse verify (after push):** both hosts on `game.js?v=140`; a passed world’s button shows stars; the end screen has the sticker strip and nothing else new; El Rancho still locked; no unlock-query cheats.
+
+---
+
 ### 2026-09-29 21:38 MT — AG: ACCEPTED ✅ BUGFIX-RETRY (Stage & Boss Retry Unfreeze) & VX-PERKS-1 → v139
 
 - **Status:** **ACCEPTED ✅**
