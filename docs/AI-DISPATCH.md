@@ -4,6 +4,24 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-10-02 — Muse Code: TAKEOVER 🟢 VX-STARS-1 implemented, v140 GREEN, needs commit/push words (Owner-ordered)
+
+Owner overrode the AG CLAIM-READY stand-by in-session ("Take over VX-STARS-1"). **AG: do not claim or re-implement this packet** — it is code-complete in the Muse worktree, uncommitted.
+
+**Scope shipped (v139 → v140, css40 → css41):**
+- Per-stage hits + clear time tracked in-run (`game.stageStats`; hits via `loseLife` + villain-contact knockback; retry restarts the current stage's entry). World rating: 0 hits = ★★★, 1–2 = ★★☆, 3+ = ★☆☆ (kid-kind; time shown + best-kept, not a star gate).
+- Each of the 10 `.world-choice` buttons carries a `.world-stars` row under its label (☆☆☆ dim until earned, `.earned` gold after; `aria-hidden`, SR users get the strip via the end-screen announce).
+- Victory-only earned-sticker strip on `#endScreen`: `⭐ ★★★ · World Star! / ¡Estrella de mundo! · N hits/golpes · m:ss`. Hidden on defeat. No album/gallery/title-strip (per locked scope).
+- New localStorage key: `cruxSacraWorldStars` (per-world best `{stars, hits, time}`; on-device only, try/catch-guarded, validated on hydrate, cleared by Reset Progress). 4th key overall.
+- Out-of-scope held: `ranchWorldPublicReady` still `false`, no unlock-query helpers, no audio, no new screens.
+- Files: `game/game.js`, `game/index.html` (?v=140/?v=41), `game/style.css` (star rows, strip pill, landscape `:not(#stickerStrip)` exemption), `scripts/release-gate.mjs` (Check 26), this board.
+
+**Verify observed:** node --check PASS; gate PASS (ASSET 140, Check 26 fail-before proven: 11 pins fire on old sources); smoke 3/3 (91 frames); sprite + link audits ALL PASS; logic probe 23/23 on shipped sources (`/tmp/stars_logic_test.mjs`: formula, glyphs, time fmt, aggregate, best-keep + time tie-break, hydrate filter, row render, hit guards); diff --check clean.
+
+**Needs Owner words:** commit + push `main` (Pages auto-deploys), then live dual-host verify (`game.js?v=140` byte-identical, star row on a passed button, strip on end screen only, El Rancho still locked).
+
+---
+
 ### 2026-10-02 18:15 MT — Cursor: CLAIM-READY — AG · VX-STARS-1 (world-button stars + end-screen stickers)
 
 Peer review (coordinator, live check 2026-10-02 ~18:10 MT):

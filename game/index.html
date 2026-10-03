@@ -10,7 +10,7 @@
     <link rel="icon" href="./icon.svg?v=118" />
     <link rel="apple-touch-icon" href="./icon-512.png?v=118" />
     <link rel="manifest" href="./manifest.webmanifest?v=119" />
-    <link rel="stylesheet" href="./style.css?v=40" />
+    <link rel="stylesheet" href="./style.css?v=41" />
   </head>
   <body>
     <main id="gameShell" aria-label="CRUX SACRA game">
@@ -33,42 +33,52 @@
             <button class="world-choice selected" type="button" data-world="colorado">
               <img src="../video-demo/backgrounds/colorado-v2/bg-colorado-garden-home-park-v2.png?v=118" alt="" />
               <span>1 Colorado Springs</span>
+              <span class="world-stars" aria-hidden="true">☆☆☆</span>
             </button>
             <button class="world-choice" type="button" data-world="juarez">
               <img src="../video-demo/backgrounds/juarez/review/bg-juarez-colonia-morelos-street-review-toon.png?v=118" alt="" />
               <span>2 Juárez, MX</span>
+              <span class="world-stars" aria-hidden="true">☆☆☆</span>
             </button>
             <button class="world-choice" type="button" data-world="useast">
               <img src="../video-demo/backgrounds/us-east/bg-us-east-mobile-government-blvd.png?v=118" alt="" />
               <span>3 US East</span>
+              <span class="world-stars" aria-hidden="true">☆☆☆</span>
             </button>
             <button class="world-choice" type="button" data-world="elpaso">
               <img src="../video-demo/backgrounds/el-paso/playable/bg-el-paso-level-1.png?v=118" alt="" />
               <span>4 El Paso, TX</span>
+              <span class="world-stars" aria-hidden="true">☆☆☆</span>
             </button>
             <button class="world-choice" type="button" data-world="guadalajara">
               <img src="../video-demo/backgrounds/guadalajara/playable/bg-guadalajara-level-1.png?v=118" alt="" />
               <span>5 Guadalajara, MX</span>
+              <span class="world-stars" aria-hidden="true">☆☆☆</span>
             </button>
             <button class="world-choice locked" type="button" data-world="elrancho" disabled>
               <img src="../video-demo/backgrounds/el-rancho/playable/bg-el-rancho-level-1-ejido.png?v=118" alt="" />
               <span>6 El Rancho (soon/pronto)</span>
+              <span class="world-stars" aria-hidden="true">☆☆☆</span>
             </button>
             <button class="world-choice" type="button" data-world="mexicocity">
               <img src="../video-demo/backgrounds/mexico-city/playable/bg-mexico-city-level-1.png?v=118" alt="" />
               <span>7 Mexico City, MX</span>
+              <span class="world-stars" aria-hidden="true">☆☆☆</span>
             </button>
             <button class="world-choice" type="button" data-world="elcoco">
               <img src="../video-demo/backgrounds/el-coco/review/el-coco-bedtime-rooms-menu-thumb.png?v=118" alt="" />
               <span>8 Bedtime Rooms</span>
+              <span class="world-stars" aria-hidden="true">☆☆☆</span>
             </button>
             <button class="world-choice final-world locked" type="button" data-world="holymountain" disabled>
               <img src="../video-demo/backgrounds/holy-mountain/playable/bg-holy-mountain-level-1-holy-road.png?v=118" alt="" />
               <span>9 Holy Land (Tierra Santa)</span>
+              <span class="world-stars" aria-hidden="true">☆☆☆</span>
             </button>
             <button class="world-choice bonus-world locked" type="button" data-world="saints" disabled>
               <img src="../character-sprites/saints/saints-bonus-world-contact-sheet.png?v=118" alt="" />
               <span>Bonus: Saints / Santos</span>
+              <span class="world-stars" aria-hidden="true">☆☆☆</span>
             </button>
           </div>
         </div>
@@ -278,6 +288,7 @@
         <div class="title-mark">✚</div>
         <h2 id="endTitle">Level Complete</h2>
         <p id="endCopy">La luz protegió a los niños.</p>
+        <p id="stickerStrip" class="sticker-strip" hidden>⭐ ☆☆☆</p>
         <button id="retryBossButton" type="button" hidden>Retry Boss / Reintentar el jefe</button>
         <button id="retryStageButton" type="button" hidden>Retry Stage / Reintentar nivel</button>
         <button id="againButton" type="button">Select Characters / Elegir Personajes</button>
@@ -307,6 +318,6 @@
         </div>
       </div>
     </main>
-    <script src="./game.js?v=139"></script>
+    <script src="./game.js?v=140"></script>
   </body>
 </html>

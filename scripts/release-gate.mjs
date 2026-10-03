@@ -797,6 +797,41 @@ if (!/function drawFrame\(img,[\s\S]{0,200}?if \(!img\) return;/.test(gameJs)) {
   }
 }
 
+// Check 26: VX-STARS-1 world stars + sticker strip (v140) — every world
+// button carries a star row, the victory-only sticker strip exists on the
+// end screen (and survives the landscape overlay hide), ratings persist
+// on-device, and the strip copy is bilingual.
+{
+  const worldButtonCount = (indexHtml.match(/class="world-choice/g) || []).length;
+  const starRowCount = (indexHtml.match(/class="world-stars"/g) || []).length;
+  if (worldButtonCount === 0) {
+    failures.push("no .world-choice buttons found in game/index.html");
+  } else if (starRowCount < worldButtonCount) {
+    failures.push(`world-button star rows missing (${starRowCount}/${worldButtonCount} buttons carry .world-stars)`);
+  }
+  if (!indexHtml.includes('id="stickerStrip"')) {
+    failures.push('game/index.html is missing the #stickerStrip element (end-screen sticker strip)');
+  }
+  if (!gameJs.includes("cruxSacraWorldStars")) {
+    failures.push("game/game.js is missing the cruxSacraWorldStars on-device store");
+  }
+  for (const fn of ["recordWorldStars(", "refreshWorldStarRows(", "starsForHits(", "recordStageHit("]) {
+    if (!gameJs.includes(fn)) failures.push(`game/game.js is missing star-rating function: ${fn}`);
+  }
+  if (!gameJs.includes("¡Estrella de mundo!")) {
+    failures.push("sticker strip copy is missing its ES half (¡Estrella de mundo!)");
+  }
+  if (!styleCss.includes(".world-stars")) {
+    failures.push("game/style.css is missing .world-stars styling (button star rows unstyled)");
+  }
+  if (!styleCss.includes(".sticker-strip")) {
+    failures.push("game/style.css is missing .sticker-strip styling (end-screen strip unstyled)");
+  }
+  if (!styleCss.includes(":not(#stickerStrip)")) {
+    failures.push("landscape overlay hide exempts #endCopy but not #stickerStrip (strip would vanish on phones)");
+  }
+}
+
 if (failures.length > 0) {
   reportFailures(failures);
   process.exit(1);

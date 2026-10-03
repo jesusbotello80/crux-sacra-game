@@ -28,6 +28,7 @@
   const retryStageButton = document.getElementById("retryStageButton");
   const endTitle = document.getElementById("endTitle");
   const endCopy = document.getElementById("endCopy");
+  const stickerStrip = document.getElementById("stickerStrip");
   const lightFill = document.getElementById("lightFill");
   const levelName = document.getElementById("levelName");
   const scoreText = document.getElementById("scoreText");
@@ -95,6 +96,8 @@
   const unlockedStorageKey = "cruxSacraUnlockedRedeemed";
   const worldProgressStorageKey = "cruxSacraWorldsPassed";
   const tutorialStorageKey = "cruxSacraTutorialSeen";
+  // VX-STARS-1: per-world best {stars, hits, time}. On-device only (never sent anywhere).
+  const worldStarsStorageKey = "cruxSacraWorldStars";
   const finalWorldKey = "holymountain";
   const bonusWorldKey = "saints";
   const ranchWorldKey = "elrancho";
@@ -112,7 +115,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "139";
+  const ASSET_VERSION = "140";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -1970,12 +1973,16 @@
     invulnUntil: 0,
     unlockedRedeemed: new Set(),
     passedWorlds: new Set(),
+    worldStars: {},
+    stageStats: [],
+    lastWorldResult: null,
   };
 
   // Declared before the query-driven selectWorld: it reads this flag pre-boot.
   let bootSettled = false;
   hydrateUnlockedRedeemed();
   hydrateWorldProgress();
+  hydrateWorldStars();
   decorateCharacterChoices();
   applyInitialWorldFromQuery();
   updateWorldLocks();
@@ -2195,6 +2202,92 @@
     }
   }
 
+  // VX-STARS-1: 3-star rating per passed world. Hits taken and clear time are
+  // tracked per stage during the run; stars are kid-kind (0 hits = 3 stars,
+  // 1-2 hits = 2 stars, 3+ = 1 star) and time is shown + best-kept. Best run
+  // per world persists on-device via worldStarsStorageKey.
+  function hydrateWorldStars() {
+    try {
+      const stored = JSON.parse(window.localStorage.getItem(worldStarsStorageKey) || "{}");
+      game.worldStars = {};
+      if (stored && typeof stored === "object") {
+        for (const [key, value] of Object.entries(stored)) {
+          if (!worldSketches[key]) continue;
+          const stars = Number(value?.stars);
+          const hits = Number(value?.hits);
+          const time = Number(value?.time);
+          if (stars >= 1 && stars <= 3 && hits >= 0 && time >= 0) {
+            game.worldStars[key] = { stars, hits, time };
+          }
+        }
+      }
+    } catch {
+      game.worldStars = {};
+    }
+  }
+
+  function persistWorldStars() {
+    try {
+      window.localStorage.setItem(worldStarsStorageKey, JSON.stringify(game.worldStars));
+    } catch {
+      // Local storage is optional; gameplay still works for this session.
+    }
+  }
+
+  function starsForHits(hits) {
+    if (hits <= 0) return 3;
+    if (hits <= 2) return 2;
+    return 1;
+  }
+
+  function starGlyphs(count) {
+    return "★".repeat(count) + "☆".repeat(Math.max(0, 3 - count));
+  }
+
+  function formatStarTime(seconds) {
+    const total = Math.max(0, Math.floor(seconds || 0));
+    return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`;
+  }
+
+  function recordStageHit() {
+    const open = game.stageStats[game.stageStats.length - 1];
+    if (open) open.hits += 1;
+  }
+
+  function finalizeStageStats() {
+    const open = game.stageStats[game.stageStats.length - 1];
+    if (open) open.time = Math.max(0, game.time - open.startTime);
+  }
+
+  function recordWorldStars(worldKey) {
+    finalizeStageStats();
+    let hits = 0;
+    let time = 0;
+    for (const stat of game.stageStats) {
+      hits += stat.hits;
+      time += Math.max(0, stat.time);
+    }
+    const result = { stars: starsForHits(hits), hits, time };
+    game.lastWorldResult = result;
+    const prev = game.worldStars[worldKey];
+    if (!prev || result.stars > prev.stars || (result.stars === prev.stars && result.time < prev.time)) {
+      game.worldStars[worldKey] = result;
+      persistWorldStars();
+    }
+    return result;
+  }
+
+  function refreshWorldStarRows() {
+    for (const button of worldButtons) {
+      const row = button.querySelector ? button.querySelector(".world-stars") : null;
+      if (!row) continue;
+      const earned = game.worldStars[button.dataset.world];
+      const count = earned && earned.stars >= 1 && earned.stars <= 3 ? earned.stars : 0;
+      row.textContent = count > 0 ? starGlyphs(count) : "☆☆☆";
+      row.classList.toggle("earned", count > 0);
+    }
+  }
+
   const TUTORIAL_STEPS = [
     "Move with arrows or stick! / ¡Muévete con las flechas o el joystick! (T = skip / saltar)",
     "Touch a glowing cross! / ¡Toca una cruz brillante!",
@@ -2264,11 +2357,13 @@
       window.localStorage.removeItem(unlockedStorageKey);
       window.localStorage.removeItem(worldProgressStorageKey);
       window.localStorage.removeItem(tutorialStorageKey);
+      window.localStorage.removeItem(worldStarsStorageKey);
     } catch {
       // Local storage is optional; still reset the in-memory session.
     }
     game.unlockedRedeemed = new Set();
     game.passedWorlds = new Set();
+    game.worldStars = {};
     game.selectedHero = "elayitas";
     game.selectedCompanion = "angie";
     game.world = "colorado";
@@ -2330,6 +2425,7 @@
         progressStatus.textContent = "";
       }
     }
+    refreshWorldStarRows();
     syncSelectPressed();
   }
 
@@ -2586,6 +2682,8 @@
     game.travel = null;
     game.finalSequencePlayed = false;
     game.invulnUntil = 0;
+    game.stageStats = [];
+    game.lastWorldResult = null;
     startStage(0);
     titleScreen.classList.add("hidden");
     endScreen.classList.add("hidden");
@@ -2613,6 +2711,17 @@
     const difficulty = difficultySettings[game.difficulty] || difficultySettings.regular;
     const ramp = 1 + index * 0.09;
     game.stageIndex = index;
+    // VX-STARS-1: per-stage hits + clear time. Re-entering the same stage
+    // (retry) restarts that stage's entry instead of stacking attempts.
+    const openStat = game.stageStats[game.stageStats.length - 1];
+    if (openStat && openStat.stageIndex === index) {
+      openStat.hits = 0;
+      openStat.startTime = game.time;
+      openStat.time = 0;
+    } else {
+      if (openStat) openStat.time = Math.max(0, game.time - openStat.startTime);
+      game.stageStats.push({ stageIndex: index, hits: 0, startTime: game.time, time: 0 });
+    }
     game.stageClearTimer = 0;
     game.travel = null;
     game.collected = 0;
@@ -2846,6 +2955,7 @@
   }
 
   function loseLife(reason = "tacalache") {
+    recordStageHit();
     game.lives -= 1;
     if (game.lives <= 0) {
       finish(false, reason);
@@ -2911,6 +3021,19 @@
       retryStageButton.hidden = !showRetryStage;
       retryStageButton.classList.toggle("hidden", !showRetryStage);
     }
+    // VX-STARS-1: earned-sticker strip shows on victory only, inside #endScreen.
+    if (stickerStrip) {
+      if (win && game.lastWorldResult) {
+        const earned = game.lastWorldResult;
+        const hitWord = earned.hits === 1 ? "hit/golpe" : "hits/golpes";
+        stickerStrip.textContent = `⭐ ${starGlyphs(earned.stars)} · World Star! / ¡Estrella de mundo! · ${earned.hits} ${hitWord} · ${formatStarTime(earned.time)}`;
+        stickerStrip.hidden = false;
+        stickerStrip.classList.remove("hidden");
+      } else {
+        stickerStrip.hidden = true;
+        stickerStrip.classList.add("hidden");
+      }
+    }
     endScreen.classList.remove("hidden");
     syncModalInert();
     if (!win && isBossStage && retryBossButton && !retryBossButton.hidden) {
@@ -2920,7 +3043,9 @@
     } else {
       againButton.focus();
     }
-    announceStatus(`${endTitle.textContent}. ${endCopy.textContent}`);
+    announceStatus(stickerStrip && !stickerStrip.hidden && win && game.lastWorldResult
+      ? `${endTitle.textContent}. ${endCopy.textContent} ${stickerStrip.textContent}`
+      : `${endTitle.textContent}. ${endCopy.textContent}`);
   }
 
   function retryBossStage() {
@@ -3388,6 +3513,7 @@
 
     const danger = Math.hypot(e.x - p.x, e.y - p.y);
     if (danger < 76 && game.prayer <= 0 && e.stun <= 0 && game.time >= (game.invulnUntil || 0)) {
+      recordStageHit();
       game.lives -= 1;
       if (game.lives <= 0) {
         finish(false, "tacalache");
@@ -5756,6 +5882,7 @@
     const completedWorld = game.world;
     game.passedWorlds.add(completedWorld);
     persistWorldProgress();
+    recordWorldStars(completedWorld);
     updateWorldLocks();
     unlockRedeemedForHero();
     selectNextWorldAfterCompletion(completedWorld);

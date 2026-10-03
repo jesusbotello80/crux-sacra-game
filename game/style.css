@@ -700,7 +700,7 @@ button:focus-visible {
   min-height: 116px;
   padding: 7px;
   display: grid;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: 1fr auto auto;
   gap: 6px;
   overflow: hidden;
 }
@@ -719,6 +719,35 @@ button:focus-visible {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* VX-STARS-1: earned star rating under each world label. Unearned rows stay
+   dim so the grid keeps a stable shape before the first victory. */
+.world-choice .world-stars {
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: rgba(255, 249, 220, 0.45);
+  overflow: visible;
+}
+
+.world-choice .world-stars.earned {
+  color: #ffd94d;
+  text-shadow: 0 0 6px rgba(255, 217, 77, 0.55);
+}
+
+/* VX-STARS-1: victory-only earned-sticker strip on #endScreen. */
+.sticker-strip {
+  margin: 4px 10px;
+  padding: 6px 12px;
+  font-size: 15px;
+  color: #101927;
+  background: #f6dc75;
+  border-radius: 999px;
+  text-align: center;
+}
+
+.sticker-strip[hidden] {
+  display: none;
 }
 
 .world-choice.final-world {
@@ -1114,13 +1143,14 @@ button:focus-visible {
   }
 
   .title-mark,
-  .overlay p:not(#difficultyRules):not(#endCopy):not(#progressStatus) {
+  .overlay p:not(#difficultyRules):not(#endCopy):not(#progressStatus):not(#stickerStrip) {
     display: none;
   }
 
   #difficultyRules,
   #endCopy,
-  #progressStatus {
+  #progressStatus,
+  #stickerStrip {
     font-size: 12px;
     line-height: 1.3;
     margin: 2px 8px;
