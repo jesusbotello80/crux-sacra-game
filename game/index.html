@@ -10,7 +10,7 @@
     <link rel="icon" href="./icon.svg?v=118" />
     <link rel="apple-touch-icon" href="./icon-512.png?v=118" />
     <link rel="manifest" href="./manifest.webmanifest?v=119" />
-    <link rel="stylesheet" href="./style.css?v=41" />
+    <link rel="stylesheet" href="./style.css?v=42" />
   </head>
   <body>
     <main id="gameShell" aria-label="CRUX SACRA game">
@@ -99,6 +99,13 @@
             </button>
           </div>
           <p id="difficultyRules" class="difficulty-rules" aria-live="polite"></p>
+        </div>
+        <div id="voiceSelect" class="select-panel" aria-label="Narration voice language">
+          <h2>Voice / Voz</h2>
+          <div class="difficulty-grid">
+            <button class="voice-choice" type="button" data-voice="en">English</button>
+            <button class="voice-choice" type="button" data-voice="es">Español</button>
+          </div>
         </div>
         <div id="characterSelect" aria-label="Choose hero and companion">
           <div class="select-panel">
@@ -318,6 +325,6 @@
         </div>
       </div>
     </main>
-    <script src="./game.js?v=142"></script>
+    <script src="./game.js?v=143"></script>
   </body>
 </html>

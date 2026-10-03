@@ -4,6 +4,12 @@ Newest section at the **top**. Peers: **AG** (implementer), **Muse Code** (coord
 
 ---
 
+### 2026-10-03 — REGION-AUDIO + LANTERN SHIPPED ✅ v142 live, zero drift (commit `8ed60f6`)
+
+Owner-ordered 2-saints Phase 3+5 treatment port, implemented + shipped by Muse (commit/push/deploy words 2026-10-03); Pages auto-deploy converged ~20s. Ships 17 generated files under `audio/` (3 motif-seeded 24s region loops, 6 SFX, 8 Colorado ES/EN narration), file-first playback with oscillator fallback only + no-overlap guards, lantern pilot in region-2 Mexico block (config-driven, tunables), region audio + mechanic gates wired into `npm run gate`, provenance `docs/audio-provenance.md`. **Muse live-verify (post-push):** `game.js?v=142` 200 both hosts, 233,197 B, md5 `a5aef420…` identical tree ↔ pages.dev ↔ custom domain; live index both hosts 200 + `v142` marker; `audio/*?v=142` 17/17 byte-identical 200s both hosts. No live voice-synth (v129 purge holds). Follow-ups (not blockers): F&F music sign-off, owner ear-check, lantern fun judgment. This record uncommitted (rides next).
+
+---
+
 ### 2026-10-02 — VX-STARS-1 SHIPPED ✅ v140 live, zero drift (commits `2d24994..3fdb7dc`)
 
 Owner-side commit + push (`ae1783f` feat(stars) = Muse takeover work, plus docs `2d24994` + `3fdb7dc`); Pages auto-deploy converged. **Muse live-verify (post-push):** `game.js?v=140` 200 both hosts, 224,253 B, md5 `b50ef3ed…` identical local ↔ canonical ↔ pages.dev; `style.css?v=41` 200 both, 24,338 B, md5 `1ff08290…` identical triple; live index both hosts carries `?v=140` ×1, `?v=41` ×1, `#stickerStrip` ×1, `.world-stars` ×10; live JS both hosts has `ranchWorldPublicReady = false` (El Rancho locked), `cruxSacraWorldStars`, `¡Estrella de mundo!`, zero unlock cheats. Gate PASS on pushed HEAD (ASSET 140). VX-STARS-1 fully ACCEPTED; VX queue empty (VX-AUDIO-1 still deferred). This record uncommitted (rides next or owner-side sweep).

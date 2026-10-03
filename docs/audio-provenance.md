@@ -25,9 +25,12 @@ This slice ports the crux-sacra-2-saints Phase 3 (audio) + Phase 5
 SFX triggers: pickup = Lux/star/rosary collect; hurt = villain
 contact + cross blast; rescue = prayer + rosary; celebration = stage
 clear + victory; jump/land = travel-transition depart/arrive (this game
-has no platforming jump — the between-stage hop is the leap). Device
-language (`navigator.language` starting with `es`) picks the narration
-half; there is no in-game locale switcher.
+has no platforming jump — the between-stage hop is the leap). The title
+screen carries a Voice / Voz switch (EN | ES, persisted on-device as
+`cruxSacraVoiceLang`); unset, the device language (`navigator.language`
+starting with `es`) picks the narration half. Switching stops any live
+clip; the new voice applies going forward. UI strings stay
+bilingual-everywhere — the switch covers narration only.
 
 Regeneration is deterministic: re-running the two scripts reproduces
 equivalent files (narration bytes depend on installed voice data versions).

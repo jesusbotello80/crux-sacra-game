@@ -72,6 +72,9 @@ const checks = [
   ['narration stop releases the file', 'narrationAudio.onended = null; narrationAudio.onerror = null;'],
   ['narration never overlaps a prior clip', 'function tryStageNarration(index) {\n    stopNarrationFile();'],
   ['device language picks the narration half', 'startsWith("es") ? "es" : "en"'],
+  ['voice choice persists on-device', '"cruxSacraVoiceLang"'],
+  ['stored voice wins over device default', 'function getVoiceLang() {'],
+  ['voice switcher', 'function selectVoiceLang(lang) {'],
   ['audio urls carry the asset version', 'audio/" + file + "?v=" + ASSET_VERSION'],
   ['loop level', 'makeAudioEl(0.12)'],
   ['sfx level', 'makeAudioEl(0.15)'],
@@ -92,6 +95,12 @@ for (const [label, fn] of [['startMusic', 'startMusic'], ['finish', 'finish'], [
   const want = fn === 'startMusic' ? 'tryStartRegionLoop();' : 'stopRegionLoop();';
   if (!body.includes(want)) failures.push(`${label} misses ${want}`);
   if (fn !== 'startMusic' && !body.includes('stopNarrationFile();')) failures.push(`${label} misses stopNarrationFile();`);
+}
+
+// Switching voices mid-clip stops the live file (never overlaps the next one).
+{
+  const body = (game.match(/function selectVoiceLang\([\s\S]*?\n  \}/) || [''])[0];
+  if (!body.includes('stopNarrationFile();')) failures.push('selectVoiceLang misses stopNarrationFile();');
 }
 
 // Narration speaks exact world-1 story strings: all 8 source halves present.

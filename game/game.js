@@ -39,6 +39,7 @@
   const characterButtons = Array.from(document.querySelectorAll(".character-choice"));
   const difficultyButtons = Array.from(document.querySelectorAll(".difficulty-choice"));
   const worldButtons = Array.from(document.querySelectorAll(".world-choice"));
+  const voiceButtons = Array.from(document.querySelectorAll(".voice-choice"));
   const stick = document.getElementById("stick");
   const stickKnob = stick.querySelector("i");
   const prayButton = document.getElementById("prayButton");
@@ -94,6 +95,7 @@
     "michael",
   ];
   const unlockedStorageKey = "cruxSacraUnlockedRedeemed";
+  const voiceLangStorageKey = "cruxSacraVoiceLang";
   const worldProgressStorageKey = "cruxSacraWorldsPassed";
   const tutorialStorageKey = "cruxSacraTutorialSeen";
   // VX-STARS-1: per-world best {stars, hits, time}. On-device only (never sent anywhere).
@@ -115,7 +117,7 @@
   const W = canvas.width;
   const H = canvas.height;
   const ASSET = "../";
-  const ASSET_VERSION = "142";
+  const ASSET_VERSION = "143";
   const images = {};
   const keys = new Set();
   const joy = { active: false, id: null, x: 0, y: 0 };
@@ -2580,11 +2582,25 @@
   const NARRATION_FILES = {colorado: ["park", "snow", "church", "boss"]};
   let narrationAudio = null;
   let narrationToken = 0;
-  function narrationLocale() {
+  function deviceVoiceLang() {
     try {
       const lang = (typeof navigator !== "undefined" && navigator.language) || "en";
       return String(lang).toLowerCase().startsWith("es") ? "es" : "en";
     } catch { return "en"; }
+  }
+  function getVoiceLang() {
+    const stored = window.localStorage ? window.localStorage.getItem(voiceLangStorageKey) : null;
+    return stored === "es" || stored === "en" ? stored : deviceVoiceLang();
+  }
+  function narrationLocale() {
+    return getVoiceLang();
+  }
+  function selectVoiceLang(lang) {
+    if (lang !== "es" && lang !== "en") return;
+    if (window.localStorage) window.localStorage.setItem(voiceLangStorageKey, lang);
+    syncSelectPressed();
+    stopNarrationFile();
+    announceStatus(lang === "es" ? "Voz: español / Voice: Spanish" : "Voice: English / Voz: inglés");
   }
   function stopNarrationFile() {
     narrationToken += 1;
@@ -3411,6 +3427,12 @@
     }
     for (const button of characterButtons) {
       button.setAttribute("aria-pressed", button.classList.contains("selected") ? "true" : "false");
+    }
+    const voiceLang = getVoiceLang();
+    for (const button of voiceButtons) {
+      const active = button.dataset.voice === voiceLang;
+      button.classList.toggle("selected", active);
+      button.setAttribute("aria-pressed", active ? "true" : "false");
     }
   }
 
@@ -5875,10 +5897,17 @@
     });
   });
   updateDifficultyRules();
+  syncSelectPressed();
 
   worldButtons.forEach((button) => {
     button.addEventListener("click", () => {
       selectWorld(button.dataset.world || "colorado");
+    });
+  });
+
+  voiceButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      selectVoiceLang(button.dataset.voice || "en");
     });
   });
 
